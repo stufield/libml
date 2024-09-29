@@ -1,12 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# The `SomaClassify` package
+# The `fittr` package
 
 <!-- badges: start -->
 
 [![build](https://img.shields.io/badge/build-passing-success.svg?logo=travis)](http://bitbucket.sladmin.com/projects/SV/repos/somaclassify/commits)
-![coverage](https://img.shields.io/badge/coverage-58.0%25-yellow.svg?style=flat&logo=codecov)
+![coverage](https://img.shields.io/badge/coverage-56.3%25-yellow.svg?style=flat&logo=codecov)
 ![lint](https://img.shields.io/badge/lints-0-success.svg?style=flat&logo=gitlab)
 [![pkgdown](https://img.shields.io/badge/pkgdown-_-critical.svg?logo=semantic-web&logoColor=red)](https://bitbucket.sladmin.com/pages/SV/somaclassify/bb-pkgdown/browse/index.html)
 [![License:
@@ -15,7 +15,7 @@ GPL-3](https://img.shields.io/badge/License-GPL3-blue.svg)](https://www.gnu.org/
 
 ## Overview
 
-The `SomaClassify` package contains general functions necessary for the
+The `fittr` package contains general functions necessary for the
 analysis of biomarker data via statistical and machine learning
 techniques, calculating KS distances, random forest, k-fold
 cross-validation, classification performance, and ROC plotting.
@@ -25,47 +25,41 @@ the
 [pkgdown](https://bitbucket.sladmin.com/pages/SV/somaclassify/bb-pkgdown/browse/index.html)
 website.
 
-------------------------------------------------------------------------
+-----
 
 ## Custom Installation
 
-It is possible to install a specific version of `SomaClassify` (i.e. one
+It is possible to install a specific version of `fittr` (i.e. one
 differing from your current installation of
 [SLIDE](http://bitbucket.sladmin.com/projects/BFX/repos/slide/browse)),
 but it comes with a possible trade-off in the reproducibility of your
-work! So be *careful* and considerate of those who may follow you. The
-method below ensures your installation is both traceable and
-reproducible:
+work\!
 
 ``` r
-somaverse::install_sl_bitbucket("SomaClassify", "commit-SHA", "USERNAME")
+remotes::install_github("fittr")
 ```
 
-------------------------------------------------------------------------
+-----
 
 ## Usage
 
-To load `SomaClassify` simply make a call to `library()` as usual:
+To load `fittr` simply make a call to `library()` as usual:
 
 ``` r
-library(SomaClassify)
+library(fittr)
 ```
 
 ## Help summary of the package
 
 ``` r
-library(help = SomaClassify)
+library(help = fittr)
 ```
 
 ## Notes about the package
 
-- The `SomaClassify` package is easy to use.
-- There is some cool stuff we can do.
+  - The `fittr` package is easy to use.
+  - There is some cool stuff we can do.
 
-------------------------------------------------------------------------
+-----
 
 #### LICENSE
-
-Please note that this SomaLogic, Inc. internal package is released with
-a [LICENSE](LICENSE). By using in this package you agree to abide by its
-terms.
