@@ -1,0 +1,59 @@
+Type: Package
+Package: fittr
+Title: Model Fitting via Machine Learning
+    Building
+Version: 0.0.1
+Authors@R: c(
+    person(given = "Stu",
+           family = "Field",
+           role = c("aut", "cre", "cph"),
+           email = "stu.g.field@gmail.com",
+           comment = c(ORCID = "0000-0002-1024-5859"))
+    )
+Description: The fittr package contains general functions
+    necessary for the fitting and performance evaluation
+    of machine learning models. Examples include machine
+    learning techniques, calculating KS distances, random forest,
+    k-fold cross-validation, classification performance, and ROC plotting.
+License: GPL-3 | file LICENSE
+Depends:
+    R (>= 4.1.0),
+    SomaDataIO,
+    globalr,
+    splyr
+Imports:
+    dplyr,
+    Rcpp,
+    ggplot2,
+    gbm,
+    kknn,
+    lifecycle,
+    purrr,
+    randomForest,
+    tibble,
+    tidyr,
+    withr
+Suggests:
+    caret,
+    caTools,
+    e1071,
+    glmnet,
+    knitr,
+    lobstr,
+    lintr,
+    MASS,
+    rmarkdown,
+    spelling,
+    SomaPlotr,
+    testthat
+VignetteBuilder:
+    knitr
+LinkingTo: 
+    Rcpp
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+LazyLoad: true
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1

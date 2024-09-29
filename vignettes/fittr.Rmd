@@ -1,0 +1,294 @@
+---
+title: "Introduction to fittr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to fittr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(fittr)
+library(randomForest)
+library(ggplot2)
+options(width = 100)
+knitr::opts_chunk$set(
+  collapse = TRUE, comment = "#>"
+)
+set.seed(101)
+```
+
+
+
+The `fittr` package contains general functions 
+necessary for the analysis of biomarker data via statistical and 
+machine learning techniques, calculating KS distances, 
+k-fold cross-validation, classification performance metrics, and ROC plotting.
+
+
+---------------------
+
+
+## Introduction
+
+The `fittr` package provides functions to create training datasets, 
+perform univariate tests (via the `calc.*` function family,
+train classifiers, and plot ROC curves. 
+The models types supported in this package are primarily geared toward:
+
+* Naive Bayes
+* Random forest
+* Logistic regression
+
+There is also limited support for `k`-nearest neighbors models.
+With the exception of "robust" Naive Bayes, these models are created using 
+the associated R packages directly. The `fittr` package provides 
+wrappers for performing cross validation, making predictions, and creating ROC curves.
+
+This package is biased toward *binary* classification and as a result many 
+of the functions assume only two classes exist. To keep track of which 
+class is the positive class, a `tibble` called a `tr_data` object is defined
+for use in this package. A `tr_data` object is simply a `soma.adat` using
+loaded using `SomaReadr::read.adat()`, with a "Response" column as the final
+column. The "Response" column is a `factor` class, ordered so that the 
+*positive* class is the **second** label. These `tr_data` data frames can be
+created using the `createTrainingData()` function.
+
+ROC curves and other related functions all on a standard input consisting of:
+
+* **truth**: a vector of actual class labels
+* **predicted**: a *numeric* vector (in the same order as `truth`) of class predictions
+
+
+
+--------------------
+
+
+
+## Functionality
+### Training Data
+
+Training data objects created using `createTrainingData()` from an `soma.adat`
+object, which is typically loaded into `R` via `SomaReadr::read.adat()`.
+The `createTrainingData()` function can subset the data based on the i
+information passed in the `...` (passed to `dplyr::filter()` and are labeled 
+by the `group.var =` argument.
+A "Response" column to the end of the data frame corresponding to the classes.
+The negative and positive classes are the grouped according to this column
+and a `dplyr::group_by()` call, creating a "grouped tibble" object.
+For example: consider the simple case where groupings are defined by a 
+single meta data field called `SampleGroup` with entries `M` and `F`:
+
+```{r train}
+add_noise <- function(x) x + rnorm(length(x), sd = 3)
+tr <- iris |>
+  dplyr::mutate_if(is.numeric, add_noise) |>
+  createTrainingData(Species != "versicolor", group.var = Species) |>
+  dplyr::select(-Species)    # remove Species
+tr
+```
+
+As is typical with `dplyr::filter()`, multiple conditions can be added
+as desired:
+
+```{r, eval = FALSE}
+tr2 <- createTrainingData(iris, Species == "setosa", Sepal.Length > 5,
+                          group.var = Species)
+tr2
+```
+
+You may also rename the corresponding "Response" variable (binary) as desired
+by passing the `class1 =` and `class2 =` arguments:
+
+```{r train2}
+# Re-naming factors:
+# class1 = the negative class
+# class2 = the positive class
+tr3 <- createTrainingData(iris, Species != "versicolor", group.var = Species,
+                          class1 = "Jack", class2 = "Jill")
+group_labels(tr3)
+```
+
+There is also a convenience wrapper for converting an existing
+`data frame` object into a `tr_data` object:
+
+```{r convert_training}
+iris <- convert2TrainingData(iris, Species)
+iris
+```
+
+
+-------------------
+
+
+## Univariate: The `calc.*` Family
+
+The `calc.*` family are a series of wrappers for creating univariate tables
+of statistical test results ordered by p-value. 
+These functions perform a univariate test on each feature (SOMAmer analyte)
+in the `tr_data` object using the existing "Response" column by default
+(this can be otherwise defined by the user). 
+
+The resulting `stat.table` object is sorted by *p-value*, and columns
+for multiple testing corrections (fdr, Bonferroni) and numeric rank
+are added. 
+
+The current suite of univariate tests are:
+
+* `calc.ks()`: KS table
+* `calc.t()`: t-test table (paired or unpaired)
+* `calc.wilcox()`, `calc.mw()`: Wilcoxon table; Mann-Whitney table
+* `calc.cor()`: Correlation table (Spearman, Pearson, Kendall)
+* `calc.lr()`: Log-ratio table
+* `calc.kw()`: Kruskall-Wallace table
+* `calc.lm()`: Linear regression table
+* `calc.glm()`: Generalized linear regression table
+* `calc.robust.lm()`: Robust linear regression table
+* `calc.mackwolfe()`: Mach-Wolfe test table
+* `calc.cox()`: Cox proportional hazard table (from the `SomaSurvival` package)
+* `calc.survreg()`: `Survreg` table (from the `SomaSurvival` package)
+* `calc.prophazTest()`: Proportional Hazard table (from the `SomaSurvival` package)
+
+Some tests, like `calc.t()`, have support for paired analyses. To perform paired
+tests the `tr_data` object must be sorted by the "Response" column and then 
+by `SampleId` (identifying the pairs) to ensure the samples are paired properly.
+
+
+#### Examples
+
+```{r calc_t}
+splyr:::sim_test_data |>   # from `SomaReadr`
+  log10() |>     # log-transform
+  calc.t(response = "class_response")   # binary grouping variable
+```
+
+
+---------------------
+
+
+## Model Fitting
+### Splitting Train vs Test Sets
+
+A *very* convenient method to split a data set into training and test sets is:
+```{r train_test}
+# Add a sample identifier variable for the anti_join()
+tr <- dplyr::mutate(tr, id = dplyr::row_number())
+
+train <- tr |>
+  dplyr::sample_frac(size = 0.5)        # random selection of rows @ 50%
+
+test <- tr |>
+  dplyr::anti_join(train, by = "id") |> # use anti_join to get the sample setdiff
+  dplyr::select(-id)                    # remove identifier
+
+train <- dplyr::select(train, -id)      # remove identifier
+```
+
+
+### Robust Naive Bayes
+
+This function fits a naive Bayes model using *robustly* calculated parameters,
+i.e. calculated using a least-squares fit to a Gaussian cumulative distribution
+function rather than simply `stats::mean()` and `stats::sd()`. This engine
+comes from `SomaGlobals::calcRobustGaussFit()`, with starting parameter values
+calculated via `stats::median()` and `stats::mad()` passed to `stats::nls()`.
+
+```{r naiveBayes}
+nb <- robustNaiveBayes(Response ~ ., data = train)
+nb
+```
+
+#### Plotting a Bivariate Naive Bayes Boundary
+
+If you would like to see how a naive Bayes boundary looks in 2 dimensions:
+```{r BayesBoundary, fig.width = 7, fig.height = 7}
+data.frame(F1 = tr$Petal.Length,
+           F2 = tr$Sepal.Length,
+           class = tr$Response) |>
+  plotBivariateBayesBoundary(pos.class = "virginica")
+```
+
+
+
+### Random Forest
+
+Random forest models are often used in SomaLogic analysis, and there are
+numerous functional tools to investigate and interrogate these models,
+e.g. `backwardsRandomForest()` and `getGini()`:
+
+```{r randomForest}
+rf <- randomForest(Response ~ ., data = train)
+getGini(rf)
+```
+
+
+
+----------------------
+
+
+
+## Model Performance
+
+As one might expect, there are numerous functions for evaluating model
+performance in [`fittr`](../index.html). Many S3 methods are provided
+to the S3 generic `SomaGlobals::calcPredictions`, e.g. `calcPredictions.glm()`.
+The following are a few of the standard metrics:
+
+### Confusion Matrix
+
+```{r conf_mat}
+pred_nb <- calcPredictions(nb, test)
+pred_nb
+
+calc_confusion(test$Response, pred_nb$prob_virginica,
+               pos.class = "virginica", cutoff = 0.5)
+
+pred_rf <- calcPredictions(rf, test)
+pred_rf
+
+calc_confusion(test$Response, pred_rf$prob_virginica,
+               pos.class = "virginica", cutoff = 0.5)
+```
+
+
+### Performance Stats
+
+Typical performance statistics can then be generated by calling the S3
+`summary()` generic for the `confusion.matrix` class:
+
+```{r performance}
+calc_confusion(test$Response, pred_rf$prob_virginica,
+               pos.class = "virginica", cutoff = 0.5) |>  summary()
+```
+
+
+
+### ROC
+
+The primary function for creating ROC curves is called `plotEmpROC()`, or
+plot empirical ROC curve. It can be called by providing both the `truth =` and
+`predicted =` argument vectors, as well as a `cutoff` for delineating the 
+class labels (i.e. operating point default `= 0.5`).
+
+There is a confidence interval box drawn around the operating point that can 
+be turned off using the `boxes =` argument.
+
+The `plotEmpROC()` function has support for adding multiple ROC curves to one
+plot using the `add =` argument. When this argument is set to `FALSE` (or 0)
+a new plot is created; however, when `add = TRUE` (or 1) a second ROC curve 
+is added and its corresponding AUC value is placed beneath the AUC for 
+the first ROC curve.
+
+When adding a multiple ROC curves, set `add =` to integers `> 1` and each
+successive AUC value will be placed below the previous. 
+The position and spacing of these AUC label can be adjusted using
+the `auc.shift =` argument.
+
+A smoothed curve fit to the empirical ROC can be added using `plot.fit = TRUE`.
+
+```{r roc, fig.width = 7, fig.height = 7}
+plotEmpROC(test$Response, pred_nb$prob_virginica, pos.class = "virginica",
+           col = "blue")
+plotEmpROC(test$Response, pred_rf$prob_virginica, pos.class = "virginica", 
+           col = "red", plot.fit = TRUE)
+```

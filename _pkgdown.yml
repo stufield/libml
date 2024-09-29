@@ -1,0 +1,143 @@
+url: https://confluence.sladmin.com/display/BITOOLS/somaverse
+
+home:
+  strip_header: true
+  links:
+  - text: Bitbucket
+    href: http://bitbucket.sladmin.com/projects/SV/repos/somaclassify/browse
+  - text: Report a bug
+    href: bitools@somalogic.com
+  - text: Learn more about SomaScan
+    href: http://www.somalogic.com
+  - text: The tidyverse
+    href: https://www.tidyverse.org
+
+template:
+  bootstrap: 5
+  bslib:
+    #bg: "#202123"      # dark theme
+    #fg: "#B8BCC2"      # dark theme
+    primary: "#0054AD"
+    border-radius: 0.5rem
+    btn-border-radius: 0.25rem
+    base_font: {google: "Roboto"}
+
+authors:
+  Stu Field:
+    href: https://github.com/stufield
+
+development:
+  mode: auto
+
+articles:
+  - title: Getting Started
+    navbar: ~
+    contents:
+    - SomaClassify
+
+  - title: Nested Tibbles in SomaScan Analyses
+    navbar: ~
+    desc: >
+      Short tutorial on how to use a list-column approach in
+      simple univariate SomaScan analyses via simple t-test example.
+    contents:
+    - t-test-nested-analysis
+
+  - title: Plotting ROC Curves
+    navbar: ~
+    desc: >
+      Short tutorial on how to plot ROC curves and generate AUCs using
+      multiple ggplot2-based plotting functions.
+    contents:
+    - plotting-ROC-with-geom_roc
+
+reference:
+  - title: The calc.* family and friends
+    desc:  Calculate univariate tables by analyte.
+    contents:
+    - starts_with("calc\\.")
+    - mackwolfe
+    - removeOutliers
+
+  - title: Classifier performance
+    desc: >
+      Utilities for evaluating (binary) classifier performance,
+      including confusion matrix tools.
+    contents:
+    - calc_confusion
+    - getStat
+    - getCutoffSpec
+    - getCutoffMax
+    - calcAUC
+    - calcBootAUC
+
+  - title: Training data
+    desc: >
+      Tools for creating, converting, and manipulating training data
+      objects of class `tr_data`.
+    contents:
+    - createTrainingData
+
+  - title: Robustly fit Naive Bayes
+    desc: >
+      Fit Naive Bayes model with robustly fit parameters.
+    contents:
+    - robustNaiveBayes
+
+  - title: The fit* family
+    desc: >
+      Convenient wrappers for fitting various model types.
+    contents:
+    - starts_with("fit[A-Z]")
+    - stripLMC
+
+  - title: Cross validation
+    desc:  Perform k-fold cross-validation.
+    contents:
+    - kfold_cv
+
+  - title: Model utilities
+    desc: >
+      Predict, pull out components, manipulate, and interrogate model objects.
+    contents:
+    - reexports
+    - selectFeatures
+    - getGini
+    - s3-calcPredictions
+    - getModelCoef
+
+  - title: Plotting utilities
+    desc: >
+      Plot various model fitting related visualizations.
+    contents:
+    - starts_with("plot[A-Z]")
+    - barplotAUCs
+
+  - title: ROC related utilities
+    desc: >
+      Tools for generating and evaluating Reciever Operaterator Criterion.
+    contents:
+    - matches("*ROC*")
+    - addSensSpecBox
+    - calcBinomCI
+    - -compareBayesForestROC  # remove b/c in SomaClassify-deprecated
+
+  - title: Parameters
+    desc:  Common parameter definitions used by the package.
+    contents:
+    - params
+
+  - title: Data
+    desc:  Package data objects.
+    contents:
+    - fake_iris
+
+  - title: Deprecated
+    desc: >
+      Functions that have been deprecated in the
+      current SomaClassify release.
+    contents:
+    - SomaClassify-deprecated
+
+news:
+  - one_page: true

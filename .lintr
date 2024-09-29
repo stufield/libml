@@ -1,0 +1,15 @@
+linters: linters_with_defaults(
+  defaults = somaverse::soma_linters(),
+  indentation_linter = NULL,
+  object_name_linter = NULL
+  )
+exclusions: list(
+  "R/mackwolfe.R"           = list(cyclocomp_linter = Inf),
+  "R/plotEmpROC.R"          = list(cyclocomp_linter = Inf),
+  "R/calcBootAUC.R"         = list(commented_code_linter = c(29:32)),
+  "R/RcppExports.R"         = list(trailing_blank_lines_linter = Inf),
+  "R/s3-calcPredictions.R"  = list(object_length_linter = 82),
+  "R/s3-getModelFeatures.R" = list(object_length_linter = c(21, 65)),
+  "tests/testthat/helper.R",
+  "tests/testthat.R"
+  )
