@@ -7,7 +7,7 @@
 \alias{plot.lm_table}
 \title{Calculate Linear Models Table}
 \usage{
-calc.lm(data, apts = NULL, response, bh = TRUE, do.log = deprecated())
+calc.lm(data, apts = NULL, response, bh = TRUE)
 
 \method{print}{lm_table}(x, n = 6, ...)
 
@@ -45,8 +45,6 @@ the data object itself prior to the call.}
 \item{bh}{Logical. Indicating whether returned p-values will be
 adjusted for false discovery by "Benjamini & Hochberg"
 correction (\code{TRUE}) or by Storey's q-value correction.}
-
-\item{do.log}{Deprecated.}
 
 \item{x}{An object of class \code{lm_table} created via call to \code{\link[=calc.lm]{calc.lm()}}.}
 

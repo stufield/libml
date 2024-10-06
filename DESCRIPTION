@@ -1,6 +1,6 @@
 Type: Package
-Package: fittr
-Title: Model Fitting via Machine Learning
+Package: libml
+Title: Library of Machine Learning
     Building
 Version: 0.0.1
 Authors@R: c(
@@ -10,7 +10,7 @@ Authors@R: c(
            email = "stu.g.field@gmail.com",
            comment = c(ORCID = "0000-0002-1024-5859"))
     )
-Description: The fittr package contains general functions
+Description: The libml package contains general functions
     necessary for the fitting and performance evaluation
     of machine learning models. Examples include machine
     learning techniques, calculating KS distances, random forest,

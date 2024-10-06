@@ -1,7 +1,7 @@
-#' Common Parameters in \pkg{fittr}
+#' Common Parameters in \pkg{libml}
 #'
 #' The parameters below are commonly used throughout
-#'   the \pkg{fittr} package.
+#'   the \pkg{libml} package.
 #'
 #' @name params
 #'

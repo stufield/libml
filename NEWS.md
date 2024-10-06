@@ -1,3 +1,3 @@
-# fittr 0.0.1
+# libml 0.0.1
 
 * Initial release!

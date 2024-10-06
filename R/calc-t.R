@@ -15,15 +15,9 @@
 #'
 #' # minor differences; some outliers removed
 #' t2 <- calc.t(log10(sim_test_data), response = "class_response", rm.outliers = TRUE)
-#' @importFrom lifecycle is_present deprecated deprecate_stop
 #' @export
 calc.t <- function(data, apts = NULL, bh = TRUE, paired = FALSE,
-                   response = "Response", do.log = deprecated(), ...) {
-
-  if ( is_present(do.log) ) {
-    deprecate_stop("0.0.1", "fittr::calc.t(do.log = )",
-                   details = "Please log-transform upstream prior to call.")
-  }
+                   response = "Response", ...) {
 
   if ( !is.logspace(data) ) {
     logWarning("t-test")

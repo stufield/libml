@@ -2,7 +2,7 @@
 % Please edit documentation in R/params.R
 \name{params}
 \alias{params}
-\title{Common Parameters in \pkg{fittr}}
+\title{Common Parameters in \pkg{libml}}
 \arguments{
 \item{truth}{Character or factor. A vector of true class names.
 In most instances you will have to also pass a \code{pos.class} argument
@@ -82,5 +82,5 @@ The \code{stat.table} contains:
 }
 \description{
 The parameters below are commonly used throughout
-the \pkg{fittr} package.
+the \pkg{libml} package.
 }

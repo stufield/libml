@@ -3,7 +3,7 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @useDynLib fittr, .registration = TRUE
+#' @useDynLib libml, .registration = TRUE
 ## usethis namespace: end
 NULL
 
@@ -25,9 +25,9 @@ NULL
 
   # this is to register the internal S3 methods
   # this avoids having to export the methods in the NAMESPACE file
-  register_s3_method("fittr", "formatTest", "default")
-  register_s3_method("fittr", "formatTest", "lm")
-  register_s3_method("fittr", "formatTest", "htest")
+  register_s3_method("libml", "formatTest", "default")
+  register_s3_method("libml", "formatTest", "lm")
+  register_s3_method("libml", "formatTest", "htest")
   }
 
 

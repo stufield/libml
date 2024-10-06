@@ -12,7 +12,6 @@ calc.t(
   bh = TRUE,
   paired = FALSE,
   response = "Response",
-  do.log = deprecated(),
   ...
 )
 
@@ -42,8 +41,6 @@ factor (i.e. alphabetical order). Level 2 of the factor is
 considered the \code{disease/case} group, thus positive values
 for the statistic indicate up-regulation in \code{Level2} compared \code{Level1}.}
 
-\item{do.log}{Deprecated.}
-
 \item{...}{The \code{rm.outliers = TRUE} option should be passed here, otherwise
 additional arguments to allow extensibility to S3 methods.}
 
@@ -52,6 +49,8 @@ additional arguments to allow extensibility to S3 methods.}
 \item{n}{Integer. The number of rows to show in the S3 print method.}
 
 \item{file}{A file name to write table output, typically a \verb{*.csv}.}
+
+\item{do.log}{Deprecated.}
 }
 \value{
 A list object of class \verb{c(stat_table, *_table)} containing:

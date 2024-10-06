@@ -36,18 +36,11 @@
 #'                                response = "reg_response", method = "pearson")
 #'
 #' @importFrom stats cor.test cov
-#' @importFrom lifecycle is_present deprecated deprecate_stop
 #' @export
 calc.cor <- function(data, apts = NULL, response, bh = TRUE,
-                     method = c("spearman", "pearson", "kendall"),
-                     do.log = deprecated(), ...) {
+                     method = c("spearman", "pearson", "kendall"), ...) {
 
   method <- match.arg(method)
-
-  if ( is_present(do.log) ) {
-    deprecate_stop("0.0.1", "fittr::calc.cor(do.log = )",
-                   details = "Please log-transform upstream prior to call.")
-  }
 
   if ( !is.logspace(data) && method == "pearson" ) {
     logWarning(method)

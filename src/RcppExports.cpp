@@ -12,7 +12,7 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 
 // calcTrap_cpp
 double calcTrap_cpp(NumericMatrix x);
-RcppExport SEXP _fittr_calcTrap_cpp(SEXP xSEXP) {
+RcppExport SEXP _libml_calcTrap_cpp(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -23,7 +23,7 @@ END_RCPP
 }
 // empAUC_cpp
 double empAUC_cpp(NumericMatrix xy);
-RcppExport SEXP _fittr_empAUC_cpp(SEXP xySEXP) {
+RcppExport SEXP _libml_empAUC_cpp(SEXP xySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -34,7 +34,7 @@ END_RCPP
 }
 // roc_xy_cpp
 NumericMatrix roc_xy_cpp(CharacterVector true_class, NumericVector predictions, String pos_class);
-RcppExport SEXP _fittr_roc_xy_cpp(SEXP true_classSEXP, SEXP predictionsSEXP, SEXP pos_classSEXP) {
+RcppExport SEXP _libml_roc_xy_cpp(SEXP true_classSEXP, SEXP predictionsSEXP, SEXP pos_classSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -47,7 +47,7 @@ END_RCPP
 }
 // roc_xy_cpp2
 NumericMatrix roc_xy_cpp2(CharacterVector& true_class, NumericVector& predictions, String pos_class);
-RcppExport SEXP _fittr_roc_xy_cpp2(SEXP true_classSEXP, SEXP predictionsSEXP, SEXP pos_classSEXP) {
+RcppExport SEXP _libml_roc_xy_cpp2(SEXP true_classSEXP, SEXP predictionsSEXP, SEXP pos_classSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -60,7 +60,7 @@ END_RCPP
 }
 // eval_cut_cpp
 NumericVector eval_cut_cpp(CharacterVector truth, NumericVector predicted, String pos_class, double cutoff);
-RcppExport SEXP _fittr_eval_cut_cpp(SEXP truthSEXP, SEXP predictedSEXP, SEXP pos_classSEXP, SEXP cutoffSEXP) {
+RcppExport SEXP _libml_eval_cut_cpp(SEXP truthSEXP, SEXP predictedSEXP, SEXP pos_classSEXP, SEXP cutoffSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -74,15 +74,15 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_fittr_calcTrap_cpp", (DL_FUNC) &_fittr_calcTrap_cpp, 1},
-    {"_fittr_empAUC_cpp", (DL_FUNC) &_fittr_empAUC_cpp, 1},
-    {"_fittr_roc_xy_cpp", (DL_FUNC) &_fittr_roc_xy_cpp, 3},
-    {"_fittr_roc_xy_cpp2", (DL_FUNC) &_fittr_roc_xy_cpp2, 3},
-    {"_fittr_eval_cut_cpp", (DL_FUNC) &_fittr_eval_cut_cpp, 4},
+    {"_libml_calcTrap_cpp", (DL_FUNC) &_libml_calcTrap_cpp, 1},
+    {"_libml_empAUC_cpp", (DL_FUNC) &_libml_empAUC_cpp, 1},
+    {"_libml_roc_xy_cpp", (DL_FUNC) &_libml_roc_xy_cpp, 3},
+    {"_libml_roc_xy_cpp2", (DL_FUNC) &_libml_roc_xy_cpp2, 3},
+    {"_libml_eval_cut_cpp", (DL_FUNC) &_libml_eval_cut_cpp, 4},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_fittr(DllInfo *dll) {
+RcppExport void R_init_libml(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

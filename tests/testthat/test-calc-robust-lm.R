@@ -6,28 +6,6 @@ apts <- c("seq.3590.8", "seq.3186.2", "seq.5317.3", "seq.3612.6", "seq.2643.57",
 small_adat <- dplyr::select(sample.adat, HybControlNormScale, all_of(apts))
 
 # Testing ----
-test_that("`calc.robust.lm()` `do.log` deprecation error; regardless of data passed", {
-  expect_error(
-    calc.robust.lm(small_adat, response = "HybControlNormScale", do.log = TRUE),
-    paste("The `do.log` argument of `calc.robust.lm()` was deprecated in",
-          "fittr 0.0.1 and is now defunct."),
-    fixed = TRUE, class = "lifecycle_error_deprecated"
-  )
-  # even if FALSE
-  expect_error(
-    calc.robust.lm(small_adat, response = "HybControlNormScale", do.log = FALSE),
-    paste("The `do.log` argument of `calc.robust.lm()` was deprecated in",
-          "fittr 0.0.1 and is now defunct."),
-    fixed = TRUE, class = "lifecycle_error_deprecated"
-  )
-  expect_error(
-    calc.robust.lm(iris, response = "HybControlNormScale", do.log = TRUE),
-    paste("The `do.log` argument of `calc.robust.lm()` was deprecated in",
-          "fittr 0.0.1 and is now defunct."),
-    fixed = TRUE, class = "lifecycle_error_deprecated"
-  )
-})
-
 test_that("`calc.robust.lm()` trips a warning when not log-transformed", {
   expect_warning(
     calc.robust.lm(small_adat, response = "HybControlNormScale"),

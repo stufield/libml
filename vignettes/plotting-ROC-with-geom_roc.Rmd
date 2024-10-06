@@ -9,7 +9,7 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-library(fittr)
+library(libml)
 library(ggplot2)
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -22,7 +22,7 @@ options(width = 100)
 
 ## Introduction & Brief Review of ROC Curves
 
-This vignette describes how to plot ROC curves using functions found in **fittr**. 
+This vignette describes how to plot ROC curves using functions found in **libml**. 
 Before starting on the code walk through, however, we will provide a quick 
 refresher on ROC curves. Skip to the next section if this information is
 already familiar to you.
@@ -59,7 +59,7 @@ This is how the curve got its name.
 
 At SomaLogic, ROC curves are a frequently used visualization tool for model 
 assessment, classifier performance, biomarker evaluation, and more.
-Consequently, the **fittr** package is well-equipped to easily
+Consequently, the **libml** package is well-equipped to easily
 and quickly generate and visualize ROC curves and AUC values. 
 
 At the most basic level, individual ROC curves can be generated using the
@@ -69,7 +69,7 @@ At the most basic level, individual ROC curves can be generated using the
 `ggplot2`-style grammar of graphics. 
 
 The primary input for `geom_roc()` is the output of `getROCxy()` (also from 
-**fittr**), and this is generally used in support of the wrapper functions 
+**libml**), and this is generally used in support of the wrapper functions 
 `plotEmpROC()` and `plotROCbootCI95()`. These functions generate ROC curve plots, 
 but provide more advanced options for plot annotation and confidence interval 
 generation, respectively.

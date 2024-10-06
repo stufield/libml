@@ -1,4 +1,4 @@
 library(testthat)
-library(fittr)
+library(libml)
 
-test_check("fittr")
+test_check("libml")

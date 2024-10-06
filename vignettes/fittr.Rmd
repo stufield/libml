@@ -1,14 +1,14 @@
 ---
-title: "Introduction to fittr"
+title: "Introduction to libml"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to fittr}
+  %\VignetteIndexEntry{Introduction to libml}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
-library(fittr)
+library(libml)
 library(randomForest)
 library(ggplot2)
 options(width = 100)
@@ -20,7 +20,7 @@ set.seed(101)
 
 
 
-The `fittr` package contains general functions 
+The `libml` package contains general functions 
 necessary for the analysis of biomarker data via statistical and 
 machine learning techniques, calculating KS distances, 
 k-fold cross-validation, classification performance metrics, and ROC plotting.
@@ -31,7 +31,7 @@ k-fold cross-validation, classification performance metrics, and ROC plotting.
 
 ## Introduction
 
-The `fittr` package provides functions to create training datasets, 
+The `libml` package provides functions to create training datasets, 
 perform univariate tests (via the `calc.*` function family,
 train classifiers, and plot ROC curves. 
 The models types supported in this package are primarily geared toward:
@@ -42,7 +42,7 @@ The models types supported in this package are primarily geared toward:
 
 There is also limited support for `k`-nearest neighbors models.
 With the exception of "robust" Naive Bayes, these models are created using 
-the associated R packages directly. The `fittr` package provides 
+the associated R packages directly. The `libml` package provides 
 wrappers for performing cross validation, making predictions, and creating ROC curves.
 
 This package is biased toward *binary* classification and as a result many 
@@ -230,7 +230,7 @@ getGini(rf)
 ## Model Performance
 
 As one might expect, there are numerous functions for evaluating model
-performance in [`fittr`](../index.html). Many S3 methods are provided
+performance in [`libml`](../index.html). Many S3 methods are provided
 to the S3 generic `SomaGlobals::calcPredictions`, e.g. `calcPredictions.glm()`.
 The following are a few of the standard metrics:
 

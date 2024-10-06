@@ -1,5 +1,5 @@
 
-test_that("fittr is in style compliance", {
+test_that("libml is in style compliance", {
   skip_on_jenkins()  # don't run on Jenkins
   skip_on_check()    # don't run on check()
   skip_on_covr()     # don't run if in 'covr'

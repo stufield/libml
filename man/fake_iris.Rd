@@ -13,7 +13,7 @@ fake_iris
 \description{
 Generate a fake \code{tr_data} object based on the
 \link[datasets:iris]{datasets::iris} data set for use in
-examples sections of the fittr package. First, the
+examples sections of the libml package. First, the
 \code{versicolor} class observations are removed to make
 the result binary, then half (\code{n = 50}) of the observations
 are class scrambled, and the feature data is "jittered"

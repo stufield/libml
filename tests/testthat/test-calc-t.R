@@ -7,33 +7,7 @@ apts <- c("seq.4330.4", "seq.2819.23", "seq.2953.31", "seq.2474.54", "seq.2711.6
 small_adat <- dplyr::select(sample.adat, SampleGroup, all_of(apts))
 
 # Testing ----
-test_that("the `calc.t()` error conditions are correctly tripped", {
-  # do.log deprecation error
-  expect_error(
-    calc.t(small_adat, response = "SampleGroup", do.log = TRUE),
-    paste("The `do.log` argument of `calc.t()` was deprecated in",
-          "fittr 0.0.1 and is now defunct."),
-    fixed = TRUE, class = "lifecycle_error_deprecated"
-  )
-  expect_error(
-    calc.t(small_adat, response = "SampleGroup", do.log = FALSE),
-    paste("The `do.log` argument of `calc.t()` was deprecated in",
-          "fittr 0.0.1 and is now defunct."),
-    fixed = TRUE, class = "lifecycle_error_deprecated"
-  )
-  expect_error(
-    calc.t(log10(small_adat), response = "SampleGroup", do.log = TRUE),
-    paste("The `do.log` argument of `calc.t()` was deprecated in",
-          "fittr 0.0.1 and is now defunct."),
-    fixed = TRUE, class = "lifecycle_error_deprecated"
-  )
-  expect_error(
-    calc.t(iris, response = "Species", do.log = TRUE),
-    paste("The `do.log` argument of `calc.t()` was deprecated in",
-          "fittr 0.0.1 and is now defunct."),
-    fixed = TRUE, class = "lifecycle_error_deprecated"
-  )
-
+test_that("the `calc.t()` generates the expected warning without log10-transform", {
   expect_warning(
     calc.t(small_adat, response = "SampleGroup"),
     "Are you sure you wanted to perform a 't-test' test without log10-transformation"

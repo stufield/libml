@@ -43,14 +43,8 @@
 #' lm_table <- calc.lm(log10(sim_test_data), response = "HybControlNormScale")
 #'
 #' @importFrom stats lm
-#' @importFrom lifecycle is_present deprecated deprecate_stop
 #' @export
-calc.lm <- function(data, apts = NULL, response, bh = TRUE, do.log = deprecated()) {
-
-  if ( is_present(do.log) ) {
-    deprecate_stop("0.0.1", "fittr::calc.lm(do.log = )",
-                   details = "Please log-transform upstream prior to call.")
-  }
+calc.lm <- function(data, apts = NULL, response, bh = TRUE) {
 
   if ( is.null(apts) ) {
     apts <- getAnalytes(data)

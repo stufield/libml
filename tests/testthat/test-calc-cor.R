@@ -16,21 +16,6 @@ test_that("`calc.cor()` trips a warning when not log-transformed", {
   )
 })
 
-test_that("`calc.cor()` with `do.log` deprecation error", {
-  expect_error(
-    calc.cor(small_adat, response = "HybControlNormScale", do.log = TRUE),
-    paste("The `do.log` argument of `calc.cor()` was deprecated in",
-          "fittr 0.0.1 and is now defunct."),
-    fixed = TRUE, class = "lifecycle_error_deprecated"
-  )
-  expect_error(
-    calc.cor(sample.adat, response = "HybControlNormScale", do.log = FALSE),
-    paste("The `do.log` argument of `calc.cor()` was deprecated in",
-          "fittr 0.0.1 and is now defunct."),
-    fixed = TRUE, class = "lifecycle_error_deprecated"
-  )
-})
-
 test_that("`calc.cor()` with `method = pearson` generates correct values", {
   r <- calc.cor(log10(small_adat), response = "HybControlNormScale",
                 method = "pearson")

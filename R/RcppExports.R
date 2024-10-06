@@ -2,22 +2,22 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 calcTrap_cpp <- function(x) {
-    .Call(`_fittr_calcTrap_cpp`, x)
+    .Call(`_libml_calcTrap_cpp`, x)
 }
 
 empAUC_cpp <- function(xy) {
-    .Call(`_fittr_empAUC_cpp`, xy)
+    .Call(`_libml_empAUC_cpp`, xy)
 }
 
 roc_xy_cpp <- function(true_class, predictions, pos_class) {
-    .Call(`_fittr_roc_xy_cpp`, true_class, predictions, pos_class)
+    .Call(`_libml_roc_xy_cpp`, true_class, predictions, pos_class)
 }
 
 roc_xy_cpp2 <- function(true_class, predictions, pos_class) {
-    .Call(`_fittr_roc_xy_cpp2`, true_class, predictions, pos_class)
+    .Call(`_libml_roc_xy_cpp2`, true_class, predictions, pos_class)
 }
 
 eval_cut_cpp <- function(truth, predicted, pos_class, cutoff) {
-    .Call(`_fittr_eval_cut_cpp`, truth, predicted, pos_class, cutoff)
+    .Call(`_libml_eval_cut_cpp`, truth, predicted, pos_class, cutoff)
 }
 

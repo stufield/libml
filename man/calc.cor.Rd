@@ -12,7 +12,6 @@ calc.cor(
   response,
   bh = TRUE,
   method = c("spearman", "pearson", "kendall"),
-  do.log = deprecated(),
   ...
 )
 
@@ -42,8 +41,6 @@ Matched to one of:
 \item \verb{"pearson"}
 \item \verb{"kendall"}
 }}
-
-\item{do.log}{Deprecated.}
 
 \item{...}{Additional arguments passed to \code{\link[=cor.test]{cor.test()}}.}
 

@@ -2,7 +2,7 @@
 #'
 #' Generate a fake `tr_data` object based on the
 #'   [datasets::iris] data set for use in
-#'   examples sections of the fittr package. First, the
+#'   examples sections of the libml package. First, the
 #'   `versicolor` class observations are removed to make
 #'   the result binary, then half (`n = 50`) of the observations
 #'   are class scrambled, and the feature data is "jittered"
