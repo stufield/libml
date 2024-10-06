@@ -2,20 +2,20 @@
 #'
 #' Extract the coefficients for an arbitrary model.
 #'
-#' @name getModelCoef
+#' @name getModelCoef-libml
 #' @param model A model object, currently one of:
 #' ```{r methods, echo = FALSE}
-#' options(width = 80)
+#' options(width = 50)
 #' withr::with_collate("en_US.UTF-8", methods("getModelCoef"))
 #' ```
 #' @param lambda The value of the penalty parameter `lambda` which
 #'   can either be `NULL` or `numeric`.
 #'   If `NULL`, the default value depends on the underlying class:
-#'   \itemize{
-#'     \item `glmnet`: The first value of lambda.
-#'     \item `cv.glmnet`: The lambda where the cross validated error is minimized.
-#'     \item `train`: The optimal value of lambda. When given a numeric value
-#'       of `lambda`, the closest value of `lambda` within the model will be used.
+#'   \describe{
+#'     \item{`glmnet`}{The first value of lambda.}
+#'     \item{`cv.glmnet`}{The lambda where the cross validated error is minimized.}
+#'     \item{`train`}{The optimal value of lambda. When given a numeric value
+#'       of `lambda`, the closest value of `lambda` within the model will be used.}
 #'   }
 #' @param ... Additional parameters for extensibility.
 #' @return A named numeric vector of the coefficients of the model.
@@ -35,42 +35,51 @@ NULL
 globalr::getModelCoef
 
 
-#' @describeIn getModelCoef S3 method for `glm` models.
+#' @describeIn getModelCoef-libml
+#'   S3 method for `glm` models.
 #' @importFrom stats coefficients
 #' @export
 getModelCoef.glm <- function(model, ...) {
   stats::coefficients(model, ...)
 }
 
-#' @noRd
+#' @describeIn getModelCoef-libml
+#'   S3 method for `lm` models.
 #' @export
 getModelCoef.lm <- getModelCoef.glm
 
-#' @noRd
+#' @describeIn getModelCoef-libml
+#'   S3 method for `lda` models.
 #' @export
 getModelCoef.lda <- getModelCoef.glm
 
-#' @describeIn getModelCoef S3 method for `robustNaiveBayes` models.
+#' @describeIn getModelCoef-libml
+#'   S3 method for `robustNaiveBayes` models.
 #' @export
 getModelCoef.robustNaiveBayes <- getModelCoef.glm
 
-#' @describeIn getModelCoef S3 method for `naiveBayes` models.
+#' @describeIn getModelCoef-libml
+#'  S3 method for `naiveBayes` models.
 #' @export
 getModelCoef.naiveBayes <- getModelCoef.glm
 
-#' @describeIn getModelCoef S3 method for `kknn` models.
+#' @describeIn getModelCoef-libml
+#'   S3 method for `kknn` models.
 #' @export
 getModelCoef.kknn <- getModelCoef.glm
 
-#' @describeIn getModelCoef S3 method for `randomForest` models.
+#' @describeIn getModelCoef-libml
+#'   S3 method for `randomForest` models.
 #' @export
 getModelCoef.randomForest <- getModelCoef.glm
 
-#' @describeIn getModelCoef S3 method for `gbm` models.
+#' @describeIn getModelCoef-libml
+#'   S3 method for `gbm` models.
 #' @export
 getModelCoef.gbm <- getModelCoef.glm
 
-#' @describeIn getModelCoef S3 method for `glmnet` models.
+#' @describeIn getModelCoef-libml
+#'   S3 method for `glmnet` models.
 #' @export
 getModelCoef.glmnet <- function(model, lambda = NULL, ...) {
   lambda        <- lambda %||% model$lambda[1L]
@@ -80,7 +89,8 @@ getModelCoef.glmnet <- function(model, lambda = NULL, ...) {
   c(tmp_intercept, tmp_coefs)
 }
 
-#' @describeIn getModelCoef S3 method for `cv.glmnet` models.
+#' @describeIn getModelCoef-libml
+#'   S3 method for `cv.glmnet` models.
 #' @export
 getModelCoef.cv.glmnet <- function(model, lambda = NULL, ...) {
   lambda        <- lambda %||% model$lambda.min
@@ -90,7 +100,8 @@ getModelCoef.cv.glmnet <- function(model, lambda = NULL, ...) {
   c(tmp_intercept, tmp_coefs)
 }
 
-#' @describeIn getModelCoef S3 method for `train` models.
+#' @describeIn getModelCoef-libml
+#'   S3 method for `train` models.
 #' @export
 getModelCoef.train <- function(model, lambda = NULL, ...) {
   actual_model <- model$finalModel
@@ -102,8 +113,9 @@ getModelCoef.train <- function(model, lambda = NULL, ...) {
   }
 }
 
-#' @describeIn getModelCoef S3 method for SVM models.
-#' If the model `kernel = linear`, coefficients are returned. Otherwise, `NULL`.
+#' @describeIn getModelCoef-libml
+#'   S3 method for SVM models. If the model `kernel = linear`,
+#'   coefficients are returned. Otherwise, `NULL`.
 #' @export
 getModelCoef.svm <- function(model, ...) {
   if ( model$kernel == 0 ) {
