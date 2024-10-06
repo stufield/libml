@@ -1,6 +1,6 @@
 #' Select Model Features
 #'
-#' Subsets a data frame (or `soma_adat`) to only the model predictor
+#' Subsets a data frame to only the model predictor
 #' variables (columns), aka the "model frame", for a given a _model_.
 #' Similar to [model.frame()], except a _model_ is passed rather than
 #' a _formula_.
@@ -13,33 +13,39 @@
 #'   to only the variables/features contained in the `model`.
 #' @author Stu Field
 #' @examples
-#' # Use fake training data from iris data set:
-#' train_idx <- sample.int(nrow(fake_iris), size = 70)
-#' train <- fake_iris[train_idx, -3L]
-#' test  <- fake_iris[-train_idx, -3L]
+#' # set up training and test data:
+#' idx   <- sample.int(nrow(fake_iris), size = 90L)
+#' train <- fake_iris[idx, ]
+#' test  <- fake_iris[-idx, ]
 #'
 #' lr <- fitGLM(Response ~ ., data = train)
 #' selectFeatures(lr, train)
+#'
 #' selectFeatures(lr, test)
-#' \dontrun{selectFeatures(lr, test[, -2L])} # throws error
+#'
+#' \dontrun{
+#'   selectFeatures(lr, test[, -2L]) # throws error; missing feature
+#' }
 #'
 #' # Generalized Boosted Regression Model
 #' gb <- fitGBM(Response ~ ., data = train)
-#' getModelCoef(gb)
+#' selectFeatures(gb, test)
 #'
 #' # Support Vector Machines
 #' sm <- e1071::svm(Response ~ ., data = train, probability = TRUE)
-#' getModelCoef(sm)
+#' selectFeatures(sm, test)
 #'
 #' # KKNN
-#' # test data passed during fitting:
+#' # note: test data passed during fitting
 #' test <- tail(fake_iris, 3L)
 #' kknn <- fitKKNN(Response ~ ., train = train, test = test, K = 10)
-#' getModelCoef(kknn)
+#' selectFeatures(kknn, test)
+#' @importFrom globalr getModelFeatures
+#' @importFrom tibble as_tibble
 #' @export
 selectFeatures <- function(model, .data) {
-  features <- getModelFeatures(model)
-  if ( any(!features %in% names(.data)) ) {
+  ft <- getModelFeatures(model)
+  if ( any(!ft %in% names(.data)) ) {
     stop(
       "There are missing model features in data set.\n",
       "Please check the column names and compare to those in the model.",
@@ -47,7 +53,12 @@ selectFeatures <- function(model, .data) {
     )
   }
   if ( inherits(.data, "grouped_df") ) {
-    .data <- dplyr::ungroup(.data)  # don't care about groupings; avoids warning()
+    # don't care about groupings; avoids warning()
+    if ( inherits(.data, "tbl_df") ) {
+      .data <- as_tibble(.data)
+    } else {
+      .data <- data.frame(.data)
+    }
   }
-  .data[, features, drop = FALSE]
+  .data[, ft, drop = FALSE]
 }

@@ -18,35 +18,39 @@ A \code{data.frame}-like object (depending on class of \code{.data}) subset
 to only the variables/features contained in the \code{model}.
 }
 \description{
-Subsets a data frame (or \code{soma_adat}) to only the model predictor
+Subsets a data frame to only the model predictor
 variables (columns), aka the "model frame", for a given a \emph{model}.
 Similar to \code{\link[=model.frame]{model.frame()}}, except a \emph{model} is passed rather than
 a \emph{formula}.
 }
 \examples{
-# Use fake training data from iris data set:
-train_idx <- sample.int(nrow(fake_iris), size = 70)
-train <- fake_iris[train_idx, -3L]
-test  <- fake_iris[-train_idx, -3L]
+# set up training and test data:
+idx   <- sample.int(nrow(fake_iris), size = 90L)
+train <- fake_iris[idx, ]
+test  <- fake_iris[-idx, ]
 
 lr <- fitGLM(Response ~ ., data = train)
 selectFeatures(lr, train)
+
 selectFeatures(lr, test)
-\dontrun{selectFeatures(lr, test[, -2L])} # throws error
+
+\dontrun{
+  selectFeatures(lr, test[, -2L]) # throws error; missing feature
+}
 
 # Generalized Boosted Regression Model
 gb <- fitGBM(Response ~ ., data = train)
-getModelCoef(gb)
+selectFeatures(gb, test)
 
 # Support Vector Machines
 sm <- e1071::svm(Response ~ ., data = train, probability = TRUE)
-getModelCoef(sm)
+selectFeatures(sm, test)
 
 # KKNN
-# test data passed during fitting:
+# note: test data passed during fitting
 test <- tail(fake_iris, 3L)
 kknn <- fitKKNN(Response ~ ., train = train, test = test, K = 10)
-getModelCoef(kknn)
+selectFeatures(kknn, test)
 }
 \author{
 Stu Field
