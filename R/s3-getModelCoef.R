@@ -36,6 +36,7 @@ globalr::getModelCoef
 
 
 #' @describeIn getModelCoef S3 method for `glm` models.
+#' @importFrom stats coefficients
 #' @export
 getModelCoef.glm <- function(model, ...) {
   stats::coefficients(model, ...)
@@ -56,10 +57,6 @@ getModelCoef.robustNaiveBayes <- getModelCoef.glm
 #' @describeIn getModelCoef S3 method for `naiveBayes` models.
 #' @export
 getModelCoef.naiveBayes <- getModelCoef.glm
-
-#' @noRd
-#' @export
-getModelCoef.NaiveBayes <- getModelCoef.glm
 
 #' @describeIn getModelCoef S3 method for `kknn` models.
 #' @export

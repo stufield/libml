@@ -41,9 +41,9 @@
 #>  [3] getModelCoef.gbm              getModelCoef.glm             
 #>  [5] getModelCoef.glmnet           getModelCoef.kknn            
 #>  [7] getModelCoef.lda              getModelCoef.lm              
-#>  [9] getModelCoef.naiveBayes       getModelCoef.NaiveBayes      
-#> [11] getModelCoef.randomForest     getModelCoef.robustNaiveBayes
-#> [13] getModelCoef.svm              getModelCoef.train           
+#>  [9] getModelCoef.naiveBayes       getModelCoef.randomForest    
+#> [11] getModelCoef.robustNaiveBayes getModelCoef.svm             
+#> [13] getModelCoef.train           
 #> see '?methods' for accessing help and source code
 }\if{html}{\out{</div>}}}
 
