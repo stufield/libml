@@ -109,6 +109,6 @@ The `calc.*()` family:
 \code{\link{calc.wilcox}()}
 }
 \author{
-Stu Field, Leigh Alexander
+Stu Field
 }
 \concept{calc}

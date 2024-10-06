@@ -59,7 +59,7 @@ calc.wilcox <- function(data, apts = NULL, paired = FALSE,
   }
 
   ret.list             <- list()
-  ret.list$stat.table  <- calcStatTable(wilcox_df, bh = bh)
+  ret.list$stat.table  <- calc_stat_table(wilcox_df, bh = bh)
   ret.list$test        <- ifelse(paired,
                                  "Wilcoxon signed-rank test",
                                  "Wilcoxon rank-sum test (Mann-Whitney)")

@@ -9,7 +9,7 @@
 #' @inheritParams calc.lm
 #' @inherit calc.lm return
 #' @param response Character. String identifying the categorical response variable.
-#' @author Stu Field, Leigh Alexander
+#' @author Stu Field
 #' @seealso [fitGLM()], [glm()]
 #' @examples
 #' # convert to training data object for fitGLM downstream & log-transform
@@ -51,7 +51,7 @@ calc.glm <- function(data, response = "Response", apts = NULL, bh = TRUE) {
   glm_df <- do.call(rbind, glm_df)
 
   ret.list            <- list()
-  ret.list$stat.table <- calcStatTable(glm_df, bh = bh)
+  ret.list$stat.table <- calc_stat_table(glm_df, bh = bh)
   ret.list$models     <- lapply(models, stripLMC)
   ret.list$test       <- "Logistic Regression"
   ret.list$call       <- match.call(expand.dots = TRUE)

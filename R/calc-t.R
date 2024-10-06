@@ -30,7 +30,7 @@ calc.t <- function(data, apts = NULL, bh = TRUE, paired = FALSE,
                   paired = paired, ...) |> t() |> data.frame()
 
   ret.list             <- list()
-  ret.list$stat.table  <- calcStatTable(t_data, bh = bh)
+  ret.list$stat.table  <- calc_stat_table(t_data, bh = bh)
   ret.list$call        <- match.call(expand.dots = TRUE)
   ret.list$test        <- "Student t-test"
   ret.list$paired      <- paired

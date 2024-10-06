@@ -71,7 +71,7 @@ calc.lm <- function(data, apts = NULL, response, bh = TRUE) {
   lm_df <- do.call(rbind, lm_df)
 
   ret.list <- list()
-  ret.list$stat.table  <- calcStatTable(lm_df, bh = bh)
+  ret.list$stat.table  <- calc_stat_table(lm_df, bh = bh)
   ret.list$models      <- lapply(models, stripLMC)
   ret.list$test        <- "Linear Regression"
   ret.list$call        <- match.call(expand.dots = TRUE)

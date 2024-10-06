@@ -58,7 +58,7 @@ calc.kw <- function(data, apts = NULL, response = "Response", bh = TRUE, ...) {
   kw_stats <- do.call(rbind, kw_stats)  # do.call() b/c map_df() zaps rn
 
   ret.list            <- list()
-  ret.list$stat.table <- calcStatTable(kw_stats, bh = bh)
+  ret.list$stat.table <- calc_stat_table(kw_stats, bh = bh)
   ret.list$test       <- "Kruskal-Wallis rank sum test"
   ret.list$call       <- match.call()
   ret.list$data.dim   <- dim(data)

@@ -4,7 +4,7 @@
 #' @inherit calc.lm
 #' @details Robust regression utilizes [rlm()], where
 #'   "fitting is done by iterated re-weighted least-squares".
-#' @author Stu Field, Leigh Alexander
+#' @author Stu Field
 #' @seealso [lm()]
 #' @examples
 #' rlm_table <- calc.robust.lm(log10(sim_test_data), response = "HybControlNormScale")
@@ -35,7 +35,7 @@ calc.robust.lm <- function(data, apts = NULL, response, bh = TRUE) {
   stats <- do.call(rbind, stats)
 
   ret.list             <- list()
-  ret.list$stat.table  <- calcStatTable(stats, bh = bh)
+  ret.list$stat.table  <- calc_stat_table(stats, bh = bh)
   ret.list$models      <- models
   ret.list$test        <- "Robust Linear Regression"
   ret.list$call        <- match.call(expand.dots = TRUE)

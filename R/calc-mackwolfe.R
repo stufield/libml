@@ -80,7 +80,7 @@ calc.mackwolfe <- function(data, apts = NULL, response = "SampleGroup",
   mackwolfe_stats <- do.call(rbind, mackwolfe_stats)
 
   ret.list              <- list()
-  ret.list$stat.table   <- calcStatTable(mackwolfe_stats, bh = bh)
+  ret.list$stat.table   <- calc_stat_table(mackwolfe_stats, bh = bh)
   ret.list$test         <- ifelse(peak == "jt", "Mack-Wolfe (JT) Test",
                                   "Mack-Wolfe Test")
   ret.list$call         <- match.call(expand.dots = TRUE)

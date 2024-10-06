@@ -31,7 +31,7 @@ calc.ks <- function(data, apts = NULL, response = "Response", bh = TRUE, ...) {
   }
 
   ret.list             <- list()
-  ret.list$stat.table  <- calcStatTable(ks_data, bh = bh)
+  ret.list$stat.table  <- calc_stat_table(ks_data, bh = bh)
   ret.list$call        <- match.call(expand.dots = TRUE)
   ret.list$test        <- "Kolmogorov-Smirnov Test"
   ret.list$response    <- response

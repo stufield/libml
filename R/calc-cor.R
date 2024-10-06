@@ -81,7 +81,7 @@ calc.cor <- function(data, apts = NULL, response, bh = TRUE,
   cor_df <- do.call(rbind, cor_df)
 
   ret.list            <- list()
-  ret.list$stat.table <- calcStatTable(cor_df, bh = bh)
+  ret.list$stat.table <- calc_stat_table(cor_df, bh = bh)
   ret.list$call       <- match.call()
   ret.list$test       <- stats::cor.test(1:10, 10:1, method = method)$method
   ret.list$data.dim   <- dim(data)
