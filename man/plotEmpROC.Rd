@@ -9,21 +9,17 @@ plotEmpROC(
   predicted,
   pos.class,
   auc = TRUE,
+  add = 0L,
   boot.auc = FALSE,
   adj = c(0, 0),
   auc.pos = c(0.5, 0.5),
   auc.shift = 1.25,
   auc.label = NULL,
-  auc.cex = deprecated(),
   auc.size = 5,
-  pch = deprecated(),
   shape = NULL,
-  pch.cex = deprecated(),
   size = 2,
   cutoff = 0.5,
-  cutoff.cex = deprecated(),
   cutoff.size = 5,
-  pch.cutoff = deprecated(),
   cutoff.shape = 23,
   col = 1,
   ci95 = TRUE,
@@ -31,10 +27,14 @@ plotEmpROC(
   outline = TRUE,
   boxes = TRUE,
   box.alpha = 0.35,
-  add = 0,
   debug = FALSE,
   plot.fit = FALSE,
   do.grid = TRUE,
+  pch = deprecated(),
+  pch.cex = deprecated(),
+  pch.cutoff = deprecated(),
+  auc.cex = deprecated(),
+  cutoff.cex = deprecated(),
   ... = deprecated()
 )
 }
@@ -49,13 +49,20 @@ defining the positive/event class.}
 
 \item{auc}{Logical. Should the AUC be printed on the plot?}
 
-\item{boot.auc}{Logical. Should bootstrap confidence intervals of AUC be calculated?}
+\item{add}{Integer. The position in the plotting stack indicating where to
+add the ROC curve relative to an existing plot.
+Zero indexing is used, thus \code{add = 0L} (default) refers to a new plot
+and \code{add = 1L} will add a ROC layer to the existing plot and
+correctly position the \code{AUC} annotations shifted accordingly.}
 
-\item{adj}{Numeric in \verb{[0,1]}. Coordinates that are used to align
+\item{boot.auc}{Logical. Should bootstrap confidence intervals of AUC
+be calculated?}
+
+\item{adj}{Numeric in \verb{[0, 1]}. Coordinates that are used to align
 the AUC text.}
 
-\item{auc.pos}{Numeric in \verb{[0,1]} indicating where to place the AUC
-text. Must be of \code{length == 2}, indicating the x-axis and y-axis positions,
+\item{auc.pos}{Numeric in \verb{[0, 1]} indicating where to place the AUC
+text. Must be of \code{length == 2L}, indicating the x-axis and y-axis positions,
 respectively. By default, the AUC will be placed slightly to the right
 of center of the plot.}
 
@@ -66,16 +73,10 @@ multiple ROCs are plotted.}
 (Default: "AUC = 0.99", with label "Extra Text": "Extra Text AUC = 0.99").
 Must be added individually to each plot.}
 
-\item{auc.cex}{Deprecated. Use \code{auc.size} instead.}
-
 \item{auc.size}{Character size of the AUC text.}
-
-\item{pch}{Point character. See \code{\link[=par]{par()}}.}
 
 \item{shape}{Numeric. Shape of points. Must be a number between 0 and 25,
 similar to \code{pch} of \code{\link[graphics:points]{graphics::points()}}. See \code{\link[=geom_point]{geom_point()}}.}
-
-\item{pch.cex}{Deprecated.}
 
 \item{size}{Numeric. Size of points. Similar to \code{cex} of \code{\link[graphics:points]{graphics::points()}}.
 Modifying \code{size} will not affect the plot if \code{shape} is set to
@@ -83,18 +84,15 @@ Modifying \code{size} will not affect the plot if \code{shape} is set to
 
 [geom_point())]: R:geom_point())}
 
-\item{cutoff}{The decision cutoff, aka operating point, for the positive classes.
-By default, the operating point is chosen to be 0.5. Alternatively, choosing
-a negative number calculates the cutoff corresponding to the maximum
-\emph{perpendicular} distance between the curve and the unit diagonal. The CI95
-of the operating point (boxes) can be omitted by setting \code{cutoff = NA}.}
+\item{cutoff}{The decision cutoff, aka operating point, for the
+\emph{positive} classes. By default, the operating point is set to 0.5.
+Alternatively, choosing a negative number calculates the cutoff
+corresponding to the maximum \emph{perpendicular} distance between the
+curve and the unit diagonal. The CI95 of the operating point (boxes)
+can be omitted by setting \code{cutoff = NA}.}
 
-\item{cutoff.cex}{Deprecated. Use \code{cutoff.size}.}
-
-\item{cutoff.size}{Numeric in \verb{[0,1]}, the character size for
+\item{cutoff.size}{Numeric in \verb{[0, 1]}, the character size for
 the cutoff point symbol.}
-
-\item{pch.cutoff}{Deprecated. Use \code{cutoff.shape}.}
 
 \item{cutoff.shape}{Numeric. The point symbol used for the cutoff point
 plotted on the ROC. Defaults to a diamond (\code{23}).}
@@ -112,14 +110,8 @@ lines, points, bar, box, or ROC.}
 joint CI95 of the sensitivity and specificity confidence intervals) at the
 cutoff point?}
 
-\item{box.alpha}{Numeric in \verb{[0,1]}, the shading transparency for
+\item{box.alpha}{Numeric in \verb{[0, 1]}, the shading transparency for
 the confidence interval box at a given cutoff.}
-
-\item{add}{Integer. The position in the plotting stack indicating where to
-add the ROC curve relative to an existing plot.
-Zero indexing is used, thus \code{add = 0} (the default) refers to a fresh
-new plot and \code{add = 1} will add a ROC layer to the existing plot and
-correctly position the \code{AUC} annotations shifted accordingly.}
 
 \item{debug}{Logical. Should debugging mode be activated? When activated,
 annotates the values of the plotting steps at each cutoff, prints the
@@ -133,7 +125,10 @@ If \code{plot.fit = TRUE}, only the fit will be plotted, without the ROC.}
 
 \item{do.grid}{Logical. Should grid lines be added to the ROC curve?}
 
-\item{...}{Deprecated. Retained for backwards compatibility.}
+\item{pch, pch.cex, pch.cutoff, cutoff.cex, auc.cex}{Deprecated. Now use
+\code{shape}, \code{size}, \code{cutoff.shape}, \code{cutoff.size}, or \code{auc.size}.}
+
+\item{...}{Deprecated. Maintained for backwards compatibility.}
 }
 \value{
 A ROC curve is plotted and its corresponding AUC is returned.
@@ -186,6 +181,6 @@ Other ROC:
 \code{\link{plotROCbootCI95}()}
 }
 \author{
-Michael R. Mehan, Stu Field, Amanda Hiser
+Michael R. Mehan, Stu Field
 }
 \concept{ROC}

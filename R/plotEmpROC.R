@@ -5,43 +5,39 @@
 #' a wrapper around [geom_roc()], with window dressing for commonly used
 #' aesthetics and annotations.
 #'
+#' @family ROC
 #' @inheritParams params
 #' @inheritParams geom_roc
-#' @family ROC
 #' @param add Integer. The position in the plotting stack indicating where to
 #'   add the ROC curve relative to an existing plot.
-#'   Zero indexing is used, thus `add = 0` (the default) refers to a fresh
-#'   new plot and `add = 1` will add a ROC layer to the existing plot and
+#'   Zero indexing is used, thus `add = 0L` (default) refers to a new plot
+#'   and `add = 1L` will add a ROC layer to the existing plot and
 #'   correctly position the `AUC` annotations shifted accordingly.
 #' @param auc Logical. Should the AUC be printed on the plot?
-#' @param auc.pos Numeric in \verb{[0,1]} indicating where to place the AUC
-#'   text. Must be of `length == 2`, indicating the x-axis and y-axis positions,
+#' @param auc.pos Numeric in \verb{[0, 1]} indicating where to place the AUC
+#'   text. Must be of `length == 2L`, indicating the x-axis and y-axis positions,
 #'   respectively. By default, the AUC will be placed slightly to the right
 #'   of center of the plot.
-#' @param auc.cex Deprecated. Use `auc.size` instead.
 #' @param auc.size Character size of the AUC text.
-#' @param adj Numeric in \verb{[0,1]}. Coordinates that are used to align
+#' @param adj Numeric in \verb{[0, 1]}. Coordinates that are used to align
 #'   the AUC text.
 #' @param auc.shift The vertical (downward) shift between AUC text values if
 #'   multiple ROCs are plotted.
 #' @param ci95 Logical. Should any confidence intervals be plotted?
-#' @param pch Point character. See [par()].
-#' @param pch.cex Deprecated.
-#' @param cutoff The decision cutoff, aka operating point, for the positive classes.
-#'   By default, the operating point is chosen to be 0.5. Alternatively, choosing
-#'   a negative number calculates the cutoff corresponding to the maximum
-#'   _perpendicular_ distance between the curve and the unit diagonal. The CI95
-#'   of the operating point (boxes) can be omitted by setting `cutoff = NA`.
-#' @param cutoff.cex Deprecated. Use `cutoff.size`.
-#' @param cutoff.size Numeric in \verb{[0,1]}, the character size for
+#' @param cutoff The decision cutoff, aka operating point, for the
+#'   *positive* classes. By default, the operating point is set to 0.5.
+#'    Alternatively, choosing a negative number calculates the cutoff
+#'    corresponding to the maximum _perpendicular_ distance between the
+#'    curve and the unit diagonal. The CI95 of the operating point (boxes)
+#'    can be omitted by setting `cutoff = NA`.
+#' @param cutoff.size Numeric in \verb{[0, 1]}, the character size for
 #'   the cutoff point symbol.
-#' @param pch.cutoff Deprecated. Use `cutoff.shape`.
 #' @param cutoff.shape Numeric. The point symbol used for the cutoff point
 #'   plotted on the ROC. Defaults to a diamond (`23`).
 #' @param boxes Logical. Should confidence interval boxes be drawn (showing the
 #'   joint CI95 of the sensitivity and specificity confidence intervals) at the
 #'   cutoff point?
-#' @param box.alpha Numeric in \verb{[0,1]}, the shading transparency for
+#' @param box.alpha Numeric in \verb{[0, 1]}, the shading transparency for
 #'   the confidence interval box at a given cutoff.
 #' @param auc.label Character string. Adds an additional label to the AUC text
 #'   (Default: "AUC = 0.99", with label "Extra Text": "Extra Text AUC = 0.99").
@@ -54,11 +50,14 @@
 #'   annotates the values of the plotting steps at each cutoff, prints the
 #'   "positive class", prints the prediction data to the console, and
 #'   various other internal objects useful for debugging.
-#' @param boot.auc Logical. Should bootstrap confidence intervals of AUC be calculated?
+#' @param boot.auc Logical. Should bootstrap confidence intervals of AUC
+#'   be calculated?
 #' @param do.grid Logical. Should grid lines be added to the ROC curve?
-#' @param ... Deprecated. Retained for backwards compatibility.
+#' @param pch,pch.cex,pch.cutoff,cutoff.cex,auc.cex Deprecated. Now use
+#'   `shape`, `size`, `cutoff.shape`, `cutoff.size`, or `auc.size`.
+#' @param ... Deprecated. Maintained for backwards compatibility.
 #' @return A ROC curve is plotted and its corresponding AUC is returned.
-#' @author Michael R. Mehan, Stu Field, Amanda Hiser
+#' @author Michael R. Mehan, Stu Field
 #' @seealso [createROCdata()], [getROCxy()], [geom_roc()]
 #' @examples
 #' true <- rep(c("control", "disease"), each = 50)
@@ -90,19 +89,21 @@
 #' plotEmpROC(true, pred, pos.class = "disease", col = "firebrick3") +
 #'   plotEmpROC(true2, pred2, pos.class = "disease", col = "forestgreen", add = 1)
 #' @importFrom ggplot2 geom_ribbon geom_point geom_text geom_segment annotate
-#' @importFrom lifecycle deprecate_warn deprecated is_present
+#' @importFrom lifecycle is_present deprecated
 #' @export
-plotEmpROC <- function(truth, predicted, pos.class,
-                       auc = TRUE, boot.auc = FALSE, adj = c(0, 0),
-                       auc.pos = c(0.5, 0.5), auc.shift = 1.25, auc.label = NULL,
-                       auc.cex = deprecated(), auc.size = 5, pch = deprecated(),
-                       shape = NULL, pch.cex = deprecated(), size = 2,
-                       cutoff = 0.5, cutoff.cex = deprecated(), cutoff.size = 5,
-                       pch.cutoff = deprecated(), cutoff.shape = 23,
-                       col = 1, ci95 = TRUE, lwd = 2, outline = TRUE,
-                       boxes = TRUE, box.alpha = 0.35,
-                       add = 0, debug = FALSE, plot.fit = FALSE,
-                       do.grid = TRUE, ... = deprecated()) {
+plotEmpROC <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
+                       boot.auc = FALSE, adj = c(0, 0), auc.pos = c(0.5, 0.5),
+                       auc.shift = 1.25, auc.label = NULL, auc.size = 5,
+                       shape = NULL, size = 2, cutoff = 0.5, cutoff.size = 5,
+                       cutoff.shape = 23, col = 1, ci95 = TRUE, lwd = 2,
+                       outline = TRUE, boxes = TRUE, box.alpha = 0.35,
+                       debug = FALSE, plot.fit = FALSE, do.grid = TRUE,
+                       pch = deprecated(),
+                       pch.cex = deprecated(),
+                       pch.cutoff = deprecated(),
+                       auc.cex = deprecated(),
+                       cutoff.cex = deprecated(),
+                       ... = deprecated()) {
 
   if ( missing(pos.class) ) {
     stop(
@@ -111,47 +112,27 @@ plotEmpROC <- function(truth, predicted, pos.class,
     )
   }
 
-  # ---- Deprecated arguments ----
-  # Parameters deprecated when ggplot2 syntax was implemented
-  depr_pkg_ver <- "6.1.0.9000"
-
+  # Deprecated arguments ----
+  # Parameters deprecated via ggplot2 syntax
   if ( is_present(pch) ) {
-    deprecate_warn(when = depr_pkg_ver,
-                   what = "plotEmpROC(pch)",
-                   with = "shape()")
-    # Maps old parameter to new one, to maintain backwards compatibility.
-    # See ggplot2:::.base_to_ggplot for addl list of mappings
-    shape <- pch
+    stop("pch = ", pch, ". Do you mean `shape`?", call. = )
   }
 
   if ( is_present(pch.cex) ) {
-    deprecate_warn(when = depr_pkg_ver,
-                   what = "plotEmpROC(pch.cex)",
-                   with = "size()")
-    size <- pch.cex
+    stop("pch.cex = ", pch.cex, ". Do you mean `size`?", call. = )
   }
 
   if ( is_present(pch.cutoff) ) {
-    deprecate_warn(when = depr_pkg_ver,
-                   what = "plotEmpROC(pch.cutoff)",
-                   with = "cutoff.shape()")
-    cutoff.shape <- pch.cutoff
+    stop("pch.cutoff = ", pch.cex, ". Do you mean `cutoff.shape`?", call. = )
   }
 
   if ( is_present(auc.cex) ) {
-    deprecate_warn(when = depr_pkg_ver,
-                   what = "plotEmpROC(auc.cex)",
-                   with = "auc.size()")
-    auc.size <- auc.cex
+    stop("auc.cex", pch.cex, ". Do you mean `aux.size`?", call. = )
   }
 
   if ( is_present(cutoff.cex) ) {
-    deprecate_warn(when = depr_pkg_ver,
-                   what = "plotEmpROC(cutoff.cex)",
-                   with = "cutoff.size()")
-    cutoff.size <- cutoff.cex
+    stop("cutoff.cex", pch.cex, ". Do you mean `cutoff.size`?", call. = )
   }
-  # ------ #
 
   plot_df <- data.frame(truth = truth, pred = predicted)
   plot_df <- plot_df[order(plot_df$pred, decreasing = TRUE), ]
