@@ -8,7 +8,7 @@
 #' @param ... The `rm.outliers = TRUE` option should be passed here, otherwise
 #'   additional arguments to allow extensibility to S3 methods.
 #' @author Mike Mehan and Stu Field
-#' @seealso [createTrainingData()]
+#' @seealso [create_train()]
 #' @examples
 #' # suppress p-value ties warning
 #' ks_table <- calc.ks(sim_test_data, response = "class_response")
@@ -18,8 +18,11 @@
 #'
 #' @importFrom stats runif
 #' @export
-calc.ks <- function(data, apts = NULL, response = "Response", bh = TRUE, ...) {
+calc.ks <- function(data, apts = NULL, response = NULL, bh = TRUE, ...) {
 
+  if ( is.null(response) && is.tr_data(data) ) {
+    response <- .get_response(data)
+  }
   data_prep   <- prepCalcData(data, feats = apts, response = response)
   disease_idx <- data_prep$which_disease
   ks_data     <- apply(data_prep$data, 2, column_ks, which = disease_idx, ...) |>

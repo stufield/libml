@@ -28,10 +28,10 @@ Creates a Manhattan plot of the differences or log-ratios
 of the training set for each analyte.
 }
 \examples{
-tr <- createTrainingData(sim_test_data,
-                         class_response \%in\% c("control", "disease"),
-                         group.var = class_response,
-                         class1 = "normal", class2 = "alzheimers")
+tr <- create_train(sim_test_data,
+                   class_response \%in\% c("control", "disease"),
+                   group.var = class_response,
+                   class1 = c("disease", "control"))
 
 # Various options for plotting
 plotManhattan(tr, type = "med")

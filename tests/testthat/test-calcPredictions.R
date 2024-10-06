@@ -1,14 +1,14 @@
 
 # Setup ----
-# Uses `fake_iris` training data set object from iris data set
-train <- head(fake_iris, -3L)
-test  <- tail(fake_iris, 3L)
+# Uses `tr_iris` training data set object from iris data set
+train <- head(tr_iris, -3L)
+test  <- tibble::as_tibble(tail(tr_iris, 3L))  # strip `tr_data` class
 
 
 # Testing ----
 test_that("the logistic regression (GLM) method returns correct predictions", {
   # Logistic Regression
-  lr <- fitGLM(Response ~ ., data = train)
+  lr <- fitGLM(train)
   pred1 <- calcPredictions(lr, test)
   expect_false(has_rn(pred1))
   expect_equal(pred1,
@@ -32,7 +32,7 @@ test_that("the logistic regression (GLM) method returns correct predictions", {
 })
 
 test_that("the Naive Bayes method returns correct predictions", {
-  nb <- robustNaiveBayes(Response ~ ., data = train)
+  nb <- robustNaiveBayes(Species ~ ., data = train)
   pred1 <- calcPredictions(nb, test)
   expect_false(has_rn(pred1))
   expect_equal(pred1,
@@ -55,7 +55,7 @@ test_that("the Naive Bayes method returns correct predictions", {
 
 test_that("the Random Forest method returns correct out-of-bag predictions", {
   rf <- withr::with_seed(101,
-          randomForest::randomForest(Response ~ ., data = train,
+          randomForest::randomForest(Species ~ ., data = train,
                                      importance = TRUE,
                                      proximity = TRUE, keep.inbag = TRUE)
   )
@@ -69,7 +69,7 @@ test_that("the Random Forest method returns correct out-of-bag predictions", {
 
 test_that("the Random Forest method returns correct predictions with test data", {
   rf <- withr::with_seed(999,
-          randomForest::randomForest(Response ~ ., data = train,
+          randomForest::randomForest(Species ~ ., data = train,
                                      importance = TRUE,
                                      proximity = TRUE, keep.inbag = TRUE)
   )
@@ -93,7 +93,7 @@ test_that("the Random Forest method returns correct predictions with test data",
 })
 
 test_that("the General Boosted Regression (GBM) returns correct predictions", {
-  gb <- withr::with_seed(101, fitGBM(Response ~ ., data = train,
+  gb <- withr::with_seed(101, fitGBM(Species ~ ., data = train,
                                      distribution = "bernoulli"))
   pred1 <- calcPredictions(gb, test)
   expect_false(has_rn(pred1))
@@ -123,7 +123,7 @@ test_that("the General Boosted Regression (GBM) returns correct predictions", {
 
 test_that("the Support Vector Machines method returns correct predictions", {
   sm <- withr::with_seed(101,
-          e1071::svm(Response ~ ., data = train, probability = TRUE)
+          e1071::svm(Species ~ ., data = train, probability = TRUE)
         )
   pred1 <- calcPredictions(sm, test)
   expect_false(has_rn(pred1))
@@ -153,7 +153,7 @@ test_that("the Support Vector Machines method returns correct predictions", {
 
 test_that("the KKNN method returns correct predictions", {
   # test set passed in during model fit
-  kknn  <- fitKKNN(Response ~ ., train = train, test = test, K = 10)
+  kknn  <- fitKKNN(Species ~ ., train = train, test = test, K = 10)
   pred1 <- calcPredictions(kknn)  # cannot pass test data
   expect_false(has_rn(pred1))
   expect_equal(pred1, data.frame(stringsAsFactors = FALSE,

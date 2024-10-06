@@ -8,8 +8,8 @@ kfold_cv(data, k, model.type = c("lr", "nb", "rf", "svm", "kknn", "gbm"), ...)
 }
 \arguments{
 \item{data}{A training data set, for convenience can be created via
-\code{\link[=createTrainingData]{createTrainingData()}}, but \emph{must} contain only the
-features to be used in fitting the model and \code{Response} column.}
+\code{\link[=create_train]{create_train()}}, but \emph{must} contain only the
+features to be used in fitting the model and \code{"Response"} column.}
 
 \item{k}{Integer. The number of folds to perform (\emph{k}-fold cross-validation).}
 
@@ -29,20 +29,20 @@ class object.
 \examples{
 # naive Bayes
 # Use fake training data from iris data set
-xv_k10_n <- kfold_cv(fake_iris, k = 10, model.type = "nb")
+xv_k10_n <- kfold_cv(tr_iris, k = 10, model.type = "nb")
 xv_k10_n
 
 # Boosted Regression Model
-xv_k10_b <- kfold_cv(fake_iris, k = 10, model.type = "gbm")
+xv_k10_b <- kfold_cv(tr_iris, k = 10, model.type = "gbm")
 xv_k10_b
 
 # Weighted K-Nearest-Neighbor
 # Pass K = 9 for number of neighbors in hood
-xv_k10_k <- kfold_cv(fake_iris, k = 10, model.type = "kknn", K = 9)
+xv_k10_k <- kfold_cv(tr_iris, k = 10, model.type = "kknn", K = 9)
 xv_k10_k
 
 # Random Forest
-xv_k10_f <- kfold_cv(fake_iris, k = 10, model.type = "rf")
+xv_k10_f <- kfold_cv(tr_iris, k = 10, model.type = "rf")
 xv_k10_f
 }
 \seealso{

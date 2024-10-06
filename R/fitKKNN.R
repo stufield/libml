@@ -25,31 +25,31 @@
 #'   }
 #' @param ... Additional arguments passed to [kknn()].
 #' @return A k-nearest neighbors model, as returned by [kknn()],
-#'   with `Response`, `classes`, and function parameters `train`,
+#'   with a `"Response"` variable, `classes`, and function parameters `train`,
 #'   `K`, `distance`, `kernel`, as well as the function call (`call`)
 #'   added as entries to the list.
-#' @author Mike Mehan
+#' @author Stu Field
 #' @seealso [kknn()]
 #' @examples
 #' # Use fake training data from iris data set
-#' trainIdx <- sample(nrow(fake_iris), 90)  # random 90% training
-#' kknnfit  <- fitKKNN(Response ~ ., train = fake_iris[trainIdx, ],
-#'                     test = fake_iris[-trainIdx, ])
+#' trainIdx <- sample(nrow(tr_iris), 90)  # random 90% training
+#' kknnfit  <- fitKKNN(Species ~ ., train = tr_iris[trainIdx, ],
+#'                     test = tr_iris[-trainIdx, ])
 #' pos  <- getPositiveClass(kknnfit)
-#' true <- fake_iris$Response[-trainIdx]   # true class names
-#' pred <- calcPredictions(kknnfit)        # model predictions
+#' true <- tr_iris$Species[-trainIdx]   # true class names
+#' pred <- calcPredictions(kknnfit)       # model predictions
 #' pred
 #'
 #' # Confusion matrix
-#' cmat <- calc_confusion(true, pred$prob_virginica, pos.class = pos)
-#' summary(cmat)
+#' calc_confusion(true, pred$prob_virginica, pos.class = pos) |>
+#'   summary()
 #'
 #' # plot ROC
 #' plotEmpROC(true, pred$prob_virginica, pos)
 #' @importFrom kknn kknn
 #' @export
-fitKKNN <- function(formula, train, test, K = 10,
-                    distance = 2, kernel = "triangular", ...) {
+fitKKNN <- function(formula, train, test, K = 10, distance = 2,
+                    kernel = "triangular", ...) {
 
   model <- kknn(formula, train = train, test = test,
                 k = min(K, nrow(train)),

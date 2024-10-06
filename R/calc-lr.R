@@ -20,9 +20,12 @@
 #' lr2 <- calc.lr(sim_test_data, response = "class_response", rm.outliers = TRUE)
 #'
 #' @export
-calc.lr <- function(data, apts = NULL, response = "Response",
+calc.lr <- function(data, apts = NULL, response = NULL,
                     paired = FALSE, do.mean = FALSE, ...) {
 
+  if ( is.null(response) && is.tr_data(data) ) {
+    response <- .get_response(data)
+  }
   data_prep <- prepCalcData(data, feats = apts, response = response)
   lr_data   <- apply(data_prep$data, 2, column_lr,
                      which = data_prep$which_disease, paired = paired,

@@ -27,8 +27,7 @@ lapply(setNames, nm = reg_features)
 # Testing ----
 # glmnet model ----
 test_that("`getModelCoef()` returns correct coefs for class 'glmnet'", {
-  model <- glmnet::glmnet(data.matrix(fake_iris[, -5L]),
-                          y = fake_iris$Response,
+  model <- glmnet::glmnet(data.matrix(tr_iris[, -5L]), y = tr_iris$Species,
                           family = "binomial", lambda = 0.1, alpha = 1)
   test_val <- getModelCoef(model)
   expect_equal(test_val, expected_class_coefs$glmnet)
@@ -36,7 +35,7 @@ test_that("`getModelCoef()` returns correct coefs for class 'glmnet'", {
 
 # glm model ----
 test_that("`getModelCoef()` returns correct coefs for class 'glm'", {
-  model    <- stats::glm(Response ~ ., data = fake_iris, family = "binomial")
+  model    <- fitGLM(tr_iris)
   test_val <- getModelCoef(model)
   expect_equal(test_val, expected_class_coefs$glm)
 })
@@ -44,14 +43,14 @@ test_that("`getModelCoef()` returns correct coefs for class 'glm'", {
 # random forest model ----
 test_that("`getModelCoef()` returns correct coefs for class 'randomForest'", {
   rf <- withr::with_seed(1,
-    randomForest::randomForest(Response ~ ., data = fake_iris, importance = TRUE)
+    randomForest::randomForest(Species ~ ., data = tr_iris, importance = TRUE)
   )
   expect_null(getModelCoef(rf))
 })
 
 # SVM model ----
 test_that("`getModelCoef()` returns correct coefs for class 'svm'", {
-  model <- e1071::svm(Response ~ ., data = fake_iris)
+  model <- e1071::svm(Species ~ ., data = tr_iris)
   expect_null(getModelCoef(model))
 })
 
@@ -66,14 +65,14 @@ test_that("`getModelCoef()` returns correct coefs for class 'svm' (regression)",
 
 # GBM model ----
 test_that("`getModelCoef()` returns correct coefs for class 'gbm'", {
-  model    <- fitGBM(Response ~ ., data = fake_iris, distribution = "bernoulli")
+  model    <- fitGBM(Species ~ ., data = tr_iris, distribution = "bernoulli")
   test_val <- getModelCoef(model)
   expect_null(test_val)
 })
 
 # robust naive Bayes model ----
 test_that("`getModelCoef()` returns correct coefs for class 'naiveBayes'", {
-  model    <- robustNaiveBayes(Response ~ ., data = fake_iris)
+  model    <- robustNaiveBayes(Species ~ ., data = tr_iris)
   test_val <- getModelCoef(model)
   expect_null(test_val)
 })
@@ -83,13 +82,13 @@ test_that("`getModelCoef()` correct coefs for train:logistic regression", {
   withr::local_package("caret")
   t_crtl <- caret::trainControl(method = "repeatedcv")
   model  <- withr::with_seed(12345,
-    caret::train(Response ~ ., data = fake_iris, trControl = t_crtl, method = "glm")
+    caret::train(Species ~ ., data = tr_iris, trControl = t_crtl, method = "glm")
   )
   test_val <- getModelCoef(model)
   expect_equal(test_val, expected_class_coefs$caret_glm)
 
   model <- withr::with_seed(12345,
-    caret::train(Response ~ ., data = fake_iris, trControl = t_crtl, method = "glmnet")
+    caret::train(Species ~ ., data = tr_iris, trControl = t_crtl, method = "glmnet")
   )
   test_val <- getModelCoef(model)
   expect_equal(test_val, expected_class_coefs$caret_glmnet)

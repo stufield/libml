@@ -1,9 +1,8 @@
 #' Calculate Logistic Regression Table
 #'
 #' Generate a table of logistic regression models
-#' representing the relationship between a two class
-#' response variable, and each of the aptamers (`predictors`) in
-#' the data (columns).
+#' representing the relationship between a two-class
+#' response variable, and each of the `predictors` in the data (columns).
 #'
 #' @family calc
 #' @inheritParams calc.lm
@@ -13,12 +12,16 @@
 #' @seealso [fitGLM()], [glm()]
 #' @examples
 #' # convert to training data object for fitGLM downstream & log-transform
-#' tr_data   <- convert2TrainingData(log10(sim_test_data), gender)
-#' glm_table <- calc.glm(tr_data)
+#' tr <- create_train(log10(sim_test_data), group.var = gender)
+#' glm_table <- calc.glm(tr)
 #'
 #' @importFrom stats coefficients setNames
 #' @export
-calc.glm <- function(data, response = "Response", apts = NULL, bh = TRUE) {
+calc.glm <- function(data, response = NULL, apts = NULL, bh = TRUE) {
+
+  if ( is.null(response) && is.tr_data(data) ) {
+    response <- .get_response(data)
+  }
 
   if ( !is.factor(data[[response]]) ) {
     data[[response]] <- factor(data[[response]])
@@ -93,7 +96,7 @@ print.glm_table <- function(x, n = 6, ...) {
 #' The S3 `writeStatTable` method for class `glm_table`.
 #' @examples
 #' # S3 writeStatTable method
-#' apt_data <- getAnalyteInfo(tr_data)
+#' apt_data <- getAnalyteInfo(tr)
 #' glm_table$stat.table <- addTargetInfo(glm_table$stat.table, apt_data)
 #' f_out <- tempfile("glm-table-", fileext = ".csv")
 #' writeStatTable(glm_table, file = f_out)
@@ -120,7 +123,7 @@ writeStatTable.glm_table <- function(x, file) {
 #' @param pt.pch Shape of points. [par()].
 #' @examples
 #' # S3 plot method
-#' plot(glm_table, .data = tr_data, n_plots = c(2, 4, 6))
+#' plot(glm_table, .data = tr, n_plots = c(2, 4, 6))
 #' @importFrom ggplot2 ggplot aes geom_point geom_line geom_hline
 #' @importFrom ggplot2 coord_cartesian facet_wrap labs
 #' @importFrom tidyr gather nest unnest

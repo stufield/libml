@@ -2,16 +2,16 @@
 
     
     == Stat Table Info: Logistic Regression ============================================================
-      Call                      calc.glm(data = convert2TrainingData(small_adat, "SampleGroup"))
-      Data Frame                convert2TrainingData(small_adat, "SampleGroup")
-      Data Dims                 20 x 12
+      Call                      calc.glm(data = create_train(small_adat, group.var = SampleGroup))
+      Data Frame                create_train(small_adat, group.var = SampleGroup)
+      Data Dims                 20 x 11
       Table Dims                10 x 7
       Statistical Test          Logistic Regression
       Response Counts           F=11 vs M=9
       Log Transform             FALSE
       Number of glm models      10
       Number of samples         20
-      Class Variable            Response
+      Class Variable            SampleGroup
     
     -- Stat Table --------------------------------------------------------------------------------------
                  intercept        slope odds_ratio    p.value        fdr p.bonferroni rank

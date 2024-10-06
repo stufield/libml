@@ -73,10 +73,10 @@ reference:
 
   - title: Training data
     desc: >
-      Tools for creating, converting, and manipulating training data
+      Tools for creating and manipulating training data
       objects of class `tr_data`.
     contents:
-    - createTrainingData
+    - create_train
 
   - title: Robustly fit Naive Bayes
     desc: >

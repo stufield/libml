@@ -7,14 +7,7 @@
 \alias{writeStatTable.mackwolfe_table}
 \title{Create Mack-Wolfe Table}
 \usage{
-calc.mackwolfe(
-  data,
-  apts = NULL,
-  response = "SampleGroup",
-  peak,
-  bh = TRUE,
-  ...
-)
+calc.mackwolfe(data, apts = NULL, response = NULL, peak, bh = TRUE, ...)
 
 calc.jt(data, apts = NULL, response = "SampleGroup", bh = TRUE, ...)
 

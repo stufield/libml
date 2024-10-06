@@ -7,7 +7,7 @@
 \alias{plot.glm_table}
 \title{Calculate Logistic Regression Table}
 \usage{
-calc.glm(data, response = "Response", apts = NULL, bh = TRUE)
+calc.glm(data, response = NULL, apts = NULL, bh = TRUE)
 
 \method{print}{glm_table}(x, n = 6, ...)
 
@@ -82,9 +82,8 @@ if q-value, Storey.
 }
 \description{
 Generate a table of logistic regression models
-representing the relationship between a two class
-response variable, and each of the aptamers (\code{predictors}) in
-the data (columns).
+representing the relationship between a two-class
+response variable, and each of the \code{predictors} in the data (columns).
 }
 \section{Functions}{
 \itemize{
@@ -97,8 +96,8 @@ the data (columns).
 }}
 \examples{
 # convert to training data object for fitGLM downstream & log-transform
-tr_data   <- convert2TrainingData(log10(sim_test_data), gender)
-glm_table <- calc.glm(tr_data)
+tr <- create_train(log10(sim_test_data), group.var = gender)
+glm_table <- calc.glm(tr)
 
 # S3 print method
 glm_table                 # top 6
@@ -107,13 +106,13 @@ glm_table                 # top 6
 print(glm_table, n = 10)  # top 10
 
 # S3 writeStatTable method
-apt_data <- getAnalyteInfo(tr_data)
+apt_data <- getAnalyteInfo(tr)
 glm_table$stat.table <- addTargetInfo(glm_table$stat.table, apt_data)
 f_out <- tempfile("glm-table-", fileext = ".csv")
 writeStatTable(glm_table, file = f_out)
 
 # S3 plot method
-plot(glm_table, .data = tr_data, n_plots = c(2, 4, 6))
+plot(glm_table, .data = tr, n_plots = c(2, 4, 6))
 }
 \seealso{
 \code{\link[=fitGLM]{fitGLM()}}, \code{\link[=glm]{glm()}}

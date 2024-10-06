@@ -37,7 +37,7 @@ equivalent to Manhattan distance and \code{2} is equivalent to Euclidean.}
 }
 \value{
 A k-nearest neighbors model, as returned by \code{\link[=kknn]{kknn()}},
-with \code{Response}, \code{classes}, and function parameters \code{train},
+with a \code{"Response"} variable, \code{classes}, and function parameters \code{train},
 \code{K}, \code{distance}, \code{kernel}, as well as the function call (\code{call})
 added as entries to the list.
 }
@@ -46,17 +46,17 @@ Wrapper for fitting weighted \emph{k}-nearest neighbor classifiers.
 }
 \examples{
 # Use fake training data from iris data set
-trainIdx <- sample(nrow(fake_iris), 90)  # random 90\% training
-kknnfit  <- fitKKNN(Response ~ ., train = fake_iris[trainIdx, ],
-                    test = fake_iris[-trainIdx, ])
+trainIdx <- sample(nrow(tr_iris), 90)  # random 90\% training
+kknnfit  <- fitKKNN(Species ~ ., train = tr_iris[trainIdx, ],
+                    test = tr_iris[-trainIdx, ])
 pos  <- getPositiveClass(kknnfit)
-true <- fake_iris$Response[-trainIdx]   # true class names
-pred <- calcPredictions(kknnfit)        # model predictions
+true <- tr_iris$Species[-trainIdx]   # true class names
+pred <- calcPredictions(kknnfit)       # model predictions
 pred
 
 # Confusion matrix
-cmat <- calc_confusion(true, pred$prob_virginica, pos.class = pos)
-summary(cmat)
+calc_confusion(true, pred$prob_virginica, pos.class = pos) |>
+  summary()
 
 # plot ROC
 plotEmpROC(true, pred$prob_virginica, pos)
@@ -69,6 +69,6 @@ The `fit*()` family:
 \code{\link{fitGLM}()}
 }
 \author{
-Mike Mehan
+Stu Field
 }
 \concept{fit}

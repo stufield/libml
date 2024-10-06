@@ -6,7 +6,7 @@
 \alias{writeStatTable.ks_table}
 \title{Calculate KS-distance Table}
 \usage{
-calc.ks(data, apts = NULL, response = "Response", bh = TRUE, ...)
+calc.ks(data, apts = NULL, response = NULL, bh = TRUE, ...)
 
 \method{print}{ks_table}(x, n = 6, ...)
 
@@ -95,7 +95,7 @@ f_out <- tempfile("ks-table-", fileext = ".csv")
 writeStatTable(ks_table, file = f_out)
 }
 \seealso{
-\code{\link[=createTrainingData]{createTrainingData()}}
+\code{\link[=create_train]{create_train()}}
 
 The `calc.*()` family: 
 \code{\link{calc.cor}()},

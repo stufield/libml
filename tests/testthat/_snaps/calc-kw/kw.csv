@@ -1,6 +1,6 @@
 Kruskal-Wallis rank sum test Statistical Table Output
 
-"Call","calc.kw(data=small_adat)"
+"Call","calc.kw(data=small_adat, response=""Response"")"
 Data_Dims,20 x 13
 Data Frame,small_adat
 Table_Dims,10 x 6

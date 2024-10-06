@@ -6,7 +6,7 @@
 \alias{writeStatTable.kw_table}
 \title{Create Kruskal-Wallis Table}
 \usage{
-calc.kw(data, apts = NULL, response = "Response", bh = TRUE, ...)
+calc.kw(data, apts = NULL, response = NULL, bh = TRUE, ...)
 
 \method{print}{kw_table}(x, n = 6, ...)
 
@@ -78,8 +78,7 @@ sim_test_data$Response <- factor(paste(sim_test_data$class_response,
                                        sim_test_data$gender, sep = "_"))
 print(levels(sim_test_data$Response))
 
-# K-W test; suppress p-value ties warning
-kw_table <- calc.kw(sim_test_data)
+kw_table <- calc.kw(sim_test_data, response = "Response")
 
 # S3 print method
 kw_table

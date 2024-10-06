@@ -56,7 +56,7 @@
 #' mack_perm <- calc.mackwolfe(new_df, response = "group", nperm = 100, peak = "B")
 #'
 #' @export
-calc.mackwolfe <- function(data, apts = NULL, response = "SampleGroup",
+calc.mackwolfe <- function(data, apts = NULL, response = NULL,
                            peak, bh = TRUE, ...) {
 
   if ( missing(peak) ) {
@@ -67,6 +67,10 @@ calc.mackwolfe <- function(data, apts = NULL, response = "SampleGroup",
       "Otherwise, set the peak equal to the known desired value ",
       "using a character string, e.g. 'July'.", call. = FALSE
     )
+  }
+  
+  if ( is.null(response) && is.tr_data(data) ) {
+    response <- .get_response(data)
   }
 
   data_prep <- prepCalcData(data, feats = apts, response = response, binary = FALSE)

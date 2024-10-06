@@ -1,12 +1,12 @@
 
 # Setup ----
 model <- withr::with_seed(10, {
-  fitGBM(fake_iris[, -5], y = fake_iris$Response, distribution = "bernoulli")
+  fitGBM(tr_iris[, -5L], y = tr_iris$Species, distribution = "bernoulli")
 })
 
 # Formula syntax
-form <- withr::with_seed(10, {
-  fitGBM(Response ~ ., data = fake_iris, distribution = "bernoulli")
+model_form <- withr::with_seed(10, {
+  fitGBM(Species ~ ., data = tr_iris, distribution = "bernoulli")
 })
 
 # Testing ----
@@ -24,18 +24,21 @@ test_that("fitGBM() returns the corrrect object", {
   expect_equal(model$n.trees, 100)
   expect_equal(model$nTrain, 100)
   expect_equal(model$train.fraction, 1)
-  expect_equal(model$response.name, "Response")
+  expect_equal(model$response.name, "y")
   expect_equal(model$shrinkage, 0.1)
   expect_equal(lengths(model$var.levels, use.names = FALSE), c(11L, 11L, 11L, 11L))
   expect_equal(model$var.monotone, rep(0, 4))
-  expect_equal(model$var.names, setdiff(names(fake_iris), model$response.name))
+  expect_true(all(model$var.names %in% names(tr_iris)))
   expect_equal(model$var.type,  rep(0, 4))
   expect_false(model$verbose)
   expect_equal(model$cv.folds, 0)
-  expect_equal(unname(model$class), fake_iris$Response)
+  expect_equal(unname(model$class), tr_iris$Species)
 })
 
 test_that("fitGBM() formula and default methods are identical", {
-  # attributes of Terms contain different envs
-  expect_equal(model, form, ignore_formula_env = TRUE)
+  # 'y' and 'Species' will differ in calls and formulae
+  skip_nms <- c("response.name", "Terms", "call", "m")
+  skip <- which(names(model) %in% skip_nms)
+  expect_equal(model[-skip], model_form[-skip], ignore_formula_env = TRUE)
+  expect_equal(model_form$response.name, "Species")
 })

@@ -20,13 +20,15 @@
 #'                                        sim_test_data$gender, sep = "_"))
 #' print(levels(sim_test_data$Response))
 #'
-#' # K-W test; suppress p-value ties warning
-#' kw_table <- calc.kw(sim_test_data)
+#' kw_table <- calc.kw(sim_test_data, response = "Response")
 #'
 #' @importFrom stats kruskal.test
 #' @export
-calc.kw <- function(data, apts = NULL, response = "Response", bh = TRUE, ...) {
+calc.kw <- function(data, apts = NULL, response = NULL, bh = TRUE, ...) {
 
+  if ( is.null(response) && is.tr_data(data) ) {
+    response <- .get_response(data)
+  }
   if ( is.factor(data[[response]]) ) {
     data <- refactorData(data)
   } else if ( is.Integer(data[[response]]) ) {

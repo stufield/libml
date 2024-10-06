@@ -1,9 +1,9 @@
 
 # Setup ----
-fit <- fitGLM(Response ~ ., data = fake_iris)
+fit <- fitGLM(tr_iris)   # tr_data S3 method
 
 # Testing ----
-test_that("the `fitGLM` formula method returns correct model", {
+test_that("the `fitGLM()` formula method returns correct model", {
   expect_s3_class(fit, "glm")
   expect_named(fit,
          c("coefficients",      "residuals", "fitted.values", "effects",
@@ -15,8 +15,8 @@ test_that("the `fitGLM` formula method returns correct model", {
            "data",              "offset",    "control",       "method",
            "contrasts",         "xlevels",   "classes"))
   expect_true("classes" %in% names(fit))   # this is added
-  expect_named(fit$y, rownames(fake_iris))
-  expect_equal(fit$data, fake_iris)
+  expect_named(fit$y, rownames(tr_iris))
+  expect_equal(fit$data, tr_iris)
   expect_equal(fit$coefficients,
                c("(Intercept)" = -1.89320797887094,
                  Sepal.Length  = 0.52919531104304,
@@ -25,25 +25,29 @@ test_that("the `fitGLM` formula method returns correct model", {
                   Petal.Width  = -0.10747879390644))
 
   expect_equal(fit$classes, c("setosa", "virginica"))
-  expect_equal(fit$formula, as.formula("Response ~ ."), ignore_attr = TRUE)
+  expect_equal(fit$formula, as.formula("Species ~ ."), ignore_attr = TRUE)
   expect_equal(fit$method, "glm.fit")
   expect_equal(fit$rank, 5)
   expect_equal(c(table(fit$y)), c("0" = 50, "1" = 50))
 })
 
 
-test_that("all `fitGLM` methods return identical results", {
+test_that("all `fitGLM()` methods return identical results", {
   # pass 'tr_data'
-  a <- fitGLM(fake_iris)                  # assume "Response" is present
-  b <- fitGLM(fake_iris, y = "Response")  # pass string containing class names
+  a <- fitGLM(tr_iris)                             # tr_data object
+  b <- fitGLM(data.frame(tr_iris), y = "Species")  # pass string
   # pass 'tbl_df';  pass vector of class names
   # strip grouping variable 'Response'
-  c <- fitGLM(fake_iris[, -5], y = fake_iris$Response)
+  c <- fitGLM(data.frame(tr_iris[, -5L]), y = tr_iris$Species)
   # pass stripped 'matrix'
-  d <- fitGLM(as.matrix(fake_iris[, -5], rownames.force = FALSE),  # propagate rn
-              y = fake_iris$Response)
-  expect_equal(fit, a, ignore_formula_env = TRUE) # .Environment attributes differ
-  expect_equal(fit, b, ignore_formula_env = TRUE) # .Environment attributes differ
-  expect_equal(fit, c, ignore_attr = TRUE)        # input data differs
-  expect_equal(fit, d, ignore_attr = TRUE)        # input data differs
+  d <- fitGLM(as.matrix(tr_iris[, -5L], rownames.force = FALSE),  # propagate rn
+              y = tr_iris$Species)
+  # for below comparisons, some elements we do not check
+  # .Environment attributes may differ
+  # input data differs; data.frame, tr_data, matrix, etc.
+  skip <- c(23, 24)  # these are formulae; differ in `Species ~ .` or `y ~ .`
+  expect_equal(fit, a, ignore_formula_env = TRUE)
+  expect_equal(fit, b, ignore_formula_env = TRUE, ignore_attr = TRUE)
+  expect_equal(fit[-skip], c[-skip], ignore_attr = TRUE)
+  expect_equal(fit[-skip], d[-skip], ignore_attr = TRUE)
 })

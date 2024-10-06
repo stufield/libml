@@ -1,12 +1,8 @@
 
 # Setup ----
 gini <- withr::with_seed(101, {
-  randomForest::randomForest(Response ~ .,
-                             data       = fake_iris,
-                             importance = TRUE,
-                             proximity  = TRUE,
-                             keep.inbag = TRUE) |>
-                         getGini()
+  randomForest::randomForest(Species ~ ., data = tr_iris, importance = TRUE,
+                             proximity = TRUE, keep.inbag = TRUE) |> getGini()
 })
 
 # Testing ----

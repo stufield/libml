@@ -8,3 +8,8 @@ expand_grid <- function(...) {
   out <- expand.grid(..., KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
   as_tibble(out)
 }
+
+# @param x a tr_data object
+.get_response <- function(x) {
+  attr(x, "response_var")
+}

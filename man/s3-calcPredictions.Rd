@@ -94,23 +94,23 @@ that are used for predictions if \code{newdata = NULL}.
 
 }}
 \examples{
-# Use fake training data from iris data set:
-train <- head(fake_iris, -3L)
-test  <- tail(fake_iris, 3L)
+# Use training data from iris data set:
+train <- head(tr_iris, -3L)
+test  <- tibble::as_tibble(tail(tr_iris, 3L))
 
 # Logistic Regression
-lr <- fitGLM(Response ~ ., data = train)
+lr <- fitGLM(Species ~ ., data = train)
 calcPredictions(lr, test)
 calcPredictions(lr, test, cutoff = 0.33)
 
 # Naive Bayes
-nb <- robustNaiveBayes(Response ~ ., data = train)
+nb <- robustNaiveBayes(Species ~ ., data = train)
 calcPredictions(nb, test)
 calcPredictions(nb, test, cutoff = 0.01)
 
 # Random Forest
 rf <- withr::with_seed(101, {
-  randomForest::randomForest(Response ~ ., data = train,
+  randomForest::randomForest(Species ~ ., data = train,
                              importance = TRUE, proximity = TRUE,
                              keep.inbag = TRUE)
 })
@@ -119,18 +119,18 @@ calcPredictions(rf, test)
 calcPredictions(rf, test, cutoff = 0.39)
 
 # Generalized Boosted Regression Model
-gb <- fitGBM(Response ~ ., data = train)
+gb <- fitGBM(Species ~ ., data = train)
 calcPredictions(gb, test)
 calcPredictions(gb, test, 0.48)
 
 # Support Vector Machines
-sm <- e1071::svm(Response ~ ., data = train, probability = TRUE)
+sm <- e1071::svm(Species ~ ., data = train, probability = TRUE)
 calcPredictions(sm, test)
 calcPredictions(sm, test, 0.35)
 
 # KKNN
 # test data passed during fitting:
-kknn <- fitKKNN(Response ~ ., train = train, test = test, K = 10)
+kknn <- fitKKNN(Species ~ ., train = train, test = test, K = 10)
 calcPredictions(kknn)                 # do NOT pass test data
 calcPredictions(kknn, cutoff = 0.48)
 }

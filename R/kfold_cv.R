@@ -4,8 +4,8 @@
 #' class object.
 #'
 #' @param data A training data set, for convenience can be created via
-#'   [createTrainingData()], but _must_ contain only the
-#'   features to be used in fitting the model and `Response` column.
+#'   [create_train()], but _must_ contain only the
+#'   features to be used in fitting the model and `"Response"` column.
 #' @param model.type Which type of model to run.
 #' @param k Integer. The number of folds to perform (_k_-fold cross-validation).
 #' @param ... Additional arguments passed to the base model fitting function, e.g.
@@ -18,31 +18,30 @@
 #' @examples
 #' # naive Bayes
 #' # Use fake training data from iris data set
-#' xv_k10_n <- kfold_cv(fake_iris, k = 10, model.type = "nb")
+#' xv_k10_n <- kfold_cv(tr_iris, k = 10, model.type = "nb")
 #' xv_k10_n
 #'
 #' # Boosted Regression Model
-#' xv_k10_b <- kfold_cv(fake_iris, k = 10, model.type = "gbm")
+#' xv_k10_b <- kfold_cv(tr_iris, k = 10, model.type = "gbm")
 #' xv_k10_b
 #'
 #' # Weighted K-Nearest-Neighbor
 #' # Pass K = 9 for number of neighbors in hood
-#' xv_k10_k <- kfold_cv(fake_iris, k = 10, model.type = "kknn", K = 9)
+#' xv_k10_k <- kfold_cv(tr_iris, k = 10, model.type = "kknn", K = 9)
 #' xv_k10_k
 #'
 #' # Random Forest
-#' xv_k10_f <- kfold_cv(fake_iris, k = 10, model.type = "rf")
+#' xv_k10_f <- kfold_cv(tr_iris, k = 10, model.type = "rf")
 #' xv_k10_f
 #' @importFrom tibble tibble
 #' @export
 kfold_cv <- function(data, k, model.type = c("lr", "nb", "rf",
                                              "svm", "kknn", "gbm"), ...) {
 
-  stopifnot("Response" %in% names(data))
-  if ( !inherits(data, c("tr_data", "grouped_df", "tbl_df", "data.frame")) ) {
+  if ( !inherits(data, "tr_data") ) {
     stop(
-      "Please pass a `training.data` class object.",
-      "Typically created via `createTrainingData()`.", call. = FALSE
+      "Please pass a `tr_data` class object. ",
+      "Typically created via `create_train()`.", call. = FALSE
     )
   }
 
@@ -60,6 +59,8 @@ kfold_cv <- function(data, k, model.type = c("lr", "nb", "rf",
       call. = FALSE
     )
   }
+  response <- .get_response(data)
+  formula  <- as.formula(paste(response, "~ ."))
 
   lapply(1:k, function(i) {
 
@@ -71,12 +72,12 @@ kfold_cv <- function(data, k, model.type = c("lr", "nb", "rf",
                      rf  = randomForest::randomForest,
                      nb  = robustNaiveBayes,
                      lr  = fitGLM)
-      tr_model <- .fun(Response ~ ., data = cv_data[cv_fold, ])
+      tr_model <- .fun(formula, data = cv_data[cv_fold, ])
     } else if ( mtype == "svm" ) {
-      tr_model <- e1071::svm(Response ~ ., data = cv_data, subset = cv_fold,
+      tr_model <- e1071::svm(formula, data = cv_data, subset = cv_fold,
                              probability = TRUE)
     } else if ( mtype == "kknn" ) {
-      tr_model <- fitKKNN(Response ~ .,
+      tr_model <- fitKKNN(formula,
                           train = cv_data[cv_fold, ],
                           test  = cv_data[-cv_fold, ], ...)
     }
@@ -87,7 +88,7 @@ kfold_cv <- function(data, k, model.type = c("lr", "nb", "rf",
       test_df <- NULL # kknn models have test predictions inside model object
     }
     label <- paste0("prob_", getPositiveClass(tr_model))
-    tibble(truth     = cv_data$Response[-cv_fold],
+    tibble(truth     = cv_data[[response]][-cv_fold],
            predicted = calcPredictions(tr_model, test_df)[[label]],
            fold      = i)
   }) |> dplyr::bind_rows()

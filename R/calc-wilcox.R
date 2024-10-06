@@ -46,7 +46,11 @@
 #'
 #' @export
 calc.wilcox <- function(data, apts = NULL, paired = FALSE,
-                        response = "Response", bh = TRUE, ...) {
+                        response = NULL, bh = TRUE, ...) {
+
+  if ( is.null(response) && is.tr_data(data) ) {
+    response <- .get_response(data)
+  }
 
   data_prep   <- prepCalcData(data, feats = apts, paired = paired,
                               response = response)

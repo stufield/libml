@@ -6,14 +6,7 @@
 \alias{writeStatTable.t_table}
 \title{Calculate Student's t-statistics Table}
 \usage{
-calc.t(
-  data,
-  apts = NULL,
-  bh = TRUE,
-  paired = FALSE,
-  response = "Response",
-  ...
-)
+calc.t(data, apts = NULL, bh = TRUE, paired = FALSE, response = NULL, ...)
 
 \method{print}{t_table}(x, n = 6, ...)
 

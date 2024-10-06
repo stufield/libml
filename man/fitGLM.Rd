@@ -4,6 +4,7 @@
 \alias{fitGLM}
 \alias{fitGLM.formula}
 \alias{fitGLM.data.frame}
+\alias{fitGLM.tr_data}
 \alias{fitGLM.matrix}
 \title{Fit Multivariate Logistic Regression Model}
 \usage{
@@ -12,6 +13,8 @@ fitGLM(x, ..., strip)
 \method{fitGLM}{formula}(formula, ..., strip = FALSE)
 
 \method{fitGLM}{data.frame}(x, y = NULL, strip = FALSE, ...)
+
+\method{fitGLM}{tr_data}(x, ..., strip = FALSE)
 
 \method{fitGLM}{matrix}(x, y, strip = FALSE, ...)
 }
@@ -25,21 +28,18 @@ an acceptable trade-off to limit runaway memory consumption.}
 \item{formula, x, ...}{Either a formula, data frame, or matrix.
 If a \code{formula} (preferred) should be a model of the
 form: \eqn{class ~ x_1 + x_2 + ... + x_n}.
-If a data frame (preferably a "tr_data" object), containing features
-or predictors. If a column named "Response" is present, it is assumed to be
-the column of \code{true} classes and is re-coded to be \code{y} (and \code{y = NULL}
-is allowed). Alternatively, a matrix object containing ONLY predictors,
+If a data frame (preferably a \code{tr_data} object), containing features
+or predictors. If a matrix object containing ONLY predictors,
 in which case \code{y} \emph{must} be passed (see examples below). Unmatched
-arguments eventually make their way to \code{\link[=glm]{glm()}}.}
+arguments eventually be passed to \code{\link[=glm]{glm()}} via the \code{...}.}
 
-\item{y}{Can be one of \emph{three} options:
+\item{y}{Can be one of \emph{two} options:
 \describe{
-\item{NULL}{Assumes a column named "Response" is in \code{x}
-which contains true class names.}
-\item{factor}{A vector indicating the true class names for each
-sample. That is, a factor class object with \emph{2} levels.}
-\item{character}{A string indicating the column in \code{x} containing
-the true class names.}
+\item{character}{A \code{character(1)} indicating the column in \code{x}
+containing the true class names.}
+\item{vector}{A vector (\code{nrow(x)}) containign the true class names
+for each sample. That is a vector with \emph{2} levels. If not
+a factor class, it will be converted to one via \code{\link[=as.factor]{as.factor()}}.}
 }}
 }
 \value{
@@ -53,7 +53,9 @@ logistic regression models for binary classification problems.
 \itemize{
 \item \code{fitGLM(formula)}: S3 formula method for \code{fitGLM}.
 
-\item \code{fitGLM(data.frame)}: S3 data frame method for \code{fitGLM}.
+\item \code{fitGLM(data.frame)}: S3 \code{data.frame} method for \code{fitGLM}.
+
+\item \code{fitGLM(tr_data)}: S3 \code{tr_data} method for \code{fitGLM}.
 
 \item \code{fitGLM(matrix)}: S3 matrix method for \code{fitGLM}.
 
@@ -61,19 +63,24 @@ logistic regression models for binary classification problems.
 \examples{
 # formula S3 method
 # This is the preferred syntax
-model <- fitGLM(Response ~ ., data = fake_iris)
+class(tr_iris)
 
-# data frame S3 method: 1
-model <- fitGLM(fake_iris)   # assume "Response" is present
+df <- tibble::as_tibble(tr_iris)  # strip tr_data class
 
-# data frame S3 method: 2
-model <- fitGLM(fake_iris[, -5], y = fake_iris$Response)  # pass vector of class names
+# tr_data S3 method:
+model <- fitGLM(tr_iris)
 
-# data frame S3 method: 3
-model <- fitGLM(fake_iris, y = "Response")  # pass string containing class names
+# data frame S3 method:
+model <- fitGLM(df, "Species")
 
-# matrix S3 method (*must* pass `y` here)
-model <- fitGLM(as.matrix(fake_iris[, -5]), y = fake_iris$Response)
+# formula S3 method:
+model <- fitGLM(Species ~ ., data = df)
+
+# data frame S3 method (2):
+model <- fitGLM(df[, -5L], y = df$Species)  # vector of class names
+
+# matrix S3 method:
+model <- fitGLM(as.matrix(df[, -5L]), y = df$Species)  # 'glmnet' syntax
 }
 \seealso{
 \code{\link[=glm]{glm()}}

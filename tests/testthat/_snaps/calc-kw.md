@@ -2,7 +2,7 @@
 
     
     == Stat Table Info: Kruskal-Wallis rank sum test ===============================
-      Call                      calc.kw(data = small_adat)
+      Call                      calc.kw(data = small_adat, response = "Response")
       Data Frame                small_adat
       Data Dims                 20 x 13
       Table Dims                10 x 6

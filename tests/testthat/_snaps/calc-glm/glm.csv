@@ -1,13 +1,13 @@
 Logistic Regression Statistical Table Output
 
-"Call","calc.glm(data=convert2TrainingData(small_adat, ""SampleGroup""))"
-Data_Dims,20 x 12
-Data Frame,convert2TrainingData(small_adat, "SampleGroup")
+"Call","calc.glm(data=create_train(small_adat, group.var=SampleGroup))"
+Data_Dims,20 x 11
+Data Frame,create_train(small_adat, group.var = SampleGroup)
 Table_Dims,10 x 7
 Features,10
 Response Counts,F=11,M=9
 Log Transform,FALSE
-Response Variable,Response
+Response Variable,SampleGroup
 
 AptName,intercept,slope,odds_ratio,p-value,FDR,Bonferroni p-value,rank
 seq.3795.6, -7.076786, 0.0020109979,1.0020130,0.01960636,0.03316901,0.1960636, 1

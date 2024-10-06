@@ -52,7 +52,7 @@ robustNaiveBayes <- function(x, ...) UseMethod("robustNaiveBayes")
 #' S3 default method for robustNaiveBayes.
 #' @export
 robustNaiveBayes.default <- function(x, y, mad = FALSE, laplace = 0,
-                                      keep.data = FALSE, ...) {
+                                     keep.data = FALSE, ...) {
 
   Yresponse <- deparse(substitute(y))
 
@@ -114,36 +114,34 @@ robustNaiveBayes.default <- function(x, y, mad = FALSE, laplace = 0,
 
 
 #' @describeIn robustNaiveBayes
-#' S3 formula method for robustNaiveBayes.
+#'   S3 formula method for robustNaiveBayes.
 #' @param formula A model formula of the form: `class ~ x1 + x2 + ...`
-#' (no interactions).
+#'   (no interactions).
 #' @param data A data frame of predictors (categorical and/or numeric), i.e.
-#' the ADAT used to train the model.
+#'   the ADAT used to train the model.
 #' @export
 robustNaiveBayes.formula <- function(formula, data, ...) {
 
   if ( inherits(data, "data.frame") ) {
-    m       <- match.call(expand.dots = FALSE)
-    m$...   <- NULL
-    m[[1L]] <- as.name("model.frame")
-    m       <- eval(m, parent.frame())
-    Terms   <- attr(m, "terms")
-    if ( any(attr(Terms, "order") > 1) ) {
-      stop(
-        "The `robustNaiveBayes()` function cannot currently ",
-        "handle interaction terms.", call. = FALSE
-      )
-    }
-    Response <- model.extract(m, "response")
-    X        <- m[, -attr(Terms, "response"), drop = FALSE]
-    return(robustNaiveBayes(X, Response, ...))
-  } else {
     stop(
       "The robust naiveBayes formula interface handles data frames only.\n",
       "Please ensure the `data` argument is a `data.frame` class object.",
-      call. = FALSE
+      call. = FALSE)
+  } 
+  m       <- match.call(expand.dots = FALSE)
+  m$...   <- NULL
+  m[[1L]] <- as.name("model.frame")
+  m       <- eval(m, parent.frame())
+  Terms   <- attr(m, "terms")
+  if ( any(attr(Terms, "order") > 1) ) {
+    stop(
+      "The `robustNaiveBayes()` function cannot currently ",
+      "handle interaction terms.", call. = FALSE
     )
   }
+  y <- model.extract(m, "response")
+  X <- m[, -attr(Terms, "response"), drop = FALSE]
+  robustNaiveBayes(X, y, ...)
 }
 
 
@@ -168,7 +166,7 @@ print.robustNaiveBayes <- function(x, ...) {
 
 
 #' @describeIn robustNaiveBayes
-#' S3 predict method for robustNaiveBayes.
+#'   S3 predict method for robustNaiveBayes.
 #' @param object A model object of class `robustNaiveBayes`.
 #' @param newdata A `data.frame` with new predictors, containing at least
 #'   the model covariates (but possibly more columns than the training data).
@@ -273,7 +271,7 @@ predict.robustNaiveBayes <- function(object, newdata,
 #' @seealso [plotLogOdds()], [SomaPlotr::plotPDFlist()], [SomaPlotr::plotCDFlist()]
 #' @examples
 #' # Plotting
-#' iris <- convert2TrainingData(iris, "Species")   # convert to "tr_data"
+#' iris <- create_train(iris, group.var = Species)
 #' plot(m2, iris)
 #' plot(m2, iris, sampleId = 50)      # sample 50 is definitely "setosa"
 #' plot(m1, iris, plot.type = "cdf")  # plot type CDF

@@ -7,20 +7,17 @@
 #' @param formula,x,... Either a formula, data frame, or matrix.
 #'   If a `formula` (preferred) should be a model of the
 #'   form: \eqn{class ~ x_1 + x_2 + ... + x_n}.
-#'   If a data frame (preferably a "tr_data" object), containing features
-#'   or predictors. If a column named "Response" is present, it is assumed to be
-#'   the column of `true` classes and is re-coded to be `y` (and `y = NULL`
-#'   is allowed). Alternatively, a matrix object containing ONLY predictors,
+#'   If a data frame (preferably a `tr_data` object), containing features
+#'   or predictors. If a matrix object containing ONLY predictors,
 #'   in which case `y` _must_ be passed (see examples below). Unmatched
-#'   arguments eventually make their way to [glm()].
-#' @param y Can be one of _three_ options:
+#'   arguments eventually be passed to [glm()] via the `...`.
+#' @param y Can be one of _two_ options:
 #'   \describe{
-#'     \item{NULL}{Assumes a column named "Response" is in `x`
-#'                 which contains true class names.}
-#'     \item{factor}{A vector indicating the true class names for each
-#'                   sample. That is, a factor class object with _2_ levels.}
-#'     \item{character}{A string indicating the column in `x` containing
-#'                      the true class names.}
+#'     \item{character}{A `character(1)` indicating the column in `x`
+#'       containing the true class names.}
+#'     \item{vector}{A vector (`nrow(x)`) containign the true class names
+#'       for each sample. That is a vector with _2_ levels. If not
+#'       a factor class, it will be converted to one via [as.factor()].}
 #'   }
 #' @param strip Logical. Should certain entries of the model object
 #'   be stripped via [stripLMC()] to reduce object size?
@@ -33,54 +30,58 @@
 #' @examples
 #' # formula S3 method
 #' # This is the preferred syntax
-#' model <- fitGLM(Response ~ ., data = fake_iris)
+#' class(tr_iris)
 #'
-#' # data frame S3 method: 1
-#' model <- fitGLM(fake_iris)   # assume "Response" is present
+#' df <- tibble::as_tibble(tr_iris)  # strip tr_data class
 #'
-#' # data frame S3 method: 2
-#' model <- fitGLM(fake_iris[, -5], y = fake_iris$Response)  # pass vector of class names
+#' # tr_data S3 method:
+#' model <- fitGLM(tr_iris)
 #'
-#' # data frame S3 method: 3
-#' model <- fitGLM(fake_iris, y = "Response")  # pass string containing class names
+#' # data frame S3 method:
+#' model <- fitGLM(df, "Species")
 #'
-#' # matrix S3 method (*must* pass `y` here)
-#' model <- fitGLM(as.matrix(fake_iris[, -5]), y = fake_iris$Response)
-#' @importFrom stats glm model.response model.frame as.formula
+#' # formula S3 method:
+#' model <- fitGLM(Species ~ ., data = df)
+#'
+#' # data frame S3 method (2):
+#' model <- fitGLM(df[, -5L], y = df$Species)  # vector of class names
+#'
+#' # matrix S3 method:
+#' model <- fitGLM(as.matrix(df[, -5L]), y = df$Species)  # 'glmnet' syntax
 #' @export
 fitGLM <- function(x, ..., strip) UseMethod("fitGLM")
 
 
 #' @describeIn fitGLM
-#' S3 formula method for `fitGLM`.
+#'   S3 formula method for `fitGLM`.
+#' @importFrom stats glm model.response model.frame as.formula
 #' @export
 fitGLM.formula <- function(formula, ..., strip = FALSE) {
   fit <- glm(formula, ..., family = "binomial", model = !strip)
-  mf  <- stats::model.frame(formula, ...)
-  names(fit$y) <- rownames(mf)
-  fit$classes  <- levels(stats::model.response(mf))
+  mfr <- model.frame(formula, ...)
+  names(fit$y) <- rownames(mfr)
+  fit$classes  <- levels(model.response(mfr))
   if ( strip ) {
     fit <- stripLMC(fit)
   }
   fit
 }
 
-
 #' @describeIn fitGLM
-#' S3 data frame method for `fitGLM`.
+#'   S3 `data.frame` method for `fitGLM`.
 #' @importFrom stats as.formula
 #' @export
 fitGLM.data.frame <- function(x, y = NULL, strip = FALSE, ...) {
   if ( is.null(y) ) {
-    formula <- as.formula("Response ~ .")
-  } else if ( length(y) == 1L && y %in% names(x) ) {
+    stop("Must pass `y` response if `x` is a data.frame.", call. = FALSE)
+  } else if ( is_chr(y) && y %in% names(x) ) {
     formula <- as.formula(paste(y, "~ ."))
-  } else if ( length(y) == nrow(x) ) {
+  } else if ( length(y) == nrow(x) ) {  # glmnet syntax
     if ( !is.factor(y) ) {
-      y <- factor(y)
+      y <- as.factor(y)
     }
-    x$Response <- y
-    formula    <- as.formula("Response ~ .")
+    x$y <- y
+    formula    <- as.formula("y ~ .")
   } else {
     stop(
       "Unable to determine response variable. Please check value of `y`.",
@@ -90,9 +91,18 @@ fitGLM.data.frame <- function(x, y = NULL, strip = FALSE, ...) {
   fitGLM(formula, data = x)
 }
 
+#' @describeIn fitGLM
+#'   S3 `tr_data` method for `fitGLM`.
+#' @importFrom stats as.formula
+#' @export
+fitGLM.tr_data <- function(x, ..., strip = FALSE) {
+  response <- .get_response(x)
+  formula  <- as.formula(paste(response, "~ ."))
+  fitGLM(formula, data = x)
+}
 
 #' @describeIn fitGLM
-#' S3 matrix method for `fitGLM`.
+#'   S3 matrix method for `fitGLM`.
 #' @export
 fitGLM.matrix <- function(x, y, strip = FALSE, ...) {
   x <- as.data.frame(x)

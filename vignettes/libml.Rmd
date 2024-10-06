@@ -52,7 +52,7 @@ for use in this package. A `tr_data` object is simply a `soma.adat` using
 loaded using `SomaReadr::read.adat()`, with a "Response" column as the final
 column. The "Response" column is a `factor` class, ordered so that the 
 *positive* class is the **second** label. These `tr_data` data frames can be
-created using the `createTrainingData()` function.
+created using the `create_train()` function.
 
 ROC curves and other related functions all on a standard input consisting of:
 
@@ -68,53 +68,31 @@ ROC curves and other related functions all on a standard input consisting of:
 ## Functionality
 ### Training Data
 
-Training data objects created using `createTrainingData()` from an `soma.adat`
-object, which is typically loaded into `R` via `SomaReadr::read.adat()`.
-The `createTrainingData()` function can subset the data based on the i
+Training data objects created using `create_train()` from an `data.frame`
+object.
+The `create_train()` function can subset the data based on the i
 information passed in the `...` (passed to `dplyr::filter()` and are labeled 
 by the `group.var =` argument.
 A "Response" column to the end of the data frame corresponding to the classes.
 The negative and positive classes are the grouped according to this column
 and a `dplyr::group_by()` call, creating a "grouped tibble" object.
 For example: consider the simple case where groupings are defined by a 
-single meta data field called `SampleGroup` with entries `M` and `F`:
+single meta data field called `Species`:
 
 ```{r train}
 add_noise <- function(x) x + rnorm(length(x), sd = 3)
 tr <- iris |>
   dplyr::mutate_if(is.numeric, add_noise) |>
-  createTrainingData(Species != "versicolor", group.var = Species) |>
-  dplyr::select(-Species)    # remove Species
-tr
+  create_train(Species != "versicolor", group.var = Species)
+class(tr)
 ```
 
 As is typical with `dplyr::filter()`, multiple conditions can be added
 as desired:
 
 ```{r, eval = FALSE}
-tr2 <- createTrainingData(iris, Species == "setosa", Sepal.Length > 5,
-                          group.var = Species)
-tr2
-```
-
-You may also rename the corresponding "Response" variable (binary) as desired
-by passing the `class1 =` and `class2 =` arguments:
-
-```{r train2}
-# Re-naming factors:
-# class1 = the negative class
-# class2 = the positive class
-tr3 <- createTrainingData(iris, Species != "versicolor", group.var = Species,
-                          class1 = "Jack", class2 = "Jill")
-group_labels(tr3)
-```
-
-There is also a convenience wrapper for converting an existing
-`data frame` object into a `tr_data` object:
-
-```{r convert_training}
-iris <- convert2TrainingData(iris, Species)
-iris
+tr2 <- create_train(iris, Species == "setosa", Sepal.Length > 5,
+                    group.var = Species)
 ```
 
 
@@ -145,9 +123,6 @@ The current suite of univariate tests are:
 * `calc.glm()`: Generalized linear regression table
 * `calc.robust.lm()`: Robust linear regression table
 * `calc.mackwolfe()`: Mach-Wolfe test table
-* `calc.cox()`: Cox proportional hazard table (from the `SomaSurvival` package)
-* `calc.survreg()`: `Survreg` table (from the `SomaSurvival` package)
-* `calc.prophazTest()`: Proportional Hazard table (from the `SomaSurvival` package)
 
 Some tests, like `calc.t()`, have support for paired analyses. To perform paired
 tests the `tr_data` object must be sorted by the "Response" column and then 
@@ -157,7 +132,7 @@ by `SampleId` (identifying the pairs) to ensure the samples are paired properly.
 #### Examples
 
 ```{r calc_t}
-splyr:::sim_test_data |>   # from `SomaReadr`
+splyr:::sim_test_data |>   # from `splyr`
   log10() |>     # log-transform
   calc.t(response = "class_response")   # binary grouping variable
 ```
@@ -170,6 +145,7 @@ splyr:::sim_test_data |>   # from `SomaReadr`
 ### Splitting Train vs Test Sets
 
 A *very* convenient method to split a data set into training and test sets is:
+
 ```{r train_test}
 # Add a sample identifier variable for the anti_join()
 tr <- dplyr::mutate(tr, id = dplyr::row_number())
@@ -194,7 +170,7 @@ comes from `SomaGlobals::calcRobustGaussFit()`, with starting parameter values
 calculated via `stats::median()` and `stats::mad()` passed to `stats::nls()`.
 
 ```{r naiveBayes}
-nb <- robustNaiveBayes(Response ~ ., data = train)
+nb <- robustNaiveBayes(Species ~ ., data = train)
 nb
 ```
 
@@ -204,7 +180,7 @@ If you would like to see how a naive Bayes boundary looks in 2 dimensions:
 ```{r BayesBoundary, fig.width = 7, fig.height = 7}
 data.frame(F1 = tr$Petal.Length,
            F2 = tr$Sepal.Length,
-           class = tr$Response) |>
+           class = tr$Species) |>
   plotBivariateBayesBoundary(pos.class = "virginica")
 ```
 
@@ -217,7 +193,7 @@ numerous functional tools to investigate and interrogate these models,
 e.g. `backwardsRandomForest()` and `getGini()`:
 
 ```{r randomForest}
-rf <- randomForest(Response ~ ., data = train)
+rf <- randomForest(Species ~ ., data = train)
 getGini(rf)
 ```
 
@@ -231,7 +207,7 @@ getGini(rf)
 
 As one might expect, there are numerous functions for evaluating model
 performance in [`libml`](../index.html). Many S3 methods are provided
-to the S3 generic `SomaGlobals::calcPredictions`, e.g. `calcPredictions.glm()`.
+to the S3 generic `globalr::calcPredictions`, e.g. `calcPredictions.glm()`.
 The following are a few of the standard metrics:
 
 ### Confusion Matrix
@@ -240,13 +216,13 @@ The following are a few of the standard metrics:
 pred_nb <- calcPredictions(nb, test)
 pred_nb
 
-calc_confusion(test$Response, pred_nb$prob_virginica,
+calc_confusion(test$Species, pred_nb$prob_virginica,
                pos.class = "virginica", cutoff = 0.5)
 
 pred_rf <- calcPredictions(rf, test)
 pred_rf
 
-calc_confusion(test$Response, pred_rf$prob_virginica,
+calc_confusion(test$Species, pred_rf$prob_virginica,
                pos.class = "virginica", cutoff = 0.5)
 ```
 
@@ -257,8 +233,8 @@ Typical performance statistics can then be generated by calling the S3
 `summary()` generic for the `confusion.matrix` class:
 
 ```{r performance}
-calc_confusion(test$Response, pred_rf$prob_virginica,
-               pos.class = "virginica", cutoff = 0.5) |>  summary()
+calc_confusion(test$Species, pred_rf$prob_virginica,
+               pos.class = "virginica", cutoff = 0.5) |> summary()
 ```
 
 
@@ -287,8 +263,8 @@ the `auc.shift =` argument.
 A smoothed curve fit to the empirical ROC can be added using `plot.fit = TRUE`.
 
 ```{r roc, fig.width = 7, fig.height = 7}
-plotEmpROC(test$Response, pred_nb$prob_virginica, pos.class = "virginica",
+plotEmpROC(test$Species, pred_nb$prob_virginica, pos.class = "virginica",
            col = "blue")
-plotEmpROC(test$Response, pred_rf$prob_virginica, pos.class = "virginica", 
+plotEmpROC(test$Species, pred_rf$prob_virginica, pos.class = "virginica", 
            col = "red", plot.fit = TRUE)
 ```

@@ -1,12 +1,12 @@
 
 # Setup -----
-# predictions on fake_iris data set
-args <- list(data = fake_iris, k = 3, model.type = "lr")
+# predictions on tr_iris data set
+args <- list(data = tr_iris, k = 3, model.type = "lr")
 
 
 # Testing -------
 test_that("kfold_cv() generates correct output for various model types", {
-  skip("in favor of `caret` cross validation for now")
+  skip("in favor of `splyr::create_kfold()` cross validation for now")
 
   withr::local_seed(101)
 

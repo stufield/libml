@@ -1,4 +1,4 @@
-#' Fake Iris Data Set
+#' Iris Data Set as Training Data
 #'
 #' Generate a fake `tr_data` object based on the
 #'   [datasets::iris] data set for use in
@@ -9,10 +9,12 @@
 #'   to add some noise. This was because the original
 #'   iris data set has a distinct decision boundary across the
 #'   4 features, making classification examples "too" perfect.
-#'   The format is a 4 feature + 1 class variable "grouped tibble"
+#'   The format is a 4 feature + 1 class variable "tibble"
 #'   object recast as a `tr_data` object.
 #'   Contains 50 setosa and 50 virginica samples.
 #'
+#' @note this is the same as `fake_iris` pre-existing object.
+#' @aliases fake_iris
 #' @references Fisher, R. A. (1936) The use of multiple
 #'   measurements in taxonomic problems. *Annals of Eugenics*, **7**,
 #'   Part II, 179-188.
@@ -24,5 +26,5 @@
 #' }
 #'
 #' # print
-#' fake_iris
-"fake_iris"
+#' tr_iris
+"tr_iris"

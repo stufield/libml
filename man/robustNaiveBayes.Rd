@@ -167,7 +167,7 @@ table(predict(m1, iris), iris$Species) # benchmark
 table(predict(m2, iris), iris$Species) # approx same for Gaussian data; no outliers
 
 # Plotting
-iris <- convert2TrainingData(iris, "Species")   # convert to "tr_data"
+iris <- create_train(iris, group.var = Species)
 plot(m2, iris)
 plot(m2, iris, sampleId = 50)      # sample 50 is definitely "setosa"
 plot(m1, iris, plot.type = "cdf")  # plot type CDF

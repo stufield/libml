@@ -7,14 +7,7 @@
 \alias{writeStatTable.wilcox_table}
 \title{Calculate Wilcoxon/Mann-Whitney Table}
 \usage{
-calc.wilcox(
-  data,
-  apts = NULL,
-  paired = FALSE,
-  response = "Response",
-  bh = TRUE,
-  ...
-)
+calc.wilcox(data, apts = NULL, paired = FALSE, response = NULL, bh = TRUE, ...)
 
 calc.mw(...)
 

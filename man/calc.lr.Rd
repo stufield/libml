@@ -9,7 +9,7 @@
 calc.lr(
   data,
   apts = NULL,
-  response = "Response",
+  response = NULL,
   paired = FALSE,
   do.mean = FALSE,
   ...

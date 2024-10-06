@@ -14,11 +14,11 @@
 #' @author Stu Field
 #' @examples
 #' # set up training and test data:
-#' idx   <- sample.int(nrow(fake_iris), size = 90L)
-#' train <- fake_iris[idx, ]
-#' test  <- fake_iris[-idx, ]
+#' idx   <- sample.int(nrow(tr_iris), size = 90L)
+#' train <- tr_iris[idx, ]
+#' test  <- tibble::as_tibble(tr_iris[-idx, ])
 #'
-#' lr <- fitGLM(Response ~ ., data = train)
+#' lr <- fitGLM(train)
 #' select_features(lr, train)
 #'
 #' select_features(lr, test)
@@ -28,17 +28,16 @@
 #' }
 #'
 #' # Generalized Boosted Regression Model
-#' gb <- fitGBM(Response ~ ., data = train)
+#' gb <- fitGBM(Species ~ ., data = train)
 #' select_features(gb, test)
 #'
 #' # Support Vector Machines
-#' sm <- e1071::svm(Response ~ ., data = train, probability = TRUE)
+#' sm <- e1071::svm(Species ~ ., data = train, probability = TRUE)
 #' select_features(sm, test)
 #'
 #' # KKNN
 #' # note: test data passed during fitting
-#' test <- tail(fake_iris, 3L)
-#' kknn <- fitKKNN(Response ~ ., train = train, test = test, K = 10)
+#' kknn <- fitKKNN(Species ~ ., train = train, test = test, K = 10)
 #' select_features(kknn, test)
 #' @importFrom globalr getModelFeatures
 #' @importFrom tibble as_tibble

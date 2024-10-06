@@ -50,33 +50,20 @@ check: build
 	@ cd ..;\
 	$(RCMD) check --no-manual $(PKGNAME)_$(PKGVERS).tar.gz
 
-fake_iris:
-	@ echo "Creating 'data/classify.rda' ..."
+objects:
+	@ echo "Creating 'data/libml.rda' ..."
 	@ $(RSCRIPT) \
-	-e "set.seed(12345)" \
-	-e "x <- dplyr::filter(datasets::iris, Species != 'versicolor') # 2 classes" \
+	-e "x <- libml::create_train(datasets::iris, Species != 'versicolor', group.var = Species)" \
 	-e "n <- nrow(x)" \
-	-e "x <- dplyr::sample_n(x, size = n)       # reorder randomly" \
-	-e "x <- dplyr::mutate(x," \
-	-e "       Species = as.character(Species), # Species -> character" \
-	-e "       Species = ifelse(runif(n) > 0.5, sample(Species), Species)," \
-	-e "       Species = as.factor(Species)     # convert Species -> factor" \
-	-e ")" \
-	-e "x <- dplyr::mutate_if(x, is.numeric, jitter, amount = 1)   # jitter features" \
-	-e "x <- dplyr::group_by(x, Species) |> dplyr::rename(Response = Species)" \
-	-e "fake_iris <- structure(" \
-	-e "  x," \
-	-e "  class = c('tr_data', 'soma_adat', class(x))," \
-	-e "  Header.Meta = list(HEADER   = list(Version = '1.2', Title = 'SL-99-999')," \
-	-e "                     COL_DATA = list(Name = 'SeqId', Type = 'String')," \
-	-e "                     ROW_DATA = list(Name = 'PlateId', Type = 'String'))," \
-	-e " Col.Meta = tibble::tibble(SeqId    = '1234-56'," \
-	-e "                           Target   = 'MMP-4'," \
-	-e "                           Dilution = '0.005'," \
-	-e "                           Units    = 'RFU')" \
-	-e ")" \
-	-e "save(fake_iris, file = 'data/classify.rda', compress = 'xz')"
-	@ echo "Saving 'data/classify.rda' ..."
+	-e "set.seed(12345)" \
+	-e "idx <- sample.int(n)  # reorder randomly" \
+	-e "x <- x[idx, ]" \
+	-e "vec <- as.character(x[['Species']])" \
+	-e "x[['Species']] <- factor(ifelse(runif(n) > 0.5, sample(vec), vec))" \
+	-e "x <- dplyr::mutate_if(x, is.numeric, jitter, amount = 1) # jitter " \
+	-e "tr_iris <- fake_iris <- x" \
+	-e "save(tr_iris, fake_iris, file = 'data/libml.rda', compress = 'xz')"
+	@ echo "Saving 'data/libml.rda' ..."
 
 install:
 	@ R CMD INSTALL --use-vanilla --preclean --resave-data .

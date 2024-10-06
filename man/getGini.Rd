@@ -18,11 +18,11 @@ Generate a table of sorted Gini importance scores for a
 random forest model.
 }
 \examples{
-# Use fake_iris training data from iris data set
-library(randomForest)
+# Use tr_iris training data from iris data set
 rf <- withr::with_seed(101, {
-  randomForest(Response ~ ., data = fake_iris, importance = TRUE,
-               proximity = TRUE, keep.inbag = TRUE)
+  randomForest::randomForest(
+    Species ~ ., data = tr_iris, importance = TRUE,
+    proximity = TRUE, keep.inbag = TRUE)
 })
 getGini(rf)
 }

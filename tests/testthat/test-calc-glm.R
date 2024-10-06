@@ -9,7 +9,7 @@ small_adat <- dplyr::select(sample.adat, SampleGroup, all_of(apts))
 test_that("the full unit test for `calc.glm()` return expected object result", {
   # mute glm.fit: fitted probabilities numerically 0 or 1 occurred warning
   withr::local_options(c(warn = -1))
-  glm <- calc.glm(convert2TrainingData(small_adat, "SampleGroup"))
+  glm <- calc.glm(create_train(small_adat, group.var = SampleGroup))
 
   expect_s3_class(glm, "stat_table")
   expect_s3_class(glm, "glm_table")
@@ -21,18 +21,18 @@ test_that("the full unit test for `calc.glm()` return expected object result", {
                  p.bonferroni = 2.7987932377273763,
                  rank         = 55.0000000000000000)
   expect_equal(colSums(glm$stat.table), out_sum)
-  expect_equal(glm$data.dim, dim(small_adat) + c(0, 1))
-  expect_equal(glm$data.frame, "convert2TrainingData(small_adat, \"SampleGroup\")")
+  expect_equal(glm$data.dim, dim(small_adat))
+  expect_equal(glm$data.frame, "create_train(small_adat, group.var = SampleGroup)")
   expect_true(all(vapply(glm$models, class, character(2)) == c("glm", "lm")))
   expect_equal(length(glm$models), getAnalytes(small_adat, n = TRUE))
   expect_true(setequal(names(glm$models), getAnalytes(small_adat)))
   expect_true(setequal(rownames(glm$stat.table), getAnalytes(small_adat)))
   expect_equal(glm$test, "Logistic Regression")
-  expect_equal(glm$y.response, "Response")
+  expect_equal(glm$y.response, "SampleGroup")
   expect_type(glm$call, "language")
   expect_equal(as.character(glm$call),
                c("calc.glm",
-                 "convert2TrainingData(small_adat, \"SampleGroup\")"))
+                 "create_train(small_adat, group.var = SampleGroup)"))
   expect_equal(glm$counts, c("F" = 11, "M" = 9))
 
   # Print method

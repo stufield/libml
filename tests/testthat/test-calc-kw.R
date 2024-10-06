@@ -8,7 +8,7 @@ small_adat$Response <- factor(paste0(small_adat$SampleGroup, "_", small_adat$Tim
 
 # Testing ----
 test_that("the `calc.kw` function generates the correct output", {
-  kw <- calc.kw(small_adat)
+  kw <- calc.kw(small_adat, response = "Response")
   expect_s3_class(kw, "stat_table")
   expect_s3_class(kw, "kw_table")
   out_sum <- c(H       = 137.68135905980150,

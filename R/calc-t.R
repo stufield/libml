@@ -16,10 +16,14 @@
 #' t2 <- calc.t(log10(sim_test_data), response = "class_response", rm.outliers = TRUE)
 #' @export
 calc.t <- function(data, apts = NULL, bh = TRUE, paired = FALSE,
-                   response = "Response", ...) {
+                   response = NULL, ...) {
 
   if ( !is.logspace(data) ) {
     logWarning("t-test")
+  }
+
+  if ( is.null(response) && is.tr_data(data) ) {
+    response <- .get_response(data)
   }
 
   data_prep <- prepCalcData(data, feats = apts, paired = paired,

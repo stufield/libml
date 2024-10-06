@@ -15,9 +15,9 @@
 #' @author Stu Field
 #' @seealso [geom_contour()], [robustNaiveBayes()]
 #' @examples
-#' data <- data.frame(F1    = fake_iris$Petal.Length,
-#'                    F2    = fake_iris$Sepal.Length,
-#'                    class = fake_iris$Response)
+#' data <- data.frame(F1    = tr_iris$Petal.Length,
+#'                    F2    = tr_iris$Sepal.Length,
+#'                    class = tr_iris$Species)
 #' head(data)
 #' plotBivariateBayesBoundary(data, pos.class = "virginica")
 #' @importFrom stats predict
