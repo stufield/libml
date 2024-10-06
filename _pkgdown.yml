@@ -101,7 +101,7 @@ reference:
       Predict, pull out components, manipulate, and interrogate model objects.
     contents:
     - reexports
-    - selectFeatures
+    - select_features
     - getGini
     - s3-calcPredictions
     - getModelCoef

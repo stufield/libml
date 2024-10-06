@@ -19,31 +19,31 @@
 #' test  <- fake_iris[-idx, ]
 #'
 #' lr <- fitGLM(Response ~ ., data = train)
-#' selectFeatures(lr, train)
+#' select_features(lr, train)
 #'
-#' selectFeatures(lr, test)
+#' select_features(lr, test)
 #'
 #' \dontrun{
-#'   selectFeatures(lr, test[, -2L]) # throws error; missing feature
+#'   select_features(lr, test[, -2L]) # throws error; missing feature
 #' }
 #'
 #' # Generalized Boosted Regression Model
 #' gb <- fitGBM(Response ~ ., data = train)
-#' selectFeatures(gb, test)
+#' select_features(gb, test)
 #'
 #' # Support Vector Machines
 #' sm <- e1071::svm(Response ~ ., data = train, probability = TRUE)
-#' selectFeatures(sm, test)
+#' select_features(sm, test)
 #'
 #' # KKNN
 #' # note: test data passed during fitting
 #' test <- tail(fake_iris, 3L)
 #' kknn <- fitKKNN(Response ~ ., train = train, test = test, K = 10)
-#' selectFeatures(kknn, test)
+#' select_features(kknn, test)
 #' @importFrom globalr getModelFeatures
 #' @importFrom tibble as_tibble
 #' @export
-selectFeatures <- function(model, .data) {
+select_features <- function(model, .data) {
   ft <- getModelFeatures(model)
   if ( any(!ft %in% names(.data)) ) {
     stop(

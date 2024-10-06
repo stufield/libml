@@ -85,7 +85,7 @@ globalr::calcPredictions
 #' S3 method for "robust" Naive Bayes models.
 #' @export
 calcPredictions.robustNaiveBayes <- function(model, newdata, cutoff = 0.5, ...) {
-  test <- selectFeatures(model, newdata)
+  test <- select_features(model, newdata)
   p <- predict(model, newdata = test, type = "raw")
   pos <- getPositiveClass(model)
   if ( length(model$levels) > 2L ) {
@@ -112,7 +112,7 @@ calcPredictions.randomForest <- function(model, newdata = NULL, cutoff = 0.5, ..
   if ( is.null(newdata) ) {
     p <- data.frame(model$votes, row.names = NULL)
   } else {
-    test <- selectFeatures(model, newdata)
+    test <- select_features(model, newdata)
     p <- data.frame(predict(model, newdata = test, type = "prob"), row.names = NULL)
   }
   if ( length(model$classes) > 2L ) {
@@ -131,7 +131,7 @@ calcPredictions.randomForest <- function(model, newdata = NULL, cutoff = 0.5, ..
 #' S3 method for Gradient Boosted Tree models.
 #' @export
 calcPredictions.gbm <- function(model, newdata, cutoff = 0.5, ...) {
-  test <- selectFeatures(model, newdata)
+  test <- select_features(model, newdata)
   p <- predict(model, newdata = test, n.trees = model$n.trees, type = "response")
   if ( length(levels(model$class)) > 2L ) {
     # if multi-class; ignore cutoff and use max.prob
@@ -153,7 +153,7 @@ calcPredictions.gbm <- function(model, newdata, cutoff = 0.5, ...) {
 #' S3 method for Support Vector Machines.
 #' @export
 calcPredictions.svm <- function(model, newdata, cutoff = 0.5, ...) {
-  test <- selectFeatures(model, newdata)
+  test <- select_features(model, newdata)
   p   <- predict(model, newdata = test, probability = TRUE)
   p   <- data.frame(attr(p, "probabilities"), row.names = NULL)
   if ( model$nclasses > 2 ) {
@@ -173,7 +173,7 @@ calcPredictions.svm <- function(model, newdata, cutoff = 0.5, ...) {
 #' S3 method for Logistic Regression via `glm`.
 #' @export
 calcPredictions.glm <- function(model, newdata, cutoff = 0.5, ...) {
-  test <- selectFeatures(model, newdata)
+  test <- select_features(model, newdata)
   p    <- unname(predict(model, newdata = test, type = "response"))
   LP   <- unname(predict(model, newdata = test, type = "link"))
   if ( length(model$classes) > 2L ) {
