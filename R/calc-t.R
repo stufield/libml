@@ -6,7 +6,6 @@
 #' @inheritParams params
 #' @inherit params return
 #' @param paired Logical. Indicating whether the data are paired or not.
-#' @param do.log Deprecated.
 #' @param ... The `rm.outliers = TRUE` option should be passed here, otherwise
 #'   additional arguments to allow extensibility to S3 methods.
 #' @author Mike Mehan and Stu Field

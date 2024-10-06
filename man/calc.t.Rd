@@ -49,8 +49,6 @@ additional arguments to allow extensibility to S3 methods.}
 \item{n}{Integer. The number of rows to show in the S3 print method.}
 
 \item{file}{A file name to write table output, typically a \verb{*.csv}.}
-
-\item{do.log}{Deprecated.}
 }
 \value{
 A list object of class \verb{c(stat_table, *_table)} containing:
