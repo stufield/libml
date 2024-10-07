@@ -142,11 +142,14 @@ plot.glm_table <- function(x, .data, n_plots = seq(6), pt.size = 2, pt.pch = 19,
   if ( is_intact_attr(.data) ) {
     tg <- unlist(getTargetNames(getAnalyteInfo(.data)))
   } else {
-    stop("Data attributes broken ... cannot make plot titles.", call. = FALSE)
+    tg <- set_Names(names(.data))
   }
 
   top_apts <- rownames(x$stat.table)[n_plots]
   stopifnot(all(top_apts %in% names(.data)))
+
+  # this is important for plotting order
+  tg <- factor(tg[top_apts], levels = top_apts)
 
   if ( length(top_apts) > 25L ) {
     stop("Are you sure you want > 25 plots?", call. = FALSE)
