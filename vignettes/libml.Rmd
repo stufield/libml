@@ -81,16 +81,14 @@ single meta data field called `Species`:
 
 ```{r train}
 add_noise <- function(x) x + rnorm(length(x), sd = 3)
-tr <- iris |>
-  dplyr::mutate_if(is.numeric, add_noise) |>
-  create_train(Species != "versicolor", group.var = Species)
+tr <- tr_iris
 class(tr)
 ```
 
 As is typical with `dplyr::filter()`, multiple conditions can be added
 as desired:
 
-```{r, eval = FALSE}
+```{r train2, eval = FALSE}
 tr2 <- create_train(iris, Species == "setosa", Sepal.Length > 5,
                     group.var = Species)
 ```
@@ -178,8 +176,8 @@ nb
 
 If you would like to see how a naive Bayes boundary looks in 2 dimensions:
 ```{r BayesBoundary, fig.width = 7, fig.height = 7}
-data.frame(F1 = tr$Petal.Length,
-           F2 = tr$Sepal.Length,
+data.frame(F1    = tr$Petal.Length,
+           F2    = tr$Sepal.Length,
            class = tr$Species) |>
   plotBivariateBayesBoundary(pos.class = "virginica")
 ```

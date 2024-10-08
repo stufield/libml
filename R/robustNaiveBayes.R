@@ -1,18 +1,18 @@
 #' Robustly Fit Naive Bayes Classifier
 #'
 #' Computes the conditional _a_-posterior probabilities of a
-#' categorical class variable given independent predictor
-#' variables using the Bayes rule.
-#' Parameter estimates are robustly calculated using approximations
-#' of the error function for a Gaussian density, see [calcRobustGaussFit()].
+#'   categorical class variable given independent predictor
+#'   variables using the Bayes rule.
+#'   Parameter estimates are robustly calculated using approximations
+#'   of the error function for a Gaussian density, see [calcRobustGaussFit()].
 #'
 #' When `mad = TRUE` (median absolute deviation), non-parametric
-#' calculation of Bayes' parameters are estimated,
-#' namely, `mu = median(x)` and `sd = IQR(x) / 1.349`.
-#' That is, `calcRobustGaussFit(..., mad = TRUE)`.
+#'   calculation of Bayes' parameters are estimated,
+#'   namely, `mu = median(x)` and `sd = IQR(x) / 1.349`.
+#'   That is, `calcRobustGaussFit(..., mad = TRUE)`.
 #'
-#' @param x A numeric matrix, or a data frame of categorical and/or numeric
-#'   variables. If called from an S3 generic method (e.g.
+#' @param x A numeric matrix, a `tr_data` class objects, or a data frame
+#'   of predictors. If called from an S3 generic method (e.g.
 #'   [plot.robustNaiveBayes()]) or [print.robustNaiveBayes()]), either a
 #'   `robustNaiveBayes` or `naiveBayes` class object.
 #' @param y A vector indicating the true classes for each sample. Ideally a
@@ -35,26 +35,36 @@
 #' @references This function was _heavily_ influenced by [e1071::naiveBayes()]
 #'   See David Meyer <email: David.Meyer@R-project.org>.
 #' @examples
-#' head(iris)
+#' head(tr_iris)
 #' # standard naiveBayes
-#' m1 <- e1071::naiveBayes(Species ~ ., data = iris)  # non-robust
-#' m2 <- robustNaiveBayes(iris[, -5], iris$Species)   # robust fitting
-#' m3 <- robustNaiveBayes(Species ~ ., data = iris)   # with formula syntax
-#' identical(sapply(m1$tables, as.numeric), sapply(m2$tables, as.numeric)) # not same
-#' identical(sapply(m2$tables, as.numeric), sapply(m3$tables, as.numeric)) # same
+#' m1 <- e1071::naiveBayes(Species ~ ., data = tr_iris) # non-robust params
+#' m2 <- robustNaiveBayes(Species ~ ., data = tr_iris)  # formula syntax
+#' m3 <- robustNaiveBayes(tr_iris)                      # tr_data syntax
+#' m4 <- data.frame(tr_iris[, -5L]) |>
+#'   robustNaiveBayes(y = tr_iris$Species)              # default syntax
 #'
-#' @importFrom stats dnorm model.extract predict sd
+#' # not same
+#' identical(sapply(m1$tables, as.numeric), sapply(m2$tables, as.numeric))
+#'
+#' # same
+#' identical(sapply(m2$tables, as.numeric), sapply(m3$tables, as.numeric))
+#'
+#' @importFrom stats predict sd
 #' @export
 robustNaiveBayes <- function(x, ...) UseMethod("robustNaiveBayes")
 
 
 #' @describeIn robustNaiveBayes
-#' S3 default method for robustNaiveBayes.
+#'   S3 `default` method for robustNaiveBayes.
 #' @export
 robustNaiveBayes.default <- function(x, y, mad = FALSE, laplace = 0,
                                      keep.data = FALSE, ...) {
 
-  Yresponse <- deparse(substitute(y))
+  if ( is.tr_data(x) ) {
+    response <- .get_response(x)
+  } else {
+    response <- "y"
+  }
 
   if ( !is.factor(y) ) {
     warning(
@@ -72,6 +82,11 @@ robustNaiveBayes.default <- function(x, y, mad = FALSE, laplace = 0,
   }
   if ( !inherits(x, "data.frame") ) {
     x <- as.data.frame(x)
+  }
+
+  if ( response %in% names(x) ) {
+    stop("The variable ", value(response), " is included in the predictors.\n",
+         "It is unlikely this was intentional!", call. = FALSE)
   }
 
   # estimation local function
@@ -97,51 +112,56 @@ robustNaiveBayes.default <- function(x, y, mad = FALSE, laplace = 0,
 
   # fix names of dimnames
   for ( i in seq_len(length(tables)) ) {
-    names(dimnames(tables[[i]])) <- c(Yresponse, colnames(x)[i])
+    names(dimnames(tables[[i]])) <- c(response, colnames(x)[i])
   }
 
   apriori <- table(y)
-  names(dimnames(apriori)) <- Yresponse
+  names(dimnames(apriori)) <- response
 
   ret <- list()
   ret$apriori <- apriori
   ret$tables  <- tables
   ret$levels  <- levels(y)
-  ret$data    <- if ( keep.data ) cbind(x, Response = y) else FALSE # nolint
-  ret$call    <- match.call(expand.dots = TRUE)
+  resp_df     <- setNames(data.frame(y), response)
+  ret$data    <- if ( keep.data ) cbind(x, resp_df) else FALSE # nolint
+  ret$call    <- list(...)$orig_call %||% match.call(expand.dots = FALSE)
   addClass(ret, "robustNaiveBayes")
 }
 
 
 #' @describeIn robustNaiveBayes
-#'   S3 formula method for robustNaiveBayes.
+#'   S3 `formula` method for robustNaiveBayes.
 #' @param formula A model formula of the form: `class ~ x1 + x2 + ...`
 #'   (no interactions).
 #' @param data A data frame of predictors (categorical and/or numeric), i.e.
 #'   the ADAT used to train the model.
 #' @export
 robustNaiveBayes.formula <- function(formula, data, ...) {
-
-  if ( inherits(data, "data.frame") ) {
+  if ( !inherits(data, "data.frame") ) {
     stop(
       "The robust naiveBayes formula interface handles data frames only.\n",
       "Please ensure the `data` argument is a `data.frame` class object.",
       call. = FALSE)
-  } 
-  m       <- match.call(expand.dots = FALSE)
-  m$...   <- NULL
-  m[[1L]] <- as.name("model.frame")
-  m       <- eval(m, parent.frame())
-  Terms   <- attr(m, "terms")
-  if ( any(attr(Terms, "order") > 1) ) {
-    stop(
-      "The `robustNaiveBayes()` function cannot currently ",
-      "handle interaction terms.", call. = FALSE
-    )
   }
-  y <- model.extract(m, "response")
-  X <- m[, -attr(Terms, "response"), drop = FALSE]
-  robustNaiveBayes(X, y, ...)
+  response <- as.character(formula[[2L]])
+  y   <- data[[response]]
+  idx <- names(data) %in% response
+  X   <- data.frame(data[, !idx])  # strip class
+  call <- list(...)$orig_call %||% match.call(expand.dots = TRUE)
+  robustNaiveBayes(X, y, orig_call = call, ...)
+}
+
+
+#' @describeIn robustNaiveBayes
+#'   S3 `tr_data` method for robustNaiveBayes.
+#' @export
+robustNaiveBayes.tr_data <- function(x, ...) {
+  call <- match.call(expand.dots = FALSE)
+  response <- .get_response(x)
+  y    <- x[[response]]
+  idx  <- names(x) %in% response
+  x    <- data.frame(x[, !idx])  # strip class
+  robustNaiveBayes(x = x, y = y, orig_call = call, ...)
 }
 
 
@@ -156,9 +176,9 @@ print.robustNaiveBayes <- function(x, ...) {
   print(prop.table(x$apriori))
   cat("\nConditional densities:\n")
   l   <- length(x$levels)
-  sum <- vapply(x$tables, matrix, ncol = 1, FUN.VALUE = numeric(l * 2))
-  rownames(sum) <- paste0(rep(x$levels, 2), "_",
-                          rep(c("mu", "sigma"), each = l))
+  sum <- vapply(x$tables, as.vector, FUN.VALUE = numeric(l * 2))
+  rownames(sum) <- paste0(rep(x$levels, 2L), "_", rep(c("mu", "sigma"), each = l))
+  sum <- as_tibble(sum, rownames = "parameter")
   print(sum)
   cat("\n")
   invisible(sum)
@@ -225,7 +245,7 @@ predict.robustNaiveBayes <- function(object, newdata,
              if ( isnumeric[.v] ) {
                mu_sd <- object$tables[[.v]]                  # parameter table
                mu_sd[, 2L][ mu_sd[, 2L] == 0 ] <- threshold  # limit sd=0
-               prob <- stats::dnorm(nd, mean = mu_sd[, 1L], sd = mu_sd[, 2L])
+               prob <- dnorm(nd, mean = mu_sd[, 1L], sd = mu_sd[, 2L])
              } else {
                prob <- object$tables[[.v]][, nd]
              }

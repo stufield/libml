@@ -4,6 +4,7 @@
 \alias{robustNaiveBayes}
 \alias{robustNaiveBayes.default}
 \alias{robustNaiveBayes.formula}
+\alias{robustNaiveBayes.tr_data}
 \alias{print.robustNaiveBayes}
 \alias{predict.robustNaiveBayes}
 \alias{plot.robustNaiveBayes}
@@ -15,6 +16,8 @@ robustNaiveBayes(x, ...)
 \method{robustNaiveBayes}{default}(x, y, mad = FALSE, laplace = 0, keep.data = FALSE, ...)
 
 \method{robustNaiveBayes}{formula}(formula, data, ...)
+
+\method{robustNaiveBayes}{tr_data}(x, ...)
 
 \method{print}{robustNaiveBayes}(x, ...)
 
@@ -48,8 +51,8 @@ robustNaiveBayes(x, ...)
 )
 }
 \arguments{
-\item{x}{A numeric matrix, or a data frame of categorical and/or numeric
-variables. If called from an S3 generic method (e.g.
+\item{x}{A numeric matrix, a \code{tr_data} class objects, or a data frame
+of predictors. If called from an S3 generic method (e.g.
 \code{\link[=plot.robustNaiveBayes]{plot.robustNaiveBayes()}}) or \code{\link[=print.robustNaiveBayes]{print.robustNaiveBayes()}}), either a
 \code{robustNaiveBayes} or \code{naiveBayes} class object.}
 
@@ -134,9 +137,11 @@ That is, \code{calcRobustGaussFit(..., mad = TRUE)}.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{robustNaiveBayes(default)}: S3 default method for robustNaiveBayes.
+\item \code{robustNaiveBayes(default)}: S3 \code{default} method for robustNaiveBayes.
 
-\item \code{robustNaiveBayes(formula)}: S3 formula method for robustNaiveBayes.
+\item \code{robustNaiveBayes(formula)}: S3 \code{formula} method for robustNaiveBayes.
+
+\item \code{robustNaiveBayes(tr_data)}: S3 \code{tr_data} method for robustNaiveBayes.
 
 }}
 \section{Methods (by generic)}{
@@ -154,13 +159,19 @@ That is, \code{calcRobustGaussFit(..., mad = TRUE)}.
 
 }}
 \examples{
-head(iris)
+head(tr_iris)
 # standard naiveBayes
-m1 <- e1071::naiveBayes(Species ~ ., data = iris)  # non-robust
-m2 <- robustNaiveBayes(iris[, -5], iris$Species)   # robust fitting
-m3 <- robustNaiveBayes(Species ~ ., data = iris)   # with formula syntax
-identical(sapply(m1$tables, as.numeric), sapply(m2$tables, as.numeric)) # not same
-identical(sapply(m2$tables, as.numeric), sapply(m3$tables, as.numeric)) # same
+m1 <- e1071::naiveBayes(Species ~ ., data = tr_iris) # non-robust params
+m2 <- robustNaiveBayes(Species ~ ., data = tr_iris)  # formula syntax
+m3 <- robustNaiveBayes(tr_iris)                      # tr_data syntax
+m4 <- data.frame(tr_iris[, -5L]) |>
+  robustNaiveBayes(y = tr_iris$Species)              # default syntax
+
+# not same
+identical(sapply(m1$tables, as.numeric), sapply(m2$tables, as.numeric))
+
+# same
+identical(sapply(m2$tables, as.numeric), sapply(m3$tables, as.numeric))
 
 # Predictions
 table(predict(m1, iris), iris$Species) # benchmark

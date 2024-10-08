@@ -98,7 +98,7 @@ fitGLM.data.frame <- function(x, y = NULL, strip = FALSE, ...) {
 fitGLM.tr_data <- function(x, ..., strip = FALSE) {
   response <- .get_response(x)
   formula  <- as.formula(paste(response, "~ ."))
-  fitGLM(formula, data = x)
+  fitGLM(formula, data = x, strip = strip)
 }
 
 #' @describeIn fitGLM

@@ -5,14 +5,14 @@
 \title{Create Manhattan Plot}
 \usage{
 plotManhattan(
-  training.data,
-  x.lab = "SOMAmers",
+  data,
+  x.lab = "Feature",
   type = c("median", "t.test", "ks.test"),
   as.pvalue = FALSE
 )
 }
 \arguments{
-\item{training.data}{A \code{tr_data} object.}
+\item{data}{A training data \code{tr_data} object.}
 
 \item{x.lab}{Character. Set the x-axis label.}
 
@@ -31,7 +31,7 @@ of the training set for each analyte.
 tr <- create_train(sim_test_data,
                    class_response \%in\% c("control", "disease"),
                    group.var = class_response,
-                   class1 = c("disease", "control"))
+                   classes = c("control", "disease"))
 
 # Various options for plotting
 plotManhattan(tr, type = "med")
@@ -40,7 +40,7 @@ plotManhattan(tr, type = "ks")
 plotManhattan(tr, type = "t", as.pvalue = TRUE)
 }
 \seealso{
-\code{\link[=calc.lr]{calc.lr()}}, \code{\link[=calc.ks]{calc.ks()}}, \code{\link[=calc.t]{calc.t()}}
+\code{\link[=calc.ks]{calc.ks()}}, \code{\link[=calc.t]{calc.t()}}
 }
 \author{
 Stu Field

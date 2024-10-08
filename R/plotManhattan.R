@@ -26,7 +26,7 @@
 #' @importFrom ggplot2 geom_point labs aes geom_hline
 #' @importFrom ggplot2 scale_color_manual ggplot
 #' @export
-plotManhattan <- function(data, x.lab = "SOMAmers",
+plotManhattan <- function(data, x.lab = "Feature",
                           type = c("median", "t.test", "ks.test"),
                           as.pvalue = FALSE) {
   type <- match.arg(type)
@@ -37,7 +37,7 @@ plotManhattan <- function(data, x.lab = "SOMAmers",
     y.lab      <- bquote(log[2]~"Median Ratio")
   } else if ( type == "t.test" ) {
     y.lab      <- "t-test Statistic"
-    stat_table <- calc.t(log10(data))
+    stat_table <- calc.t(data)
   } else if ( type == "ks.test" ) {
     stat_table <- withr::with_options(list(warn = -1), calc.ks(data))
     y.lab      <- "KS Distance"
@@ -62,11 +62,6 @@ plotManhattan <- function(data, x.lab = "SOMAmers",
     y.lab <- bquote(-log[10] ~ (italic(p) - value))
   }
 
-  response <- .get_response(data)
-
-  legend_string <- sprintf("%s expression",
-                           levels(data[[response]])[1:6L], 1L)
-
   stat_table$expression <- ifelse(stat_table$plot_y > 0, "UP", "DOWN") |>
     factor(levels = c("UP", "DOWN"))
   stat_table$x <- seq_len(nrow(stat_table))
@@ -77,10 +72,9 @@ plotManhattan <- function(data, x.lab = "SOMAmers",
 
   p <- stat_table |>
     ggplot(aes(x = x, y = plot_y, fill = expression, color = expression)) +
-    geom_point(alpha = 0.25) +
+    geom_point(alpha = 0.75) +
     scale_color_manual(values = unname(unlist(SomaPlotr::soma_colors2)[1:2])) +
-    labs(title = "Manhattan Plot", x = x.lab, y = y.lab,
-         color = legend_string, fill = legend_string) +
+    labs(title = "Manhattan Plot", x = x.lab, y = y.lab) +
     SomaPlotr::theme_soma()
   if ( as.pvalue ) {
     p <- p + geom_hline(yintercept = c(2, 3, 4), linetype = "dashed",
