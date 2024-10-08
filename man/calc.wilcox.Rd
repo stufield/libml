@@ -11,7 +11,7 @@ calc.wilcox(data, apts = NULL, paired = FALSE, response = NULL, bh = TRUE, ...)
 
 calc.mw(...)
 
-\method{print}{wilcox_table}(x, n = 6, ...)
+\method{print}{wilcox_table}(x, n = 6L, ...)
 
 \method{writeStatTable}{wilcox_table}(x, file)
 }
@@ -122,11 +122,6 @@ w
 mw
 w2
 
-# S3 writeStatTable method
-apt_data <- getAnalyteInfo(sim_test_data)
-mw$stat.table <- addTargetInfo(mw$stat.table, apt_data)
-f_out <- tempfile("mw-table-", fileext = ".csv")
-writeStatTable(mw, file = f_out)
 }
 \seealso{
 \code{\link[=wilcox.test]{wilcox.test()}}

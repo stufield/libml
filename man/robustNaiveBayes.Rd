@@ -35,8 +35,8 @@ robustNaiveBayes(x, ...)
   data,
   features,
   plot.type = c("pdf", "cdf", "log.odds"),
-  x.lab = bquote(italic(log)[10] ~ (RFU)),
-  sampleId,
+  x.lab = "value",
+  id,
   ...
 )
 
@@ -45,8 +45,8 @@ robustNaiveBayes(x, ...)
   data,
   features,
   plot.type = c("pdf", "cdf", "log.odds"),
-  x.lab = bquote(italic(log)[10] ~ (RFU)),
-  sampleId,
+  x.lab = "value",
+  id,
   ...
 )
 }
@@ -108,9 +108,9 @@ plots. Arguments can be shortened and is matched via \code{\link[=match.arg]{mat
 
 \item{x.lab}{Character. Optional label for the x-axis.}
 
-\item{sampleId}{An optional identifier of a specific sample to plot on top of
+\item{id}{An optional identifier of a specific sample to plot on top of
 either PDFs or CDFs. This may be either a numeric index of the sample row
-in the \code{data}, or its row name identifier. Can be of \code{length > 1}.}
+in the \code{data}, or its \code{rowname}. Can be \code{length(n)}.}
 }
 \value{
 \code{robustNaiveBayes}: A naive Bayes model with robustly fit
@@ -178,12 +178,11 @@ table(predict(m1, iris), iris$Species) # benchmark
 table(predict(m2, iris), iris$Species) # approx same for Gaussian data; no outliers
 
 # Plotting
-iris <- create_train(iris, group.var = Species)
-plot(m2, iris)
-plot(m2, iris, sampleId = 50)      # sample 50 is definitely "setosa"
-plot(m1, iris, plot.type = "cdf")  # plot type CDF
-plot(m2, iris, features = "Sepal.Length", sampleId = 70)  # 1 feature
-plot(m1, iris, plot.type = "cdf", lty = "longdash")   # pass through of linetype
+plot(m2, tr_iris)
+plot(m2, tr_iris, id = 50)      # sample 50 is definitely "setosa"
+plot(m1, tr_iris, plot.type = "cdf")  # plot type CDF
+plot(m2, tr_iris, features = "Sepal.Length", id = 70)  # 1 feature
+plot(m1, tr_iris, plot.type = "cdf", lty = "longdash") # pass-through of lty
 }
 \references{
 This function was \emph{heavily} influenced by \code{\link[e1071:naiveBayes]{e1071::naiveBayes()}}

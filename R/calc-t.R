@@ -59,7 +59,7 @@ calc.t <- function(data, apts = NULL, bh = TRUE, paired = FALSE,
 #' t2
 #'
 #' @export
-print.t_table <- function(x, n = 6, ...) {
+print.t_table <- function(x, n = 6L, ...) {
   cat("\n")
   writeLines(signal_rule("Stat Table", line_col = "blue"))
   print(utils::head(x$stat.table, n))
@@ -68,12 +68,6 @@ print.t_table <- function(x, n = 6, ...) {
 
 
 #' @describeIn calc.t
-#' The S3 `writeStatTable` method for class `t_table`.
-#' @examples
-#' # S3 writeStatTable method
-#' apt_data <- getAnalyteInfo(sim_test_data)
-#' t_table$stat.table <- addTargetInfo(t_table$stat.table, apt_data)
-#' f_out <- tempfile("t-table-", fileext = ".csv")
-#' writeStatTable(t_table, file = f_out)
+#'   The S3 `writeStatTable` method for class `t_table`.
 #' @export
 writeStatTable.t_table <- writeStatTable.ks_table

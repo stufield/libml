@@ -9,7 +9,7 @@
 \usage{
 calc.glm(data, response = NULL, apts = NULL, bh = TRUE)
 
-\method{print}{glm_table}(x, n = 6, ...)
+\method{print}{glm_table}(x, n = 6L, ...)
 
 \method{writeStatTable}{glm_table}(x, file)
 
@@ -104,12 +104,6 @@ glm_table                 # top 6
 
 # extend the default no. of rows
 print(glm_table, n = 10)  # top 10
-
-# S3 writeStatTable method
-apt_data <- getAnalyteInfo(tr)
-glm_table$stat.table <- addTargetInfo(glm_table$stat.table, apt_data)
-f_out <- tempfile("glm-table-", fileext = ".csv")
-writeStatTable(glm_table, file = f_out)
 
 # S3 plot method
 plot(glm_table, .data = tr, n_plots = c(2, 4, 6))

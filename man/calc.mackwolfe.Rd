@@ -11,7 +11,7 @@ calc.mackwolfe(data, apts = NULL, response = NULL, peak, bh = TRUE, ...)
 
 calc.jt(data, apts = NULL, response = "SampleGroup", bh = TRUE, ...)
 
-\method{print}{mackwolfe_table}(x, n = 6, ...)
+\method{print}{mackwolfe_table}(x, n = 6L, ...)
 
 \method{writeStatTable}{mackwolfe_table}(x, file)
 }
@@ -104,11 +104,6 @@ mack_perm <- calc.mackwolfe(new_df, response = "group", nperm = 100, peak = "B")
 # peak = "jt"
 calc.jt(sim_test_data, response = "group")
 
-# S3 writeStatTable method
-apt_data <- getAnalyteInfo(sim_test_data)
-mack$stat.table <- addTargetInfo(mack$stat.table, apt_data)
-f_out <- tempfile("mack-table-", fileext = ".csv")
-writeStatTable(mack, file = f_out)
 }
 \references{
 Myles Hollander and Douglas A. Wolfe (1973).

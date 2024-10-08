@@ -121,7 +121,7 @@ calc.jt <- function(data, apts = NULL, response = "SampleGroup", bh = TRUE, ...)
 #' S3 print method for `mackwolfe_table` objects.
 #' @param x An object of class `mackwolfe_table`.
 #' @export
-print.mackwolfe_table <- function(x, n = 6, ...) {
+print.mackwolfe_table <- function(x, n = 6L, ...) {
   key   <- pad(c("Factor order", "Peak"), 25)
   value <- c(paste(x$factor.order, collapse = "-"), x$peak)
   writeLines(paste(" ", key, value))
@@ -133,13 +133,7 @@ print.mackwolfe_table <- function(x, n = 6, ...) {
 
 
 #' @describeIn calc.mackwolfe
-#' The S3 `writeStatTable` method for class `mackwolfe_table`.
-#' @examples
-#' # S3 writeStatTable method
-#' apt_data <- getAnalyteInfo(sim_test_data)
-#' mack$stat.table <- addTargetInfo(mack$stat.table, apt_data)
-#' f_out <- tempfile("mack-table-", fileext = ".csv")
-#' writeStatTable(mack, file = f_out)
+#'   The S3 `writeStatTable` method for class `mackwolfe_table`.
 #' @export
 writeStatTable.mackwolfe_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)

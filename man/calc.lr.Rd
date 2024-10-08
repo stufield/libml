@@ -15,7 +15,7 @@ calc.lr(
   ...
 )
 
-\method{print}{logratio_table}(x, n = 6, ...)
+\method{print}{logratio_table}(x, n = 6L, ...)
 
 \method{writeStatTable}{logratio_table}(x, file)
 }
@@ -74,11 +74,6 @@ lr2 <- calc.lr(sim_test_data, response = "class_response", rm.outliers = TRUE)
 lr1
 lr2
 
-# S3 writeStatTable method
-apt_data <- getAnalyteInfo(sim_test_data)
-lr1$stat.table <- addTargetInfo(lr1$stat.table, apt_data)
-f_out <- tempfile("logRatio-table-", fileext = ".csv")
-writeStatTable(lr1, file = f_out)
 }
 \seealso{
 The `calc.*()` family: 

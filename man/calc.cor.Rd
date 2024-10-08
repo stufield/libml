@@ -15,7 +15,7 @@ calc.cor(
   ...
 )
 
-\method{print}{cor_table}(x, n = 6, ...)
+\method{print}{cor_table}(x, n = 6L, ...)
 
 \method{writeStatTable}{cor_table}(x, file)
 }
@@ -108,11 +108,6 @@ cor_table$pearson  <- calc.cor(log10(sim_test_data),
 # S3 print method
 cor_table   # both spearman and pearson
 
-# S3 writeStatTable method
-apt_data <- getAnalyteInfo(sim_test_data)
-cor_table$spearman$stat.table <- addTargetInfo(cor_table$spearman$stat.table, apt_data)
-f_out <- tempfile("cor-table-", fileext = ".csv")
-writeStatTable(cor_table$spearman, file = f_out)
 }
 \seealso{
 \code{\link[=cor.test]{cor.test()}}

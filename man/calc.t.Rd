@@ -8,7 +8,7 @@
 \usage{
 calc.t(data, apts = NULL, bh = TRUE, paired = FALSE, response = NULL, ...)
 
-\method{print}{t_table}(x, n = 6, ...)
+\method{print}{t_table}(x, n = 6L, ...)
 
 \method{writeStatTable}{t_table}(x, file)
 }
@@ -86,11 +86,6 @@ t2 <- calc.t(log10(sim_test_data), response = "class_response", rm.outliers = TR
 t_table
 t2
 
-# S3 writeStatTable method
-apt_data <- getAnalyteInfo(sim_test_data)
-t_table$stat.table <- addTargetInfo(t_table$stat.table, apt_data)
-f_out <- tempfile("t-table-", fileext = ".csv")
-writeStatTable(t_table, file = f_out)
 }
 \seealso{
 The `calc.*()` family: 

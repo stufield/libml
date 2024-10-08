@@ -81,7 +81,7 @@ calc.glm <- function(data, response = NULL, apts = NULL, bh = TRUE) {
 #' print(glm_table, n = 10)  # top 10
 #'
 #' @export
-print.glm_table <- function(x, n = 6, ...) {
+print.glm_table <- function(x, n = 6L, ...) {
   key <- pad(c("Number of glm models", "Number of samples", "Class Variable"), 25)
   value <- c(length(x$models), x$data.dim[1L], x$y.response)
   writeLines(paste(" ", key, value))
@@ -93,14 +93,7 @@ print.glm_table <- function(x, n = 6, ...) {
 
 
 #' @describeIn calc.glm
-#' The S3 `writeStatTable` method for class `glm_table`.
-#' @examples
-#' # S3 writeStatTable method
-#' apt_data <- getAnalyteInfo(tr)
-#' glm_table$stat.table <- addTargetInfo(glm_table$stat.table, apt_data)
-#' f_out <- tempfile("glm-table-", fileext = ".csv")
-#' writeStatTable(glm_table, file = f_out)
-#'
+#'   The S3 `writeStatTable` method for class `glm_table`.
 #' @export
 writeStatTable.glm_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)

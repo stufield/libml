@@ -62,7 +62,7 @@ calc.lr <- function(data, apts = NULL, response = NULL,
 #' lr2
 #'
 #' @export
-print.logratio_table <- function(x, n = 6, ...) {
+print.logratio_table <- function(x, n = 6L, ...) {
   key <- pad("Ratios of ->", 25)
   writeLines(paste(" ", key, ifelse(x$do.mean, "Means", "Medians")))
   cat("\n")
@@ -73,12 +73,6 @@ print.logratio_table <- function(x, n = 6, ...) {
 
 
 #' @describeIn calc.lr
-#' The S3 `writeStatTable` method for class `logratio_table`.
-#' @examples
-#' # S3 writeStatTable method
-#' apt_data <- getAnalyteInfo(sim_test_data)
-#' lr1$stat.table <- addTargetInfo(lr1$stat.table, apt_data)
-#' f_out <- tempfile("logRatio-table-", fileext = ".csv")
-#' writeStatTable(lr1, file = f_out)
+#'   The S3 `writeStatTable` method for class `logratio_table`.
 #' @export
 writeStatTable.logratio_table <- writeStatTable.ks_table

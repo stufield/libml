@@ -81,7 +81,7 @@ calc.kw <- function(data, apts = NULL, response = NULL, bh = TRUE, ...) {
 #' kw_table
 #'
 #' @export
-print.kw_table <- function(x, n = 6, ...) {
+print.kw_table <- function(x, n = 6L, ...) {
   cat("\n")
   writeLines(signal_rule("Stat Table", line_col = "blue"))
   print(utils::head(x$stat.table, n))
@@ -90,13 +90,7 @@ print.kw_table <- function(x, n = 6, ...) {
 
 
 #' @describeIn calc.kw
-#' The S3 `writeStatTable` method for class `kw_table`.
-#' @examples
-#' # S3 writeStatTable method
-#' apt_data <- getAnalyteInfo(sim_test_data)
-#' kw_table$stat.table <- addTargetInfo(kw_table$stat.table, apt_data)
-#' f_out <- tempfile("kw-table-", fileext = ".csv")
-#' writeStatTable(kw_table, file = f_out)
+#'   The S3 `writeStatTable` method for class `kw_table`.
 #' @export
 writeStatTable.kw_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)

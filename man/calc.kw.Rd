@@ -8,7 +8,7 @@
 \usage{
 calc.kw(data, apts = NULL, response = NULL, bh = TRUE, ...)
 
-\method{print}{kw_table}(x, n = 6, ...)
+\method{print}{kw_table}(x, n = 6L, ...)
 
 \method{writeStatTable}{kw_table}(x, file)
 }
@@ -83,11 +83,6 @@ kw_table <- calc.kw(sim_test_data, response = "Response")
 # S3 print method
 kw_table
 
-# S3 writeStatTable method
-apt_data <- getAnalyteInfo(sim_test_data)
-kw_table$stat.table <- addTargetInfo(kw_table$stat.table, apt_data)
-f_out <- tempfile("kw-table-", fileext = ".csv")
-writeStatTable(kw_table, file = f_out)
 }
 \references{
 Myles Hollander and Douglas A. Wolfe (1973),

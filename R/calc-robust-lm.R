@@ -59,7 +59,7 @@ calc.robust.lm <- function(data, apts = NULL, response, bh = TRUE) {
 #' print(rlm_table, n = 20)  # top 20
 #'
 #' @export
-print.rlm_table <- function(x, n = 6, ...) {
+print.rlm_table <- function(x, n = 6L, ...) {
   key <- c("Number of rlm models", "Number of samples", "Response Variable") |>
     pad(25)
   value <- c(length(x$models), x$data.dim[1L], x$y.response)
@@ -72,14 +72,8 @@ print.rlm_table <- function(x, n = 6, ...) {
 
 
 #' @describeIn calc.robust.lm
-#' The S3 `writeStatTable` method for class `rlm_table`.
+#'   The S3 `writeStatTable` method for class `rlm_table`.
 #' @inheritParams calc.lm
-#' @examples
-#' # S3 writeStatTable method
-#' apt_data <- getAnalyteInfo(sim_test_data)
-#' rlm_table$stat.table <- addTargetInfo(rlm_table$stat.table, apt_data)
-#' f_out <- tempfile("rlm-table-", fileext = ".csv")
-#' writeStatTable(rlm_table, file = f_out)
 #' @export
 writeStatTable.rlm_table <- writeStatTable.lm_table
 

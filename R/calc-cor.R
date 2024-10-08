@@ -95,15 +95,15 @@ calc.cor <- function(data, apts = NULL, response, bh = TRUE,
 
 
 #' @describeIn calc.cor
-#' S3 print method for Spearman, Pearson, and Kendall correlation
-#' tables, all `cor_table` objects.
+#'   S3 print method for Spearman, Pearson, and Kendall correlation
+#'   tables, all `cor_table` objects.
 #' @param x An object of class `cor_table`.
 #' @examples
 #' # S3 print method
 #' cor_table   # both spearman and pearson
 #'
 #' @export
-print.cor_table <- function(x, n = 6, ...) {
+print.cor_table <- function(x, n = 6L, ...) {
   key <- pad(c("Number of samples", "Independent Variable"), 25)
   writeLines(paste(" ", key, c(x$data.dim[1L], x$response)))
   cat("\n")
@@ -114,13 +114,7 @@ print.cor_table <- function(x, n = 6, ...) {
 
 
 #' @describeIn calc.cor
-#' The S3 `writeStatTable` method for class `cor_table`.
-#' @examples
-#' # S3 writeStatTable method
-#' apt_data <- getAnalyteInfo(sim_test_data)
-#' cor_table$spearman$stat.table <- addTargetInfo(cor_table$spearman$stat.table, apt_data)
-#' f_out <- tempfile("cor-table-", fileext = ".csv")
-#' writeStatTable(cor_table$spearman, file = f_out)
+#'   The S3 `writeStatTable` method for class `cor_table`.
 #' @export
 writeStatTable.cor_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)

@@ -9,7 +9,7 @@
 \usage{
 calc.lm(data, apts = NULL, response, bh = TRUE)
 
-\method{print}{lm_table}(x, n = 6, ...)
+\method{print}{lm_table}(x, n = 6L, ...)
 
 \method{writeStatTable}{lm_table}(x, file)
 
@@ -131,12 +131,6 @@ lm_table
 
 # extend the default no. of rows
 print(lm_table, n = 10)
-
-# S3 writeStatTable method
-apt_data <- getAnalyteInfo(sim_test_data)
-lm_table$stat.table <- addTargetInfo(lm_table$stat.table, apt_data)
-f_out <- tempfile("lm-table-", fileext = ".csv")
-writeStatTable(lm_table, file = f_out)
 
 # S3 plot method
 plot(lm_table, .data = sim_test_data)

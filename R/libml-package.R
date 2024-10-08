@@ -7,7 +7,9 @@
 ## usethis namespace: end
 NULL
 
-#' @import SomaDataIO globalr splyr
+#' @import globalr splyr
+#' @importFrom SomaDataIO addClass getSeqIdMatches getTargetNames is.soma_adat
+#' @importFrom SomaDataIO getAnalyteInfo getAnalytes getMeta is_intact_attr
 #' @importFrom withr local_seed with_preserve_seed with_seed local_output_sink
 #' @importFrom dplyr mutate select filter group_by
 # Avoid warning in R CMD check:

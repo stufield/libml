@@ -35,23 +35,24 @@
 #'
 #' @author Stu Field
 #' @examples
-#' n3 <- head(getAnalytes(SomaDataIO::example_data), 3L)
-#' small_dat <- SomaDataIO::example_data[, c("Sex", "Age", n3)] |>
+#' reg_feat <- attr(sim_test_data, "sig_feats")$reg
+#' class_feat <- attr(sim_test_data, "sig_feats")$class
+#' small_dat <- sim_test_data[, c("gender", "age", reg_feat, class_feat)] |>
 #'   log10() |>
 #'   centerScaleData()
-#' tts <- calc_univariate(small_dat, "Sex", "t.test")
-#' lms <- calc_univariate(small_dat, "Age", "lm")
+#' tts <- calc_univariate(small_dat, "gender", "t.test")
+#' lms <- calc_univariate(small_dat, "age", "lm")
 #' @importFrom dplyr mutate arrange select row_number
 #' @importFrom purrr map
 #' @importFrom stats as.formula formula lm p.adjust t.test
-#' @importFrom SomaDataIO getAnalyteInfo getAnalytes
+#' @importFrom SomaDataIO getAnalyteInfo
 #' @importFrom tidyr unnest
 #' @export
 calc_univariate <- function(data, var, test = c("t.test", "lm"),
                             save.test = FALSE) {
   stopifnot(
-    "`data` must be an intact `soma_adat` object." = is_intact_attr(data),
-    " `var` must be a character string."           = is.character(var)
+    "`data` must be a `data.frame` object." = is.data.frame(data),
+    " `var` must be a character string."    = is.character(var)
   )
   test <- match.arg(test)
   .fun <- switch(test,

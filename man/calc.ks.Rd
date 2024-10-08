@@ -8,7 +8,7 @@
 \usage{
 calc.ks(data, apts = NULL, response = NULL, bh = TRUE, ...)
 
-\method{print}{ks_table}(x, n = 6, ...)
+\method{print}{ks_table}(x, n = 6L, ...)
 
 \method{writeStatTable}{ks_table}(x, file)
 }
@@ -88,11 +88,6 @@ ks_table
 # no outliers
 ks2
 
-# S3 writeStatTable method
-apt_data <- getAnalyteInfo(sim_test_data)
-ks_table$stat.table <- addTargetInfo(ks_table$stat.table, apt_data)
-f_out <- tempfile("ks-table-", fileext = ".csv")
-writeStatTable(ks_table, file = f_out)
 }
 \seealso{
 \code{\link[=create_train]{create_train()}}

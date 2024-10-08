@@ -60,11 +60,7 @@ robustNaiveBayes <- function(x, ...) UseMethod("robustNaiveBayes")
 robustNaiveBayes.default <- function(x, y, mad = FALSE, laplace = 0,
                                      keep.data = FALSE, ...) {
 
-  if ( is.tr_data(x) ) {
-    response <- .get_response(x)
-  } else {
-    response <- "y"
-  }
+  response <- .get_response(x) %||% "y"
 
   if ( !is.factor(y) ) {
     warning(
@@ -122,6 +118,7 @@ robustNaiveBayes.default <- function(x, y, mad = FALSE, laplace = 0,
   ret$apriori <- apriori
   ret$tables  <- tables
   ret$levels  <- levels(y)
+  ret$response<- response
   resp_df     <- setNames(data.frame(y), response)
   ret$data    <- if ( keep.data ) cbind(x, resp_df) else FALSE # nolint
   ret$call    <- list(...)$orig_call %||% match.call(expand.dots = FALSE)
@@ -146,7 +143,7 @@ robustNaiveBayes.formula <- function(formula, data, ...) {
   response <- as.character(formula[[2L]])
   y   <- data[[response]]
   idx <- names(data) %in% response
-  X   <- data.frame(data[, !idx])  # strip class
+  X   <- as_tibble(data[, !idx])  # strip class but not attrs
   call <- list(...)$orig_call %||% match.call(expand.dots = TRUE)
   robustNaiveBayes(X, y, orig_call = call, ...)
 }
@@ -160,7 +157,7 @@ robustNaiveBayes.tr_data <- function(x, ...) {
   response <- .get_response(x)
   y    <- x[[response]]
   idx  <- names(x) %in% response
-  x    <- data.frame(x[, !idx])  # strip class
+  x    <- as_tibble(x[, !idx])  # strip class but not attrs
   robustNaiveBayes(x = x, y = y, orig_call = call, ...)
 }
 
@@ -283,26 +280,24 @@ predict.robustNaiveBayes <- function(object, newdata,
 #'   either a probability density function (PDF, default), CDF, or log-odds
 #'   plots. Arguments can be shortened and is matched via [match.arg()].
 #' @param x.lab Character. Optional label for the x-axis.
-#' @param sampleId An optional identifier of a specific sample to plot on top of
+#' @param id An optional identifier of a specific sample to plot on top of
 #'   either PDFs or CDFs. This may be either a numeric index of the sample row
-#'   in the `data`, or its row name identifier. Can be of `length > 1`.
+#'   in the `data`, or its `rowname`. Can be `length(n)`.
 #' @return `plot.robustNaiveBayes`, `plot.naiveBayes`: A plot, either a list of
 #'   PDFs/CDFs, or a log-odds plot.
 #' @seealso [plotLogOdds()], [SomaPlotr::plotPDFlist()], [SomaPlotr::plotCDFlist()]
 #' @examples
 #' # Plotting
-#' iris <- create_train(iris, group.var = Species)
-#' plot(m2, iris)
-#' plot(m2, iris, sampleId = 50)      # sample 50 is definitely "setosa"
-#' plot(m1, iris, plot.type = "cdf")  # plot type CDF
-#' plot(m2, iris, features = "Sepal.Length", sampleId = 70)  # 1 feature
-#' plot(m1, iris, plot.type = "cdf", lty = "longdash")   # pass through of linetype
+#' plot(m2, tr_iris)
+#' plot(m2, tr_iris, id = 50)      # sample 50 is definitely "setosa"
+#' plot(m1, tr_iris, plot.type = "cdf")  # plot type CDF
+#' plot(m2, tr_iris, features = "Sepal.Length", id = 70)  # 1 feature
+#' plot(m1, tr_iris, plot.type = "cdf", lty = "longdash") # pass-through of lty
 #' @importFrom dplyr all_of
 #' @export
 plot.robustNaiveBayes <- function(x, data, features,
                                   plot.type = c("pdf", "cdf", "log.odds"),
-                                  x.lab = bquote(italic(log)[10] ~ (RFU)),
-                                  sampleId, ...) {
+                                  x.lab = "value", id, ...) {
 
   if ( missing(data) && inherits(x$data, "data.frame") ) {
     data <- x$data
@@ -315,6 +310,8 @@ plot.robustNaiveBayes <- function(x, data, features,
     stopifnot(inherits(data, "tr_data"))
   }
 
+  response <- x$response %||% .get_response(data)
+
   if ( is.soma_adat(data) && is_intact_attr(data) ) {
     tg <- getTargetNames(getAnalyteInfo(data))
   } else {
@@ -323,42 +320,42 @@ plot.robustNaiveBayes <- function(x, data, features,
 
   plot.type <- match.arg(plot.type)
 
-  if ( missing(sampleId) ) {
-    sampleId <- NULL
+  if ( missing(id) ) {
+    id <- NULL
   }
 
   if ( missing(features) ) {
     features <- getModelFeatures(x)
   }
 
-  data <- dplyr::select(data, all_of(features), Response)
+  data <- dplyr::select(data, all_of(c(features, response)))
 
   if ( plot.type == "pdf" ) {
-    p <- lapply(features, function(apt) {
-       if ( is.null(sampleId) ) {
+    p <- lapply(features, function(ft) {
+       if ( is.null(id) ) {
          ablines <- NULL
        } else {
-         ablines <- data[sampleId, apt, drop = TRUE]
+         ablines <- data[id, ft, drop = TRUE]
        }
-       title <- tg[[apt]] %||% apt
-       split(data[[apt]], data$Response) |>
+       title <- tg[[ft]] %||% ft
+       split(data[[ft]], data[[response]]) |>
          SomaPlotr::plotPDFlist(x.lab = x.lab, ablines = ablines, ...,
-                               main = title)
+                                main = title)
       })
 
   } else if ( plot.type == "cdf" ) {
 
-    p <- lapply(features, function(apt) {
-       if ( is.null(sampleId) ) {
+    p <- lapply(features, function(ft) {
+       if ( is.null(id) ) {
          ablines <- NULL
        } else {
-         ablines <- data[sampleId, apt, drop = TRUE]
+         ablines <- data[id, ft, drop = TRUE]
        }
-       title <- tg[[apt]] %||% apt
-       split(data[[apt]], data$Response) |>
+       title <- tg[[ft]] %||% ft
+       split(data[[ft]], data[[response]]) |>
          SomaPlotr::plotCDFlist(x.lab = x.lab, ablines = ablines, ...,
-                               main = title)
-      })
+                                main = title)
+      }) |> invisible()
 
   } else if ( plot.type == "log.odds" ) {
 
@@ -369,7 +366,7 @@ plot.robustNaiveBayes <- function(x, data, features,
       )
     }
     pred <- predict(x, newdata = data, type = "posterior")[, 2L]
-    p    <- plotLogOdds(truth     = data$Response,
+    p    <- plotLogOdds(truth     = data[[response]],
                         predicted = pred,
                         pos.class = getPositiveClass(x))
   }

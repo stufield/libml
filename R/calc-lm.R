@@ -97,7 +97,7 @@ calc.lm <- function(data, apts = NULL, response, bh = TRUE) {
 #' print(lm_table, n = 10)
 #'
 #' @export
-print.lm_table <- function(x, n = 6, ...) {
+print.lm_table <- function(x, n = 6L, ...) {
   key <- pad(c("Number of lm models", "Number of samples",
                "Response Variable"), 25)
   value <- c(length(x$models), x$data.dim[1L], x$y.response)
@@ -110,14 +110,7 @@ print.lm_table <- function(x, n = 6, ...) {
 
 
 #' @describeIn calc.lm
-#' The S3 `writeStatTable` method for class `lm_table`.
-#' @examples
-#' # S3 writeStatTable method
-#' apt_data <- getAnalyteInfo(sim_test_data)
-#' lm_table$stat.table <- addTargetInfo(lm_table$stat.table, apt_data)
-#' f_out <- tempfile("lm-table-", fileext = ".csv")
-#' writeStatTable(lm_table, file = f_out)
-#'
+#'   The S3 `writeStatTable` method for class `lm_table`.
 #' @export
 writeStatTable.lm_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)

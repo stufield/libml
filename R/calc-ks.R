@@ -59,7 +59,7 @@ calc.ks <- function(data, apts = NULL, response = NULL, bh = TRUE, ...) {
 #' ks2
 #'
 #' @export
-print.ks_table <- function(x, n = 6, ...) {
+print.ks_table <- function(x, n = 6L, ...) {
   cat("\n")
   writeLines(signal_rule("Stat Table", line_col = "blue"))
   print(utils::head(x$stat.table, n))
@@ -68,13 +68,7 @@ print.ks_table <- function(x, n = 6, ...) {
 
 
 #' @describeIn calc.ks
-#' The S3 `writeStatTable` method for class `ks_table`.
-#' @examples
-#' # S3 writeStatTable method
-#' apt_data <- getAnalyteInfo(sim_test_data)
-#' ks_table$stat.table <- addTargetInfo(ks_table$stat.table, apt_data)
-#' f_out <- tempfile("ks-table-", fileext = ".csv")
-#' writeStatTable(ks_table, file = f_out)
+#'   The S3 `writeStatTable` method for class `ks_table`.
 #' @importFrom stats setNames
 #' @export
 writeStatTable.ks_table <- function(x, file) {

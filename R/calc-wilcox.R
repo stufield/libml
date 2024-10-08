@@ -99,7 +99,7 @@ calc.mw <- function(...) calc.wilcox(..., paired = FALSE)
 #' w2
 #'
 #' @export
-print.wilcox_table <- function(x, n = 6, ...) {
+print.wilcox_table <- function(x, n = 6L, ...) {
   cat("\n")
   writeLines(signal_rule("Stat Table", line_col = "blue"))
   print(utils::head(x$stat.table, n))
@@ -108,12 +108,6 @@ print.wilcox_table <- function(x, n = 6, ...) {
 
 
 #' @describeIn calc.wilcox
-#' The S3 `writeStatTable` method for class `wilcox_table`.
-#' @examples
-#' # S3 writeStatTable method
-#' apt_data <- getAnalyteInfo(sim_test_data)
-#' mw$stat.table <- addTargetInfo(mw$stat.table, apt_data)
-#' f_out <- tempfile("mw-table-", fileext = ".csv")
-#' writeStatTable(mw, file = f_out)
+#'   The S3 `writeStatTable` method for class `wilcox_table`.
 #' @export
 writeStatTable.wilcox_table <- writeStatTable.ks_table

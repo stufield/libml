@@ -53,12 +53,13 @@ Currently supports:
 }
 }
 \examples{
-n3 <- head(getAnalytes(SomaDataIO::example_data), 3L)
-small_dat <- SomaDataIO::example_data[, c("Sex", "Age", n3)] |>
+reg_feat <- attr(sim_test_data, "sig_feats")$reg
+class_feat <- attr(sim_test_data, "sig_feats")$class
+small_dat <- sim_test_data[, c("gender", "age", reg_feat, class_feat)] |>
   log10() |>
   centerScaleData()
-tts <- calc_univariate(small_dat, "Sex", "t.test")
-lms <- calc_univariate(small_dat, "Age", "lm")
+tts <- calc_univariate(small_dat, "gender", "t.test")
+lms <- calc_univariate(small_dat, "age", "lm")
 }
 \author{
 Stu Field

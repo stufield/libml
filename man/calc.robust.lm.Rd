@@ -8,7 +8,7 @@
 \usage{
 calc.robust.lm(data, apts = NULL, response, bh = TRUE)
 
-\method{print}{rlm_table}(x, n = 6, ...)
+\method{print}{rlm_table}(x, n = 6L, ...)
 
 \method{writeStatTable}{rlm_table}(x, file)
 }
@@ -88,11 +88,6 @@ rlm_table <- calc.robust.lm(log10(sim_test_data), response = "HybControlNormScal
 rlm_table                 # top 6
 print(rlm_table, n = 20)  # top 20
 
-# S3 writeStatTable method
-apt_data <- getAnalyteInfo(sim_test_data)
-rlm_table$stat.table <- addTargetInfo(rlm_table$stat.table, apt_data)
-f_out <- tempfile("rlm-table-", fileext = ".csv")
-writeStatTable(rlm_table, file = f_out)
 }
 \seealso{
 \code{\link[=lm]{lm()}}

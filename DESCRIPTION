@@ -18,7 +18,6 @@ Description: The libml package contains general functions
 License: GPL-3 | file LICENSE
 Depends:
     R (>= 4.1.0),
-    SomaDataIO,
     globalr,
     splyr
 Imports:
@@ -30,6 +29,7 @@ Imports:
     lifecycle,
     purrr,
     randomForest,
+    SomaDataIO,
     tibble,
     tidyr,
     withr
