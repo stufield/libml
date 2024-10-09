@@ -87,9 +87,9 @@ kfold_cv <- function(data, k, model.type = c("lr", "nb", "rf",
     if ( mtype == "kknn" ) {
       test_df <- NULL # kknn models have test predictions inside model object
     }
-    label <- paste0("prob_", getPositiveClass(tr_model))
+    label <- paste0("prob_", get_pos_class(tr_model))
     tibble(truth     = cv_data[[response]][-cv_fold],
-           predicted = calcPredictions(tr_model, test_df)[[label]],
+           predicted = calc_predictions(tr_model, test_df)[[label]],
            fold      = i)
   }) |> dplyr::bind_rows()
 }

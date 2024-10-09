@@ -46,7 +46,7 @@ calc.t <- function(data, apts = NULL, bh = TRUE, paired = FALSE,
   ret.list$data.dim    <- dim(data)
   if ( withr::with_preserve_seed(runif(1) < 0.25) ) gPraise()
   ret.list |>
-    addClass(c("stat_table", "t_table"))
+    add_class(c("stat_table", "t_table"))
 }
 
 
@@ -68,6 +68,6 @@ print.t_table <- function(x, n = 6L, ...) {
 
 
 #' @describeIn calc.t
-#'   The S3 `writeStatTable` method for class `t_table`.
+#'   The S3 `write_stat_table` method for class `t_table`.
 #' @export
-writeStatTable.t_table <- writeStatTable.ks_table
+write_stat_table.t_table <- write_stat_table.ks_table

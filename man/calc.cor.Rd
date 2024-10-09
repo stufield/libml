@@ -3,7 +3,7 @@
 \name{calc.cor}
 \alias{calc.cor}
 \alias{print.cor_table}
-\alias{writeStatTable.cor_table}
+\alias{write_stat_table.cor_table}
 \title{Calculate Correlation Table}
 \usage{
 calc.cor(
@@ -17,7 +17,7 @@ calc.cor(
 
 \method{print}{cor_table}(x, n = 6L, ...)
 
-\method{writeStatTable}{cor_table}(x, file)
+\method{write_stat_table}{cor_table}(x, file)
 }
 \arguments{
 \item{data}{A \code{soma_adat} or \code{data.frame} object containing RFU data.
@@ -84,7 +84,7 @@ in the ADAT (columns).
 \item \code{print(cor_table)}: S3 print method for Spearman, Pearson, and Kendall correlation
 tables, all \code{cor_table} objects.
 
-\item \code{writeStatTable(cor_table)}: The S3 \code{writeStatTable} method for class \code{cor_table}.
+\item \code{write_stat_table(cor_table)}: The S3 \code{write_stat_table} method for class \code{cor_table}.
 
 }}
 \note{

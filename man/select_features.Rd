@@ -7,8 +7,8 @@
 select_features(model, .data)
 }
 \arguments{
-\item{model}{A model with an S3 \code{\link[=getModelFeatures]{getModelFeatures()}} method. See description
-in \code{\link[=getModelFeatures]{getModelFeatures()}}.}
+\item{model}{A model with an S3 \code{\link[=get_model_features]{get_model_features()}} method. See description
+in \code{\link[globalr:s3-generics]{globalr::get_model_features()}}.}
 
 \item{.data}{A \code{data.frame}, typically containing a test data
 of samples to to subset down to the minimal set of features.}

@@ -76,7 +76,7 @@ calc.wilcox <- function(data, apts = NULL, paired = FALSE,
   ret.list$data.dim    <- dim(data)
   if ( withr::with_preserve_seed(runif(1) < 0.25) ) gPraise()
   ret.list |>
-    addClass(c("stat_table", "wilcox_table"))
+    add_class(c("stat_table", "wilcox_table"))
 }
 
 
@@ -108,6 +108,6 @@ print.wilcox_table <- function(x, n = 6L, ...) {
 
 
 #' @describeIn calc.wilcox
-#'   The S3 `writeStatTable` method for class `wilcox_table`.
+#'   The S3 `write_stat_table` method for class `wilcox_table`.
 #' @export
-writeStatTable.wilcox_table <- writeStatTable.ks_table
+write_stat_table.wilcox_table <- write_stat_table.ks_table

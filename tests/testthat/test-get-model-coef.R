@@ -26,92 +26,92 @@ lapply(setNames, nm = reg_features)
 
 # Testing ----
 # glmnet model ----
-test_that("`getModelCoef()` returns correct coefs for class 'glmnet'", {
+test_that("`get_model_coef()` returns correct coefs for class 'glmnet'", {
   model <- glmnet::glmnet(data.matrix(tr_iris[, -5L]), y = tr_iris$Species,
                           family = "binomial", lambda = 0.1, alpha = 1)
-  test_val <- getModelCoef(model)
+  test_val <- get_model_coef(model)
   expect_equal(test_val, expected_class_coefs$glmnet)
 })
 
 # glm model ----
-test_that("`getModelCoef()` returns correct coefs for class 'glm'", {
+test_that("`get_model_coef()` returns correct coefs for class 'glm'", {
   model    <- fit_logistic(tr_iris)
-  test_val <- getModelCoef(model)
+  test_val <- get_model_coef(model)
   expect_equal(test_val, expected_class_coefs$glm)
 })
 
 # random forest model ----
-test_that("`getModelCoef()` returns correct coefs for class 'randomForest'", {
+test_that("`get_model_coef()` returns correct coefs for class 'randomForest'", {
   rf <- withr::with_seed(1,
     randomForest::randomForest(Species ~ ., data = tr_iris, importance = TRUE)
   )
-  expect_null(getModelCoef(rf))
+  expect_null(get_model_coef(rf))
 })
 
 # SVM model ----
-test_that("`getModelCoef()` returns correct coefs for class 'svm'", {
+test_that("`get_model_coef()` returns correct coefs for class 'svm'", {
   model <- e1071::svm(Species ~ ., data = tr_iris)
-  expect_null(getModelCoef(model))
+  expect_null(get_model_coef(model))
 })
 
 # SVM Regression model ----
-test_that("`getModelCoef()` returns correct coefs for class 'svm' (regression)", {
+test_that("`get_model_coef()` returns correct coefs for class 'svm' (regression)", {
   model <- withr::with_seed(12345,
     e1071::svm(reg_response ~ ., data = reg_data, kernel = "linear")
   )
-  test_val <- getModelCoef(model)
+  test_val <- get_model_coef(model)
   expect_equal(test_val, expected_reg_coefs$svm)
 })
 
 # GBM model ----
-test_that("`getModelCoef()` returns correct coefs for class 'gbm'", {
+test_that("`get_model_coef()` returns correct coefs for class 'gbm'", {
   model    <- fit_gbm(Species ~ ., data = tr_iris, distribution = "bernoulli")
-  test_val <- getModelCoef(model)
+  test_val <- get_model_coef(model)
   expect_null(test_val)
 })
 
 # robust naive Bayes model ----
-test_that("`getModelCoef()` returns correct coefs for class 'naiveBayes'", {
+test_that("`get_model_coef()` returns correct coefs for class 'naiveBayes'", {
   model    <- fit_nb(Species ~ ., data = tr_iris)
-  test_val <- getModelCoef(model)
+  test_val <- get_model_coef(model)
   expect_null(test_val)
 })
 
 # caret Logistic model ----
-test_that("`getModelCoef()` correct coefs for train:logistic regression", {
+test_that("`get_model_coef()` correct coefs for train:logistic regression", {
   withr::local_package("caret")
   t_crtl <- caret::trainControl(method = "repeatedcv")
   model  <- withr::with_seed(12345,
     caret::train(Species ~ ., data = tr_iris, trControl = t_crtl, method = "glm")
   )
-  test_val <- getModelCoef(model)
+  test_val <- get_model_coef(model)
   expect_equal(test_val, expected_class_coefs$caret_glm)
 
   model <- withr::with_seed(12345,
     caret::train(Species ~ ., data = tr_iris, trControl = t_crtl, method = "glmnet")
   )
-  test_val <- getModelCoef(model)
+  test_val <- get_model_coef(model)
   expect_equal(test_val, expected_class_coefs$caret_glmnet)
 })
 
 # caret Regression model ----
-test_that("`getModelCoef()` correct coefs for train:linear regression", {
+test_that("`get_model_coef()` correct coefs for train:linear regression", {
   withr::local_package("caret")
   t_crtl <- caret::trainControl(method = "repeatedcv")
   model  <- withr::with_seed(12345,
     caret::train(reg_response ~ ., data = reg_data, trControl = t_crtl,
                  metric = "RMSE", method = "glmnet")
   )
-  test_val <- getModelCoef(model)
+  test_val <- get_model_coef(model)
   expect_equal(test_val, expected_reg_coefs$caret_glmnet)
 })
 
 # generic error catch ----
-test_that("`getModelCoef()` throws errors when incorrect arguments are passed", {
+test_that("`get_model_coef()` throws errors when incorrect arguments are passed", {
   # unknown model type; default method
   expect_error(
-    getModelCoef(data.frame(a = 1:3)),
-    paste("Could not find a `getModelCoef()` S3 method",
+    get_model_coef(data.frame(a = 1:3)),
+    paste("Could not find a `get_model_coef()` S3 method",
           "for this model type: 'data.frame'"),
     fixed = TRUE
   )

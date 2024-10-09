@@ -65,7 +65,7 @@ calc.glm <- function(data, response = NULL, apts = NULL, bh = TRUE) {
   ret.list$log        <- is.logspace(data)
   if ( withr::with_preserve_seed(runif(1) < 0.25) ) gPraise()
   ret.list |>
-    addClass(c("stat_table", "glm_table"))
+    add_class(c("stat_table", "glm_table"))
 }
 
 
@@ -93,9 +93,9 @@ print.glm_table <- function(x, n = 6L, ...) {
 
 
 #' @describeIn calc.glm
-#'   The S3 `writeStatTable` method for class `glm_table`.
+#'   The S3 `write_stat_table` method for class `glm_table`.
 #' @export
-writeStatTable.glm_table <- function(x, file) {
+write_stat_table.glm_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)
   cat("Response Variable,", x$y.response, "\n\n", sep = "")
   renameStatTable(x$stat.table) |> rn2col("AptName") |>

@@ -17,7 +17,7 @@ indicating the pairing.}
 \item{type}{Matched string. One of "parametric" or "nonparametric" to
 determine the outliers detection implementation.}
 
-\item{...}{Additional arguments passed to \code{\link[=getOutliers]{getOutliers()}}.}
+\item{...}{Additional arguments passed to \code{\link[=get_outliers]{get_outliers()}}.}
 }
 \value{
 A \code{tibble} with columns \code{x} and \code{y} representing each
@@ -40,7 +40,7 @@ from the median \emph{and} a specified number of fold-changes from
 the median (i.e. \code{fold.crit}; e.g. 5x).\cr
 \strong{Note:} \code{n.sigma} is ignored.
 \item The parametric case: the mean and standard deviation are
-calculated robustly via \code{\link[globalr:calcRobustGaussFit]{calcRobustGaussFit()}}. Outliers
+calculated robustly via \code{\link[globalr:fit_gauss]{fit_gauss()}}. Outliers
 are defined as measurements falling \emph{outside} +/- \code{n.sigma}*\eqn{\sigma}
 from the the estimated \eqn{\mu}.\cr
 \strong{Note:} \code{mad.crit} and \code{fold.crit} are ignored.
@@ -57,7 +57,7 @@ x2 <- removeOutliers(x, y)       # final row removed
 x2
 }
 \seealso{
-\code{\link[=getOutliers]{getOutliers()}}
+\code{\link[=get_outliers]{get_outliers()}}
 }
 \author{
 Amy Zhang, Sophie Weiss, and Stu Field

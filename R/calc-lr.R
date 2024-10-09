@@ -49,7 +49,7 @@ calc.lr <- function(data, apts = NULL, response = NULL,
   ret.list$data.frame  <- deparse(ret.list$call[[2L]])
   ret.list$data.dim    <- dim(data)
   ret.list |>
-    addClass(c("stat_table", "logratio_table"))
+    add_class(c("stat_table", "logratio_table"))
 }
 
 
@@ -73,6 +73,6 @@ print.logratio_table <- function(x, n = 6L, ...) {
 
 
 #' @describeIn calc.lr
-#'   The S3 `writeStatTable` method for class `logratio_table`.
+#'   The S3 `write_stat_table` method for class `logratio_table`.
 #' @export
-writeStatTable.logratio_table <- writeStatTable.ks_table
+write_stat_table.logratio_table <- write_stat_table.ks_table

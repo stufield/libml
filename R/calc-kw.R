@@ -69,7 +69,7 @@ calc.kw <- function(data, apts = NULL, response = NULL, bh = TRUE, ...) {
   ret.list$data.frame <- deparse(ret.list$call[[2L]])
   if ( withr::with_preserve_seed(runif(1) < 0.25) ) gPraise()
   ret.list |>
-    addClass(c("stat_table", "kw_table"))
+    add_class(c("stat_table", "kw_table"))
 }
 
 
@@ -90,9 +90,9 @@ print.kw_table <- function(x, n = 6L, ...) {
 
 
 #' @describeIn calc.kw
-#'   The S3 `writeStatTable` method for class `kw_table`.
+#'   The S3 `write_stat_table` method for class `kw_table`.
 #' @export
-writeStatTable.kw_table <- function(x, file) {
+write_stat_table.kw_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)
   cat("\n")
   renameStatTable(x$stat.table) |> rn2col("AptName") |>

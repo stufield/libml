@@ -96,7 +96,7 @@ calc.mackwolfe <- function(data, apts = NULL, response = NULL,
   ret.list$counts       <- as.table(table(data[[response]])[levels(gr_vec)])
   if ( withr::with_preserve_seed(runif(1) < 0.25) ) gPraise()
   ret.list |>
-    addClass(c("stat_table", "mackwolfe_table"))
+    add_class(c("stat_table", "mackwolfe_table"))
 }
 
 
@@ -133,9 +133,9 @@ print.mackwolfe_table <- function(x, n = 6L, ...) {
 
 
 #' @describeIn calc.mackwolfe
-#'   The S3 `writeStatTable` method for class `mackwolfe_table`.
+#'   The S3 `write_stat_table` method for class `mackwolfe_table`.
 #' @export
-writeStatTable.mackwolfe_table <- function(x, file) {
+write_stat_table.mackwolfe_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)
   cat("Response order,", paste(x$factor.order, collapse = " - "), "\n", sep = "")
   cat("Response peak,", x$peak, "\n\n", sep = "")

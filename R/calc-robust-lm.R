@@ -45,7 +45,7 @@ calc.robust.lm <- function(data, apts = NULL, response, bh = TRUE) {
   ret.list$data.frame  <- deparse(ret.list$call[[2L]])
   if ( withr::with_preserve_seed(runif(1) < 0.25) ) gPraise()
   ret.list |>
-    addClass(c("stat_table", "rlm_table"))
+    add_class(c("stat_table", "rlm_table"))
 }
 
 
@@ -72,10 +72,10 @@ print.rlm_table <- function(x, n = 6L, ...) {
 
 
 #' @describeIn calc.robust.lm
-#'   The S3 `writeStatTable` method for class `rlm_table`.
+#'   The S3 `write_stat_table` method for class `rlm_table`.
 #' @inheritParams calc.lm
 #' @export
-writeStatTable.rlm_table <- writeStatTable.lm_table
+write_stat_table.rlm_table <- write_stat_table.lm_table
 
 
 #' Calculate P-value of the slope from "rlm" object

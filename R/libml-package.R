@@ -8,8 +8,8 @@
 NULL
 
 #' @import globalr splyr
-#' @importFrom SomaDataIO addClass getSeqIdMatches getTargetNames is.soma_adat
 #' @importFrom SomaDataIO getAnalyteInfo getAnalytes getMeta is_intact_attr
+#' @importFrom SomaDataIO getSeqIdMatches getTargetNames is.soma_adat
 #' @importFrom withr local_seed with_preserve_seed with_seed local_output_sink
 #' @importFrom dplyr mutate select filter group_by
 # Avoid warning in R CMD check:

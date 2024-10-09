@@ -9,7 +9,7 @@ test  <- tibble::as_tibble(tail(tr_iris, 3L))  # strip `tr_data` class
 test_that("the logistic regression (GLM) method returns correct predictions", {
   # Logistic Regression
   lr <- fit_logistic(train)
-  pred1 <- calcPredictions(lr, test)
+  pred1 <- calc_predictions(lr, test)
   expect_false(has_rn(pred1))
   expect_equal(pred1,
     data.frame(stringsAsFactors = FALSE,
@@ -20,7 +20,7 @@ test_that("the logistic regression (GLM) method returns correct predictions", {
     )
   )
   # with cutoff to switch class prediction
-  pred2 <- calcPredictions(lr, test, cutoff = 0.33)
+  pred2 <- calc_predictions(lr, test, cutoff = 0.33)
   expect_equal(pred2,
     data.frame(stringsAsFactors = FALSE,
       pred_class = c("virginica", "virginica", "setosa"),
@@ -33,7 +33,7 @@ test_that("the logistic regression (GLM) method returns correct predictions", {
 
 test_that("the Naive Bayes method returns correct predictions", {
   nb <- fit_nb(Species ~ ., data = train)
-  pred1 <- calcPredictions(nb, test)
+  pred1 <- calc_predictions(nb, test)
   expect_false(has_rn(pred1))
   expect_equal(pred1,
     data.frame(stringsAsFactors = FALSE,
@@ -43,7 +43,7 @@ test_that("the Naive Bayes method returns correct predictions", {
     )
   )
   # with cutoff to switch class prediction
-  pred2 <- calcPredictions(nb, tail(fake_iris, 3L), cutoff = 0.01)
+  pred2 <- calc_predictions(nb, tail(fake_iris, 3L), cutoff = 0.01)
   expect_equal(pred2,
     data.frame(stringsAsFactors = FALSE,
       pred_class = c("virginica", "virginica", "setosa"),
@@ -59,7 +59,7 @@ test_that("the Random Forest method returns correct out-of-bag predictions", {
                                      importance = TRUE,
                                      proximity = TRUE, keep.inbag = TRUE)
   )
-  pred1 <- calcPredictions(rf, NULL)                # out-of-bag
+  pred1 <- calc_predictions(rf, NULL)                # out-of-bag
   expect_false(has_rn(pred1))
   # there are 97 out-of-bag samples; just test summaries
   expect_equal(c(table(pred1$pred_class)), c(setosa = 50, virginica = 47))
@@ -74,7 +74,7 @@ test_that("the Random Forest method returns correct predictions with test data",
                                      proximity = TRUE, keep.inbag = TRUE)
   )
   # with test data
-  pred1 <- calcPredictions(rf, test)
+  pred1 <- calc_predictions(rf, test)
   expect_false(has_rn(pred1))
   expect_equal(pred1, data.frame(stringsAsFactors = FALSE,
                         pred_class = c("virginica", "setosa", "setosa"),
@@ -83,7 +83,7 @@ test_that("the Random Forest method returns correct predictions with test data",
                       )
   )
   # with cutoff to switch class prediction
-  pred2 <- calcPredictions(rf, test, cutoff = 0.39)
+  pred2 <- calc_predictions(rf, test, cutoff = 0.39)
   expect_equal(pred2, data.frame(stringsAsFactors = FALSE,
                         pred_class = c("virginica", "virginica", "setosa"),
                         prob_setosa    = c(0.27, 0.606, 0.812),
@@ -95,7 +95,7 @@ test_that("the Random Forest method returns correct predictions with test data",
 test_that("the General Boosted Regression (GBM) returns correct predictions", {
   gb <- withr::with_seed(101, fit_gbm(Species ~ ., data = train,
                                       distribution = "bernoulli"))
-  pred1 <- calcPredictions(gb, test)
+  pred1 <- calc_predictions(gb, test)
   expect_false(has_rn(pred1))
   expect_equal(pred1, data.frame(stringsAsFactors = FALSE,
                          pred_class = c("virginica", "setosa", "setosa"),
@@ -108,7 +108,7 @@ test_that("the General Boosted Regression (GBM) returns correct predictions", {
                      )
   )
   # with cutoff to switch class prediction
-  pred2 <- calcPredictions(gb, test, 0.48)
+  pred2 <- calc_predictions(gb, test, 0.48)
   expect_equal(pred2, data.frame(stringsAsFactors = FALSE,
                         pred_class  = c("virginica", "virginica", "setosa"),
                         prob_setosa = c(0.15781951638483,
@@ -125,7 +125,7 @@ test_that("the Support Vector Machines method returns correct predictions", {
   sm <- withr::with_seed(101,
           e1071::svm(Species ~ ., data = train, probability = TRUE)
         )
-  pred1 <- calcPredictions(sm, test)
+  pred1 <- calc_predictions(sm, test)
   expect_false(has_rn(pred1))
   expect_equal(pred1, data.frame(stringsAsFactors = FALSE,
                         pred_class  = c("virginica", "setosa", "setosa"),
@@ -138,7 +138,7 @@ test_that("the Support Vector Machines method returns correct predictions", {
                       )
   )
   # with cutoff to switch class prediction
-  pred2 <- calcPredictions(sm, test, 0.35)
+  pred2 <- calc_predictions(sm, test, 0.35)
   expect_equal(pred2, data.frame(stringsAsFactors = FALSE,
                         pred_class  = c("virginica", "virginica", "setosa"),
                         prob_setosa = c(0.194761910287786,
@@ -154,7 +154,7 @@ test_that("the Support Vector Machines method returns correct predictions", {
 test_that("the `KKNN` method returns correct predictions", {
   # test set passed in during model fit
   kknn  <- fit_kknn(Species ~ ., train = train, test = test, K = 10)
-  pred1 <- calcPredictions(kknn)  # cannot pass test data
+  pred1 <- calc_predictions(kknn)  # cannot pass test data
   expect_false(has_rn(pred1))
   expect_equal(pred1, data.frame(stringsAsFactors = FALSE,
                         pred_class = c("virginica", "setosa", "setosa"),
@@ -167,14 +167,14 @@ test_that("the `KKNN` method returns correct predictions", {
                       )
   )
   expect_warning(
-    foo <- calcPredictions(kknn, test),  # test data triggers warning
+    foo <- calc_predictions(kknn, test),  # test data triggers warning
     paste0("KKNN models differ from other class models.\n",
            "Test predictions are built into the model object.")
   )
   expect_equal(pred1, foo)   # test data should be ignored after warning
 
   # with cutoff to switch class prediction
-  pred2 <- calcPredictions(kknn, cutoff = 0.48)
+  pred2 <- calc_predictions(kknn, cutoff = 0.48)
   expect_equal(pred2, data.frame(stringsAsFactors = FALSE,
                         pred_class = c("virginica", "setosa", "virginica"),
                         prob_setosa = c(0.235910086510298,

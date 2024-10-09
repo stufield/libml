@@ -44,7 +44,7 @@ calc.ks <- function(data, apts = NULL, response = NULL, bh = TRUE, ...) {
   ret.list$data.dim    <- dim(data)
   if ( withr::with_preserve_seed(runif(1) < 0.25) ) gPraise()
   ret.list |>
-    addClass(c("stat_table", "ks_table"))
+    add_class(c("stat_table", "ks_table"))
 }
 
 
@@ -68,10 +68,10 @@ print.ks_table <- function(x, n = 6L, ...) {
 
 
 #' @describeIn calc.ks
-#'   The S3 `writeStatTable` method for class `ks_table`.
+#'   The S3 `write_stat_table` method for class `ks_table`.
 #' @importFrom stats setNames
 #' @export
-writeStatTable.ks_table <- function(x, file) {
+write_stat_table.ks_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)
   cat("\n")
   out <- rn2col(renameStatTable(x$stat.table), "AptName")

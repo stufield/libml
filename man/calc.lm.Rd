@@ -3,7 +3,7 @@
 \name{calc.lm}
 \alias{calc.lm}
 \alias{print.lm_table}
-\alias{writeStatTable.lm_table}
+\alias{write_stat_table.lm_table}
 \alias{plot.lm_table}
 \title{Calculate Linear Models Table}
 \usage{
@@ -11,7 +11,7 @@ calc.lm(data, apts = NULL, response, bh = TRUE)
 
 \method{print}{lm_table}(x, n = 6L, ...)
 
-\method{writeStatTable}{lm_table}(x, file)
+\method{write_stat_table}{lm_table}(x, file)
 
 \method{plot}{lm_table}(
   x,
@@ -118,7 +118,7 @@ via \eqn{\beta_0} and \eqn{\beta_1}.
 \itemize{
 \item \code{print(lm_table)}: S3 print method for \code{lm_table} objects.
 
-\item \code{writeStatTable(lm_table)}: The S3 \code{writeStatTable} method for class \code{lm_table}.
+\item \code{write_stat_table(lm_table)}: The S3 \code{write_stat_table} method for class \code{lm_table}.
 
 \item \code{plot(lm_table)}: S3 plotting method for objects of class \code{lm_table}.
 

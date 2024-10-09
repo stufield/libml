@@ -7,13 +7,13 @@ t_tab <- calc.t(log10(sample.adat), response = "SampleGroup")
 
 # Testing ----
 test_that("returns correct when no features at threshold", {
-  expect_message(getTableStats(t_tab),
+  expect_message(get_table_stats(t_tab),
                  "No significant features at this threshold")
-  expect_null(getTableStats(t_tab))
+  expect_null(get_table_stats(t_tab))
 })
 
 test_that("returns correct when alpha relaxed; 1 feature", {
-  tab <- getTableStats(t_tab, alpha = 0.5)
+  tab <- get_table_stats(t_tab, alpha = 0.5)
   expect_equal(dim(tab), c(1L, 7L))
   expect_equal(tab,
                data.frame("seq.4330.4", 5.541887902,
@@ -25,7 +25,7 @@ test_that("returns correct when alpha relaxed; 1 feature", {
 })
 
 test_that("returns correct when `p.value` field used and alpha increased", {
-  tab <- getTableStats(t_tab, field = "p.value", alpha = 0.01)
+  tab <- get_table_stats(t_tab, field = "p.value", alpha = 0.01)
   expect_equal(dim(tab), c(7L, 7L))
   expect_named(tab, c("AptName", "t-statistic", "Signed t-statistic",
                       "p-value", "FDR", "Bonferroni p-value", "rank"))
@@ -38,5 +38,5 @@ test_that("returns correct when `p.value` field used and alpha increased", {
 })
 
 test_that("returns correct when `n = ` argument is passed", {
-  expect_equal(dim(getTableStats(t_tab, n = 25)), c(25L, 7L))
+  expect_equal(dim(get_table_stats(t_tab, n = 25)), c(25L, 7L))
 })

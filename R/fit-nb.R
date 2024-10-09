@@ -121,7 +121,7 @@ fit_nb.default <- function(x, y, mad = FALSE, laplace = 0,
   resp_df     <- setNames(data.frame(y), response)
   ret$data    <- if ( keep.data ) cbind(x, resp_df) else FALSE # nolint
   ret$call    <- list(...)$orig_call %||% match.call(expand.dots = FALSE)
-  addClass(ret, "libml_nb")
+  add_class(ret, "libml_nb")
 }
 
 
@@ -325,7 +325,7 @@ plot.libml_nb <- function(x, data, features,
   }
 
   if ( missing(features) ) {
-    features <- getModelFeatures(x)
+    features <- get_model_features(x)
   }
 
   data <- dplyr::select(data, all_of(c(features, response)))
@@ -368,7 +368,7 @@ plot.libml_nb <- function(x, data, features,
     pred <- predict(x, newdata = data, type = "posterior")[, 2L]
     p    <- plotLogOdds(truth     = data[[response]],
                         predicted = pred,
-                        pos.class = getPositiveClass(x))
+                        pos.class = get_pos_class(x))
   }
   p
 }

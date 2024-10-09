@@ -74,7 +74,7 @@ createROCdata <- function(truth, predicted, pos.class, do.ci = FALSE,
     names(spec_limits) <- c("spec_lowerCI", "spec_upperCI")
     ret <- cbind(ret, sens_limits, spec_limits)    # add to end
   }
-  addClass(ret, "roc_data")
+  add_class(ret, "roc_data")
 }
 
 

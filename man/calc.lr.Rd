@@ -3,7 +3,7 @@
 \name{calc.lr}
 \alias{calc.lr}
 \alias{print.logratio_table}
-\alias{writeStatTable.logratio_table}
+\alias{write_stat_table.logratio_table}
 \title{Calculate log-ratio Table}
 \usage{
 calc.lr(
@@ -17,7 +17,7 @@ calc.lr(
 
 \method{print}{logratio_table}(x, n = 6L, ...)
 
-\method{writeStatTable}{logratio_table}(x, file)
+\method{write_stat_table}{logratio_table}(x, file)
 }
 \arguments{
 \item{data}{A \code{soma_adat} or \code{data.frame} object containing RFU data.
@@ -61,7 +61,7 @@ given the response column with 2 factor levels.
 \itemize{
 \item \code{print(logratio_table)}: S3 print method for \code{logratio_table} objects.
 
-\item \code{writeStatTable(logratio_table)}: The S3 \code{writeStatTable} method for class \code{logratio_table}.
+\item \code{write_stat_table(logratio_table)}: The S3 \code{write_stat_table} method for class \code{logratio_table}.
 
 }}
 \examples{

@@ -5,8 +5,8 @@
 #' Similar to [model.frame()], except a _model_ is passed rather than
 #' a _formula_.
 #'
-#' @param model A model with an S3 [getModelFeatures()] method. See description
-#'   in [getModelFeatures()].
+#' @param model A model with an S3 [get_model_features()] method. See description
+#'   in [globalr::get_model_features()].
 #' @param .data A `data.frame`, typically containing a test data
 #'   of samples to to subset down to the minimal set of features.
 #' @return A `data.frame`-like object (depending on class of `.data`) subset
@@ -42,7 +42,7 @@
 #' @importFrom tibble as_tibble
 #' @export
 select_features <- function(model, .data) {
-  ft <- getModelFeatures(model)
+  ft <- get_model_features(model)
   if ( any(!ft %in% names(.data)) ) {
     stop(
       "There are missing model features in data set.\n",

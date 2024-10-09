@@ -11,7 +11,7 @@
 #'     that are used for predictions if `newdata = NULL`.
 #' }
 #'
-#' @inheritParams globalr::calcPredictions
+#' @inheritParams globalr::calc_predictions
 #' @inheritParams params
 #' @param model A model object. Currently one of:
 #' \itemize{
@@ -42,13 +42,13 @@
 #'
 #' # Logistic Regression
 #' lr <- fit_logistic(Species ~ ., data = train)
-#' calcPredictions(lr, test)
-#' calcPredictions(lr, test, cutoff = 0.33)
+#' calc_predictions(lr, test)
+#' calc_predictions(lr, test, cutoff = 0.33)
 #'
 #' # Naive Bayes
 #' nb <- fit_nb(Species ~ ., data = train)
-#' calcPredictions(nb, test)
-#' calcPredictions(nb, test, cutoff = 0.01)
+#' calc_predictions(nb, test)
+#' calc_predictions(nb, test, cutoff = 0.01)
 #'
 #' # Random Forest
 #' rf <- withr::with_seed(101, {
@@ -56,38 +56,38 @@
 #'                              importance = TRUE, proximity = TRUE,
 #'                              keep.inbag = TRUE)
 #' })
-#' head(calcPredictions(rf))        # out-of-bag
-#' calcPredictions(rf, test)
-#' calcPredictions(rf, test, cutoff = 0.39)
+#' head(calc_predictions(rf))        # out-of-bag
+#' calc_predictions(rf, test)
+#' calc_predictions(rf, test, cutoff = 0.39)
 #'
 #' # Generalized Boosted Regression Model
 #' gb <- fit_gbm(Species ~ ., data = train)
-#' calcPredictions(gb, test)
-#' calcPredictions(gb, test, 0.48)
+#' calc_predictions(gb, test)
+#' calc_predictions(gb, test, 0.48)
 #'
 #' # Support Vector Machines
 #' sm <- e1071::svm(Species ~ ., data = train, probability = TRUE)
-#' calcPredictions(sm, test)
-#' calcPredictions(sm, test, 0.35)
+#' calc_predictions(sm, test)
+#' calc_predictions(sm, test, 0.35)
 #'
 #' # KKNN
 #' # test data passed during fitting:
 #' kknn <- fit_kknn(Species ~ ., train = train, test = test, K = 10)
-#' calcPredictions(kknn)                 # do NOT pass test data
-#' calcPredictions(kknn, cutoff = 0.48)
-#' @name s3-calcPredictions
+#' calc_predictions(kknn)                 # do NOT pass test data
+#' calc_predictions(kknn, cutoff = 0.48)
+#' @name s3-calc_predictions
 NULL
 
 #' @export
-globalr::calcPredictions
+globalr::calc_predictions
 
-#' @describeIn s3-calcPredictions
-#' S3 method for "robust" Naive Bayes models.
+#' @describeIn s3-calc_predictions
+#'   S3 method for "robust" Naive Bayes models.
 #' @export
-calcPredictions.libml_nb <- function(model, newdata, cutoff = 0.5, ...) {
+calc_predictions.libml_nb <- function(model, newdata, cutoff = 0.5, ...) {
   test <- select_features(model, newdata)
   p <- predict(model, newdata = test, type = "raw")
-  pos <- getPositiveClass(model)
+  pos <- get_pos_class(model)
   if ( length(model$levels) > 2L ) {
     # if multi-class; ignore cutoff and use max.prob
     classes <- names(p)[apply(p, 1, which.max)]
@@ -100,15 +100,16 @@ calcPredictions.libml_nb <- function(model, newdata, cutoff = 0.5, ...) {
   )
 }
 
-#' @describeIn s3-calcPredictions S3 method for Naive Bayes models.
+#' @describeIn s3-calc_predictions
+#'   S3 method for Naive Bayes models.
 #' @export
-calcPredictions.naiveBayes <- calcPredictions.libml_nb
+calc_predictions.naiveBayes <- calc_predictions.libml_nb
 
-#' @describeIn s3-calcPredictions
-#' S3 method for Random Forest models.
+#' @describeIn s3-calc_predictions
+#'   S3 method for Random Forest models.
 #' @export
-calcPredictions.randomForest <- function(model, newdata = NULL, cutoff = 0.5, ...) {
-  pos <- getPositiveClass(model)
+calc_predictions.randomForest <- function(model, newdata = NULL, cutoff = 0.5, ...) {
+  pos <- get_pos_class(model)
   if ( is.null(newdata) ) {
     p <- data.frame(model$votes, row.names = NULL)
   } else {
@@ -127,10 +128,10 @@ calcPredictions.randomForest <- function(model, newdata = NULL, cutoff = 0.5, ..
   )
 }
 
-#' @describeIn s3-calcPredictions
-#' S3 method for Gradient Boosted Tree models.
+#' @describeIn s3-calc_predictions
+#'   S3 method for Gradient Boosted Tree models.
 #' @export
-calcPredictions.gbm <- function(model, newdata, cutoff = 0.5, ...) {
+calc_predictions.gbm <- function(model, newdata, cutoff = 0.5, ...) {
   test <- select_features(model, newdata)
   p <- predict(model, newdata = test, n.trees = model$n.trees, type = "response")
   if ( length(levels(model$class)) > 2L ) {
@@ -138,7 +139,7 @@ calcPredictions.gbm <- function(model, newdata, cutoff = 0.5, ...) {
     p <- setNames(data.frame(p), levels(model$class))
     classes <- names(p)[apply(p, 1, which.max)]
   } else {
-    pos <- getPositiveClass(model)
+    pos <- get_pos_class(model)
     neg <- setdiff(levels(model$class), pos)
     classes <- ifelse(p >= cutoff, pos, neg)
     p <- setNames(data.frame(1 - p, p), c(neg, pos))
@@ -149,10 +150,10 @@ calcPredictions.gbm <- function(model, newdata, cutoff = 0.5, ...) {
   )
 }
 
-#' @describeIn s3-calcPredictions
-#' S3 method for Support Vector Machines.
+#' @describeIn s3-calc_predictions
+#'   S3 method for Support Vector Machines.
 #' @export
-calcPredictions.svm <- function(model, newdata, cutoff = 0.5, ...) {
+calc_predictions.svm <- function(model, newdata, cutoff = 0.5, ...) {
   test <- select_features(model, newdata)
   p   <- predict(model, newdata = test, probability = TRUE)
   p   <- data.frame(attr(p, "probabilities"), row.names = NULL)
@@ -160,7 +161,7 @@ calcPredictions.svm <- function(model, newdata, cutoff = 0.5, ...) {
     # if multi-class; ignore cutoff and use max.prob
     classes <- names(p)[apply(p, 1, which.max)]
   } else {
-    pos <- getPositiveClass(model)
+    pos <- get_pos_class(model)
     classes <- ifelse(p[[pos]] >= cutoff, pos, setdiff(names(p), pos))
   }
   structure(
@@ -169,17 +170,17 @@ calcPredictions.svm <- function(model, newdata, cutoff = 0.5, ...) {
   )
 }
 
-#' @describeIn s3-calcPredictions
-#' S3 method for Logistic Regression via `glm`.
+#' @describeIn s3-calc_predictions
+#'   S3 method for Logistic Regression via `glm`.
 #' @export
-calcPredictions.glm <- function(model, newdata, cutoff = 0.5, ...) {
+calc_predictions.glm <- function(model, newdata, cutoff = 0.5, ...) {
   test <- select_features(model, newdata)
   p    <- unname(predict(model, newdata = test, type = "response"))
   LP   <- unname(predict(model, newdata = test, type = "link"))
   if ( length(model$classes) > 2L ) {
     stop("Binary classification only supported at the moment", call. = FALSE)
   } else {
-    pos <- getPositiveClass(model)
+    pos <- get_pos_class(model)
     neg <- setdiff(model$classes, pos)
     classes <- ifelse(p >= cutoff, pos, neg)
     p   <- setNames(data.frame(1 - p, p), c(neg, pos))
@@ -190,10 +191,10 @@ calcPredictions.glm <- function(model, newdata, cutoff = 0.5, ...) {
   )
 }
 
-#' @describeIn s3-calcPredictions
-#' S3 method for Weighted k-Nearest Neighbor.
+#' @describeIn s3-calc_predictions
+#'   S3 method for Weighted k-Nearest Neighbor.
 #' @export
-calcPredictions.kknn <- function(model, newdata = NULL, cutoff = 0.5, ...) {
+calc_predictions.kknn <- function(model, newdata = NULL, cutoff = 0.5, ...) {
 
   if ( !is.null(newdata) ) {
     warning(
@@ -209,7 +210,7 @@ calcPredictions.kknn <- function(model, newdata = NULL, cutoff = 0.5, ...) {
     # if multi-class; ignore cutoff and use max.prob
     classes <- names(p)[apply(p, 1, which.max)]
   } else {
-    pos <- getPositiveClass(model)
+    pos <- get_pos_class(model)
     classes <- ifelse(p[[pos]] >= cutoff, pos, setdiff(names(p), pos))
   }
   structure(

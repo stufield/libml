@@ -3,14 +3,14 @@
 \name{calc.ks}
 \alias{calc.ks}
 \alias{print.ks_table}
-\alias{writeStatTable.ks_table}
+\alias{write_stat_table.ks_table}
 \title{Calculate KS-distance Table}
 \usage{
 calc.ks(data, apts = NULL, response = NULL, bh = TRUE, ...)
 
 \method{print}{ks_table}(x, n = 6L, ...)
 
-\method{writeStatTable}{ks_table}(x, file)
+\method{write_stat_table}{ks_table}(x, file)
 }
 \arguments{
 \item{data}{A \code{soma_adat} or \code{data.frame} object containing RFU data.
@@ -72,7 +72,7 @@ Computes KS distances for a supplied data set (ADAT).
 \itemize{
 \item \code{print(ks_table)}: S3 print method for \code{ks_table} objects.
 
-\item \code{writeStatTable(ks_table)}: The S3 \code{writeStatTable} method for class \code{ks_table}.
+\item \code{write_stat_table(ks_table)}: The S3 \code{write_stat_table} method for class \code{ks_table}.
 
 }}
 \examples{

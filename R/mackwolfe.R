@@ -13,7 +13,7 @@
 #'   JT-test is performed. If `peak = NULL`, the "peak unknown" version of
 #'   the Mack-Wolfe test is performed.
 #' @param rm.outliers Logical. Should statistical outliers
-#'   (\eqn{6 * mad} _and_ \eqn{5x}) be removed? See [getOutliers()] for
+#'   (\eqn{6 * mad} _and_ \eqn{5x}) be removed? See [get_outliers()] for
 #'   outlier definition.
 #' @param alpha Numeric. The desired significance level.
 #' @param nperm Integer. The number of Monte-Carlo simulations to perform.

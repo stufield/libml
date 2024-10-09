@@ -35,9 +35,9 @@
 #' trainIdx <- sample(nrow(tr_iris), 90)  # random 90% training
 #' kknnfit  <- fit_kknn(Species ~ ., train = tr_iris[trainIdx, ],
 #'                     test = tr_iris[-trainIdx, ])
-#' pos  <- getPositiveClass(kknnfit)
+#' pos  <- get_pos_class(kknnfit)
 #' true <- tr_iris$Species[-trainIdx]   # true class names
-#' pred <- calcPredictions(kknnfit)       # model predictions
+#' pred <- calc_predictions(kknnfit)    # model predictions
 #' pred
 #'
 #' # Confusion matrix

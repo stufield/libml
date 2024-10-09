@@ -3,7 +3,7 @@
 \name{calc.glm}
 \alias{calc.glm}
 \alias{print.glm_table}
-\alias{writeStatTable.glm_table}
+\alias{write_stat_table.glm_table}
 \alias{plot.glm_table}
 \title{Calculate Logistic Regression Table}
 \usage{
@@ -11,7 +11,7 @@ calc.glm(data, response = NULL, apts = NULL, bh = TRUE)
 
 \method{print}{glm_table}(x, n = 6L, ...)
 
-\method{writeStatTable}{glm_table}(x, file)
+\method{write_stat_table}{glm_table}(x, file)
 
 \method{plot}{glm_table}(
   x,
@@ -89,7 +89,7 @@ response variable, and each of the \code{predictors} in the data (columns).
 \itemize{
 \item \code{print(glm_table)}: S3 print method for \code{glm_table} objects.
 
-\item \code{writeStatTable(glm_table)}: The S3 \code{writeStatTable} method for class \code{glm_table}.
+\item \code{write_stat_table(glm_table)}: The S3 \code{write_stat_table} method for class \code{glm_table}.
 
 \item \code{plot(glm_table)}: S3 plotting method for objects of class \code{glm_table}.
 

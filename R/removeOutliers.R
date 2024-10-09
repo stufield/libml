@@ -11,13 +11,13 @@
 #'   analysis on values in `x`. If _not_ `NULL`, either a numeric vector (RFU)
 #'   or character vector (e.g. class names) ordered in the same order as `x`
 #'   indicating the pairing.
-#' @inherit globalr::getOutliers details
-#' @inheritParams globalr::getOutliers
-#' @param ... Additional arguments passed to [getOutliers()].
+#' @inherit globalr::get_outliers details
+#' @inheritParams globalr::get_outliers
+#' @param ... Additional arguments passed to [get_outliers()].
 #' @return A `tibble` with columns `x` and `y` representing each
 #'   numeric vector pair with statistical outliers removed.
 #' @author Amy Zhang, Sophie Weiss, and Stu Field
-#' @seealso [getOutliers()]
+#' @seealso [get_outliers()]
 #' @examples
 #' x <- withr::with_seed(101, rnorm(10, mean = 1000, sd = 2))
 #' x <- c(x, 10000)          # create outlier (11L)
@@ -33,11 +33,11 @@ removeOutliers <- function(x, y = NULL, type = "nonparametric", ...) {
 
   ret <- tibble(x = x, y = y %||% NA_real_)
   x.  <- if ( is.logspace(x) ) 10^x else x
-  idx <- getOutliers(x., type = type, ...)
+  idx <- get_outliers(x., type = type, ...)
 
   if ( !is.null(y) && is.numeric(y) ) {
     y.    <- if ( is.logspace(y) ) 10^y else y
-    idx_y <- getOutliers(y., type = type, ...)
+    idx_y <- get_outliers(y., type = type, ...)
     idx   <- union(idx, idx_y)
   }
 

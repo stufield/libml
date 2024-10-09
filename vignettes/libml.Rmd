@@ -205,19 +205,19 @@ getGini(rf)
 
 As one might expect, there are numerous functions for evaluating model
 performance in [`libml`](../index.html). Many S3 methods are provided
-to the S3 generic `globalr::calcPredictions`, e.g. `calcPredictions.glm()`.
+to the S3 generic `globalr::calc_predictions`, e.g. `calc_predictions.glm()`.
 The following are a few of the standard metrics:
 
 ### Confusion Matrix
 
 ```{r conf_mat}
-pred_nb <- calcPredictions(nb, test)
+pred_nb <- calc_predictions(nb, test)
 pred_nb
 
 calc_confusion(test$Species, pred_nb$prob_virginica,
                pos.class = "virginica", cutoff = 0.5)
 
-pred_rf <- calcPredictions(rf, test)
+pred_rf <- calc_predictions(rf, test)
 pred_rf
 
 calc_confusion(test$Species, pred_rf$prob_virginica,

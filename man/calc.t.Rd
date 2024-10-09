@@ -3,14 +3,14 @@
 \name{calc.t}
 \alias{calc.t}
 \alias{print.t_table}
-\alias{writeStatTable.t_table}
+\alias{write_stat_table.t_table}
 \title{Calculate Student's t-statistics Table}
 \usage{
 calc.t(data, apts = NULL, bh = TRUE, paired = FALSE, response = NULL, ...)
 
 \method{print}{t_table}(x, n = 6L, ...)
 
-\method{writeStatTable}{t_table}(x, file)
+\method{write_stat_table}{t_table}(x, file)
 }
 \arguments{
 \item{data}{A \code{soma_adat} or \code{data.frame} object containing RFU data.
@@ -74,7 +74,7 @@ Computes t-statistics for a supplied data set (ADAT).
 \itemize{
 \item \code{print(t_table)}: S3 print method for \code{t_table} objects.
 
-\item \code{writeStatTable(t_table)}: The S3 \code{writeStatTable} method for class \code{t_table}.
+\item \code{write_stat_table(t_table)}: The S3 \code{write_stat_table} method for class \code{t_table}.
 
 }}
 \examples{

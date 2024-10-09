@@ -27,7 +27,7 @@ JT-test is performed. If \code{peak = NULL}, the "peak unknown" version of
 the Mack-Wolfe test is performed.}
 
 \item{rm.outliers}{Logical. Should statistical outliers
-(\eqn{6 * mad} \emph{and} \eqn{5x}) be removed? See \code{\link[=getOutliers]{getOutliers()}} for
+(\eqn{6 * mad} \emph{and} \eqn{5x}) be removed? See \code{\link[=get_outliers]{get_outliers()}} for
 outlier definition.}
 
 \item{alpha}{Numeric. The desired significance level.}
