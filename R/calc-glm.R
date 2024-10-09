@@ -9,9 +9,9 @@
 #' @inherit calc.lm return
 #' @param response Character. String identifying the categorical response variable.
 #' @author Stu Field
-#' @seealso [fitGLM()], [glm()]
+#' @seealso [fit_logistic()], [glm()]
 #' @examples
-#' # convert to training data object for fitGLM downstream & log-transform
+#' # convert to training data object for log-reg downstream & log-transform
 #' tr <- create_train(log10(sim_test_data), group.var = gender)
 #' glm_table <- calc.glm(tr)
 #'
@@ -41,7 +41,7 @@ calc.glm <- function(data, response = NULL, apts = NULL, bh = TRUE) {
   calc_msg("logistic regression", apts, response)
 
   models <- lapply(setNames(apts, apts), function(.apt) {
-              fitGLM(createFormula(response, .apt), data = data)
+              fit_logistic(createFormula(response, .apt), data = data)
   })
 
   glm_df <- liter(models, .f = function(.x, .y) {

@@ -15,8 +15,8 @@ nb3  <- fit_nb(Species ~ ., data = iris)
 nb3d <- fit_nb(Species ~ ., data = iris, keep.data = TRUE)
 
 # Testing ----
-test_that("fit_nb 2 class unit test", {
-  expect_s3_class(nb2, "fit_nb")
+test_that("the `fit_nb()` 2 class unit test generates expected output", {
+  expect_s3_class(nb2, "libml_nb")
   expect_false(nb2$data)
   pars <- matrix(c(4.9440828, 6.4808605, 0.3338141, 0.5965711,
                    3.3557601, 2.8981603, 0.3621399, 0.2915487,
@@ -29,11 +29,11 @@ test_that("fit_nb 2 class unit test", {
   expect_equal(sum(nb2$apriori), 100)
   expect_named(nb2$apriori, c("setosa", "virginica"))
   expect_s3_class(nb.data$data, "data.frame")
-  expect_s3_class(nb.data, "fit_nb")
+  expect_s3_class(nb.data, "libml_nb")
 })
 
 test_that("robust naiveBayes 3 class unit test", {
-  expect_s3_class(nb3, "fit_nb")
+  expect_s3_class(nb3, "libml_nb")
   pars <- matrix(c(4.9440828, 3.3557601, 1.4085769, 0.16971777,
                    5.8620749, 2.7373713, 4.2407807, 1.27408314,
                    6.4808605, 2.8981603, 5.4466972, 1.96307633,

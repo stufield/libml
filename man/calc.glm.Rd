@@ -95,7 +95,7 @@ response variable, and each of the \code{predictors} in the data (columns).
 
 }}
 \examples{
-# convert to training data object for fitGLM downstream & log-transform
+# convert to training data object for log-reg downstream & log-transform
 tr <- create_train(log10(sim_test_data), group.var = gender)
 glm_table <- calc.glm(tr)
 
@@ -109,7 +109,7 @@ print(glm_table, n = 10)  # top 10
 plot(glm_table, .data = tr, n_plots = c(2, 4, 6))
 }
 \seealso{
-\code{\link[=fitGLM]{fitGLM()}}, \code{\link[=glm]{glm()}}
+\code{\link[=fit_logistic]{fit_logistic()}}, \code{\link[=glm]{glm()}}
 
 The `calc.*()` family: 
 \code{\link{calc.cor}()},

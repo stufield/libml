@@ -29,7 +29,7 @@ idx   <- sample.int(nrow(tr_iris), size = 90L)
 train <- tr_iris[idx, ]
 test  <- tibble::as_tibble(tr_iris[-idx, ])
 
-lr <- fitGLM(train)
+lr <- fit_logistic(train)
 select_features(lr, train)
 
 select_features(lr, test)
@@ -39,7 +39,7 @@ select_features(lr, test)
 }
 
 # Generalized Boosted Regression Model
-gb <- fitGBM(Species ~ ., data = train)
+gb <- fit_gbm(Species ~ ., data = train)
 select_features(gb, test)
 
 # Support Vector Machines
@@ -48,7 +48,7 @@ select_features(sm, test)
 
 # KKNN
 # note: test data passed during fitting
-kknn <- fitKKNN(Species ~ ., train = train, test = test, K = 10)
+kknn <- fit_kknn(Species ~ ., train = train, test = test, K = 10)
 select_features(kknn, test)
 }
 \author{

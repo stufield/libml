@@ -16,7 +16,7 @@
 #' @param model A model object. Currently one of:
 #' \itemize{
 #'   \item `glm` (for logistic regression)
-#'   \item `fit_nb`
+#'   \item `libml_nb`
 #'   \item `naiveBayes`
 #'   \item `randomForest`
 #'   \item `svm`
@@ -34,14 +34,14 @@
 #'   \item{`pred_linear`}{for linear models, the linear predictor for
 #'                        each new observation.}
 #' @author Stu Field
-#' @seealso [fit_nb()], [randomForest()], [glm()], [kknn()]
+#' @seealso [fit_nb()], [randomForest()], [fit_logistic()], [fit_kknn()]
 #' @examples
 #' # Use training data from iris data set:
 #' train <- head(tr_iris, -3L)
 #' test  <- tibble::as_tibble(tail(tr_iris, 3L))
 #'
 #' # Logistic Regression
-#' lr <- fitGLM(Species ~ ., data = train)
+#' lr <- fit_logistic(Species ~ ., data = train)
 #' calcPredictions(lr, test)
 #' calcPredictions(lr, test, cutoff = 0.33)
 #'
@@ -61,7 +61,7 @@
 #' calcPredictions(rf, test, cutoff = 0.39)
 #'
 #' # Generalized Boosted Regression Model
-#' gb <- fitGBM(Species ~ ., data = train)
+#' gb <- fit_gbm(Species ~ ., data = train)
 #' calcPredictions(gb, test)
 #' calcPredictions(gb, test, 0.48)
 #'
@@ -72,7 +72,7 @@
 #'
 #' # KKNN
 #' # test data passed during fitting:
-#' kknn <- fitKKNN(Species ~ ., train = train, test = test, K = 10)
+#' kknn <- fit_kknn(Species ~ ., train = train, test = test, K = 10)
 #' calcPredictions(kknn)                 # do NOT pass test data
 #' calcPredictions(kknn, cutoff = 0.48)
 #' @name s3-calcPredictions
@@ -84,7 +84,7 @@ globalr::calcPredictions
 #' @describeIn s3-calcPredictions
 #' S3 method for "robust" Naive Bayes models.
 #' @export
-calcPredictions.fit_nb <- function(model, newdata, cutoff = 0.5, ...) {
+calcPredictions.libml_nb <- function(model, newdata, cutoff = 0.5, ...) {
   test <- select_features(model, newdata)
   p <- predict(model, newdata = test, type = "raw")
   pos <- getPositiveClass(model)
@@ -102,7 +102,7 @@ calcPredictions.fit_nb <- function(model, newdata, cutoff = 0.5, ...) {
 
 #' @describeIn s3-calcPredictions S3 method for Naive Bayes models.
 #' @export
-calcPredictions.naiveBayes <- calcPredictions.fit_nb
+calcPredictions.naiveBayes <- calcPredictions.libml_nb
 
 #' @describeIn s3-calcPredictions
 #' S3 method for Random Forest models.
@@ -217,9 +217,4 @@ calcPredictions.kknn <- function(model, newdata = NULL, cutoff = 0.5, ...) {
     names = c("pred_class", paste0("prob_", names(p)))
   )
 }
-
-#' @describeIn s3-calcPredictions
-#' S3 method for Logistic Regression Elastic Net models.
-#' @export
-calcPredictions.soma_lognet <- calcPredictions.glm
 

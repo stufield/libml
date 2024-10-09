@@ -5,9 +5,9 @@
 \alias{fit_nb.default}
 \alias{fit_nb.formula}
 \alias{fit_nb.tr_data}
-\alias{print.fit_nb}
-\alias{predict.fit_nb}
-\alias{plot.fit_nb}
+\alias{print.libml_nb}
+\alias{predict.libml_nb}
+\alias{plot.libml_nb}
 \alias{plot.naiveBayes}
 \title{Robustly Fit Naive Bayes Classifier}
 \usage{
@@ -19,9 +19,9 @@ fit_nb(x, ...)
 
 \method{fit_nb}{tr_data}(x, ...)
 
-\method{print}{fit_nb}(x, ...)
+\method{print}{libml_nb}(x, ...)
 
-\method{predict}{fit_nb}(
+\method{predict}{libml_nb}(
   object,
   newdata,
   type = c("class", "posterior", "raw"),
@@ -30,7 +30,7 @@ fit_nb(x, ...)
   ...
 )
 
-\method{plot}{fit_nb}(
+\method{plot}{libml_nb}(
   x,
   data,
   features,
@@ -53,7 +53,7 @@ fit_nb(x, ...)
 \arguments{
 \item{x}{A numeric matrix, a \code{tr_data} class objects, or a data frame
 of predictors. If called from an S3 generic method (e.g.
-\code{\link[=plot.fit_nb]{plot.fit_nb()}}) or \code{\link[=print.fit_nb]{print.fit_nb()}}), either a \code{fit_nb} or \code{naiveBayes} object.}
+\code{\link[=plot.libml_nb]{plot.libml_nb()}}) or \code{\link[=print.libml_nb]{print.libml_nb()}}), either a \code{libml_nb} or \code{naiveBayes} object.}
 
 \item{...}{Additional arguments passed to the default \code{\link[=fit_nb]{fit_nb()}}
 default method. Currently not used in the \code{predict} or \code{print} S3 methods,
@@ -79,7 +79,7 @@ become a memory issue and thus the default is \code{FALSE}.}
 \item{data}{A data frame of predictors (categorical and/or numeric), i.e.
 the ADAT used to train the model.}
 
-\item{object}{A model object of class \code{fit_nb}.}
+\item{object}{A model object of class \code{libml_nb}.}
 
 \item{newdata}{A \code{data.frame} with new predictors, containing at least
 the model covariates (but possibly more columns than the training data).
@@ -112,12 +112,12 @@ either PDFs or CDFs. This may be either a numeric index of the sample row
 in the \code{data}, or its \code{rowname}. Can be \code{length(n)}.}
 }
 \value{
-\code{fit_nb}: A naive Bayes model with robustly fit parameters.
+\code{libml_nb}: A naive Bayes model with robustly fit parameters.
 
-\code{predict.fit_nb}: Depending on the \code{type} argument,
+\code{predict.libml_nb}: Depending on the \code{type} argument,
 the posterior probability of a robustly estimated naive Bayes model.
 
-\code{plot.fit_nb}, \code{plot.naiveBayes}: A plot, either a list of
+\code{plot.libml_nb}, \code{plot.naiveBayes}: A plot, either a list of
 PDFs/CDFs, or a log-odds plot.
 }
 \description{
@@ -142,18 +142,15 @@ That is, \code{calcRobustGaussFit(..., mad = TRUE)}.
 \item \code{fit_nb(tr_data)}: S3 \code{tr_data} method for fit_nb.
 
 }}
-\section{Methods (by generic)}{
-\itemize{
-\item \code{print(fit_nb)}: S3 print method for fit_nb.
-
-\item \code{predict(fit_nb)}: S3 predict method for fit_nb.
-
-\item \code{plot(fit_nb)}: S3 plot method for \code{fit_nb}.
-
-}}
 \section{Functions}{
 \itemize{
-\item \code{plot(naiveBayes)}: Plot a \code{naiveBayes} model object.
+\item \code{print(libml_nb)}: S3 print method for \code{libml_nb}.
+
+\item \code{predict(libml_nb)}: S3 predict method for \code{libml_nb}.
+
+\item \code{plot(libml_nb)}: A S3 plot method for \code{libml_nb}.
+
+\item \code{plot(naiveBayes)}: Plot a \code{naiveBayes} (\code{e1071}) model object.
 
 }}
 \examples{
@@ -192,9 +189,9 @@ See David Meyer <email: David.Meyer@R-project.org>.
 \code{\link[=plotLogOdds]{plotLogOdds()}}, \code{\link[SomaPlotr:plotPDF]{SomaPlotr::plotPDFlist()}}, \code{\link[SomaPlotr:plotCDF]{SomaPlotr::plotCDFlist()}}
 
 The `fit*()` family: 
-\code{\link{fitGBM}()},
-\code{\link{fitGLM}()},
-\code{\link{fitKKNN}()}
+\code{\link{fit_gbm}()},
+\code{\link{fit_kknn}()},
+\code{\link{fit_logistic}()}
 }
 \author{
 Stu Field

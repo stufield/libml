@@ -2,17 +2,16 @@
 % Please edit documentation in R/s3-calcPredictions.R
 \name{s3-calcPredictions}
 \alias{s3-calcPredictions}
-\alias{calcPredictions.fit_nb}
+\alias{calcPredictions.libml_nb}
 \alias{calcPredictions.naiveBayes}
 \alias{calcPredictions.randomForest}
 \alias{calcPredictions.gbm}
 \alias{calcPredictions.svm}
 \alias{calcPredictions.glm}
 \alias{calcPredictions.kknn}
-\alias{calcPredictions.soma_lognet}
 \title{Calculate Model Predictions}
 \usage{
-\method{calcPredictions}{fit_nb}(model, newdata, cutoff = 0.5, ...)
+\method{calcPredictions}{libml_nb}(model, newdata, cutoff = 0.5, ...)
 
 \method{calcPredictions}{naiveBayes}(model, newdata, cutoff = 0.5, ...)
 
@@ -25,14 +24,12 @@
 \method{calcPredictions}{glm}(model, newdata, cutoff = 0.5, ...)
 
 \method{calcPredictions}{kknn}(model, newdata = NULL, cutoff = 0.5, ...)
-
-\method{calcPredictions}{soma_lognet}(model, newdata, cutoff = 0.5, ...)
 }
 \arguments{
 \item{model}{A model object. Currently one of:
 \itemize{
 \item \code{glm} (for logistic regression)
-\item \code{fit_nb}
+\item \code{libml_nb}
 \item \code{naiveBayes}
 \item \code{randomForest}
 \item \code{svm}
@@ -76,7 +73,7 @@ that are used for predictions if \code{newdata = NULL}.
 }
 \section{Functions}{
 \itemize{
-\item \code{calcPredictions(fit_nb)}: S3 method for "robust" Naive Bayes models.
+\item \code{calcPredictions(libml_nb)}: S3 method for "robust" Naive Bayes models.
 
 \item \code{calcPredictions(naiveBayes)}: S3 method for Naive Bayes models.
 
@@ -90,8 +87,6 @@ that are used for predictions if \code{newdata = NULL}.
 
 \item \code{calcPredictions(kknn)}: S3 method for Weighted k-Nearest Neighbor.
 
-\item \code{calcPredictions(soma_lognet)}: S3 method for Logistic Regression Elastic Net models.
-
 }}
 \examples{
 # Use training data from iris data set:
@@ -99,7 +94,7 @@ train <- head(tr_iris, -3L)
 test  <- tibble::as_tibble(tail(tr_iris, 3L))
 
 # Logistic Regression
-lr <- fitGLM(Species ~ ., data = train)
+lr <- fit_logistic(Species ~ ., data = train)
 calcPredictions(lr, test)
 calcPredictions(lr, test, cutoff = 0.33)
 
@@ -119,7 +114,7 @@ calcPredictions(rf, test)
 calcPredictions(rf, test, cutoff = 0.39)
 
 # Generalized Boosted Regression Model
-gb <- fitGBM(Species ~ ., data = train)
+gb <- fit_gbm(Species ~ ., data = train)
 calcPredictions(gb, test)
 calcPredictions(gb, test, 0.48)
 
@@ -130,12 +125,12 @@ calcPredictions(sm, test, 0.35)
 
 # KKNN
 # test data passed during fitting:
-kknn <- fitKKNN(Species ~ ., train = train, test = test, K = 10)
+kknn <- fit_kknn(Species ~ ., train = train, test = test, K = 10)
 calcPredictions(kknn)                 # do NOT pass test data
 calcPredictions(kknn, cutoff = 0.48)
 }
 \seealso{
-\code{\link[=fit_nb]{fit_nb()}}, \code{\link[=randomForest]{randomForest()}}, \code{\link[=glm]{glm()}}, \code{\link[=kknn]{kknn()}}
+\code{\link[=fit_nb]{fit_nb()}}, \code{\link[=randomForest]{randomForest()}}, \code{\link[=fit_logistic]{fit_logistic()}}, \code{\link[=fit_kknn]{fit_kknn()}}
 }
 \author{
 Stu Field

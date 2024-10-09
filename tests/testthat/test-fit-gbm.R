@@ -1,16 +1,16 @@
 
 # Setup ----
 model <- withr::with_seed(10, {
-  fitGBM(tr_iris[, -5L], y = tr_iris$Species, distribution = "bernoulli")
+  fit_gbm(tr_iris[, -5L], y = tr_iris$Species, distribution = "bernoulli")
 })
 
 # Formula syntax
 model_form <- withr::with_seed(10, {
-  fitGBM(Species ~ ., data = tr_iris, distribution = "bernoulli")
+  fit_gbm(Species ~ ., data = tr_iris, distribution = "bernoulli")
 })
 
 # Testing ----
-test_that("fitGBM() returns the corrrect object", {
+test_that("`fit_gbm()` returns the corrrect object", {
   expect_s3_class(model, "gbm")
   expect_equal(model$initF, 0)
   expect_equal(sum(model$fit), -4.2665040880244)
@@ -35,7 +35,7 @@ test_that("fitGBM() returns the corrrect object", {
   expect_equal(unname(model$class), tr_iris$Species)
 })
 
-test_that("fitGBM() formula and default methods are identical", {
+test_that("`fit_gbm()` formula and default methods are identical", {
   # 'y' and 'Species' will differ in calls and formulae
   skip_nms <- c("response.name", "Terms", "call", "m")
   skip <- which(names(model) %in% skip_nms)

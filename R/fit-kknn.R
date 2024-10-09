@@ -33,7 +33,7 @@
 #' @examples
 #' # Use fake training data from iris data set
 #' trainIdx <- sample(nrow(tr_iris), 90)  # random 90% training
-#' kknnfit  <- fitKKNN(Species ~ ., train = tr_iris[trainIdx, ],
+#' kknnfit  <- fit_kknn(Species ~ ., train = tr_iris[trainIdx, ],
 #'                     test = tr_iris[-trainIdx, ])
 #' pos  <- getPositiveClass(kknnfit)
 #' true <- tr_iris$Species[-trainIdx]   # true class names
@@ -48,7 +48,7 @@
 #' plotEmpROC(true, pred$prob_virginica, pos)
 #' @importFrom kknn kknn
 #' @export
-fitKKNN <- function(formula, train, test, K = 10, distance = 2,
+fit_kknn <- function(formula, train, test, K = 10, distance = 2,
                     kernel = "triangular", ...) {
 
   model <- kknn(formula, train = train, test = test,

@@ -8,7 +8,7 @@ test  <- tibble::as_tibble(tail(tr_iris, 3L))  # strip `tr_data` class
 # Testing ----
 test_that("the logistic regression (GLM) method returns correct predictions", {
   # Logistic Regression
-  lr <- fitGLM(train)
+  lr <- fit_logistic(train)
   pred1 <- calcPredictions(lr, test)
   expect_false(has_rn(pred1))
   expect_equal(pred1,
@@ -93,8 +93,8 @@ test_that("the Random Forest method returns correct predictions with test data",
 })
 
 test_that("the General Boosted Regression (GBM) returns correct predictions", {
-  gb <- withr::with_seed(101, fitGBM(Species ~ ., data = train,
-                                     distribution = "bernoulli"))
+  gb <- withr::with_seed(101, fit_gbm(Species ~ ., data = train,
+                                      distribution = "bernoulli"))
   pred1 <- calcPredictions(gb, test)
   expect_false(has_rn(pred1))
   expect_equal(pred1, data.frame(stringsAsFactors = FALSE,
@@ -151,9 +151,9 @@ test_that("the Support Vector Machines method returns correct predictions", {
   )
 })
 
-test_that("the KKNN method returns correct predictions", {
+test_that("the `KKNN` method returns correct predictions", {
   # test set passed in during model fit
-  kknn  <- fitKKNN(Species ~ ., train = train, test = test, K = 10)
+  kknn  <- fit_kknn(Species ~ ., train = train, test = test, K = 10)
   pred1 <- calcPredictions(kknn)  # cannot pass test data
   expect_false(has_rn(pred1))
   expect_equal(pred1, data.frame(stringsAsFactors = FALSE,

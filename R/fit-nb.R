@@ -14,7 +14,7 @@
 #' @family fit
 #' @param x A numeric matrix, a `tr_data` class objects, or a data frame
 #'   of predictors. If called from an S3 generic method (e.g.
-#'   [plot.fit_nb()]) or [print.fit_nb()]), either a `fit_nb` or `naiveBayes` object.
+#'   [plot.libml_nb()]) or [print.libml_nb()]), either a `libml_nb` or `naiveBayes` object.
 #' @param y A vector indicating the true classes for each sample. Ideally a
 #'   factor class object with appropriate levels.
 #' @param mad Logical. Should non-parametric approximations be applied during
@@ -28,7 +28,7 @@
 #' @param keep.data Logical. Should the training data used to fit the model be
 #'   included in the model object? When building thousands of models, this can
 #'   become a memory issue and thus the default is `FALSE`.
-#' @return `fit_nb`: A naive Bayes model with robustly fit parameters.
+#' @return `libml_nb`: A naive Bayes model with robustly fit parameters.
 #' @author Stu Field
 #' @seealso [calcRobustGaussFit()]
 #' @references This function was _heavily_ influenced by [e1071::naiveBayes()]
@@ -121,7 +121,7 @@ fit_nb.default <- function(x, y, mad = FALSE, laplace = 0,
   resp_df     <- setNames(data.frame(y), response)
   ret$data    <- if ( keep.data ) cbind(x, resp_df) else FALSE # nolint
   ret$call    <- list(...)$orig_call %||% match.call(expand.dots = FALSE)
-  addClass(ret, "fit_nb")
+  addClass(ret, "libml_nb")
 }
 
 
@@ -162,9 +162,9 @@ fit_nb.tr_data <- function(x, ...) {
 
 
 #' @describeIn fit_nb
-#' S3 print method for fit_nb.
+#' S3 print method for `libml_nb`.
 #' @export
-print.fit_nb <- function(x, ...) {
+print.libml_nb <- function(x, ...) {
   cat("\nRobust Naive Bayes Classifier for Discrete Predictors\n\n")
   cat("Call:\n")
   print(x$call)
@@ -182,8 +182,8 @@ print.fit_nb <- function(x, ...) {
 
 
 #' @describeIn fit_nb
-#'   S3 predict method for fit_nb.
-#' @param object A model object of class `fit_nb`.
+#'   S3 predict method for `libml_nb`.
+#' @param object A model object of class `libml_nb`.
 #' @param newdata A `data.frame` with new predictors, containing at least
 #'   the model covariates (but possibly more columns than the training data).
 #'   Note that the column names of `newdata` are matched against the
@@ -197,7 +197,7 @@ print.fit_nb <- function(x, ...) {
 #' @param threshold Value below which should be replaced. See `min.prob`.
 #' @param min.prob Value indicating the minimum probability a prediction
 #'   can take. See `threshold` argument.
-#' @return `predict.fit_nb`: Depending on the `type` argument,
+#' @return `predict.libml_nb`: Depending on the `type` argument,
 #'   the posterior probability of a robustly estimated naive Bayes model.
 #' @examples
 #' # Predictions
@@ -206,10 +206,10 @@ print.fit_nb <- function(x, ...) {
 #'
 #' @importFrom stats dnorm
 #' @export
-predict.fit_nb <- function(object, newdata,
-                                     type = c("class", "posterior", "raw"),
-                                     threshold = 1e-06,
-                                     min.prob = NULL, ...) {
+predict.libml_nb <- function(object, newdata,
+                             type = c("class", "posterior", "raw"),
+                             threshold = 1e-06,
+                             min.prob = NULL, ...) {
 
   type    <- match.arg(type)
   # map to either posterior or raw
@@ -272,7 +272,8 @@ predict.fit_nb <- function(object, newdata,
 }
 
 
-#' @describeIn fit_nb S3 plot method for `fit_nb`.
+#' @describeIn fit_nb
+#'   A S3 plot method for `libml_nb`.
 #' @param features An optional feature specifying which subset of model features
 #'   to plot. If missing, all features are plotted.
 #' @param plot.type Character. A string determining the plot type, currently
@@ -282,7 +283,7 @@ predict.fit_nb <- function(object, newdata,
 #' @param id An optional identifier of a specific sample to plot on top of
 #'   either PDFs or CDFs. This may be either a numeric index of the sample row
 #'   in the `data`, or its `rowname`. Can be `length(n)`.
-#' @return `plot.fit_nb`, `plot.naiveBayes`: A plot, either a list of
+#' @return `plot.libml_nb`, `plot.naiveBayes`: A plot, either a list of
 #'   PDFs/CDFs, or a log-odds plot.
 #' @seealso [plotLogOdds()], [SomaPlotr::plotPDFlist()], [SomaPlotr::plotCDFlist()]
 #' @examples
@@ -294,7 +295,7 @@ predict.fit_nb <- function(object, newdata,
 #' plot(m1, tr_iris, plot.type = "cdf", lty = "longdash") # pass-through of lty
 #' @importFrom dplyr all_of
 #' @export
-plot.fit_nb <- function(x, data, features,
+plot.libml_nb <- function(x, data, features,
                                   plot.type = c("pdf", "cdf", "log.odds"),
                                   x.lab = "value", id, ...) {
 
@@ -373,9 +374,10 @@ plot.fit_nb <- function(x, data, features,
 }
 
 
-#' @describeIn fit_nb Plot a `naiveBayes` model object.
+#' @describeIn fit_nb
+#'   Plot a `naiveBayes` (`e1071`) model object.
 #' @export
-plot.naiveBayes <- plot.fit_nb
+plot.naiveBayes <- plot.libml_nb
 
 
 #' Check Naive Bayes Feature Bias

@@ -16,20 +16,20 @@
 #' @seealso [gbm()], [create_train()]
 #' @examples
 #' # formula method
-#' model <- withr::with_seed(10, fitGBM(Species ~ ., data = tr_iris))
+#' model <- withr::with_seed(10, fit_gbm(Species ~ ., data = tr_iris))
 #'
 #' # data frame method
-#' model <- withr::with_seed(10, fitGBM(tr_iris[, -5L], y = tr_iris$Species))
+#' model <- withr::with_seed(10, fit_gbm(tr_iris[, -5L], y = tr_iris$Species))
 #' @export
-fitGBM <- function(x, ...) UseMethod("fitGBM")
+fit_gbm <- function(x, ...) UseMethod("fit_gbm")
 
 
-#' @describeIn fitGBM
-#'   The S3 default method for `fitGBM`.
+#' @describeIn fit_gbm
+#'   The S3 default method for `fit_gbm`.
 #' @importFrom stats setNames
 #' @importFrom gbm gbm
 #' @export
-fitGBM.default <- function(x, y, ...) {
+fit_gbm.default <- function(x, y, ...) {
   if ( !is.factor(y) ) {
     y <- as.factor(y)
   }
@@ -39,13 +39,13 @@ fitGBM.default <- function(x, y, ...) {
   fit
 }
 
-#' @describeIn fitGBM
-#'   The S3 formula method for `fitGBM`.
+#' @describeIn fit_gbm
+#'   The S3 formula method for `fit_gbm`.
 #' @param formula A model formula of the form:
 #'   \eqn{class ~ x1 + x2 + ...+ xn`}, (no interactions).
 #' @param data A data frame of predictors (categorical and/or numeric).
 #' @export
-fitGBM.formula <- function(formula, data, ...) {
+fit_gbm.formula <- function(formula, data, ...) {
   if ( !inherits(data, "data.frame") ) {
     stop(
       "Generalized boosted regresion model formula ",

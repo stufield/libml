@@ -35,28 +35,28 @@
 #' df <- tibble::as_tibble(tr_iris)  # strip tr_data class
 #'
 #' # tr_data S3 method:
-#' model <- fitGLM(tr_iris)
+#' model <- fit_logistic(tr_iris)
 #'
 #' # data frame S3 method:
-#' model <- fitGLM(df, "Species")
+#' model <- fit_logistic(df, "Species")
 #'
 #' # formula S3 method:
-#' model <- fitGLM(Species ~ ., data = df)
+#' model <- fit_logistic(Species ~ ., data = df)
 #'
 #' # data frame S3 method (2):
-#' model <- fitGLM(df[, -5L], y = df$Species)  # vector of class names
+#' model <- fit_logistic(df[, -5L], y = df$Species)  # vector of class names
 #'
 #' # matrix S3 method:
-#' model <- fitGLM(as.matrix(df[, -5L]), y = df$Species)  # 'glmnet' syntax
+#' model <- fit_logistic(as.matrix(df[, -5L]), y = df$Species)  # 'glmnet' syntax
 #' @export
-fitGLM <- function(x, ..., strip) UseMethod("fitGLM")
+fit_logistic <- function(x, ..., strip) UseMethod("fit_logistic")
 
 
-#' @describeIn fitGLM
-#'   S3 formula method for `fitGLM`.
+#' @describeIn fit_logistic
+#'   S3 formula method for `fit`.
 #' @importFrom stats glm model.response model.frame as.formula
 #' @export
-fitGLM.formula <- function(formula, ..., strip = FALSE) {
+fit_logistic.formula <- function(formula, ..., strip = FALSE) {
   fit <- glm(formula, ..., family = "binomial", model = !strip)
   mfr <- model.frame(formula, ...)
   names(fit$y) <- rownames(mfr)
@@ -67,11 +67,11 @@ fitGLM.formula <- function(formula, ..., strip = FALSE) {
   fit
 }
 
-#' @describeIn fitGLM
-#'   S3 `data.frame` method for `fitGLM`.
+#' @describeIn fit_logistic
+#'   S3 `data.frame` method for `fit_logistic`.
 #' @importFrom stats as.formula
 #' @export
-fitGLM.data.frame <- function(x, y = NULL, strip = FALSE, ...) {
+fit_logistic.data.frame <- function(x, y = NULL, strip = FALSE, ...) {
   if ( is.null(y) ) {
     stop("Must pass `y` response if `x` is a data.frame.", call. = FALSE)
   } else if ( is_chr(y) && y %in% names(x) ) {
@@ -88,23 +88,23 @@ fitGLM.data.frame <- function(x, y = NULL, strip = FALSE, ...) {
       call. = FALSE
     )
   }
-  fitGLM(formula, data = x)
+  fit_logistic(formula, data = x)
 }
 
-#' @describeIn fitGLM
-#'   S3 `tr_data` method for `fitGLM`.
+#' @describeIn fit_logistic
+#'   S3 `tr_data` method for `fit_logistic`.
 #' @importFrom stats as.formula
 #' @export
-fitGLM.tr_data <- function(x, ..., strip = FALSE) {
+fit_logistic.tr_data <- function(x, ..., strip = FALSE) {
   response <- .get_response(x)
   formula  <- as.formula(paste(response, "~ ."))
-  fitGLM(formula, data = x, strip = strip)
+  fit_logistic(formula, data = x, strip = strip)
 }
 
-#' @describeIn fitGLM
-#'   S3 matrix method for `fitGLM`.
+#' @describeIn fit_logistic
+#'   S3 matrix method for `fit_logistic`.
 #' @export
-fitGLM.matrix <- function(x, y, strip = FALSE, ...) {
+fit_logistic.matrix <- function(x, y, strip = FALSE, ...) {
   x <- as.data.frame(x)
   if ( missing(y) ) {
     stop(
@@ -112,5 +112,5 @@ fitGLM.matrix <- function(x, y, strip = FALSE, ...) {
       call. = FALSE
     )
   }
-  fitGLM(x = x, y = y)
+  fit_logistic(x = x, y = y)
 }

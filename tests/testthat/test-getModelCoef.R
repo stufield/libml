@@ -35,7 +35,7 @@ test_that("`getModelCoef()` returns correct coefs for class 'glmnet'", {
 
 # glm model ----
 test_that("`getModelCoef()` returns correct coefs for class 'glm'", {
-  model    <- fitGLM(tr_iris)
+  model    <- fit_logistic(tr_iris)
   test_val <- getModelCoef(model)
   expect_equal(test_val, expected_class_coefs$glm)
 })
@@ -65,7 +65,7 @@ test_that("`getModelCoef()` returns correct coefs for class 'svm' (regression)",
 
 # GBM model ----
 test_that("`getModelCoef()` returns correct coefs for class 'gbm'", {
-  model    <- fitGBM(Species ~ ., data = tr_iris, distribution = "bernoulli")
+  model    <- fit_gbm(Species ~ ., data = tr_iris, distribution = "bernoulli")
   test_val <- getModelCoef(model)
   expect_null(test_val)
 })

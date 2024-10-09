@@ -1,9 +1,9 @@
 
 # Setup ----
-fit <- fitGLM(tr_iris)   # tr_data S3 method
+fit <- fit_logistic(tr_iris)   # tr_data S3 method
 
 # Testing ----
-test_that("the `fitGLM()` formula method returns correct model", {
+test_that("the `fit_logistic()` formula method returns correct model", {
   expect_s3_class(fit, "glm")
   expect_named(fit,
          c("coefficients",      "residuals", "fitted.values", "effects",
@@ -32,16 +32,16 @@ test_that("the `fitGLM()` formula method returns correct model", {
 })
 
 
-test_that("all `fitGLM()` methods return identical results", {
+test_that("all `fit_logistic()` methods return identical results", {
   # pass 'tr_data'
-  a <- fitGLM(tr_iris)                             # tr_data object
-  b <- fitGLM(data.frame(tr_iris), y = "Species")  # pass string
+  a <- fit_logistic(tr_iris)                             # tr_data object
+  b <- fit_logistic(data.frame(tr_iris), y = "Species")  # pass string
   # pass 'tbl_df';  pass vector of class names
   # strip grouping variable 'Response'
-  c <- fitGLM(data.frame(tr_iris[, -5L]), y = tr_iris$Species)
+  c <- fit_logistic(data.frame(tr_iris[, -5L]), y = tr_iris$Species)
   # pass stripped 'matrix'
-  d <- fitGLM(as.matrix(tr_iris[, -5L], rownames.force = FALSE),  # propagate rn
-              y = tr_iris$Species)
+  d <- fit_logistic(as.matrix(tr_iris[, -5L], rownames.force = FALSE),  # propagate rn
+                    y = tr_iris$Species)
   # for below comparisons, some elements we do not check
   # .Environment attributes may differ
   # input data differs; data.frame, tr_data, matrix, etc.

@@ -13,8 +13,8 @@
 #' @return A `tibble` containing model predictions, true class names,
 #'   and the fold of the sample used to make the prediction.
 #' @author Stu Field
-#' @seealso [fit_nb()], [fitKKNN()]
-#' @seealso [randomForest::randomForest()], [fitGBM()], [fitGLM()]
+#' @seealso [fit_nb()], [fit_kknn()]
+#' @seealso [randomForest::randomForest()], [fit_gbm()], [fit_logistic()]
 #' @examples
 #' # naive Bayes
 #' # Use fake training data from iris data set
@@ -68,18 +68,18 @@ kfold_cv <- function(data, k, model.type = c("lr", "nb", "rf",
 
     if ( mtype %in% c("gbm", "rf", "nb", "lr") ) {
       .fun <- switch(mtype,
-                     gbm = fitGBM,
+                     gbm = fit_gbm,
                      rf  = randomForest::randomForest,
                      nb  = fit_nb,
-                     lr  = fitGLM)
+                     lr  = fit_logistic)
       tr_model <- .fun(formula, data = cv_data[cv_fold, ])
     } else if ( mtype == "svm" ) {
       tr_model <- e1071::svm(formula, data = cv_data, subset = cv_fold,
                              probability = TRUE)
     } else if ( mtype == "kknn" ) {
-      tr_model <- fitKKNN(formula,
-                          train = cv_data[cv_fold, ],
-                          test  = cv_data[-cv_fold, ], ...)
+      tr_model <- fit_kknn(formula,
+                           train = cv_data[cv_fold, ],
+                           test  = cv_data[-cv_fold, ], ...)
     }
 
     test_df <- cv_data[-cv_fold, ]

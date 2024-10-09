@@ -5,7 +5,7 @@
 \alias{getModelCoef.glm}
 \alias{getModelCoef.lm}
 \alias{getModelCoef.lda}
-\alias{getModelCoef.fit_nb}
+\alias{getModelCoef.libml_nb}
 \alias{getModelCoef.naiveBayes}
 \alias{getModelCoef.kknn}
 \alias{getModelCoef.randomForest}
@@ -22,7 +22,7 @@
 
 \method{getModelCoef}{lda}(model, ...)
 
-\method{getModelCoef}{fit_nb}(model, ...)
+\method{getModelCoef}{libml_nb}(model, ...)
 
 \method{getModelCoef}{naiveBayes}(model, ...)
 
@@ -45,12 +45,12 @@
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{#>  [1] getModelCoef.cv.glmnet   
 #>  [2] getModelCoef.default*    
-#>  [3] getModelCoef.fit_nb      
-#>  [4] getModelCoef.gbm         
-#>  [5] getModelCoef.glm         
-#>  [6] getModelCoef.glmnet      
-#>  [7] getModelCoef.kknn        
-#>  [8] getModelCoef.lda         
+#>  [3] getModelCoef.gbm         
+#>  [4] getModelCoef.glm         
+#>  [5] getModelCoef.glmnet      
+#>  [6] getModelCoef.kknn        
+#>  [7] getModelCoef.lda         
+#>  [8] getModelCoef.libml_nb    
 #>  [9] getModelCoef.lm          
 #> [10] getModelCoef.naiveBayes  
 #> [11] getModelCoef.randomForest
@@ -86,7 +86,7 @@ Extract the coefficients for an arbitrary model.
 
 \item \code{getModelCoef(lda)}: S3 method for \code{lda} models.
 
-\item \code{getModelCoef(fit_nb)}: S3 method for \code{fit_nb} models.
+\item \code{getModelCoef(libml_nb)}: S3 method for \code{libml_nb} models.
 
 \item \code{getModelCoef(naiveBayes)}: S3 method for \code{naiveBayes} models.
 
