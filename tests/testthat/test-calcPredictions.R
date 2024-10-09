@@ -32,7 +32,7 @@ test_that("the logistic regression (GLM) method returns correct predictions", {
 })
 
 test_that("the Naive Bayes method returns correct predictions", {
-  nb <- robustNaiveBayes(Species ~ ., data = train)
+  nb <- fit_nb(Species ~ ., data = train)
   pred1 <- calcPredictions(nb, test)
   expect_false(has_rn(pred1))
   expect_equal(pred1,

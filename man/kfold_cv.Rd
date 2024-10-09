@@ -46,7 +46,7 @@ xv_k10_f <- kfold_cv(tr_iris, k = 10, model.type = "rf")
 xv_k10_f
 }
 \seealso{
-\code{\link[=robustNaiveBayes]{robustNaiveBayes()}}, \code{\link[=fitKKNN]{fitKKNN()}}
+\code{\link[=fit_nb]{fit_nb()}}, \code{\link[=fitKKNN]{fitKKNN()}}
 
 \code{\link[randomForest:randomForest]{randomForest::randomForest()}}, \code{\link[=fitGBM]{fitGBM()}}, \code{\link[=fitGLM]{fitGLM()}}
 }

@@ -87,7 +87,8 @@ model <- fitGLM(as.matrix(df[, -5L]), y = df$Species)  # 'glmnet' syntax
 
 The `fit*()` family: 
 \code{\link{fitGBM}()},
-\code{\link{fitKKNN}()}
+\code{\link{fitKKNN}()},
+\code{\link{fit_nb}()}
 }
 \author{
 Stu Field

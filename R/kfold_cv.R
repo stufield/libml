@@ -13,7 +13,7 @@
 #' @return A `tibble` containing model predictions, true class names,
 #'   and the fold of the sample used to make the prediction.
 #' @author Stu Field
-#' @seealso [robustNaiveBayes()], [fitKKNN()]
+#' @seealso [fit_nb()], [fitKKNN()]
 #' @seealso [randomForest::randomForest()], [fitGBM()], [fitGLM()]
 #' @examples
 #' # naive Bayes
@@ -70,7 +70,7 @@ kfold_cv <- function(data, k, model.type = c("lr", "nb", "rf",
       .fun <- switch(mtype,
                      gbm = fitGBM,
                      rf  = randomForest::randomForest,
-                     nb  = robustNaiveBayes,
+                     nb  = fit_nb,
                      lr  = fitGLM)
       tr_model <- .fun(formula, data = cv_data[cv_fold, ])
     } else if ( mtype == "svm" ) {

@@ -168,7 +168,7 @@ comes from `SomaGlobals::calcRobustGaussFit()`, with starting parameter values
 calculated via `stats::median()` and `stats::mad()` passed to `stats::nls()`.
 
 ```{r naiveBayes}
-nb <- robustNaiveBayes(Species ~ ., data = train)
+nb <- fit_nb(Species ~ ., data = train)
 nb
 ```
 

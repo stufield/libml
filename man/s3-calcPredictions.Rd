@@ -2,7 +2,7 @@
 % Please edit documentation in R/s3-calcPredictions.R
 \name{s3-calcPredictions}
 \alias{s3-calcPredictions}
-\alias{calcPredictions.robustNaiveBayes}
+\alias{calcPredictions.fit_nb}
 \alias{calcPredictions.naiveBayes}
 \alias{calcPredictions.randomForest}
 \alias{calcPredictions.gbm}
@@ -12,7 +12,7 @@
 \alias{calcPredictions.soma_lognet}
 \title{Calculate Model Predictions}
 \usage{
-\method{calcPredictions}{robustNaiveBayes}(model, newdata, cutoff = 0.5, ...)
+\method{calcPredictions}{fit_nb}(model, newdata, cutoff = 0.5, ...)
 
 \method{calcPredictions}{naiveBayes}(model, newdata, cutoff = 0.5, ...)
 
@@ -32,7 +32,7 @@
 \item{model}{A model object. Currently one of:
 \itemize{
 \item \code{glm} (for logistic regression)
-\item \code{robustNaiveBayes}
+\item \code{fit_nb}
 \item \code{naiveBayes}
 \item \code{randomForest}
 \item \code{svm}
@@ -76,7 +76,7 @@ that are used for predictions if \code{newdata = NULL}.
 }
 \section{Functions}{
 \itemize{
-\item \code{calcPredictions(robustNaiveBayes)}: S3 method for "robust" Naive Bayes models.
+\item \code{calcPredictions(fit_nb)}: S3 method for "robust" Naive Bayes models.
 
 \item \code{calcPredictions(naiveBayes)}: S3 method for Naive Bayes models.
 
@@ -104,7 +104,7 @@ calcPredictions(lr, test)
 calcPredictions(lr, test, cutoff = 0.33)
 
 # Naive Bayes
-nb <- robustNaiveBayes(Species ~ ., data = train)
+nb <- fit_nb(Species ~ ., data = train)
 calcPredictions(nb, test)
 calcPredictions(nb, test, cutoff = 0.01)
 
@@ -135,7 +135,7 @@ calcPredictions(kknn)                 # do NOT pass test data
 calcPredictions(kknn, cutoff = 0.48)
 }
 \seealso{
-\code{\link[=robustNaiveBayes]{robustNaiveBayes()}}, \code{\link[=randomForest]{randomForest()}}, \code{\link[=glm]{glm()}}, \code{\link[=kknn]{kknn()}}
+\code{\link[=fit_nb]{fit_nb()}}, \code{\link[=randomForest]{randomForest()}}, \code{\link[=glm]{glm()}}, \code{\link[=kknn]{kknn()}}
 }
 \author{
 Stu Field

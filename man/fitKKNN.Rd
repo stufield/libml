@@ -66,7 +66,8 @@ plotEmpROC(true, pred$prob_virginica, pos)
 
 The `fit*()` family: 
 \code{\link{fitGBM}()},
-\code{\link{fitGLM}()}
+\code{\link{fitGLM}()},
+\code{\link{fit_nb}()}
 }
 \author{
 Stu Field

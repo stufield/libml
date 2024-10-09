@@ -54,9 +54,9 @@ getModelCoef.lm <- getModelCoef.glm
 getModelCoef.lda <- getModelCoef.glm
 
 #' @describeIn getModelCoef-libml
-#'   S3 method for `robustNaiveBayes` models.
+#'   S3 method for `fit_nb` models.
 #' @export
-getModelCoef.robustNaiveBayes <- getModelCoef.glm
+getModelCoef.fit_nb <- getModelCoef.glm
 
 #' @describeIn getModelCoef-libml
 #'  S3 method for `naiveBayes` models.

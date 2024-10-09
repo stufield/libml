@@ -33,7 +33,7 @@ head(data)
 plotBivariateBayesBoundary(data, pos.class = "virginica")
 }
 \seealso{
-\code{\link[=geom_contour]{geom_contour()}}, \code{\link[=robustNaiveBayes]{robustNaiveBayes()}}
+\code{\link[=geom_contour]{geom_contour()}}, \code{\link[=fit_nb]{fit_nb()}}
 }
 \author{
 Stu Field

@@ -16,7 +16,7 @@
 #' @param model A model object. Currently one of:
 #' \itemize{
 #'   \item `glm` (for logistic regression)
-#'   \item `robustNaiveBayes`
+#'   \item `fit_nb`
 #'   \item `naiveBayes`
 #'   \item `randomForest`
 #'   \item `svm`
@@ -34,7 +34,7 @@
 #'   \item{`pred_linear`}{for linear models, the linear predictor for
 #'                        each new observation.}
 #' @author Stu Field
-#' @seealso [robustNaiveBayes()], [randomForest()], [glm()], [kknn()]
+#' @seealso [fit_nb()], [randomForest()], [glm()], [kknn()]
 #' @examples
 #' # Use training data from iris data set:
 #' train <- head(tr_iris, -3L)
@@ -46,7 +46,7 @@
 #' calcPredictions(lr, test, cutoff = 0.33)
 #'
 #' # Naive Bayes
-#' nb <- robustNaiveBayes(Species ~ ., data = train)
+#' nb <- fit_nb(Species ~ ., data = train)
 #' calcPredictions(nb, test)
 #' calcPredictions(nb, test, cutoff = 0.01)
 #'
@@ -84,7 +84,7 @@ globalr::calcPredictions
 #' @describeIn s3-calcPredictions
 #' S3 method for "robust" Naive Bayes models.
 #' @export
-calcPredictions.robustNaiveBayes <- function(model, newdata, cutoff = 0.5, ...) {
+calcPredictions.fit_nb <- function(model, newdata, cutoff = 0.5, ...) {
   test <- select_features(model, newdata)
   p <- predict(model, newdata = test, type = "raw")
   pos <- getPositiveClass(model)
@@ -102,7 +102,7 @@ calcPredictions.robustNaiveBayes <- function(model, newdata, cutoff = 0.5, ...) 
 
 #' @describeIn s3-calcPredictions S3 method for Naive Bayes models.
 #' @export
-calcPredictions.naiveBayes <- calcPredictions.robustNaiveBayes
+calcPredictions.naiveBayes <- calcPredictions.fit_nb
 
 #' @describeIn s3-calcPredictions
 #' S3 method for Random Forest models.

@@ -11,37 +11,36 @@
 #'   namely, `mu = median(x)` and `sd = IQR(x) / 1.349`.
 #'   That is, `calcRobustGaussFit(..., mad = TRUE)`.
 #'
+#' @family fit
 #' @param x A numeric matrix, a `tr_data` class objects, or a data frame
 #'   of predictors. If called from an S3 generic method (e.g.
-#'   [plot.robustNaiveBayes()]) or [print.robustNaiveBayes()]), either a
-#'   `robustNaiveBayes` or `naiveBayes` class object.
+#'   [plot.fit_nb()]) or [print.fit_nb()]), either a `fit_nb` or `naiveBayes` object.
 #' @param y A vector indicating the true classes for each sample. Ideally a
 #'   factor class object with appropriate levels.
 #' @param mad Logical. Should non-parametric approximations be applied during
 #'   the parameter estimation procedure. See `Details` section.
 #' @param laplace positive double controlling Laplace smoothing. The default
 #'   (`0`) disables Laplace smoothing.
-#' @param ... Additional arguments passed to the default [robustNaiveBayes()]
+#' @param ... Additional arguments passed to the default [fit_nb()]
 #'   default method. Currently not used in the `predict` or `print` S3 methods,
 #'   but is used in the S3 plot method, arguments passed to
 #'   [SomaPlotr::plotCDFlist()] or [SomaPlotr::plotPDFlist()].
 #' @param keep.data Logical. Should the training data used to fit the model be
 #'   included in the model object? When building thousands of models, this can
 #'   become a memory issue and thus the default is `FALSE`.
-#' @return `robustNaiveBayes`: A naive Bayes model with robustly fit
-#'   coefficients.
+#' @return `fit_nb`: A naive Bayes model with robustly fit parameters.
 #' @author Stu Field
 #' @seealso [calcRobustGaussFit()]
 #' @references This function was _heavily_ influenced by [e1071::naiveBayes()]
 #'   See David Meyer <email: David.Meyer@R-project.org>.
 #' @examples
 #' head(tr_iris)
-#' # standard naiveBayes
+#' # standard naive Bayes
 #' m1 <- e1071::naiveBayes(Species ~ ., data = tr_iris) # non-robust params
-#' m2 <- robustNaiveBayes(Species ~ ., data = tr_iris)  # formula syntax
-#' m3 <- robustNaiveBayes(tr_iris)                      # tr_data syntax
+#' m2 <- fit_nb(Species ~ ., data = tr_iris)  # formula syntax
+#' m3 <- fit_nb(tr_iris)                      # tr_data syntax
 #' m4 <- data.frame(tr_iris[, -5L]) |>
-#'   robustNaiveBayes(y = tr_iris$Species)              # default syntax
+#'   fit_nb(y = tr_iris$Species)              # default syntax
 #'
 #' # not same
 #' identical(sapply(m1$tables, as.numeric), sapply(m2$tables, as.numeric))
@@ -51,13 +50,13 @@
 #'
 #' @importFrom stats predict sd
 #' @export
-robustNaiveBayes <- function(x, ...) UseMethod("robustNaiveBayes")
+fit_nb <- function(x, ...) UseMethod("fit_nb")
 
 
-#' @describeIn robustNaiveBayes
-#'   S3 `default` method for robustNaiveBayes.
+#' @describeIn fit_nb
+#'   S3 `default` method for fit_nb.
 #' @export
-robustNaiveBayes.default <- function(x, y, mad = FALSE, laplace = 0,
+fit_nb.default <- function(x, y, mad = FALSE, laplace = 0,
                                      keep.data = FALSE, ...) {
 
   response <- .get_response(x) %||% "y"
@@ -122,18 +121,18 @@ robustNaiveBayes.default <- function(x, y, mad = FALSE, laplace = 0,
   resp_df     <- setNames(data.frame(y), response)
   ret$data    <- if ( keep.data ) cbind(x, resp_df) else FALSE # nolint
   ret$call    <- list(...)$orig_call %||% match.call(expand.dots = FALSE)
-  addClass(ret, "robustNaiveBayes")
+  addClass(ret, "fit_nb")
 }
 
 
-#' @describeIn robustNaiveBayes
-#'   S3 `formula` method for robustNaiveBayes.
+#' @describeIn fit_nb
+#'   S3 `formula` method for fit_nb.
 #' @param formula A model formula of the form: `class ~ x1 + x2 + ...`
 #'   (no interactions).
 #' @param data A data frame of predictors (categorical and/or numeric), i.e.
 #'   the ADAT used to train the model.
 #' @export
-robustNaiveBayes.formula <- function(formula, data, ...) {
+fit_nb.formula <- function(formula, data, ...) {
   if ( !inherits(data, "data.frame") ) {
     stop(
       "The robust naiveBayes formula interface handles data frames only.\n",
@@ -145,27 +144,27 @@ robustNaiveBayes.formula <- function(formula, data, ...) {
   idx <- names(data) %in% response
   X   <- as_tibble(data[, !idx])  # strip class but not attrs
   call <- list(...)$orig_call %||% match.call(expand.dots = TRUE)
-  robustNaiveBayes(X, y, orig_call = call, ...)
+  fit_nb(X, y, orig_call = call, ...)
 }
 
 
-#' @describeIn robustNaiveBayes
-#'   S3 `tr_data` method for robustNaiveBayes.
+#' @describeIn fit_nb
+#'   S3 `tr_data` method for fit_nb.
 #' @export
-robustNaiveBayes.tr_data <- function(x, ...) {
+fit_nb.tr_data <- function(x, ...) {
   call <- match.call(expand.dots = FALSE)
   response <- .get_response(x)
   y    <- x[[response]]
   idx  <- names(x) %in% response
   x    <- as_tibble(x[, !idx])  # strip class but not attrs
-  robustNaiveBayes(x = x, y = y, orig_call = call, ...)
+  fit_nb(x = x, y = y, orig_call = call, ...)
 }
 
 
-#' @describeIn robustNaiveBayes
-#' S3 print method for robustNaiveBayes.
+#' @describeIn fit_nb
+#' S3 print method for fit_nb.
 #' @export
-print.robustNaiveBayes <- function(x, ...) {
+print.fit_nb <- function(x, ...) {
   cat("\nRobust Naive Bayes Classifier for Discrete Predictors\n\n")
   cat("Call:\n")
   print(x$call)
@@ -182,9 +181,9 @@ print.robustNaiveBayes <- function(x, ...) {
 }
 
 
-#' @describeIn robustNaiveBayes
-#'   S3 predict method for robustNaiveBayes.
-#' @param object A model object of class `robustNaiveBayes`.
+#' @describeIn fit_nb
+#'   S3 predict method for fit_nb.
+#' @param object A model object of class `fit_nb`.
 #' @param newdata A `data.frame` with new predictors, containing at least
 #'   the model covariates (but possibly more columns than the training data).
 #'   Note that the column names of `newdata` are matched against the
@@ -198,7 +197,7 @@ print.robustNaiveBayes <- function(x, ...) {
 #' @param threshold Value below which should be replaced. See `min.prob`.
 #' @param min.prob Value indicating the minimum probability a prediction
 #'   can take. See `threshold` argument.
-#' @return `predict.robustNaiveBayes`: Depending on the `type` argument,
+#' @return `predict.fit_nb`: Depending on the `type` argument,
 #'   the posterior probability of a robustly estimated naive Bayes model.
 #' @examples
 #' # Predictions
@@ -207,7 +206,7 @@ print.robustNaiveBayes <- function(x, ...) {
 #'
 #' @importFrom stats dnorm
 #' @export
-predict.robustNaiveBayes <- function(object, newdata,
+predict.fit_nb <- function(object, newdata,
                                      type = c("class", "posterior", "raw"),
                                      threshold = 1e-06,
                                      min.prob = NULL, ...) {
@@ -273,7 +272,7 @@ predict.robustNaiveBayes <- function(object, newdata,
 }
 
 
-#' @describeIn robustNaiveBayes S3 plot method for `robustNaiveBayes`.
+#' @describeIn fit_nb S3 plot method for `fit_nb`.
 #' @param features An optional feature specifying which subset of model features
 #'   to plot. If missing, all features are plotted.
 #' @param plot.type Character. A string determining the plot type, currently
@@ -283,7 +282,7 @@ predict.robustNaiveBayes <- function(object, newdata,
 #' @param id An optional identifier of a specific sample to plot on top of
 #'   either PDFs or CDFs. This may be either a numeric index of the sample row
 #'   in the `data`, or its `rowname`. Can be `length(n)`.
-#' @return `plot.robustNaiveBayes`, `plot.naiveBayes`: A plot, either a list of
+#' @return `plot.fit_nb`, `plot.naiveBayes`: A plot, either a list of
 #'   PDFs/CDFs, or a log-odds plot.
 #' @seealso [plotLogOdds()], [SomaPlotr::plotPDFlist()], [SomaPlotr::plotCDFlist()]
 #' @examples
@@ -295,7 +294,7 @@ predict.robustNaiveBayes <- function(object, newdata,
 #' plot(m1, tr_iris, plot.type = "cdf", lty = "longdash") # pass-through of lty
 #' @importFrom dplyr all_of
 #' @export
-plot.robustNaiveBayes <- function(x, data, features,
+plot.fit_nb <- function(x, data, features,
                                   plot.type = c("pdf", "cdf", "log.odds"),
                                   x.lab = "value", id, ...) {
 
@@ -374,9 +373,9 @@ plot.robustNaiveBayes <- function(x, data, features,
 }
 
 
-#' @describeIn robustNaiveBayes Plot a `naiveBayes` model object.
+#' @describeIn fit_nb Plot a `naiveBayes` model object.
 #' @export
-plot.naiveBayes <- plot.robustNaiveBayes
+plot.naiveBayes <- plot.fit_nb
 
 
 #' Check Naive Bayes Feature Bias

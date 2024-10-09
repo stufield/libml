@@ -78,17 +78,11 @@ reference:
     contents:
     - create_train
 
-  - title: Robustly fit Naive Bayes
-    desc: >
-      Fit Naive Bayes model with robustly fit parameters.
-    contents:
-    - robustNaiveBayes
-
   - title: The fit* family
     desc: >
       Convenient wrappers for fitting various model types.
     contents:
-    - starts_with("fit[A-Z]")
+    - starts_with("fit_")
     - stripLMC
 
   - title: Cross validation

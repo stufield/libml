@@ -72,7 +72,7 @@ test_that("`getModelCoef()` returns correct coefs for class 'gbm'", {
 
 # robust naive Bayes model ----
 test_that("`getModelCoef()` returns correct coefs for class 'naiveBayes'", {
-  model    <- robustNaiveBayes(Species ~ ., data = tr_iris)
+  model    <- fit_nb(Species ~ ., data = tr_iris)
   test_val <- getModelCoef(model)
   expect_null(test_val)
 })

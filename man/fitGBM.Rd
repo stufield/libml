@@ -54,7 +54,8 @@ model <- withr::with_seed(10, fitGBM(tr_iris[, -5L], y = tr_iris$Species))
 
 The `fit*()` family: 
 \code{\link{fitGLM}()},
-\code{\link{fitKKNN}()}
+\code{\link{fitKKNN}()},
+\code{\link{fit_nb}()}
 }
 \author{
 Stu Field

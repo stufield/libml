@@ -13,7 +13,7 @@
 #' @param res Integer. The resolution for the plot. Higher
 #'   resolutions require more computation time.
 #' @author Stu Field
-#' @seealso [geom_contour()], [robustNaiveBayes()]
+#' @seealso [geom_contour()], [fit_nb()]
 #' @examples
 #' data <- data.frame(F1    = tr_iris$Petal.Length,
 #'                    F2    = tr_iris$Sepal.Length,
@@ -31,7 +31,7 @@ plotBivariateBayesBoundary <- function(data, pos.class, res = 50, main = NULL) {
     dplyr::rename_at(1:2, function(.x) c("F1", "F2"))    # rename features 1,2
   train$class <- factor(train$class,    # pos.class 2nd
                         levels = c(setdiff(train$class, pos.class), pos.class))
-  model <- robustNaiveBayes(class ~ F1 + F2, data = train)
+  model <- fit_nb(class ~ F1 + F2, data = train)
 
   df <- expand_grid(
     list(F1 = seq(min(train$F1), max(train$F1), length = res),
