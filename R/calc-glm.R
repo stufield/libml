@@ -41,7 +41,7 @@ calc.glm <- function(data, response = NULL, apts = NULL, bh = TRUE) {
   calc_msg("logistic regression", apts, response)
 
   models <- lapply(setNames(apts, apts), function(.apt) {
-              fit_logistic(createFormula(response, .apt), data = data)
+              fit_logistic(create_form(response, .apt), data = data)
   })
 
   glm_df <- liter(models, .f = function(.x, .y) {
@@ -98,7 +98,7 @@ print.glm_table <- function(x, n = 6L, ...) {
 write_stat_table.glm_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)
   cat("Response Variable,", x$y.response, "\n\n", sep = "")
-  renameStatTable(x$stat.table) |> rn2col("AptName") |>
+  rename_stat_tbl(x$stat.table) |> rn2col("AptName") |>
     format(digits = 7L) |>
     write_uni_table(file = file)
   invisible(file)

@@ -35,8 +35,8 @@ calc_msg <- function(x, apts, response) {
 column_ks <- function(x, which, rm.outliers = FALSE) {
 
   if ( rm.outliers ) {
-    g1 <- removeOutliers(x[which])$x
-    g2 <- removeOutliers(x[-which])$x
+    g1 <- remove_outliers(x[which])$x
+    g2 <- remove_outliers(x[-which])$x
   } else {
     g1 <- x[which]
     g2 <- x[-which]
@@ -79,15 +79,15 @@ column_lr <- function(x, which, paired, do.mean = FALSE, rm.outliers = FALSE) {
 
   if ( rm.outliers ) {
     if ( paired )  {
-      rez  <- removeOutliers(x[which], x[-which])
+      rez  <- remove_outliers(x[which], x[-which])
       stat <- .fun(log2(rez$x / rez$y), na.rm = TRUE)
       c(log2.fold.change = abs(stat),
         signed.log2.fold.change = stat,
         nGrp1 = length(rez$x),
         nGrp2 = length(rez$y))
     } else {
-      top    <- removeOutliers(x[which])$x
-      bottom <- removeOutliers(x[-which])$x
+      top    <- remove_outliers(x[which])$x
+      bottom <- remove_outliers(x[-which])$x
       stat   <- log2(.fun(top, na.rm = TRUE) / .fun(bottom, na.rm = TRUE))
       c(log2.fold.change = abs(stat),
         signed.log2.fold.change = stat,
@@ -125,12 +125,12 @@ column_t <- function(x, which, paired, rm.outliers = FALSE, ...) {
 
   if ( rm.outliers )  {
     if ( paired ) {
-      rez <- removeOutliers(x[which], x[-which])
+      rez <- remove_outliers(x[which], x[-which])
       g1  <- rez$x
       g2  <- rez$y
     } else {
-      g1 <- removeOutliers(x[which])$x
-      g2 <- removeOutliers(x[-which])$x
+      g1 <- remove_outliers(x[which])$x
+      g2 <- remove_outliers(x[-which])$x
     }
   } else {
     g1 <- x[which]
@@ -167,12 +167,12 @@ column_wilcox <- function(x, which, paired, rm.outliers = FALSE, ...) {
 
   if ( rm.outliers )  {
     if ( paired ) {
-      rez <- removeOutliers(x[which], x[-which])
+      rez <- remove_outliers(x[which], x[-which])
       g1  <- rez$x
       g2  <- rez$y
     } else {
-      g1 <- removeOutliers(x[which])$x
-      g2 <- removeOutliers(x[-which])$x
+      g1 <- remove_outliers(x[which])$x
+      g2 <- remove_outliers(x[-which])$x
     }
   } else {
     g1 <- x[which]

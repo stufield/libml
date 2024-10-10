@@ -57,7 +57,7 @@ calc.lm <- function(data, apts = NULL, response, bh = TRUE) {
   }
 
   models <- lapply(setNames(apts, apts), function(.apt) {
-              stats::lm(createFormula(response, .apt), data = data,
+              stats::lm(create_form(response, .apt), data = data,
                         x = TRUE, y = TRUE)
   })
 
@@ -115,7 +115,7 @@ print.lm_table <- function(x, n = 6L, ...) {
 write_stat_table.lm_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)
   cat("Response Variable,", x$y.response, "\n\n", sep = "")
-  renameStatTable(x$stat.table) |> rn2col("AptName") |>
+  rename_stat_tbl(x$stat.table) |> rn2col("AptName") |>
     format(digits = 7L) |>
     write_uni_table(file = file)
   invisible(file)

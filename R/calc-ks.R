@@ -74,7 +74,7 @@ print.ks_table <- function(x, n = 6L, ...) {
 write_stat_table.ks_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)
   cat("\n")
-  out <- rn2col(renameStatTable(x$stat.table), "AptName")
+  out <- rn2col(rename_stat_tbl(x$stat.table), "AptName")
   if ( all(c("nGrp1", "nGrp2") %in% names(out)) ) {
     key <- setNames(
       c("nGrp1", "nGrp1"),

@@ -139,7 +139,7 @@ write_stat_table.mackwolfe_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)
   cat("Response order,", paste(x$factor.order, collapse = " - "), "\n", sep = "")
   cat("Response peak,", x$peak, "\n\n", sep = "")
-  renameStatTable(x$stat.table) |> rn2col("AptName") |>
+  rename_stat_tbl(x$stat.table) |> rn2col("AptName") |>
     format(digits = 7L) |>
     write_uni_table(file = file)
   invisible(file)

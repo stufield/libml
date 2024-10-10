@@ -120,7 +120,7 @@ write_stat_table.cor_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)
   cat("Independent Variable,", x$response, "\n")
   cat("\n")
-  renameStatTable(x$stat.table) |> rn2col("AptName") |>
+  rename_stat_tbl(x$stat.table) |> rn2col("AptName") |>
     format(digits = 7L) |>
     write_uni_table(file = file)
   invisible(file)

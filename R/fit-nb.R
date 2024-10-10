@@ -4,12 +4,12 @@
 #'   categorical class variable given independent predictor
 #'   variables using the Bayes rule.
 #'   Parameter estimates are robustly calculated using approximations
-#'   of the error function for a Gaussian density, see [calcRobustGaussFit()].
+#'   of the error function for a Gaussian density, see [fit_gauss()].
 #'
 #' When `mad = TRUE` (median absolute deviation), non-parametric
 #'   calculation of Bayes' parameters are estimated,
 #'   namely, `mu = median(x)` and `sd = IQR(x) / 1.349`.
-#'   That is, `calcRobustGaussFit(..., mad = TRUE)`.
+#'   That is, `fit_gauss(..., mad = TRUE)`.
 #'
 #' @family fit
 #' @param x A numeric matrix, a `tr_data` class objects, or a data frame
@@ -30,7 +30,7 @@
 #'   become a memory issue and thus the default is `FALSE`.
 #' @return `libml_nb`: A naive Bayes model with robustly fit parameters.
 #' @author Stu Field
-#' @seealso [calcRobustGaussFit()]
+#' @seealso [fit_gauss()]
 #' @references This function was _heavily_ influenced by [e1071::naiveBayes()]
 #'   See David Meyer <email: David.Meyer@R-project.org>.
 #' @examples
@@ -89,7 +89,7 @@ fit_nb.default <- function(x, y, mad = FALSE, laplace = 0,
     if ( is.numeric(var) && !is.Integer(var) ) {
       do.call(
         "rbind",
-        tapply(var, y, function(.x) calcRobustGaussFit(.x, mad = mad))
+        tapply(var, y, function(.x) fit_gauss(.x, mad = mad))
       )
     } else if ( is.numeric(var) && is.Integer(var) ) {
       cbind(mu    = tapply(var, y, mean, na.rm = TRUE),

@@ -57,7 +57,7 @@ reg_feat <- attr(sim_test_data, "sig_feats")$reg
 class_feat <- attr(sim_test_data, "sig_feats")$class
 small_dat <- sim_test_data[, c("gender", "age", reg_feat, class_feat)] |>
   log10() |>
-  centerScaleData()
+  center_scale()
 tts <- calc_univariate(small_dat, "gender", "t.test")
 lms <- calc_univariate(small_dat, "age", "lm")
 }

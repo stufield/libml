@@ -125,13 +125,13 @@ Computes the conditional \emph{a}-posterior probabilities of a
 categorical class variable given independent predictor
 variables using the Bayes rule.
 Parameter estimates are robustly calculated using approximations
-of the error function for a Gaussian density, see \code{\link[=calcRobustGaussFit]{calcRobustGaussFit()}}.
+of the error function for a Gaussian density, see \code{\link[=fit_gauss]{fit_gauss()}}.
 }
 \details{
 When \code{mad = TRUE} (median absolute deviation), non-parametric
 calculation of Bayes' parameters are estimated,
 namely, \code{mu = median(x)} and \code{sd = IQR(x) / 1.349}.
-That is, \code{calcRobustGaussFit(..., mad = TRUE)}.
+That is, \code{fit_gauss(..., mad = TRUE)}.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -184,7 +184,7 @@ This function was \emph{heavily} influenced by \code{\link[e1071:naiveBayes]{e10
 See David Meyer <email: David.Meyer@R-project.org>.
 }
 \seealso{
-\code{\link[=calcRobustGaussFit]{calcRobustGaussFit()}}
+\code{\link[=fit_gauss]{fit_gauss()}}
 
 \code{\link[=plotLogOdds]{plotLogOdds()}}, \code{\link[SomaPlotr:plotPDF]{SomaPlotr::plotPDFlist()}}, \code{\link[SomaPlotr:plotCDF]{SomaPlotr::plotCDFlist()}}
 

@@ -31,7 +31,7 @@ prepCalcData <- function(x, feats, response, paired = FALSE, binary = TRUE) {
   }
 
   if ( is.factor(x[[response]]) ) {
-    x <- refactorData(x)
+    x <- refactor_data(x)
   } else {
     x[[response]] <- factor(x[[response]])
   }

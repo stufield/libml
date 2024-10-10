@@ -82,7 +82,7 @@ mackwolfe <- function(x, group, peak = NULL, rm.outliers = FALSE,
 
   if ( rm.outliers ) {
     group_char <- as.character(group)
-    res   <- removeOutliers(x = x, y = group_char)
+    res   <- remove_outliers(x = x, y = group_char)
     x     <- res$x
     group <- factor(res$y, levels = levels)
     if ( length(x) < n ) {

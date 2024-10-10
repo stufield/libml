@@ -23,7 +23,7 @@ calc.robust.lm <- function(data, apts = NULL, response, bh = TRUE) {
   calc_msg("'robust' linear regression", apts, response)
 
   models <- lapply(setNames(apts, apts), function(.apt) {
-              MASS::rlm(createFormula(response, .apt), data = data)
+              MASS::rlm(create_form(response, .apt), data = data)
   })
 
   stats <- liter(models, .f = function(.x, .y) {

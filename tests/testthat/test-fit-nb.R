@@ -6,7 +6,7 @@ withr::defer({
 })
 
 # with 2-class iris dataset
-dat <- dplyr::filter(iris, Species != "versicolor") |> refactorData()
+dat <- dplyr::filter(iris, Species != "versicolor") |> refactor_data()
 nb2 <- fit_nb(Species ~ ., data = dat)
 nb.data <- fit_nb(Species ~ ., data = dat, keep.data = TRUE)
 

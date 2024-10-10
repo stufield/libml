@@ -30,7 +30,7 @@ calc.kw <- function(data, apts = NULL, response = NULL, bh = TRUE, ...) {
     response <- .get_response(data)
   }
   if ( is.factor(data[[response]]) ) {
-    data <- refactorData(data)
+    data <- refactor_data(data)
   } else if ( is.Integer(data[[response]]) ) {
     data[[response]] <- as.character(data[[response]])
   } else {
@@ -52,7 +52,7 @@ calc.kw <- function(data, apts = NULL, response = NULL, bh = TRUE, ...) {
   }
 
   kw_stats <- lapply(apts, function(.apt) {
-      test <- createFormula(.apt, sprintf("factor(%s)", response)) |>
+      test <- create_form(.apt, sprintf("factor(%s)", response)) |>
         kruskal.test(data = data, ...)
       data.frame(row.names = .apt,           H       = test$statistic,
                  df        = test$parameter, p.value = test$p.value)
@@ -95,7 +95,7 @@ print.kw_table <- function(x, n = 6L, ...) {
 write_stat_table.kw_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)
   cat("\n")
-  renameStatTable(x$stat.table) |> rn2col("AptName") |>
+  rename_stat_tbl(x$stat.table) |> rn2col("AptName") |>
     format(digits = 7L) |>
     write_uni_table(file = file)
   invisible(file)
