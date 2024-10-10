@@ -62,7 +62,7 @@ As with most analyses, start by preprocessing the data via 3 steps:
 
 ```{r preprocess}
 # pre-process simulated data
-data  <- log10(splyr:::sim_test_data) |> centerScaleData()
+data  <- log10(splyr:::sim_test_data) |> center_scale()
 ```
 
 Next, initiate a table ([tibble](https://tibble.tidyverse.org)) of analyte
