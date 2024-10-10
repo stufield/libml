@@ -59,8 +59,8 @@ Other ROC:
 \code{\link{calcROCperpendicular}()},
 \code{\link{createROCdata}()},
 \code{\link{geom_roc}()},
-\code{\link{getROCxy}()},
-\code{\link{plotEmpROC}()}
+\code{\link{plotEmpROC}()},
+\code{\link{roc_xy}()}
 }
 \author{
 Stu Field, Amanda Hiser

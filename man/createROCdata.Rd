@@ -102,9 +102,9 @@ Other ROC:
 \code{\link{calcROCfit}()},
 \code{\link{calcROCperpendicular}()},
 \code{\link{geom_roc}()},
-\code{\link{getROCxy}()},
 \code{\link{plotEmpROC}()},
-\code{\link{plotROCbootCI95}()}
+\code{\link{plotROCbootCI95}()},
+\code{\link{roc_xy}()}
 }
 \author{
 Mike Mehan and Stu Field

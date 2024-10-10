@@ -170,15 +170,15 @@ plotEmpROC(true, pred, pos.class = "disease", col = "firebrick3") +
   plotEmpROC(true2, pred2, pos.class = "disease", col = "forestgreen", add = 1)
 }
 \seealso{
-\code{\link[=createROCdata]{createROCdata()}}, \code{\link[=getROCxy]{getROCxy()}}, \code{\link[=geom_roc]{geom_roc()}}
+\code{\link[=createROCdata]{createROCdata()}}, \code{\link[=roc_xy]{roc_xy()}}, \code{\link[=geom_roc]{geom_roc()}}
 
 Other ROC: 
 \code{\link{calcROCfit}()},
 \code{\link{calcROCperpendicular}()},
 \code{\link{createROCdata}()},
 \code{\link{geom_roc}()},
-\code{\link{getROCxy}()},
-\code{\link{plotROCbootCI95}()}
+\code{\link{plotROCbootCI95}()},
+\code{\link{roc_xy}()}
 }
 \author{
 Michael R. Mehan, Stu Field

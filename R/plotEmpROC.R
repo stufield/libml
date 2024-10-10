@@ -58,7 +58,7 @@
 #' @param ... Deprecated. Maintained for backwards compatibility.
 #' @return A ROC curve is plotted and its corresponding AUC is returned.
 #' @author Michael R. Mehan, Stu Field
-#' @seealso [createROCdata()], [getROCxy()], [geom_roc()]
+#' @seealso [createROCdata()], [roc_xy()], [geom_roc()]
 #' @examples
 #' true <- rep(c("control", "disease"), each = 50)
 #' pred <- withr::with_seed(8,
@@ -153,7 +153,7 @@ plotEmpROC <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
   }
 
   # Calculates x & y coordinates of ROC curve
-  xy <- getROCxy(plot_df$truth, plot_df$pred, pos.class)
+  xy <- roc_xy(plot_df$truth, plot_df$pred, pos.class)
 
   if ( is.numeric(cutoff) && cutoff < 0 ) {
     cutoff <- getCutoffMax(plot_df$truth, plot_df$pred, pos.class)

@@ -2,13 +2,13 @@
 #'
 #' Create a \verb{"geom"} layer to generate a receiver operator criterion (ROC)
 #' curve in the \pkg{ggplot2} style grammar of graphics.
-#' Its primary input is the output of [getROCxy()], and is used
+#' Its primary input is the output of [roc_xy()], and is used
 #' primarily used in support of the wrapper [plotEmpROC()].
 #'
 #' @inheritParams ggplot2::geom_line
 #' @family ROC
 #' @param data A `data.frame` containing "x" and "y" coordinates corresponding
-#'   to an empirical ROC curve. This is result of a call to [getROCxy()], and
+#'   to an empirical ROC curve. This is result of a call to [roc_xy()], and
 #'   corresponds to the `1 - "tnr"` and `"tpr"` values respectively.
 #' @param lwd Line width. See [par()].
 #' @param shape Numeric. Shape of points. Must be a number between 0 and 25,
@@ -20,7 +20,7 @@
 #' @param ... Additional arguments passed to [layer()], often `lty`, `shape`,
 #'   `lwd`, etc.
 #' @author Stu Field, Amanda Hiser
-#' @seealso [getROCxy()], [calcROCfit()], [geom_line()], [layer()]
+#' @seealso [roc_xy()], [calcROCfit()], [geom_line()], [layer()]
 #' @examples
 #' library(ggplot2)
 #'
@@ -30,7 +30,7 @@
 #'   c(rnorm(10, mean = 0.4, sd = 0.2),
 #'     rnorm(10, mean = 0.6, sd = 0.2))
 #' )
-#' rocxy <- getROCxy(true, pred, "disease") |> data.frame()
+#' rocxy <- roc_xy(true, pred, "disease") |> data.frame()
 #'
 #' # Plotting options
 #' ggplot(rocxy, aes(x = x, y = y)) + geom_roc()
@@ -55,7 +55,7 @@
 #' )
 #'
 #' # Cast input to a data frame (this is required for ggplot)
-#' rocxy2 <- getROCxy(true2, pred2, "disease") |> data.frame()
+#' rocxy2 <- roc_xy(true2, pred2, "disease") |> data.frame()
 #'
 #' # The 2nd line can be added via standard `+` ggplot2 syntax,
 #' # but the data argument must be passed for each geom, as each curve was

@@ -33,7 +33,7 @@ calcAUC <- function(truth, predicted, ...) {
 #'   the trapezoid area at each step along the x-axis of a ROC curve.
 #' @param ci95 Logical. Should DeLong's standard error based confidence
 #'   limits be included with the AUC estimate?
-#' @seealso [plotEmpROC()], [getROCxy()]
+#' @seealso [plotEmpROC()], [roc_xy()]
 #' @references DeLong et al. (1988) for the calculation of the Standard Error
 #'   of the Area Under the Curve (AUC) and of the difference between two AUCs.
 #' @examples
@@ -45,7 +45,7 @@ calcAUC <- function(truth, predicted, ...) {
 #' @export
 calcEmpAUC <- function(truth, predicted, pos.class, ci95 = FALSE) {
 
-  auc <- empAUC_cpp(getROCxy(truth, predicted, pos.class))
+  auc <- empAUC_cpp(roc_xy(truth, predicted, pos.class))
 
   if ( ci95 ) {
     idx     <- which(truth == pos.class)

@@ -31,14 +31,14 @@
 #'   true <- sample(c("control", "disease"), n, replace = TRUE)
 #'   pred <- runif(n)
 #' })
-#' xy <- getROCxy(true, pred, "disease")
+#' xy <- roc_xy(true, pred, "disease")
 #' xy
 #'
 #' # simple plotting
 #' ggplot2::ggplot(data.frame(xy), ggplot2::aes(x = x, y = y)) +
 #'   geom_roc(outline = FALSE, shape = 19)
 #' @export
-getROCxy <- function(truth, predicted, pos.class) {
+roc_xy <- function(truth, predicted, pos.class) {
   stopifnot(
     length(truth) == length(predicted),
     pos.class %in% truth

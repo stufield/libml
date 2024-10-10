@@ -68,14 +68,14 @@ At the most basic level, individual ROC curves can be generated using the
 *"geom"* layer that generates and plots a ROC curve, utilizing the
 `ggplot2`-style grammar of graphics. 
 
-The primary input for `geom_roc()` is the output of `getROCxy()` (also from 
+The primary input for `geom_roc()` is the output of `roc_xy()` (also from 
 **libml**), and this is generally used in support of the wrapper functions 
 `plotEmpROC()` and `plotROCbootCI95()`. These functions generate ROC curve plots, 
 but provide more advanced options for plot annotation and confidence interval 
 generation, respectively.
 
 To illustrate how `geom_roc()` can be used to create a ROC curve, we must
-first generate an example data set to work with. The `getROCxy()` function
+first generate an example data set to work with. The `roc_xy()` function
 will then create the `x` and `y` values required to plot the curve
 from this data set.
 
@@ -86,7 +86,7 @@ pred <- withr::with_seed(8, c(rnorm(10, mean = 0.4, sd = 0.2),
                               rnorm(10, mean = 0.6, sd = 0.2)))
 
 # Calculate x & y coords for the ROC curve using data generated above
-rocxy <- getROCxy(true, pred, "disease") |>
+rocxy <- roc_xy(true, pred, "disease") |>
   data.frame()     # must cast to a data frame for ggplot()
 head(rocxy)
 ```

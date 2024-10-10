@@ -9,7 +9,7 @@ calcROCfit(xy, optim = c("ML", "LS"), start = c(alpha = 0.5, beta = 0.5))
 \arguments{
 \item{xy}{A data frame containing "x" (1 - tnr) and "y" (tpr)
 coordinates of an empirical ROC curve. This is typically
-the return value of a call to \code{\link[=getROCxy]{getROCxy()}}.}
+the return value of a call to \code{\link[=roc_xy]{roc_xy()}}.}
 
 \item{optim}{Character. One of "ML" or "LS" indicating whether
 Maximum Likelihood (default) or Non-linear Least Squares should
@@ -39,7 +39,7 @@ n    <- 15
 true <- rep(c("control", "case"), each = n)
 pred <- withr::with_seed(1, c(rnorm(n, 0.45, 0.2), rnorm(n, 0.65, 0.2)))
 
-rocxy <- data.frame(getROCxy(true, pred, pos.class = "case"))
+rocxy <- data.frame(roc_xy(true, pred, pos.class = "case"))
 calcROCfit(rocxy)        # Max Lik
 calcROCfit(rocxy, "LS")  # Least Squares
 
@@ -52,15 +52,15 @@ ggplot2::ggplot(rocxy, ggplot2::aes(x = x, y = y)) +
   geom_rocfit(data = rocxy, col = "blue")
 }
 \seealso{
-\code{\link[=nls]{nls()}}, \code{\link[=optim]{optim()}}, \code{\link[=plotEmpROC]{plotEmpROC()}}, \code{\link[=getROCxy]{getROCxy()}}
+\code{\link[=nls]{nls()}}, \code{\link[=optim]{optim()}}, \code{\link[=plotEmpROC]{plotEmpROC()}}, \code{\link[=roc_xy]{roc_xy()}}
 
 Other ROC: 
 \code{\link{calcROCperpendicular}()},
 \code{\link{createROCdata}()},
 \code{\link{geom_roc}()},
-\code{\link{getROCxy}()},
 \code{\link{plotEmpROC}()},
-\code{\link{plotROCbootCI95}()}
+\code{\link{plotROCbootCI95}()},
+\code{\link{roc_xy}()}
 }
 \author{
 Stu Field

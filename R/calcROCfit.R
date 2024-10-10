@@ -13,7 +13,7 @@
 #' @family ROC
 #' @param xy A data frame containing "x" (1 - tnr) and "y" (tpr)
 #'   coordinates of an empirical ROC curve. This is typically
-#'   the return value of a call to [getROCxy()].
+#'   the return value of a call to [roc_xy()].
 #' @param optim Character. One of "ML" or "LS" indicating whether
 #'   Maximum Likelihood (default) or Non-linear Least Squares should
 #'   be used in the optimization.
@@ -23,13 +23,13 @@
 #'   the cost of a false negative.
 #' @return Model estimates of \eqn{\alpha} and \eqn{\beta}.
 #' @author Stu Field
-#' @seealso [nls()], [optim()], [plotEmpROC()], [getROCxy()]
+#' @seealso [nls()], [optim()], [plotEmpROC()], [roc_xy()]
 #' @examples
 #' n    <- 15
 #' true <- rep(c("control", "case"), each = n)
 #' pred <- withr::with_seed(1, c(rnorm(n, 0.45, 0.2), rnorm(n, 0.65, 0.2)))
 #'
-#' rocxy <- data.frame(getROCxy(true, pred, pos.class = "case"))
+#' rocxy <- data.frame(roc_xy(true, pred, pos.class = "case"))
 #' calcROCfit(rocxy)        # Max Lik
 #' calcROCfit(rocxy, "LS")  # Least Squares
 #'

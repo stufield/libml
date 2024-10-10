@@ -35,7 +35,7 @@ at the top level of the plot. You must supply \code{mapping} if there is no plot
 mapping.}
 
 \item{data}{A \code{data.frame} containing "x" and "y" coordinates corresponding
-to an empirical ROC curve. This is result of a call to \code{\link[=getROCxy]{getROCxy()}}, and
+to an empirical ROC curve. This is result of a call to \code{\link[=roc_xy]{roc_xy()}}, and
 corresponds to the \code{1 - "tnr"} and \code{"tpr"} values respectively.}
 
 \item{stat}{The statistical transformation to use on the data for this layer.
@@ -97,7 +97,7 @@ the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 \description{
 Create a \verb{"geom"} layer to generate a receiver operator criterion (ROC)
 curve in the \pkg{ggplot2} style grammar of graphics.
-Its primary input is the output of \code{\link[=getROCxy]{getROCxy()}}, and is used
+Its primary input is the output of \code{\link[=roc_xy]{roc_xy()}}, and is used
 primarily used in support of the wrapper \code{\link[=plotEmpROC]{plotEmpROC()}}.
 }
 \section{Functions}{
@@ -114,7 +114,7 @@ pred <- withr::with_seed(8,
   c(rnorm(10, mean = 0.4, sd = 0.2),
     rnorm(10, mean = 0.6, sd = 0.2))
 )
-rocxy <- getROCxy(true, pred, "disease") |> data.frame()
+rocxy <- roc_xy(true, pred, "disease") |> data.frame()
 
 # Plotting options
 ggplot(rocxy, aes(x = x, y = y)) + geom_roc()
@@ -139,7 +139,7 @@ pred2 <- withr::with_seed(9,
 )
 
 # Cast input to a data frame (this is required for ggplot)
-rocxy2 <- getROCxy(true2, pred2, "disease") |> data.frame()
+rocxy2 <- roc_xy(true2, pred2, "disease") |> data.frame()
 
 # The 2nd line can be added via standard `+` ggplot2 syntax,
 # but the data argument must be passed for each geom, as each curve was
@@ -149,15 +149,15 @@ ggplot() +
   geom_roc(aes(x = x, y = y), data = rocxy2, col = "blue")
 }
 \seealso{
-\code{\link[=getROCxy]{getROCxy()}}, \code{\link[=calcROCfit]{calcROCfit()}}, \code{\link[=geom_line]{geom_line()}}, \code{\link[=layer]{layer()}}
+\code{\link[=roc_xy]{roc_xy()}}, \code{\link[=calcROCfit]{calcROCfit()}}, \code{\link[=geom_line]{geom_line()}}, \code{\link[=layer]{layer()}}
 
 Other ROC: 
 \code{\link{calcROCfit}()},
 \code{\link{calcROCperpendicular}()},
 \code{\link{createROCdata}()},
-\code{\link{getROCxy}()},
 \code{\link{plotEmpROC}()},
-\code{\link{plotROCbootCI95}()}
+\code{\link{plotROCbootCI95}()},
+\code{\link{roc_xy}()}
 }
 \author{
 Stu Field, Amanda Hiser

@@ -70,7 +70,7 @@ of the Area Under the Curve (AUC) and of the difference between two AUCs.
 Evaluation of Medical Tests for Classification and Prediction.
 }
 \seealso{
-\code{\link[=plotEmpROC]{plotEmpROC()}}, \code{\link[=getROCxy]{getROCxy()}}
+\code{\link[=plotEmpROC]{plotEmpROC()}}, \code{\link[=roc_xy]{roc_xy()}}
 
 Other auc: 
 \code{\link{calcBootAUC}()}

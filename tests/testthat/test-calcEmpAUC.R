@@ -27,9 +27,9 @@ test_that("calcEmpAUC() generates expected output with edge case", {
   x <- c(0, 1, 0, 1, 1, 1, 0)
   y <- c(0.001, 0.999, 0.001, 0.999, 0.999, 0.999, 0.001)
   expect_equal(calcEmpAUC(x, y, 1), 1)        # no warning; both 'double'
-  expect_warning(a <- calcEmpAUC(x, y, 1L))   # warning tested in getROCxy()
+  expect_warning(a <- calcEmpAUC(x, y, 1L))   # warning tested in roc_xy()
   expect_equal(a, 1)
-  expect_warning(a <- calcEmpAUC(x, y, "1"))  # warning tested in getROCxy()
+  expect_warning(a <- calcEmpAUC(x, y, "1"))  # warning tested in roc_xy()
   expect_equal(a, 1)
 })
 
