@@ -8,7 +8,6 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-library(SomaDataIO)
 library(splyr)
 library(tidyr)
 library(purrr)
@@ -48,13 +47,13 @@ a common use-case example.
 
 ## Example Analysis
 
-A very common task in SomaScan analyses is a univariate analysis of RFU based
-analyte measurements. This means that each analyte is analyzed independently
-and the exact same statistical test is applied repeatedly over the columns
-of feature data. This is so common it forms the basis of most preliminary
-analyses.
+A very common task in proteomics is a univariate analysis of RFU based
+analyte measurements. This means that each analyte/feature is analyzed
+independently and the exact same statistical test is applied repeatedly
+over the columns of feature data.
+This is so common it forms the basis of most preliminary analyses.
 
-As with most analyses, start by preprocessing the data via 3 steps:
+As with most analyses, start by pre-processing the data via 3 steps:
 
 * log10-transform
 * center to zero mean
@@ -62,7 +61,12 @@ As with most analyses, start by preprocessing the data via 3 steps:
 
 ```{r preprocess}
 # pre-process simulated data
-data  <- log10(splyr:::sim_test_data) |> center_scale()
+data  <- splyr::sim_test_data
+feats <- grep("^seq.", names(data), value = TRUE)
+for ( i in feats ) {
+  data[[i]] <- log10(data[[i]])
+}
+data  <- center_scale(data)
 ```
 
 Next, initiate a table ([tibble](https://tibble.tidyverse.org)) of analyte
@@ -70,15 +74,16 @@ annotations. This will be the starting point of the ever-growing
 analysis "object":
 
 ```{r tbl}
-t_tbl <- getAnalyteInfo(data) |>
-  filter(Units == "RFU") |>     # option to filter out features
-  select(AptName, SeqId, TargetFullName, EntrezGeneSymbol, UniProt)
+t_tbl <- attr(data, "Col.Meta") |>
+  dplyr::filter(Units == "RFU") |> # optionally filter features here
+  dplyr::mutate(feature = libml:::seqid2apt(SeqId)) |>
+  select(feature, SeqId, TargetFullName, EntrezGeneSymbol, UniProt)
 
 head(t_tbl)
 ```
 
 
-### Calculate t-tests
+### Calculate *t*-tests
 
 With the above preparation steps in place, iterate over the rows and add 
 columns as the analysis grows, with a combination of `dplyr::mutate()`
@@ -87,16 +92,16 @@ and `purrr::map()`:
 ```{r t-test}
 t_tbl <- t_tbl |>
   mutate(
-    t_stat  = map(AptName, ~ as.formula(paste(.x, "~ class_response")) |>
-                    t.test(data = data)),         # fit t-tests
-    p.value = map_dbl(t_stat, "p.value"),         # pull out p-values
-    fdr     = p.adjust(p.value, method = "BH")    # FDR test correction
+    t_stat  = map(feature, ~ as.formula(paste(.x, "~ class_response")) |>
+                  t.test(data = data)),        # fit t-tests
+    p_value = map_dbl(t_stat, "p.value"),      # pull out p-values
+    fdr     = p.adjust(p_value, method = "fdr") # FDR test correction
   ) |>
-  arrange(p.value) |>           # Re-order by `p-value`
+  arrange(p_value) |>           # Re-order by `p-value`
   mutate(rank = row_number())   # add ranks column
 
 # each row represents an analyte
-getAnalytes(data, n = TRUE)
+length(feats)
 nrow(t_tbl)
 
 # the analysis table
@@ -125,19 +130,20 @@ Plotting can be achieved in three basic steps:
 * Set up plotting data table
 * Plot with [ggplot2](https://ggplot2.tidyverse.org)
 
-#### dictionary map of AptName -> protein names
+#### Dictionary map of feature -> protein names
 ```{r target-map}
 target_map <- head(t_tbl, 9L) |>              # mapping table
-  select(AptName, Target = TargetFullName)    # AptName -> Target (& rename)
+  select(feature, Target = TargetFullName)    # feature -> Target (& rename)
 
 target_map
 ```
 
-#### reshape plot data into long-format
+#### reshape data into long-format for plotting
+
 ```{r plot-data, fig.height = 5, fig.width = 9}
-plot_tbl <- log10(sim_test_data) |>              # log-space; don't center/scale for plotting
-  select(class_response, target_map$AptName) |>  # top 9 analytes
-  pivot_longer(cols = -class_response, names_to = "AptName", values_to = "RFU") |>
+plot_tbl <- undo_center_scale(data) |>                 # log-space; no center-scale
+  select(class_response, all_of(target_map$feature)) |># top 9 analytes
+  pivot_longer(cols = -class_response, names_to = "feature", values_to = "RFU") |>
   left_join(target_map) |>
   # order factor levels by 't_tbl' rank to order plots below
   mutate(Target = factor(Target, levels = target_map$Target))
@@ -146,7 +152,8 @@ plot_tbl
 ```
 
 #### plot via `ggplot2`
-```{r ggplot, fig.height = 5, fig.width = 9}
+
+```{r gg-boxplots, fig.height = 5, fig.width = 9}
 plot_tbl |>
   ggplot(aes(x = class_response, y = RFU, fill = class_response)) +
   geom_boxplot(alpha = 0.5, outlier.shape = NA) +

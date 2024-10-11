@@ -106,7 +106,7 @@ write_stat_tbl.glm_table <- function(x, file) {
 
 
 #' @describeIn calc.glm
-#' S3 plotting method for objects of class `glm_table`.
+#'   S3 plotting method for objects of class `glm_table`.
 #' @param .data The data frame containing data to be plotted.
 #'   In many cases this may now be included in the `"glm.table"` object itself.
 #' @param n_plots Numeric. Numeric indices corresponding to the `glm_table`
@@ -132,8 +132,9 @@ plot.glm_table <- function(x, .data, n_plots = seq(6), pt.size = 2, pt.pch = 19,
       call. = FALSE
     )
   }
-  if ( is_intact_attr(.data) ) {
-    tg <- unlist(getTargetNames(getAnalyteInfo(.data)))
+  if ( !is.null(col_meta <- attr(.data, "Col.Meta")) ) {
+    targets <- col_meta$TargetFullName %||% col_meta$Target
+    tg <- setNames(as.list(targets), seqid2apt(col_meta$SeqId))
   } else {
     tg <- set_Names(names(.data))
   }

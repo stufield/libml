@@ -45,7 +45,6 @@
 #' @importFrom dplyr mutate arrange select row_number
 #' @importFrom purrr map
 #' @importFrom stats as.formula formula lm p.adjust t.test
-#' @importFrom SomaDataIO getAnalyteInfo
 #' @importFrom tidyr unnest
 #' @export
 calc_univariate <- function(data, var, test = c("t.test", "lm"),

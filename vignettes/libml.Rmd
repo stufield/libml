@@ -129,10 +129,8 @@ by `SampleId` (identifying the pairs) to ensure the samples are paired properly.
 
 #### Examples
 
-```{r calc_t}
-splyr:::sim_test_data |>   # from `splyr`
-  log10() |>     # log-transform
-  calc.t(response = "class_response")   # binary grouping variable
+```{r calc_ks}
+calc.ks(splyr::sim_test_data, response = "class_response")
 ```
 
 
@@ -142,9 +140,10 @@ splyr:::sim_test_data |>   # from `splyr`
 ## Model Fitting
 ### Splitting Train vs Test Sets
 
-A *very* convenient method to split a data set into training and test sets is:
+A *very* convenient method to split a data set into
+training and test sets is:
 
-```{r train_test}
+```{r train-test}
 # Add a sample identifier variable for the anti_join()
 tr <- dplyr::mutate(tr, id = dplyr::row_number())
 

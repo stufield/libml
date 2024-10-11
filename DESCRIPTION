@@ -29,7 +29,6 @@ Imports:
     lifecycle,
     purrr,
     randomForest,
-    SomaDataIO,
     tibble,
     tidyr,
     withr

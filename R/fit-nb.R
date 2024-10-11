@@ -312,8 +312,10 @@ plot.libml_nb <- function(x, data, features,
 
   response <- x$response %||% .get_response(data)
 
-  if ( is.soma_adat(data) && is_intact_attr(data) ) {
-    tg <- getTargetNames(getAnalyteInfo(data))
+  if ( is.soma_adat(data) && !is.null(attr(data, "Col.Meta")) ) {
+    col_meta <- attr(.data, "Col.Meta")
+    targets <- col_meta$TargetFullName %||% col_meta$Target
+    tg <- setNames(as.list(targets), seqid2apt(col_meta$SeqId))
   } else {
     tg <- NULL
   }

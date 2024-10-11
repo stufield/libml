@@ -171,8 +171,10 @@ plot.lm_table <- function(x, .data, n_plots = seq(6L),
     )
   }
 
-  if ( is_intact_attr(.data) ) {
-    tg <- unlist(getTargetNames(getAnalyteInfo(.data)))
+  if ( !is.null(attr(.data, "Col.Meta")) ) {
+    col_meta <- attr(.data, "Col.Meta")
+    targets  <- col_meta$TargetFullName %||% col_meta$Target
+    tg <- setNames(targets, seqid2apt(col_meta$SeqId))
   } else {
     stop("Data attributes broken ... cannot make plot titles.", call. = FALSE)
   }
