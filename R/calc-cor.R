@@ -114,9 +114,9 @@ print.cor_table <- function(x, n = 6L, ...) {
 
 
 #' @describeIn calc.cor
-#'   The S3 `write_stat_table` method for class `cor_table`.
+#'   The S3 `write_stat_tbl` method for class `cor_table`.
 #' @export
-write_stat_table.cor_table <- function(x, file) {
+write_stat_tbl.cor_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)
   cat("Independent Variable,", x$response, "\n")
   cat("\n")

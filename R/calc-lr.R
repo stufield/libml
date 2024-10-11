@@ -73,6 +73,6 @@ print.logratio_table <- function(x, n = 6L, ...) {
 
 
 #' @describeIn calc.lr
-#'   The S3 `write_stat_table` method for class `logratio_table`.
+#'   The S3 `write_stat_tbl` method for class `logratio_table`.
 #' @export
-write_stat_table.logratio_table <- write_stat_table.ks_table
+write_stat_tbl.logratio_table <- write_stat_tbl.ks_table

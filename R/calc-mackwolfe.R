@@ -133,9 +133,9 @@ print.mackwolfe_table <- function(x, n = 6L, ...) {
 
 
 #' @describeIn calc.mackwolfe
-#'   The S3 `write_stat_table` method for class `mackwolfe_table`.
+#'   The S3 `write_stat_tbl` method for class `mackwolfe_table`.
 #' @export
-write_stat_table.mackwolfe_table <- function(x, file) {
+write_stat_tbl.mackwolfe_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)
   cat("Response order,", paste(x$factor.order, collapse = " - "), "\n", sep = "")
   cat("Response peak,", x$peak, "\n\n", sep = "")

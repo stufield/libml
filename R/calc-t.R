@@ -68,6 +68,6 @@ print.t_table <- function(x, n = 6L, ...) {
 
 
 #' @describeIn calc.t
-#'   The S3 `write_stat_table` method for class `t_table`.
+#'   The S3 `write_stat_tbl` method for class `t_table`.
 #' @export
-write_stat_table.t_table <- write_stat_table.ks_table
+write_stat_tbl.t_table <- write_stat_tbl.ks_table

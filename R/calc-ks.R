@@ -68,10 +68,10 @@ print.ks_table <- function(x, n = 6L, ...) {
 
 
 #' @describeIn calc.ks
-#'   The S3 `write_stat_table` method for class `ks_table`.
+#'   The S3 `write_stat_tbl` method for class `ks_table`.
 #' @importFrom stats setNames
 #' @export
-write_stat_table.ks_table <- function(x, file) {
+write_stat_tbl.ks_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)
   cat("\n")
   out <- rn2col(rename_stat_tbl(x$stat.table), "AptName")

@@ -4,7 +4,7 @@
 \alias{calc.wilcox}
 \alias{calc.mw}
 \alias{print.wilcox_table}
-\alias{write_stat_table.wilcox_table}
+\alias{write_stat_tbl.wilcox_table}
 \title{Calculate Wilcoxon/Mann-Whitney Table}
 \usage{
 calc.wilcox(data, apts = NULL, paired = FALSE, response = NULL, bh = TRUE, ...)
@@ -13,7 +13,7 @@ calc.mw(...)
 
 \method{print}{wilcox_table}(x, n = 6L, ...)
 
-\method{write_stat_table}{wilcox_table}(x, file)
+\method{write_stat_tbl}{wilcox_table}(x, file)
 }
 \arguments{
 \item{data}{A \code{soma_adat} or \code{data.frame} object containing RFU data.
@@ -104,7 +104,7 @@ there are no ties. Otherwise, a normal approximation is used.
 \itemize{
 \item \code{print(wilcox_table)}: S3 print method for \code{wilcox_table} objects.
 
-\item \code{write_stat_table(wilcox_table)}: The S3 \code{write_stat_table} method for class \code{wilcox_table}.
+\item \code{write_stat_tbl(wilcox_table)}: The S3 \code{write_stat_tbl} method for class \code{wilcox_table}.
 
 }}
 \examples{

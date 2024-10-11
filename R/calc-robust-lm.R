@@ -72,10 +72,10 @@ print.rlm_table <- function(x, n = 6L, ...) {
 
 
 #' @describeIn calc.robust.lm
-#'   The S3 `write_stat_table` method for class `rlm_table`.
+#'   The S3 `write_stat_tbl` method for class `rlm_table`.
 #' @inheritParams calc.lm
 #' @export
-write_stat_table.rlm_table <- write_stat_table.lm_table
+write_stat_tbl.rlm_table <- write_stat_tbl.lm_table
 
 
 #' Calculate P-value of the slope from "rlm" object

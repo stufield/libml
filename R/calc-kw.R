@@ -90,9 +90,9 @@ print.kw_table <- function(x, n = 6L, ...) {
 
 
 #' @describeIn calc.kw
-#'   The S3 `write_stat_table` method for class `kw_table`.
+#'   The S3 `write_stat_tbl` method for class `kw_table`.
 #' @export
-write_stat_table.kw_table <- function(x, file) {
+write_stat_tbl.kw_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)
   cat("\n")
   rename_stat_tbl(x$stat.table) |> rn2col("AptName") |>

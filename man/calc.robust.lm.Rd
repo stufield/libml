@@ -3,14 +3,14 @@
 \name{calc.robust.lm}
 \alias{calc.robust.lm}
 \alias{print.rlm_table}
-\alias{write_stat_table.rlm_table}
+\alias{write_stat_tbl.rlm_table}
 \title{Calculate Robust Linear Models Table}
 \usage{
 calc.robust.lm(data, apts = NULL, response, bh = TRUE)
 
 \method{print}{rlm_table}(x, n = 6L, ...)
 
-\method{write_stat_table}{rlm_table}(x, file)
+\method{write_stat_tbl}{rlm_table}(x, file)
 }
 \arguments{
 \item{data}{The data frame (or \code{soma_adat}) containing data to be plotted.
@@ -78,7 +78,7 @@ Robust regression utilizes \code{\link[=rlm]{rlm()}}, where
 \itemize{
 \item \code{print(rlm_table)}: S3 print method for \code{rlm_table} objects.
 
-\item \code{write_stat_table(rlm_table)}: The S3 \code{write_stat_table} method for class \code{rlm_table}.
+\item \code{write_stat_tbl(rlm_table)}: The S3 \code{write_stat_tbl} method for class \code{rlm_table}.
 
 }}
 \examples{

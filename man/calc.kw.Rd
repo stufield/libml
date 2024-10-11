@@ -3,14 +3,14 @@
 \name{calc.kw}
 \alias{calc.kw}
 \alias{print.kw_table}
-\alias{write_stat_table.kw_table}
+\alias{write_stat_tbl.kw_table}
 \title{Create Kruskal-Wallis Table}
 \usage{
 calc.kw(data, apts = NULL, response = NULL, bh = TRUE, ...)
 
 \method{print}{kw_table}(x, n = 6L, ...)
 
-\method{write_stat_table}{kw_table}(x, file)
+\method{write_stat_tbl}{kw_table}(x, file)
 }
 \arguments{
 \item{data}{A \code{soma_adat} or \code{data.frame} object containing RFU data.
@@ -69,7 +69,7 @@ One-way ANOVA on ranks (non-parametric).
 \itemize{
 \item \code{print(kw_table)}: S3 print method for \code{kw_table} objects.
 
-\item \code{write_stat_table(kw_table)}: The S3 \code{write_stat_table} method for class \code{kw_table}.
+\item \code{write_stat_tbl(kw_table)}: The S3 \code{write_stat_tbl} method for class \code{kw_table}.
 
 }}
 \examples{

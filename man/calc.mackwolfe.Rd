@@ -4,7 +4,7 @@
 \alias{calc.mackwolfe}
 \alias{calc.jt}
 \alias{print.mackwolfe_table}
-\alias{write_stat_table.mackwolfe_table}
+\alias{write_stat_tbl.mackwolfe_table}
 \title{Create Mack-Wolfe Table}
 \usage{
 calc.mackwolfe(data, apts = NULL, response = NULL, peak, bh = TRUE, ...)
@@ -13,7 +13,7 @@ calc.jt(data, apts = NULL, response = "SampleGroup", bh = TRUE, ...)
 
 \method{print}{mackwolfe_table}(x, n = 6L, ...)
 
-\method{write_stat_table}{mackwolfe_table}(x, file)
+\method{write_stat_tbl}{mackwolfe_table}(x, file)
 }
 \arguments{
 \item{data}{A \code{soma_adat} or \code{data.frame} object containing RFU data.
@@ -79,7 +79,7 @@ is desired, set \code{peak = "jt"}.
 \itemize{
 \item \code{print(mackwolfe_table)}: S3 print method for \code{mackwolfe_table} objects.
 
-\item \code{write_stat_table(mackwolfe_table)}: The S3 \code{write_stat_table} method for class \code{mackwolfe_table}.
+\item \code{write_stat_tbl(mackwolfe_table)}: The S3 \code{write_stat_tbl} method for class \code{mackwolfe_table}.
 
 }}
 \examples{

@@ -93,9 +93,9 @@ print.glm_table <- function(x, n = 6L, ...) {
 
 
 #' @describeIn calc.glm
-#'   The S3 `write_stat_table` method for class `glm_table`.
+#'   The S3 `write_stat_tbl` method for class `glm_table`.
 #' @export
-write_stat_table.glm_table <- function(x, file) {
+write_stat_tbl.glm_table <- function(x, file) {
   withr::local_output_sink(file, append = TRUE)
   cat("Response Variable,", x$y.response, "\n\n", sep = "")
   rename_stat_tbl(x$stat.table) |> rn2col("AptName") |>
