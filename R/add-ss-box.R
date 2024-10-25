@@ -9,9 +9,9 @@
 #' so that the interval matches the plot.
 #'
 #' @inheritParams params
-#' @param x A \verb{2x2} data frame containing the lower and upper CI95
-#'   joint confidence limits for sensitivity and specificity.
-#'   A call to [calcJointCI95()] generates this matrix in the specified format.
+#' @param x A \verb{2x2} data frame or `tibble` containing the lower
+#'   and upper CI95 joint confidence limits for sensitivity and specificity.
+#'   A call to [calc_joint_CI95()] generates values in this specified format.
 #' @author Stu Field, Amanda Hiser
 #' @examples
 #' g <- ggplot2::ggplot(data.frame(x = 0.2, y = 0.8), ggplot2::aes(x = x, y = y)) +
@@ -21,13 +21,17 @@
 #' g
 #'
 #' @export
-addSensSpecBox <- function(x, col = "black", alpha = 0.35) {
-  add_box(left   = 1 - x[2L, 1L],
-          right  = 1 - x[2L, 2L],
-          bottom = x[1L, 1L],
-          top    = x[1L, 2L],
-          col    = col,
-          alpha  = alpha)
+add_ss_box <- function(x, col = "black", alpha = 0.35) {
+  x <- as.matrix(x)
+  stopifnot(
+    "`x` must be a 2x2 tibble or matrix." = identical(dim(x), c(2L, 2L))
+  )
+  .add_box(left   = 1 - x[2L, 1L],
+           right  = 1 - x[2L, 2L],
+           bottom = x[1L, 1L],
+           top    = x[1L, 2L],
+           col    = col,
+           alpha  = alpha)
 }
 
 
@@ -36,7 +40,7 @@ addSensSpecBox <- function(x, col = "black", alpha = 0.35) {
 #' Calculate the joint 95% confidence interval
 #' given sensitivity and specificity.
 #'
-#' @rdname addSensSpecBox
+#' @rdname add_ss_box
 #' @param sens Numeric. The sensitivity: \verb{[0, 1]}.
 #' @param spec Numeric. The specificity: \verb{[0, 1]}.
 #' @param n.controls Integer. Number of control or non-cases.
@@ -48,21 +52,22 @@ addSensSpecBox <- function(x, col = "black", alpha = 0.35) {
 #' @seealso [calcBinomCI()]
 #' @examples
 #' # calculate CI95s for 80/80 sens/spec
-#' ci95 <- calcJointCI95(0.8, 0.8, 35, 65)
+#' ci95 <- calc_joint_CI95(0.8, 0.8, 35, 65)
 #' ci95
 #'
 #' # unequal box due to class imbalance (65/35)
-#' g + addSensSpecBox(ci95, col = "blue", alpha = 0.25)
+#' g + add_ss_box(ci95, col = "blue", alpha = 0.25)
 #' @export
-calcJointCI95 <- function(sens, spec, n.controls, n.cases) {
-  rbind(sens = calcBinomCI(sens, n = n.cases),
-        spec = calcBinomCI(spec, n = n.controls))
+calc_joint_CI95 <- function(sens, spec, n.controls, n.cases) {
+  rbind(
+    sens = calcBinomCI(sens, n = n.cases),
+    spec = calcBinomCI(spec, n = n.controls)
+  )
 }
 
 
 #' Adds a background box to an existing plot area.
 #'
-#' @noRd
 #' @param bottom Value for the bottom of the box.
 #' @param top Value for the top of the box.
 #' @param left Value for the left side of the box.
@@ -72,9 +77,10 @@ calcJointCI95 <- function(sens, spec, n.controls, n.cases) {
 #' @author Stu Field, Amanda Hiser
 #' @importFrom graphics par
 #' @importFrom ggplot2 annotate
-add_box <- function(bottom = NULL, top = NULL, left = NULL,
-                    right = NULL, col, alpha) {
-  par <- par("usr")   # nolint: undesirable_linter.
+#' @noRd
+.add_box <- function(bottom = NULL, top = NULL, left = NULL,
+                     right = NULL, col, alpha) {
+  par <- par("usr")
   bottom <- bottom %||% par[3L]
   left   <- left %||% par[1L]
   top    <- top %||% par[4L]

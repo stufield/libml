@@ -212,7 +212,7 @@ plotEmpROC <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
                         spec = ci95_vec[c("spec_lowerCI", "spec_upperCI")])
 
       # Plots a shaded box that corresponds to the 95% joint binomial CI
-      g <- c(g, list(addSensSpecBox(ci95_mat, col = col, alpha = box.alpha)))
+      g <- c(g, list(add_ss_box(ci95_mat, col = col, alpha = box.alpha)))
     } else {
       roc_df <- create_roc_data(truth     = plot_df$truth,
                                 predicted = plot_df$pred,
