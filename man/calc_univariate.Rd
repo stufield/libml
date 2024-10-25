@@ -28,7 +28,7 @@ Test-specific statistics include the following:
 \itemize{
 \item \code{t.test} returns the t statistic, \code{t}.
 \item \code{lm} returns the intercept, slope, and t statistic of the slope,
-\code{intercept}, \code{slope}, and \code{t.slope} respectively.
+\code{intercept}, \code{slope}, and \code{t_slope} respectively.
 }
 }
 \description{

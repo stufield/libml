@@ -25,10 +25,10 @@ NULL
 
   # this is to register the internal S3 methods
   # this avoids having to export the methods in the NAMESPACE file
-  register_s3_method("libml", "formatTest", "default")
-  register_s3_method("libml", "formatTest", "lm")
-  register_s3_method("libml", "formatTest", "htest")
-  }
+  register_s3_method("libml", ".format_test", "default")
+  register_s3_method("libml", ".format_test", "lm")
+  register_s3_method("libml", ".format_test", "htest")
+}
 
 
 

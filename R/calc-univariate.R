@@ -22,7 +22,7 @@
 #' Test-specific statistics include the following:
 #' * `t.test` returns the t statistic, `t`.
 #' * `lm` returns the intercept, slope, and t statistic of the slope,
-#'   `intercept`, `slope`, and `t.slope` respectively.
+#'   `intercept`, `slope`, and `t_slope` respectively.
 #'
 #' @author Stu Field
 #' @examples
@@ -54,63 +54,56 @@ calc_univariate <- function(data, var, test = c("t.test", "lm")) {
     tbl <- tibble(feature = setdiff(idx, var))
   }
   tbl |>
-   mutate(formula = map(feature, ~ as.formula(paste(.x, "~", var))), # create formula
-          test    = map(formula, ~ .fun(.x, data = data)),           # fit tests
-          stats   = map(test, formatTest)                            # pull out statistic
-                   ) |>
+   mutate(formula = map(feature, ~ create_form(.x, var)),  # create formula
+          test    = map(formula, ~ .fun(.x, data = data)), # fit tests
+          stats   = map(test, .format_test)                # pull out statistic
+    ) |>
     unnest(cols = stats) |>
-    mutate(p_value      = p.value,
-           fdr          = p.adjust(p_value, method = "fdr"),
-           p.bonferroni = p.adjust(p_value, method = "bonferroni"),
+    mutate(fdr          = p.adjust(p_value, method = "fdr"),
+           p_bonferroni = p.adjust(p_value, method = "bonferroni"),
            rank         = row_number()) |>
-    select(-formula, -test, -p.value) |>
+    select(-formula, -test) |>
     arrange(p_value) |>
     add_class("uni_tbl")
 }
 
 
 
-
-
-
-#' formatTest
+#' format_test
 #'
-#' Internal helper S3 method to extract desired statistics from output of
-#' various univariate tests.
+#' Internal helper S3 method to extract desired
+#' statistics from output of various univariate tests.
 #'
-#' @param test_obj Output of various tests such as [t.test()] and [lm()].
+#' @param obj Output of various tests such as [t.test()] and [lm()].
 #' @return A tibble.
 #' @noRd
-formatTest <- function(test_obj) UseMethod("formatTest")
+.format_test <- function(obj) UseMethod(".format_test")
 
-#' S3 formatTest default method
 #' @noRd
-formatTest.default <- function(test_obj) {
+.format_test.default <- function(obj) {
   stop(
-    "No `formatTest` method for predicted probabilities of class: ",
-    value(class(test_obj)), call. = FALSE
+    "No `format_test()` method for class: ", value(class(obj)),
+    call. = FALSE
   )
 }
 
-#' S3 formatTest `t.test` method
 #' @importFrom tibble tibble
 #' @noRd
-formatTest.htest <- function(test_obj) {
-  tibble(t = unname(test_obj$statistic), p.value = test_obj$p.value)
+.format_test.htest <- function(obj) {
+  tibble(t = unname(obj$statistic), p_value = obj$p.value)
 }
 
-#' S3 formatTest `lm` method
 #' @importFrom dplyr bind_cols rename
 #' @importFrom tibble as_tibble
 #' @noRd
-formatTest.lm <- function(test_obj) {
-  coefs <- summary(test_obj)$coefficient |> as_tibble()
+.format_test.lm <- function(obj) {
+  coefs <- as_tibble(summary(obj)$coefficient)
   bind_cols(
     intercept = coefs[[1L, 1L]],
     coefs[2L, c(1L, 3L, 4L)]
   ) |>
     rename(slope   = "Estimate",
-           t.slope = "t value",
-           p.value = "Pr(>|t|)")
+           t_slope = "t value",
+           p_value = "Pr(>|t|)")
 }
 
