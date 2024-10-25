@@ -28,10 +28,8 @@ test_that("the `calc.lr` generates correct output", {
   expect_equal(as.numeric(lr$counts), c(11, 9))
   expect_equal(lr$data.frame, "small_adat")
   expect_equal(lr$data.dim, c(20, 11))
-  expect_equal(dim(lr$stat.table),
-               c(getAnalytes(small_adat, n = TRUE), 3))
-  expect_true(setequal(rownames(lr$stat.table),
-                       getAnalytes(small_adat)))
+  expect_equal(dim(lr$stat.table), c(length(getAnalytes(small_adat)), 3L))
+  expect_true(setequal(rownames(lr$stat.table), getAnalytes(small_adat)))
 
   # Print method
   expect_snapshot_output(lr)
@@ -59,8 +57,6 @@ test_that("the `calc.lr` generates correct output when outliers are removed", {
                nGrp2                   = 105.000000000000,
                rank                    = 55.0000000000000)
   expect_equal(colSums(lr2$stat.table), out_sum)
-  expect_equal(dim(lr2$stat.table),
-               c(getAnalytes(small_adat, n = TRUE), 5))
-  expect_true(setequal(rownames(lr2$stat.table),
-                       getAnalytes(small_adat)))
+  expect_equal(dim(lr2$stat.table), c(length(getAnalytes(small_adat)), 5L))
+  expect_true(setequal(rownames(lr2$stat.table), getAnalytes(small_adat)))
 })

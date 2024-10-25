@@ -14,8 +14,11 @@ test_that("the `calc.t()` generates the expected warning without log10-transform
   )
 })
 
+# now log-transform
+for (i in apts) small_adat[[i]] <- log10(small_adat[[i]])
+
 test_that("the `calc.t()` generates the expected output", {
-  t_test <- calc.t(log10(small_adat), response = "SampleGroup")
+  t_test <- calc.t(small_adat, response = "SampleGroup")
   expect_s3_class(t_test, "stat_table")
   expect_s3_class(t_test, "t_table")
   out_sum <- c(t.stat        = 33.0284159725113,
@@ -42,7 +45,7 @@ test_that("the `calc.t()` generates the expected output", {
 
 
 test_that("`calc.t()` generates the correct output when `rm.outliers = TRUE`", {
-  t_test_o <- calc.t(log10(small_adat), response = "SampleGroup", rm.outliers = TRUE)
+  t_test_o <- calc.t(small_adat, response = "SampleGroup", rm.outliers = TRUE)
   expect_s3_class(t_test_o, "t_table")
   expect_s3_class(t_test_o, "stat_table")
   out_sum <- c(t.stat        = 36.007994872211029,
@@ -68,7 +71,7 @@ test_that("`calc.t()` generates the correct output when `rm.outliers = TRUE`", {
 small_adat$Group <- rep(c("A", "B"), each = 10)
 
 test_that("`calc.t()` generates the correct output when paired samples are used", {
-  t_test_p <- calc.t(log10(small_adat), response = "Group", paired = TRUE)
+  t_test_p <- calc.t(small_adat, response = "Group", paired = TRUE)
   expect_s3_class(t_test_p, "t_table")
   expect_s3_class(t_test_p, "stat_table")
   out_sum <- c(t.stat        = 4.06846013226537,
@@ -89,7 +92,7 @@ test_that("`calc.t()` generates the correct output when paired samples are used"
 
 
 test_that("`calc.t()` generates correct output with paired AND outlier removal", {
-  t_test_op <- calc.t(log10(small_adat), response = "Group", paired = TRUE,
+  t_test_op <- calc.t(small_adat, response = "Group", paired = TRUE,
                       rm.outliers = TRUE)
   expect_s3_class(t_test_op, "t_table")
   expect_s3_class(t_test_op, "stat_table")

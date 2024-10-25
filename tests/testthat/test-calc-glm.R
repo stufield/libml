@@ -24,7 +24,7 @@ test_that("the full unit test for `calc.glm()` return expected object result", {
   expect_equal(glm$data.dim, dim(small_adat))
   expect_equal(glm$data.frame, "create_train(small_adat, group.var = SampleGroup)")
   expect_true(all(vapply(glm$models, class, character(2)) == c("glm", "lm")))
-  expect_equal(length(glm$models), getAnalytes(small_adat, n = TRUE))
+  expect_equal(length(glm$models), length(getAnalytes(small_adat)))
   expect_true(setequal(names(glm$models), getAnalytes(small_adat)))
   expect_true(setequal(rownames(glm$stat.table), getAnalytes(small_adat)))
   expect_equal(glm$test, "Logistic Regression")

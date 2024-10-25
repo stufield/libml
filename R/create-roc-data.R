@@ -50,7 +50,7 @@ create_roc_data <- function(truth, predicted, pos.class, do.ci = FALSE,
                         pos_class = as.character(pos.class),
                         cutoff    = .cut)
   })
-  ret  <- as_tibble(do.call(rbind, ret))
+  ret  <- data.frame(do.call(rbind, ret))
   ss_m <- data.matrix(ret[, c("specificity", "sensitivity")])
   ss_m[, 1L]  <- 1 - ss_m[, 1L]
   ret$perpD   <- apply(ss_m, 1, calc_roc_perpendicular)  # perpendicular dist
@@ -66,6 +66,7 @@ create_roc_data <- function(truth, predicted, pos.class, do.ci = FALSE,
       ret <- cbind(auc = auc, ret)         # add to beginning
     }
   }
+
   if ( do.ci ) {
     counts      <- table(truth)
     n_disease   <- counts[[pos.class]]
@@ -76,7 +77,7 @@ create_roc_data <- function(truth, predicted, pos.class, do.ci = FALSE,
     names(spec_limits) <- c("spec_lowerCI", "spec_upperCI")
     ret <- cbind(ret, sens_limits, spec_limits)    # add to end
   }
-  add_class(ret, "roc_data")
+  add_class(as_tibble(ret), "roc_data")
 }
 
 

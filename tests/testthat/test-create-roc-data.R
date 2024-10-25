@@ -86,12 +86,12 @@ test_that("the ROC data are correct when AUC and confidence intervals are includ
 })
 
 # Filter function ----
-test_that("filterROCdata works as expected", {
-  f1 <- filterROCdata(x)
-  f2 <- filterROCdata(x, "sensitivity", method = "value", value = 0.8)
-  f3 <- filterROCdata(y)
-  f4 <- filterROCdata(a)
-  f5 <- filterROCdata(c, metric = "cutoff", method = "value", value = 5.264)
+test_that("`filterROCdata()` works as expected", {
+  f1 <- filter_roc_data(x)
+  f2 <- filter_roc_data(x, "sensitivity", method = "value", value = 0.8)
+  f3 <- filter_roc_data(y)
+  f4 <- filter_roc_data(a)
+  f5 <- filter_roc_data(c, metric = "cutoff", method = "value", value = 5.264)
 
   expect_s3_class(f1, c("roc_data", "data.frame"))
   expect_named(f1, c("cutoff", "tp", "fn", "fp", "tn", "sensitivity",
@@ -174,11 +174,11 @@ test_that("filterROCdata works as expected", {
 # Errors ----
 test_that("errors are triggered properly", {
   expect_error(
-    filterROCdata(x, "sensitivity", method = "value", value = "0.8"),
+    filter_roc_data(x, "sensitivity", method = "value", value = "0.8"),
     "Please enter a non-null filtering `value` in [-1, 1].", fixed = TRUE
   )
   expect_error(
-    filterROCdata(x, "sensitivity", method = "value", value = 1.1),
+    filter_roc_data(x, "sensitivity", method = "value", value = 1.1),
     "Please enter a valid value for your filtering metric:"
   )
 })

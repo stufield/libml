@@ -2,8 +2,8 @@
 
     
     == Stat Table Info: Linear Regression ==============================================================
-      Call                      calc.lm(data = log10(small_adat), response = "HybControlNormScale")
-      Data Frame                log10(small_adat)
+      Call                      calc.lm(data = small_adat, response = "HybControlNormScale")
+      Data Frame                small_adat
       Data Dims                 20 x 11
       Table Dims                10 x 7
       Statistical Test          Linear Regression

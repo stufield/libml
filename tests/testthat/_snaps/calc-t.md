@@ -2,8 +2,8 @@
 
     
     == Stat Table Info: Student t-test =============================================
-      Call                      calc.t(data = log10(small_adat), response = "SampleGroup")
-      Data Frame                log10(small_adat)
+      Call                      calc.t(data = small_adat, response = "SampleGroup")
+      Data Frame                small_adat
       Data Dims                 20 x 11
       Table Dims                10 x 6
       Statistical Test          Student t-test

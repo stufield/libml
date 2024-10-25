@@ -1,7 +1,9 @@
 
 # Setup ----
-data         <- center_scale(log10(sim_test_data))
+data <- sim_test_data
 reg_features <- attr(data, "sig_feats")$reg
+for ( i in reg_features ) data[[i]] <- log10(data[[i]])
+data <- center_scale(data)
 reg_data     <- data[, c("reg_response", reg_features)]
 features     <- c("(Intercept)", "Sepal.Length", "Sepal.Width",
                   "Petal.Length", "Petal.Width")

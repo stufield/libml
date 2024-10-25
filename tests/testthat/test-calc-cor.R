@@ -17,9 +17,9 @@ test_that("`calc.cor()` trips a warning when not log-transformed", {
 })
 
 test_that("`calc.cor()` with `method = pearson` generates correct values", {
-  r <- calc.cor(log10(small_adat), response = "HybControlNormScale",
+  for ( i in apts ) small_adat[[i]] <- log10(small_adat[[i]])
+  r <- calc.cor(small_adat, response = "HybControlNormScale",
                 method = "pearson")
-
   expect_s3_class(r, "stat_table")
   expect_s3_class(r, "cor_table")
   out_sum <- c(r            = 0.941213064630697,
@@ -32,7 +32,7 @@ test_that("`calc.cor()` with `method = pearson` generates correct values", {
                rank         = 55.00000000000000)
   expect_equal(colSums(r$stat.table), out_sum)
   expect_equal(r$data.dim, c(nrow(small_adat), ncol(small_adat)))
-  expect_equal(r$data.frame, "log10(small_adat)")
+  expect_equal(r$data.frame, "small_adat")
   expect_match(r$test, "Pearson's product-moment correlation")
   expect_match(r$response, "HybControlNormScale")
   expect_true(r$log)
@@ -49,7 +49,6 @@ test_that("`calc.cor()` with `method = spearman` generates correct values", {
   # mute p-values with ties warnings in KS-test
   withr::local_options(c(warn = -1))
   rho <- calc.cor(small_adat, response = "HybControlNormScale") # spearman default
-
   expect_s3_class(rho, "stat_table")
   expect_s3_class(rho, "cor_table")
   out_sum <- c(rho          = 1.10375939849624,
@@ -79,7 +78,6 @@ test_that("`calc.cor()` with `method = kendall` generates correct values", {
   # mute p-values with ties warnings in KS-test
   tau <- calc.cor(small_adat, response = "HybControlNormScale",
                   method = "kendall")
-
   expect_s3_class(tau, "stat_table")
   expect_s3_class(tau, "cor_table")
   out_sum <- c(tau          = 0.67368421052632,

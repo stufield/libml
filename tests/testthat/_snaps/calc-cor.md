@@ -2,8 +2,8 @@
 
     
     == Stat Table Info: Pearson's product-moment correlation ===========================================
-      Call                      calc.cor(data = log10(small_adat), response = "HybControlNormScale", method = "pearson")
-      Data Frame                log10(small_adat)
+      Call                      calc.cor(data = small_adat, response = "HybControlNormScale", method = "pearson")
+      Data Frame                small_adat
       Data Dims                 20 x 11
       Table Dims                10 x 8
       Statistical Test          Pearson's product-moment correlation

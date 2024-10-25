@@ -17,7 +17,7 @@ for the metric being calculated.}
 to be calculated. Must be within \verb{[0.5, 1]}.}
 }
 \value{
-A \code{data.frame} object of the upper and lower binomial
+A \code{tibble} object of the upper and lower binomial
 confidence limits corresponding to the value of \code{ci}.
 }
 \description{
@@ -39,5 +39,5 @@ Tests for Classification and Prediction. (maybe?)
 \code{\link[=qnorm]{qnorm()}}
 }
 \author{
-Michael R. Mehan, Stu Field
+Stu Field
 }

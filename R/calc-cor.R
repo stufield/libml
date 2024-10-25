@@ -1,8 +1,7 @@
 #' Calculate Correlation Table
 #'
 #' Generate a correlation table, representing the relationship between a
-#' continuous dependent variable, and each of the aptamers in the menu
-#' in the ADAT (columns).
+#' continuous dependent variable, and each of the features in data.
 #'
 #' @family calc
 #' @inheritParams params

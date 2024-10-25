@@ -15,7 +15,8 @@ test_that("`calc.lm()` trips a warning when not log-transformed", {
 })
 
 test_that("`calc.lm()` generates expected output object", {
-  lm <- calc.lm(log10(small_adat), response = "HybControlNormScale")
+  for ( i in apts ) small_adat[[i]] <- log10(small_adat[[i]])
+  lm <- calc.lm(small_adat, response = "HybControlNormScale")
   expect_s3_class(lm, "stat_table")
   expect_s3_class(lm, "lm_table")
   out_sum <- c(intercept    = 4.34426402395175,
@@ -27,14 +28,14 @@ test_that("`calc.lm()` generates expected output object", {
                rank         = 55.00000000000000)
   expect_equal(colSums(lm$stat.table), out_sum)
   expect_equal(lm$data.dim, c(nrow(small_adat), ncol(small_adat)))
-  expect_equal(lm$data.frame, "log10(small_adat)")
+  expect_equal(lm$data.frame, "small_adat")
   expect_true(all(vapply(lm$models, class, "") == "lm"))
-  expect_equal(length(lm$models), getAnalytes(small_adat, n = TRUE))
+  expect_equal(length(lm$models), length(getAnalytes(small_adat)))
   expect_true(setequal(names(lm$models), getAnalytes(small_adat)))
   expect_true(setequal(rownames(lm$stat.table), getAnalytes(small_adat)))
   expect_type(lm$call, "language")
   expect_equal(as.character(lm$call),
-               c("calc.lm", "log10(small_adat)", "HybControlNormScale"))
+               c("calc.lm", "small_adat", "HybControlNormScale"))
   expect_equal(lm$test, "Linear Regression")
   expect_match(lm$y.response, "HybControlNormScale")
   expect_true(lm$log)

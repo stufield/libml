@@ -1,8 +1,8 @@
 Pearson's product-moment correlation Statistical Table Output
 
-"Call","calc.cor(data=log10(small_adat), response=""HybControlNormScale"", method=""pearson"")"
+"Call","calc.cor(data=small_adat, response=""HybControlNormScale"", method=""pearson"")"
 Data_Dims,20 x 11
-Data Frame,log10(small_adat)
+Data Frame,small_adat
 Table_Dims,10 x 8
 Features,10
 Response column,HybControlNormScale

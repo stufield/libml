@@ -10,9 +10,9 @@
 #'   for the metric being calculated.
 #' @param ci Numeric. The width of the confidence interval
 #'   to be calculated. Must be within \verb{[0.5, 1]}.
-#' @return A `data.frame` object of the upper and lower binomial
+#' @return A `tibble` object of the upper and lower binomial
 #'   confidence limits corresponding to the value of `ci`.
-#' @author Michael R. Mehan, Stu Field
+#' @author Stu Field
 #' @seealso [qnorm()]
 #' @references Margaret Pepe. 2003. The Statistical Evaluation of Medical
 #'   Tests for Classification and Prediction. (maybe?)
@@ -22,6 +22,7 @@
 #' sens <- tp / (tp + fn)
 #' calcBinomCI(sens, tp + fn)
 #' @importFrom stats qnorm
+#' @importFrom tibble tibble
 #' @export
 calcBinomCI <- function(p, n, ci = sqrt(0.95)) {
   if ( ci < 0.5 || ci > 1 ) {
@@ -29,7 +30,7 @@ calcBinomCI <- function(p, n, ci = sqrt(0.95)) {
          call. = FALSE)
   }
   intv <- -qnorm((1 - ci) / 2) * sqrt(p * (1 - p) / n)
-  ret  <- data.frame(lower = p - intv, upper = p + intv)
+  ret  <- tibble(lower = p - intv, upper = p + intv)
   ret[ret < 0] <- 0
   ret[ret > 1] <- 1
   ret

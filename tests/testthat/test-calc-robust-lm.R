@@ -13,8 +13,10 @@ test_that("`calc.robust.lm()` trips a warning when not log-transformed", {
   )
 })
 
+
 test_that("`calc.robust.lm()` generates correct output object", {
-  tbl <- calc.robust.lm(log10(small_adat), response = "HybControlNormScale")
+  for (i in apts) small_adat[[i]] <- log10(small_adat[[i]])
+  tbl <- calc.robust.lm(small_adat, response = "HybControlNormScale")
   expect_s3_class(tbl, "stat_table")
   expect_s3_class(tbl, "rlm_table")
   expect_true(all(vapply(tbl$models, class, character(2)) == c("rlm", "lm")))
@@ -28,8 +30,8 @@ test_that("`calc.robust.lm()` generates correct output object", {
                rank         = 55.000000000000000)
   expect_equal(colSums(tbl$stat.table), out_sum)
   expect_equal(tbl$data.dim, c(nrow(small_adat), ncol(small_adat)))
-  expect_equal(tbl$data.frame, "log10(small_adat)")
-  expect_equal(length(tbl$models), getAnalytes(small_adat, n = TRUE))
+  expect_equal(tbl$data.frame, "small_adat")
+  expect_equal(length(tbl$models), length(getAnalytes(small_adat)))
   expect_true(setequal(names(tbl$models), getAnalytes(small_adat)))
   expect_true(setequal(rownames(tbl$stat.table), getAnalytes(small_adat)))
   expect_equal(tbl$test, "Robust Linear Regression")

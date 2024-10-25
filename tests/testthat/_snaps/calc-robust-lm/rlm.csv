@@ -1,8 +1,8 @@
 Robust Linear Regression Statistical Table Output
 
-"Call","calc.robust.lm(data=log10(small_adat), response=""HybControlNormScale"")"
+"Call","calc.robust.lm(data=small_adat, response=""HybControlNormScale"")"
 Data_Dims,20 x 11
-Data Frame,log10(small_adat)
+Data Frame,small_adat
 Table_Dims,10 x 7
 Features,10
 Log Transform,TRUE

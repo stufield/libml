@@ -2,7 +2,9 @@
 # Setup ----
 withr::local_options(list(g.praise = FALSE, stringsAsFactors = FALSE))
 withr::local_output_sink("/dev/null")      # dump console output
-t_tab <- calc.t(log10(sample.adat), response = "SampleGroup")
+data <- sample.adat
+for ( i in getAnalytes(data) ) data[[i]] <- log10(data[[i]])
+t_tab <- calc.t(data, response = "SampleGroup")
 
 
 # Testing ----

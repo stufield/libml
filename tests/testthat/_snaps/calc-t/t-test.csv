@@ -1,8 +1,8 @@
 Student t-test Statistical Table Output
 
-"Call","calc.t(data=log10(small_adat), response=""SampleGroup"")"
+"Call","calc.t(data=small_adat, response=""SampleGroup"")"
 Data_Dims,20 x 11
-Data Frame,log10(small_adat)
+Data Frame,small_adat
 Table_Dims,10 x 6
 Features,10
 Paired Samples,FALSE
