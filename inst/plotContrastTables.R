@@ -4,7 +4,7 @@
 #' from the `calc.*` family of functions, determining the
 #' common significant analytes.
 #' Each table should have a "p-value" column and the row names of each
-#' table _must_ be proper \verb{"AptNames"} (e.g. `GeneId.SeqId` or `seq.SeqId`).
+#' table _must_ be proper `"AptNames"` (e.g. `seq.SeqId`).
 #'
 #' @param x The first `stat.table` object to contrast (x-axis).
 #' @param y The second `stat.table` object to contrast (y-axis).
@@ -57,11 +57,11 @@ plotContrastTables <- function(x, y, ident = FALSE, label.size = 2.5,
     ggplot(aes(x = x, y = y)) +
     geom_point(alpha = 0.2) +
     geom_point(data = log_df[xnoty, ], pch = 21,
-                        colour = "navy", size = 2.5, fill = "darkred") +
+               colour = "navy", size = 2.5, fill = "darkred") +
     geom_point(data = log_df[ynotx, ], pch = 21,
-                        colour = "navy", size = 2.5, fill = "darkred") +
+               colour = "navy", size = 2.5, fill = "darkred") +
     geom_point(data = log_df[xy, ], pch = 21,
-                        colour = "darkred", size = 3.5, fill = "blue") +
+               colour = "darkred", size = 3.5, fill = "blue") +
     labs(x = lab, y = lab, title = main) + {
       if ( ident )
         geom_text(data = log_df[xandy, ],
