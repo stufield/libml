@@ -64,7 +64,8 @@ calc_univariate <- function(data, var, test = c("t.test", "lm")) {
            p.bonferroni = p.adjust(p_value, method = "bonferroni"),
            rank         = row_number()) |>
     select(-formula, -test, -p.value) |>
-    arrange(p_value)
+    arrange(p_value) |>
+    add_class("uni_tbl")
 }
 
 
