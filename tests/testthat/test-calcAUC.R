@@ -2,14 +2,15 @@
 # Setup ----
 n <- 20
 df <- withr::with_seed(22,
-        data.frame(stringsAsFactors = FALSE,
-                   true = sample(c("control", "disease"), n, replace = TRUE),
-                   pred = runif(n)
-                   ))
+  data.frame(stringsAsFactors = FALSE,
+             true = sample(c("control", "disease"), n, replace = TRUE),
+             pred = runif(n)
+             )
+)
 
 
 # Testing ----
-test_that("calcEmpAUC() generates expected output", {
+test_that("`calcEmpAUC()` generates expected output", {
   expect_equal(calcEmpAUC(df$true, df$pred, "disease"), 0.47252747252747)
   auc <- calcEmpAUC(df$true, df$pred, "disease", TRUE)
   expect_type(auc, "list")
@@ -23,7 +24,7 @@ test_that("calcEmpAUC() generates expected output", {
   )
 })
 
-test_that("calcEmpAUC() generates expected output with edge case", {
+test_that("`calcEmpAUC()` generates expected output with edge case", {
   x <- c(0, 1, 0, 1, 1, 1, 0)
   y <- c(0.001, 0.999, 0.001, 0.999, 0.999, 0.999, 0.001)
   expect_equal(calcEmpAUC(x, y, 1), 1)        # no warning; both 'double'
@@ -33,7 +34,7 @@ test_that("calcEmpAUC() generates expected output with edge case", {
   expect_equal(a, 1)
 })
 
-test_that("calcEmpAUC() converts factors -> character to match pos.class type", {
+test_that("`calcEmpAUC()` converts factors -> character to match pos.class type", {
   x <- c(0, 1)
   y <- c(0.1, 0.9)
   expect_warning(calcEmpAUC(factor(x), y, "1"), NA)   # expect no warning!

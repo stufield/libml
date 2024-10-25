@@ -156,7 +156,7 @@ plotEmpROC <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
   xy <- roc_xy(plot_df$truth, plot_df$pred, pos.class)
 
   if ( is.numeric(cutoff) && cutoff < 0 ) {
-    cutoff <- getCutoffMax(plot_df$truth, plot_df$pred, pos.class)
+    cutoff <- get_max_cutoff(plot_df$truth, plot_df$pred, pos.class)
   }
 
   # Creates vector of ROC evaluations for each cutoff value

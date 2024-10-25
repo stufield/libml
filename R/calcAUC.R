@@ -65,17 +65,19 @@ calcEmpAUC <- function(truth, predicted, pos.class, ci95 = FALSE) {
 
 
 #' @describeIn calcAUC
-#' Calculate the AUC according to Margaret Pepe's book.
+#'   Calculate the AUC according to Margaret Pepe's book.
 #' @references `calcPepeAUC:` M. Pepe. The Statistical
 #'   Evaluation of Medical Tests for Classification and Prediction.
 #' @examples
 #' # Pepe's AUC
 #' calcPepeAUC(true, pred, "disease")
+#'
 #' @export
 calcPepeAUC <- function(truth, predicted, pos.class) {
   stopifnot(
-    length(truth) == length(predicted),
-    pos.class %in% truth
+    "`truth` and `predicted` must be of equal length." = 
+      length(truth) == length(predicted),
+    "`pos.class` must be in `truth`." = pos.class %in% truth
   )
   idx     <- which(truth == pos.class)
   pos_vec <- predicted[idx]
@@ -91,4 +93,43 @@ calcPepeAUC <- function(truth, predicted, pos.class) {
     }
   }
   auc / length(pos_vec) / length(neg_vec)
+}
+
+
+#' @describeIn calcAUC
+#'   Bootstrapped confidence intervals for the 95% limits are calculated via
+#'   _empirical_ bootstrap iterations and using Pepe's AUC calculation.
+#' @inheritParams params
+#' @return A list containing bootstrap intervals based on the number
+#'   of bootstraps performed:
+#'     \item{auc}{The raw Pepe AUC estimate from original data.}
+#'     \item{lower.limit}{The lower CI95 of the estimate.}
+#'     \item{upper.limit}{The upper CI95 of the estimate.}
+#' @author Stu Field
+#' @seealso [replicate()], [plotEmpROC()]
+#' @examples
+#' # bootstrapped AUC
+#' calcBootAUC(true, pred, "disease")
+#' calcBootAUC(true, pred, "disease", nboot = 100, r.seed = 100)  # reproducible
+#' @importFrom stats quantile
+#' @importFrom withr with_seed
+#' @export
+calcBootAUC <- function(truth, predicted, pos.class,
+                        nboot = 1000, r.seed = sample(1000, 1)) {
+  est <- calcPepeAUC(truth, predicted, pos.class)   # empirical AUC estimate
+  # bench::mark(
+  #   emp  = calcEmpAUC(truth, predicted, pos.class),
+  #   pepe = calcPepeAUC(truth, predicted, pos.class)
+  # )
+  .data <- data.frame(truth = truth, predicted = predicted)
+  boots <- with_seed(r.seed, {
+    replicate(nboot, sample(seq_len(nrow(.data)), replace = TRUE), simplify = FALSE)
+  })
+  boot_pop <- vapply(boots, function(.x) { # iterate AUC over boots
+      df <- .data[.x, ]
+      # Pepe's AUC is MUCH faster than empirical AUC
+      calcPepeAUC(df$truth, df$predicted, pos.class = pos.class)
+    }, FUN.VALUE = 0.1)
+  ci95 <- quantile(boot_pop, probs = c(0.025, 0.975), names = FALSE) # CI95
+  list(auc = est, lower.limit = ci95[1L], upper.limit = ci95[2L])
 }

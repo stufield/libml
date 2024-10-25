@@ -34,7 +34,7 @@ if ( getRversion() >= "2.15.1" ) {
       "metric",          # getStat
       "Predicted",
       "SampleGroup",
-      #"log2.fold.change",
+      "log2.fold.change",
       "Gini_Importance",
       "Response",
       "specificity",   # plotEmpROC

@@ -11,8 +11,8 @@ pred <- c(0.700711545301601, 0.956837461562827, 0.213352001970634,
           0.913478652015328, 0.206772719044238, 0.814283016137779,
           0.0201671982649714, 0.924804413458332)
 
-test_that("getCutoffMax generates correct scalar", {
-  cut  <- getCutoffMax(true, pred, "disease")
+test_that("`get_max_cutoff()` generates correct scalar", {
+  cut  <- get_max_cutoff(true, pred, "disease")
   expect_type(cut, "double")
   expect_length(cut, 1L)
   expect_equal(cut, 0.206772719044238)

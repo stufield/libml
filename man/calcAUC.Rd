@@ -4,6 +4,7 @@
 \alias{calcAUC}
 \alias{calcEmpAUC}
 \alias{calcPepeAUC}
+\alias{calcBootAUC}
 \title{Calculate Area Under Curve}
 \usage{
 calcAUC(truth, predicted, ...)
@@ -11,6 +12,14 @@ calcAUC(truth, predicted, ...)
 calcEmpAUC(truth, predicted, pos.class, ci95 = FALSE)
 
 calcPepeAUC(truth, predicted, pos.class)
+
+calcBootAUC(
+  truth,
+  predicted,
+  pos.class,
+  nboot = 1000,
+  r.seed = sample(1000, 1)
+)
 }
 \arguments{
 \item{truth}{Character or factor. A vector of true class names.
@@ -25,6 +34,11 @@ defining the positive/event class.}
 
 \item{ci95}{Logical. Should DeLong's standard error based confidence
 limits be included with the AUC estimate?}
+
+\item{nboot}{Integer. The number of bootstrap estimates to perform.}
+
+\item{r.seed}{Integer. The value of the random seed if
+reproducibility is desired.}
 }
 \value{
 All return a numeric scalar corresponding to the area under
@@ -33,6 +47,12 @@ returns a \code{list} object with these elements:
 \item{auc}{The area under the curve (empirical).}
 \item{lower.limit}{lower 95\% confidence limit based on standard error AUC.}
 \item{upper.limit}{upper 95\% confidence limit based on standard error AUC.}
+
+A list containing bootstrap intervals based on the number
+of bootstraps performed:
+\item{auc}{The raw Pepe AUC estimate from original data.}
+\item{lower.limit}{The lower CI95 of the estimate.}
+\item{upper.limit}{The upper CI95 of the estimate.}
 }
 \description{
 Calculates the area under the curve (AUC).
@@ -45,6 +65,9 @@ error of the AUC estimate. This empirical AUC estimate is calculated via
 the trapezoid area at each step along the x-axis of a ROC curve.
 
 \item \code{calcPepeAUC()}: Calculate the AUC according to Margaret Pepe's book.
+
+\item \code{calcBootAUC()}: Bootstrapped confidence intervals for the 95\% limits are calculated via
+\emph{empirical} bootstrap iterations and using Pepe's AUC calculation.
 
 }}
 \examples{
@@ -61,6 +84,10 @@ calcEmpAUC(true, pred, "disease", ci95 = TRUE)  # with CI95
 
 # Pepe's AUC
 calcPepeAUC(true, pred, "disease")
+
+# bootstrapped AUC
+calcBootAUC(true, pred, "disease")
+calcBootAUC(true, pred, "disease", nboot = 100, r.seed = 100)  # reproducible
 }
 \references{
 DeLong et al. (1988) for the calculation of the Standard Error
@@ -72,8 +99,7 @@ Evaluation of Medical Tests for Classification and Prediction.
 \seealso{
 \code{\link[=plotEmpROC]{plotEmpROC()}}, \code{\link[=roc_xy]{roc_xy()}}
 
-Other auc: 
-\code{\link{calcBootAUC}()}
+\code{\link[=replicate]{replicate()}}, \code{\link[=plotEmpROC]{plotEmpROC()}}
 }
 \author{
 Stu Field
