@@ -1,54 +1,40 @@
 #' Create Table of Univariate Results
 #'
-#' Iterates over analytes to compute univariate tests for each one.
+#' Iterates over features to compute univariate tests for each
+#' given an appropriate response variable.
 #' Currently supports:
 #' \itemize{
 #'   \item{t-tests for binary endpoints}
 #'   \item{linear models for continuous endpoints}
 #' }
 #'
-#' @param data A `soma_adat` object containing data for analysis.
-#' @param var Character. A response variable, the column name in `data`.
-#' @param test Character. A statistical test to run.
+#' @param data A `data.frame` object containing data for analysis.
+#' @param var `character(1)`. A response variable, a column in `data`.
+#' @param test `character(1)`. A statistical test to run.
 #'   See above for currently supports tests.
-#' @param save.test Logical. Save a list column of the tests/models. Recommended
-#'   default value of `FALSE` as storing the models lot of memory.
-#'   The `model` term in an `lm` object, for example, can be very
-#'   memory-intensive.
-#' @return A `tibble`. Common columns across tests include analyte meta data:
-#' * `AptName`
-#' * `SeqId`
-#' * `Target`
-#' * `EntrezGeneSymbol`
-#' * `UniProt`
-#'
-#' Common p-value columns are:
-#' * `p.value`
+#' @return A `tibble` of features and univariate test results.
+#' Common columns are:
+#' * `p_value`
 #' * `FDR`
-#' * `p.bonferroni`
+#' * `p_bonferroni`
 #' * `rank`
 #'
 #' Test-specific statistics include the following:
 #' * `t.test` returns the t statistic, `t`.
 #' * `lm` returns the intercept, slope, and t statistic of the slope,
-#' `intercept`, `slope`, and `t.slope` respectively.
+#'   `intercept`, `slope`, and `t.slope` respectively.
 #'
 #' @author Stu Field
 #' @examples
-#' reg_feat <- attr(sim_test_data, "sig_feats")$reg
-#' class_feat <- attr(sim_test_data, "sig_feats")$class
-#' small_dat <- sim_test_data[, c("gender", "age", reg_feat, class_feat)] |>
-#'   log10() |>
-#'   center_scale()
-#' tts <- calc_univariate(small_dat, "gender", "t.test")
-#' lms <- calc_univariate(small_dat, "age", "lm")
+#' calc_univariate(mtcars, "vs")
+#'
+#' calc_univariate(mtcars, "mpg", "lm")
 #' @importFrom dplyr mutate arrange select row_number
 #' @importFrom purrr map
 #' @importFrom stats as.formula formula lm p.adjust t.test
 #' @importFrom tidyr unnest
 #' @export
-calc_univariate <- function(data, var, test = c("t.test", "lm"),
-                            save.test = FALSE) {
+calc_univariate <- function(data, var, test = c("t.test", "lm")) {
   stopifnot(
     "`data` must be a `data.frame` object." = is.data.frame(data),
     " `var` must be a character string."    = is.character(var)
@@ -59,23 +45,26 @@ calc_univariate <- function(data, var, test = c("t.test", "lm"),
                  lm     = stats::lm,
                  NA)
 
-  anno <- getAnalyteInfo(data) |>
-    select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt)
-           uni <- anno |>
-             mutate(formula = map(AptName, ~ as.formula(paste(.x, "~", var))), # create formula
-                    test    = map(formula, ~ .fun(.x, data = data)),           # fit tests
-                    stats   = map(test, formatTest)                            # pull out statistic
+  if ( is.soma_adat(data) ) {
+    tbl <- attr(data, "Col.Meta") |>
+      mutate(feature = seqid2apt(SeqId)) |>
+      select(feature, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt)
+  } else {
+    idx <- names(which(vapply(data, is.numeric, NA)))
+    tbl <- tibble(feature = setdiff(idx, var))
+  }
+  tbl |>
+   mutate(formula = map(feature, ~ as.formula(paste(.x, "~", var))), # create formula
+          test    = map(formula, ~ .fun(.x, data = data)),           # fit tests
+          stats   = map(test, formatTest)                            # pull out statistic
                    ) |>
     unnest(cols = stats) |>
-    arrange(p.value) |>
-    mutate(fdr          = p.adjust(p.value, method = "BH"),
-           p.bonferroni = p.adjust(p.value, method = "bonferroni"),
+    mutate(p_value      = p.value,
+           fdr          = p.adjust(p_value, method = "fdr"),
+           p.bonferroni = p.adjust(p_value, method = "bonferroni"),
            rank         = row_number()) |>
-    select(-formula)
-    if ( !save.test ) {
-      uni <- select(uni, -test)
-    }
-    uni
+    select(-formula, -test, -p.value) |>
+    arrange(p_value)
 }
 
 

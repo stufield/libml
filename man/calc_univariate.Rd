@@ -4,36 +4,23 @@
 \alias{calc_univariate}
 \title{Create Table of Univariate Results}
 \usage{
-calc_univariate(data, var, test = c("t.test", "lm"), save.test = FALSE)
+calc_univariate(data, var, test = c("t.test", "lm"))
 }
 \arguments{
-\item{data}{A \code{soma_adat} object containing data for analysis.}
+\item{data}{A \code{data.frame} object containing data for analysis.}
 
-\item{var}{Character. A response variable, the column name in \code{data}.}
+\item{var}{\code{character(1)}. A response variable, a column in \code{data}.}
 
-\item{test}{Character. A statistical test to run.
+\item{test}{\code{character(1)}. A statistical test to run.
 See above for currently supports tests.}
-
-\item{save.test}{Logical. Save a list column of the tests/models. Recommended
-default value of \code{FALSE} as storing the models lot of memory.
-The \code{model} term in an \code{lm} object, for example, can be very
-memory-intensive.}
 }
 \value{
-A \code{tibble}. Common columns across tests include analyte meta data:
+A \code{tibble} of features and univariate test results.
+Common columns are:
 \itemize{
-\item \code{AptName}
-\item \code{SeqId}
-\item \code{Target}
-\item \code{EntrezGeneSymbol}
-\item \code{UniProt}
-}
-
-Common p-value columns are:
-\itemize{
-\item \code{p.value}
+\item \code{p_value}
 \item \code{FDR}
-\item \code{p.bonferroni}
+\item \code{p_bonferroni}
 \item \code{rank}
 }
 
@@ -45,7 +32,8 @@ Test-specific statistics include the following:
 }
 }
 \description{
-Iterates over analytes to compute univariate tests for each one.
+Iterates over features to compute univariate tests for each
+given an appropriate response variable.
 Currently supports:
 \itemize{
 \item{t-tests for binary endpoints}
@@ -53,13 +41,9 @@ Currently supports:
 }
 }
 \examples{
-reg_feat <- attr(sim_test_data, "sig_feats")$reg
-class_feat <- attr(sim_test_data, "sig_feats")$class
-small_dat <- sim_test_data[, c("gender", "age", reg_feat, class_feat)] |>
-  log10() |>
-  center_scale()
-tts <- calc_univariate(small_dat, "gender", "t.test")
-lms <- calc_univariate(small_dat, "age", "lm")
+calc_univariate(mtcars, "vs")
+
+calc_univariate(mtcars, "mpg", "lm")
 }
 \author{
 Stu Field
