@@ -1,9 +1,9 @@
 #' Plot a ROC Curve
 #'
 #' Create a \verb{"geom"} layer to generate a receiver operator criterion (ROC)
-#' curve in the \pkg{ggplot2} style grammar of graphics.
-#' Its primary input is the output of [roc_xy()], and is used
-#' primarily used in support of the wrapper [plotEmpROC()].
+#'   curve in the \pkg{ggplot2} style grammar of graphics.
+#'   Its primary input is the output of [roc_xy()], and is used
+#'   primarily used in support of the wrapper [plotEmpROC()].
 #'
 #' @inheritParams ggplot2::geom_line
 #' @family ROC
@@ -20,7 +20,7 @@
 #' @param ... Additional arguments passed to [layer()], often `lty`, `shape`,
 #'   `lwd`, etc.
 #' @author Stu Field, Amanda Hiser
-#' @seealso [roc_xy()], [calcROCfit()], [geom_line()], [layer()]
+#' @seealso [roc_xy()], [calc_roc_fit()], [geom_line()], [layer()]
 #' @examples
 #' library(ggplot2)
 #'
@@ -109,17 +109,18 @@ geom_roc <- function(mapping = NULL, data = NULL, stat = "identity",
   p
 }
 
-#' @describeIn geom_roc Add a fitted line (layer) to ROC.
+#' @describeIn geom_roc
+#'   Add a fitted line (layer) to ROC.
 #' @export
 geom_rocfit <- function(mapping = NULL, data = NULL, stat = "identity",
                         position = "identity", ...) {
   if ( is.null(data) ) {
     stop("Must pass `data =` when calling `geom_rocfit()`", call. = FALSE)
   }
-  pars <- calcROCfit(data, "ML")
+  pars <- calc_roc_fit(data, "ML")
   # Attempts Least-Squares method if MaxLik didn't converge
   if ( is.null(pars) ) {
-    pars <- calcROCfit(data, "LS")
+    pars <- calc_roc_fit(data, "LS")
   }
   # Define function to be used for plotting fit
   .rocFun <- function(x, alpha, beta) {

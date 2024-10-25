@@ -56,12 +56,11 @@ Fawcett, Tom. 2006. An introduction to ROC analysis. Pattern
 Recognition Letters. 27:861-874.
 }
 \seealso{
-\code{\link[=plotEmpROC]{plotEmpROC()}}, \code{\link[=createROCdata]{createROCdata()}}
+\code{\link[=plotEmpROC]{plotEmpROC()}}, \code{\link[=create_roc_data]{create_roc_data()}}
 
 Other ROC: 
-\code{\link{calcROCfit}()},
-\code{\link{calcROCperpendicular}()},
-\code{\link{createROCdata}()},
+\code{\link{calc_roc_fit}()},
+\code{\link{create_roc_data}()},
 \code{\link{geom_roc}()},
 \code{\link{plotEmpROC}()},
 \code{\link{plotROCbootCI95}()}

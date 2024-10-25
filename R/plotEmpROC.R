@@ -58,7 +58,7 @@
 #' @param ... Deprecated. Maintained for backwards compatibility.
 #' @return A ROC curve is plotted and its corresponding AUC is returned.
 #' @author Michael R. Mehan, Stu Field
-#' @seealso [createROCdata()], [roc_xy()], [geom_roc()]
+#' @seealso [create_roc_data()], [roc_xy()], [geom_roc()]
 #' @examples
 #' true <- rep(c("control", "disease"), each = 50)
 #' pred <- withr::with_seed(8,
@@ -160,11 +160,11 @@ plotEmpROC <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
   }
 
   # Creates vector of ROC evaluations for each cutoff value
-  ci95_vec <- createROCdata(truth     = plot_df$truth,
-                            predicted = plot_df$pred,
-                            do.ci     = TRUE,
-                            cutoffs   = cutoff,
-                            pos.class = pos.class) |> unlist()
+  ci95_vec <- create_roc_data(truth     = plot_df$truth,
+                              predicted = plot_df$pred,
+                              do.ci     = TRUE,
+                              cutoffs   = cutoff,
+                              pos.class = pos.class) |> unlist()
 
   # Creates plot mapping (to be applied when add = FALSE)
   p <- ggplot(data = as.data.frame(xy), aes(x = x, y = y)) +
@@ -214,11 +214,11 @@ plotEmpROC <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
       # Plots a shaded box that corresponds to the 95% joint binomial CI
       g <- c(g, list(addSensSpecBox(ci95_mat, col = col, alpha = box.alpha)))
     } else {
-      roc_df <- createROCdata(truth     = plot_df$truth,
-                              predicted = plot_df$pred,
-                              pos.class = pos.class,
-                              cutoffs   = plot_df$pred,
-                              do.ci     = TRUE)
+      roc_df <- create_roc_data(truth     = plot_df$truth,
+                                predicted = plot_df$pred,
+                                pos.class = pos.class,
+                                cutoffs   = plot_df$pred,
+                                do.ci     = TRUE)
 
       ci_tab <- roc_df[, grep("sens|spec", names(roc_df))]
 
@@ -243,11 +243,11 @@ plotEmpROC <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
   if ( debug ) {
 
     if ( !"roc_df" %in% ls() ) {
-      roc_df <- createROCdata(truth     = plot_df$truth,
-                              predicted = plot_df$pred,
-                              cutoffs   = plot_df$pred,
-                              do.ci     = FALSE,
-                              pos.class = pos.class)
+      roc_df <- create_roc_data(truth     = plot_df$truth,
+                                predicted = plot_df$pred,
+                                cutoffs   = plot_df$pred,
+                                do.ci     = FALSE,
+                                pos.class = pos.class)
     }
 
     # Adds text annotation layer to indicate values at

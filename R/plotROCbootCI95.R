@@ -51,7 +51,7 @@ plotROCbootCI95 <- function(truth, predicted, pos.class, shade.color = "black",
 
   # Calculating CI95 for the chosen bootstrapped datasets
   ci95 <- lapply(boots, function(.x) { # boots now length = 2
-    pars <- calcROCfit(roc_xy(.x$truth, .x$predicted, pos.class))
+    pars <- calc_roc_fit(roc_xy(.x$truth, .x$predicted, pos.class))
     x <- seq(0, 1, length = 100)
     y <- 1 - (1 - x^pars["beta"])^(1 / pars["alpha"])
     list(x = x, y = y)

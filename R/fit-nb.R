@@ -57,7 +57,7 @@ fit_nb <- function(x, ...) UseMethod("fit_nb")
 #'   S3 `default` method for fit_nb.
 #' @export
 fit_nb.default <- function(x, y, mad = FALSE, laplace = 0,
-                                     keep.data = FALSE, ...) {
+                           keep.data = FALSE, ...) {
 
   response <- .get_response(x) %||% "y"
 
@@ -206,10 +206,8 @@ print.libml_nb <- function(x, ...) {
 #'
 #' @importFrom stats dnorm
 #' @export
-predict.libml_nb <- function(object, newdata,
-                             type = c("class", "posterior", "raw"),
-                             threshold = 1e-06,
-                             min.prob = NULL, ...) {
+predict.libml_nb <- function(object, newdata, type = c("class", "posterior", "raw"),
+                             threshold = 1e-06, min.prob = NULL, ...) {
 
   type    <- match.arg(type)
   # map to either posterior or raw
@@ -295,9 +293,8 @@ predict.libml_nb <- function(object, newdata,
 #' plot(m1, tr_iris, plot.type = "cdf", lty = "longdash") # pass-through of lty
 #' @importFrom dplyr all_of
 #' @export
-plot.libml_nb <- function(x, data, features,
-                                  plot.type = c("pdf", "cdf", "log.odds"),
-                                  x.lab = "value", id, ...) {
+plot.libml_nb <- function(x, data, features, plot.type = c("pdf", "cdf", "log.odds"),
+                          x.lab = "value", id, ...) {
 
   if ( missing(data) && inherits(x$data, "data.frame") ) {
     data <- x$data
@@ -313,7 +310,7 @@ plot.libml_nb <- function(x, data, features,
   response <- x$response %||% .get_response(data)
 
   if ( is.soma_adat(data) && !is.null(attr(data, "Col.Meta")) ) {
-    col_meta <- attr(.data, "Col.Meta")
+    col_meta <- attr(data, "Col.Meta")
     targets <- col_meta$TargetFullName %||% col_meta$Target
     tg <- setNames(as.list(targets), seqid2apt(col_meta$SeqId))
   } else {

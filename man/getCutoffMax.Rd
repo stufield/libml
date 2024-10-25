@@ -33,7 +33,7 @@ withr::with_seed(122, {
 getCutoffMax(true, pred, "disease")
 }
 \seealso{
-\code{\link[=getCutoffSpec]{getCutoffSpec()}}, \code{\link[=calcROCperpendicular]{calcROCperpendicular()}}, \code{\link[=roc_xy]{roc_xy()}}
+\code{\link[=getCutoffSpec]{getCutoffSpec()}}, \code{\link[=calc_roc_perpendicular]{calc_roc_perpendicular()}}, \code{\link[=roc_xy]{roc_xy()}}
 }
 \author{
 Stu Field

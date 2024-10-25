@@ -149,12 +149,11 @@ ggplot() +
   geom_roc(aes(x = x, y = y), data = rocxy2, col = "blue")
 }
 \seealso{
-\code{\link[=roc_xy]{roc_xy()}}, \code{\link[=calcROCfit]{calcROCfit()}}, \code{\link[=geom_line]{geom_line()}}, \code{\link[=layer]{layer()}}
+\code{\link[=roc_xy]{roc_xy()}}, \code{\link[=calc_roc_fit]{calc_roc_fit()}}, \code{\link[=geom_line]{geom_line()}}, \code{\link[=layer]{layer()}}
 
 Other ROC: 
-\code{\link{calcROCfit}()},
-\code{\link{calcROCperpendicular}()},
-\code{\link{createROCdata}()},
+\code{\link{calc_roc_fit}()},
+\code{\link{create_roc_data}()},
 \code{\link{plotEmpROC}()},
 \code{\link{plotROCbootCI95}()},
 \code{\link{roc_xy}()}

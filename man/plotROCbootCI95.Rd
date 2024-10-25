@@ -55,9 +55,8 @@ plotROCbootCI95(true, pred2, pos.class = "disease", nboot = 200,
 }
 \seealso{
 Other ROC: 
-\code{\link{calcROCfit}()},
-\code{\link{calcROCperpendicular}()},
-\code{\link{createROCdata}()},
+\code{\link{calc_roc_fit}()},
+\code{\link{create_roc_data}()},
 \code{\link{geom_roc}()},
 \code{\link{plotEmpROC}()},
 \code{\link{roc_xy}()}

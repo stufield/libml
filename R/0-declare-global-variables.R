@@ -11,7 +11,7 @@ if ( getRversion() >= "2.15.1" ) {
       "x",
       "target_names",
       "alpha",
-      "p.value",
+      "p_value",
       "feature",
       "RFU",
       "rfu_df",
@@ -25,15 +25,16 @@ if ( getRversion() >= "2.15.1" ) {
       "group",
       "lower.limit",
       "upper.limit",
-      "AptName", "EntrezGeneSymbol", "SeqId", "TargetFullName", "UniProt", "stats", # calc_univariate
+      "AptName", "EntrezGeneSymbol", "SeqId", "TargetFullName", "UniProt", "stats", # calc_univariate()
       "auc",
+      "p_value_x", "p_value_y", "xnoty", "ynotx", "xory", "xy", "x_cutoff", "y_cutoff", # plot_contrast_tbls()
       "truth",
       "ci",              # calc_confusion
       "estimate",        # calc_confusion
       "metric",          # getStat
       "Predicted",
       "SampleGroup",
-      "log2.fold.change",
+      #"log2.fold.change",
       "Gini_Importance",
       "Response",
       "specificity",   # plotEmpROC

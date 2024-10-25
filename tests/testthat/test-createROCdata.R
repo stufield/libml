@@ -13,10 +13,10 @@ pred <- c(0.222461252938956, 0.360352846328169, 0.532661496894434,
           0.0357247716747224, 0.825505221495405, 0.0411458793096244,
           0.0530758206732571, 0.513491039630026)
 
-x <- createROCdata(true, pred, "disease")
-y <- createROCdata(true, pred, "disease", do.ci = TRUE)
-a <- createROCdata(true, pred, "disease", include.auc = TRUE)
-b <- createROCdata(true, pred, "disease", include.auc = TRUE, do.ci = TRUE)
+x <- create_roc_data(true, pred, "disease")
+y <- create_roc_data(true, pred, "disease", do.ci = TRUE)
+a <- create_roc_data(true, pred, "disease", include.auc = TRUE)
+b <- create_roc_data(true, pred, "disease", include.auc = TRUE, do.ci = TRUE)
 c <- dplyr::mutate(a, cutoff = 100 * cutoff)
 
 # Testing ----

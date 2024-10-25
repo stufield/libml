@@ -23,18 +23,18 @@
 #'   the cost of a false negative.
 #' @return Model estimates of \eqn{\alpha} and \eqn{\beta}.
 #' @author Stu Field
-#' @seealso [nls()], [optim()], [plotEmpROC()], [roc_xy()]
+#' @seealso [nls()], [optim()], [roc_xy()]
 #' @examples
 #' n    <- 15
 #' true <- rep(c("control", "case"), each = n)
 #' pred <- withr::with_seed(1, c(rnorm(n, 0.45, 0.2), rnorm(n, 0.65, 0.2)))
 #'
 #' rocxy <- data.frame(roc_xy(true, pred, pos.class = "case"))
-#' calcROCfit(rocxy)        # Max Lik
-#' calcROCfit(rocxy, "LS")  # Least Squares
+#' calc_roc_fit(rocxy)        # Max Lik
+#' calc_roc_fit(rocxy, "LS")  # Least Squares
 #'
 #' # ML with new starting values
-#' calcROCfit(rocxy, start = c(alpha = 0.3, beta = 0.6))
+#' calc_roc_fit(rocxy, start = c(alpha = 0.3, beta = 0.6))
 #'
 #' # See the fit through the fitted values
 #' ggplot2::ggplot(rocxy, ggplot2::aes(x = x, y = y)) +
@@ -42,7 +42,7 @@
 #'   geom_rocfit(data = rocxy, col = "blue")
 #' @importFrom stats nls optim dnorm nls.control coef
 #' @export
-calcROCfit <- function(xy, optim = c("ML", "LS"),
+calc_roc_fit <- function(xy, optim = c("ML", "LS"),
                        start = c(alpha = 0.5, beta = 0.5)) {
 
   optim <- match.arg(optim)
