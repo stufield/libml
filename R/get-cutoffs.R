@@ -6,7 +6,7 @@
 #'
 #' @name get-cutoffs
 #' @inheritParams params
-#' @return [get_cutoff_spec()]: a numeric cutoff representing
+#' @return [get_max_cutoff()]: a numeric cutoff representing
 #'   the operating point at the maximal perpendicular distance
 #'   from the unit line.
 #' @author Stu Field
@@ -35,7 +35,7 @@ get_max_cutoff <- function(truth, predicted, pos.class) {
 #'
 #' @rdname get-cutoffs
 #' @param spec Numeric. The desired specificity.
-#' @return [get_cutoff_spec()]: a numeric cutoff representing
+#' @return [get_spec_cutoff()]: a numeric cutoff representing
 #'   the operating point for a given specificity.
 #' @examples
 #' # via specificity

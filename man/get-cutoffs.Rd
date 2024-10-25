@@ -22,11 +22,11 @@ defining the positive/event class.}
 \item{spec}{Numeric. The desired specificity.}
 }
 \value{
-\code{\link[=get_cutoff_spec]{get_cutoff_spec()}}: a numeric cutoff representing
+\code{\link[=get_max_cutoff]{get_max_cutoff()}}: a numeric cutoff representing
 the operating point at the maximal perpendicular distance
 from the unit line.
 
-\code{\link[=get_cutoff_spec]{get_cutoff_spec()}}: a numeric cutoff representing
+\code{\link[=get_spec_cutoff]{get_spec_cutoff()}}: a numeric cutoff representing
 the operating point for a given specificity.
 }
 \description{
