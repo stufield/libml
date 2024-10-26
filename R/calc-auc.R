@@ -6,7 +6,7 @@
 #' @inheritParams params
 #' @param ... Additional arguments passed to [caTools::colAUC()].
 #' @return All return a numeric scalar corresponding to the area under
-#'   the curve. For 95% confidence intervals (`ci95 = TRUE`), [calcEmpAUC()]
+#'   the curve. For 95% confidence intervals (`ci95 = TRUE`), [calc_emp_auc()]
 #'   returns a `list` object with these elements:
 #'     \item{auc}{The area under the curve (empirical).}
 #'     \item{lower.limit}{lower 95% confidence limit based on standard error AUC.}
@@ -18,32 +18,32 @@
 #'   true <- sample(c("control", "disease"), n, replace = TRUE)
 #'   pred <- runif(n)
 #' })
-#' calcAUC(true, pred)
+#' calc_auc(true, pred)
 #'
 #' @export
-calcAUC <- function(truth, predicted, ...) {
+calc_auc <- function(truth, predicted, ...) {
   as.numeric(caTools::colAUC(predicted, truth, ...))
 }
 
 
-#' @describeIn calcAUC
+#' @describeIn calc_auc
 #' Calculate the _empirical_ AUC, optionally with corresponding 95%
 #'   confidence intervals according to the DeLong approach via the standard
 #'   error of the AUC estimate. This empirical AUC estimate is calculated via
 #'   the trapezoid area at each step along the x-axis of a ROC curve.
 #' @param ci95 Logical. Should DeLong's standard error based confidence
 #'   limits be included with the AUC estimate?
-#' @seealso [plotEmpROC()], [roc_xy()]
+#' @seealso [plot_emp_roc()], [roc_xy()]
 #' @references DeLong et al. (1988) for the calculation of the Standard Error
 #'   of the Area Under the Curve (AUC) and of the difference between two AUCs.
 #' @examples
 #' # Empirical AUC
-#' calcEmpAUC(true, pred, "disease")
-#' calcEmpAUC(true, pred, "disease", ci95 = TRUE)  # with CI95
+#' calc_emp_auc(true, pred, "disease")
+#' calc_emp_auc(true, pred, "disease", ci95 = TRUE)  # with CI95
 #'
 #' @importFrom stats var
 #' @export
-calcEmpAUC <- function(truth, predicted, pos.class, ci95 = FALSE) {
+calc_emp_auc <- function(truth, predicted, pos.class, ci95 = FALSE) {
 
   auc <- empAUC_cpp(roc_xy(truth, predicted, pos.class))
 
@@ -64,16 +64,16 @@ calcEmpAUC <- function(truth, predicted, pos.class, ci95 = FALSE) {
 }
 
 
-#' @describeIn calcAUC
+#' @describeIn calc_auc
 #'   Calculate the AUC according to Margaret Pepe's book.
-#' @references `calcPepeAUC:` M. Pepe. The Statistical
+#' @references [calc_pepe_auc()]: M. Pepe. The Statistical
 #'   Evaluation of Medical Tests for Classification and Prediction.
 #' @examples
 #' # Pepe's AUC
-#' calcPepeAUC(true, pred, "disease")
+#' calc_pepe_auc(true, pred, "disease")
 #'
 #' @export
-calcPepeAUC <- function(truth, predicted, pos.class) {
+calc_pepe_auc <- function(truth, predicted, pos.class) {
   stopifnot(
     "`truth` and `predicted` must be of equal length." = 
       length(truth) == length(predicted),
@@ -96,7 +96,7 @@ calcPepeAUC <- function(truth, predicted, pos.class) {
 }
 
 
-#' @describeIn calcAUC
+#' @describeIn calc_auc
 #'   Bootstrapped confidence intervals for the 95% limits are calculated via
 #'   _empirical_ bootstrap iterations and using Pepe's AUC calculation.
 #' @inheritParams params
@@ -106,20 +106,20 @@ calcPepeAUC <- function(truth, predicted, pos.class) {
 #'     \item{lower.limit}{The lower CI95 of the estimate.}
 #'     \item{upper.limit}{The upper CI95 of the estimate.}
 #' @author Stu Field
-#' @seealso [replicate()], [plotEmpROC()]
+#' @seealso [replicate()], [plot_emp_roc()]
 #' @examples
 #' # bootstrapped AUC
-#' calcBootAUC(true, pred, "disease")
-#' calcBootAUC(true, pred, "disease", nboot = 100, r.seed = 100)  # reproducible
+#' calc_boot_auc(true, pred, "disease")
+#' calc_boot_auc(true, pred, "disease", nboot = 100, r.seed = 100)  # reproducible
 #' @importFrom stats quantile
 #' @importFrom withr with_seed
 #' @export
-calcBootAUC <- function(truth, predicted, pos.class,
-                        nboot = 1000, r.seed = sample(1000, 1)) {
-  est <- calcPepeAUC(truth, predicted, pos.class)   # empirical AUC estimate
+calc_boot_auc <- function(truth, predicted, pos.class,
+                          nboot = 1000, r.seed = sample(1000, 1)) {
+  est <- calc_pepe_auc(truth, predicted, pos.class)   # empirical AUC estimate
   # bench::mark(
-  #   emp  = calcEmpAUC(truth, predicted, pos.class),
-  #   pepe = calcPepeAUC(truth, predicted, pos.class)
+  #   emp  = calc_emp_auc(truth, predicted, pos.class),
+  #   pepe = calc_pepe_auc(truth, predicted, pos.class)
   # )
   .data <- data.frame(truth = truth, predicted = predicted)
   boots <- with_seed(r.seed, {
@@ -128,7 +128,7 @@ calcBootAUC <- function(truth, predicted, pos.class,
   boot_pop <- vapply(boots, function(.x) { # iterate AUC over boots
       df <- .data[.x, ]
       # Pepe's AUC is MUCH faster than empirical AUC
-      calcPepeAUC(df$truth, df$predicted, pos.class = pos.class)
+      calc_pepe_auc(df$truth, df$predicted, pos.class = pos.class)
     }, FUN.VALUE = 0.1)
   ci95 <- quantile(boot_pop, probs = c(0.025, 0.975), names = FALSE) # CI95
   list(auc = est, lower.limit = ci95[1L], upper.limit = ci95[2L])

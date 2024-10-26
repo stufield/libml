@@ -57,7 +57,7 @@ create_roc_data <- function(truth, predicted, pos.class, do.ci = FALSE,
   ret$YoudenJ <- (ret$sensitivity + ret$specificity) - 1 # Youden Index
 
   if ( include.auc ) {
-    auc <- calcEmpAUC(truth, predicted, pos.class, do.ci)
+    auc <- calc_emp_auc(truth, predicted, pos.class, do.ci)
     if ( do.ci ) {
       ret$auc_lowerCI <- auc$lower.limit   # add to end
       ret$auc_upperCI <- auc$upper.limit   # add to end
@@ -71,9 +71,9 @@ create_roc_data <- function(truth, predicted, pos.class, do.ci = FALSE,
     counts      <- table(truth)
     n_disease   <- counts[[pos.class]]
     n_control   <- counts[[setdiff(names(counts), pos.class)]]
-    sens_limits <- calcBinomCI(ret$sensitivity, n = n_disease, ci = sqrt(0.95))
+    sens_limits <- calc_ci_binom(ret$sensitivity, n = n_disease, ci = sqrt(0.95))
     names(sens_limits) <- c("sens_lowerCI", "sens_upperCI")
-    spec_limits <- calcBinomCI(ret$specificity, n = n_control, ci = sqrt(0.95))
+    spec_limits <- calc_ci_binom(ret$specificity, n = n_control, ci = sqrt(0.95))
     names(spec_limits) <- c("spec_lowerCI", "spec_upperCI")
     ret <- cbind(ret, sens_limits, spec_limits)    # add to end
   }

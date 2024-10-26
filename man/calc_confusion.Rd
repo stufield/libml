@@ -44,7 +44,7 @@ Summary method returns a list object of class
 \item{metrics:}{Performance metric estimates, \code{n}, and associated
 binomial 95\% confidence intervals. Note that \code{MCC} has a range in
 \verb{[-1, 1]}, therefore confidence intervals are not calculated for this
-metric (\code{\link[=calcBinomCI]{calcBinomCI()}} expects a probability value).}
+metric (\code{\link[=calc_ci_binom]{calc_ci_binom()}} expects a probability value).}
 \item{stats:}{F-measure, G-mean, and Weighted Accuracy.}
 }
 \description{

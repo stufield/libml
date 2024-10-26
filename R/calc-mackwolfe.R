@@ -73,9 +73,8 @@ calc.mackwolfe <- function(data, apts = NULL, response = NULL,
     response <- .get_response(data)
   }
 
-  data_prep <- prepCalcData(data, feats = apts, response = response, binary = FALSE)
-  apts      <- data_prep$feats
-  gr_vec    <- data[[response]]
+  apts   <- apts %||% getAnalytes(data) %||% names(which(vapply(data, is.numeric, NA)))
+  gr_vec <- data[[response]]
   mackwolfe_stats <- lapply(apts, function(.apt) {
       mw <- mackwolfe(x = data[[.apt]], group = gr_vec, peak = peak, ...)
       data.frame(row.names = .apt, Ap = mw$Ap, Astar = mw$Astar, n = mw$n,

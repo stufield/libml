@@ -53,9 +53,6 @@
 #' @param boot.auc Logical. Should bootstrap confidence intervals of AUC
 #'   be calculated?
 #' @param do.grid Logical. Should grid lines be added to the ROC curve?
-#' @param pch,pch.cex,pch.cutoff,cutoff.cex,auc.cex Deprecated. Now use
-#'   `shape`, `size`, `cutoff.shape`, `cutoff.size`, or `auc.size`.
-#' @param ... Deprecated. Maintained for backwards compatibility.
 #' @return A ROC curve is plotted and its corresponding AUC is returned.
 #' @author Michael R. Mehan, Stu Field
 #' @seealso [create_roc_data()], [roc_xy()], [geom_roc()]
@@ -66,19 +63,19 @@
 #'             rnorm(50, mean = 0.6, sd = 0.2))    # disease predictions
 #'         )
 #'
-#' plotEmpROC(true, pred, pos.class = "disease", col = "dodgerblue")
-#' plotEmpROC(true, pred, pos.class = "disease", ci95 = TRUE, boxes = FALSE, col = "red")
+#' plot_emp_roc(true, pred, pos.class = "disease", col = "dodgerblue")
+#' plot_emp_roc(true, pred, pos.class = "disease", ci95 = TRUE, boxes = FALSE, col = "red")
 #'
-#' plotEmpROC(true, pred, pos.class = "disease", ci95 = FALSE, shape = 21, col = "green")
-#' plotEmpROC(true, pred, pos.class = "disease", boot.auc = TRUE, col = "royalblue")
+#' plot_emp_roc(true, pred, pos.class = "disease", ci95 = FALSE, shape = 21, col = "green")
+#' plot_emp_roc(true, pred, pos.class = "disease", boot.auc = TRUE, col = "royalblue")
 #'
-#' plotEmpROC(true, pred, pos.class = "disease", plot.fit = "both", col = "purple")
-#' plotEmpROC(true, pred, pos.class = "disease", plot.fit = TRUE, ci95 = FALSE,
-#'            auc = FALSE, cutoff = NA, col = 2, lwd = 4) # curve only, no cutoff
+#' plot_emp_roc(true, pred, pos.class = "disease", plot.fit = "both", col = "purple")
+#' plot_emp_roc(true, pred, pos.class = "disease", plot.fit = TRUE, ci95 = FALSE,
+#'              auc = FALSE, cutoff = NA, col = 2, lwd = 4) # curve only, no cutoff
 #'
 #' # Debugging with `debug = TRUE` displays
 #' # curve points to the console
-#' plotEmpROC(true, pred, pos.class = "disease", debug = TRUE, col = "firebrick3")
+#' plot_emp_roc(true, pred, pos.class = "disease", debug = TRUE, col = "firebrick3")
 #'
 #' # Multiple curves can be drawn on the same plot
 #' true2 <- rep(c("control", "disease"), each = 50)
@@ -86,52 +83,23 @@
 #'           c(rnorm(50, mean = 0.5, sd = 0.3),
 #'             rnorm(50, mean = 0.7, sd = 0.4))
 #'         )
-#' plotEmpROC(true, pred, pos.class = "disease", col = "firebrick3") +
-#'   plotEmpROC(true2, pred2, pos.class = "disease", col = "forestgreen", add = 1)
+#' plot_emp_roc(true, pred, pos.class = "disease", col = "firebrick3") +
+#'   plot_emp_roc(true2, pred2, pos.class = "disease", col = "forestgreen", add = 1)
 #' @importFrom ggplot2 geom_ribbon geom_point geom_text geom_segment annotate
-#' @importFrom lifecycle is_present deprecated
 #' @export
-plotEmpROC <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
-                       boot.auc = FALSE, adj = c(0, 0), auc.pos = c(0.5, 0.5),
-                       auc.shift = 1.25, auc.label = NULL, auc.size = 5,
-                       shape = NULL, size = 2, cutoff = 0.5, cutoff.size = 5,
-                       cutoff.shape = 23, col = 1, ci95 = TRUE, lwd = 2,
-                       outline = TRUE, boxes = TRUE, box.alpha = 0.35,
-                       debug = FALSE, plot.fit = FALSE, do.grid = TRUE,
-                       pch = deprecated(),
-                       pch.cex = deprecated(),
-                       pch.cutoff = deprecated(),
-                       auc.cex = deprecated(),
-                       cutoff.cex = deprecated(),
-                       ... = deprecated()) {
+plot_emp_roc <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
+                         boot.auc = FALSE, adj = c(0, 0), auc.pos = c(0.5, 0.5),
+                         auc.shift = 1.25, auc.label = NULL, auc.size = 5,
+                         shape = NULL, size = 2, cutoff = 0.5, cutoff.size = 5,
+                         cutoff.shape = 23, col = 1, ci95 = TRUE, lwd = 2,
+                         outline = TRUE, boxes = TRUE, box.alpha = 0.35,
+                         debug = FALSE, plot.fit = FALSE, do.grid = TRUE) {
 
   if ( missing(pos.class) ) {
     stop(
-      "You *must* pass a `pos.class =` argument to `plotEmpROC()`.",
+      "You *must* pass a `pos.class =` argument to `plot_emp_roc()`.",
       call. = FALSE
     )
-  }
-
-  # Deprecated arguments ----
-  # Parameters deprecated via ggplot2 syntax
-  if ( is_present(pch) ) {
-    stop("pch = ", pch, ". Do you mean `shape`?", call. = )
-  }
-
-  if ( is_present(pch.cex) ) {
-    stop("pch.cex = ", pch.cex, ". Do you mean `size`?", call. = )
-  }
-
-  if ( is_present(pch.cutoff) ) {
-    stop("pch.cutoff = ", pch.cex, ". Do you mean `cutoff.shape`?", call. = )
-  }
-
-  if ( is_present(auc.cex) ) {
-    stop("auc.cex", pch.cex, ". Do you mean `aux.size`?", call. = )
-  }
-
-  if ( is_present(cutoff.cex) ) {
-    stop("cutoff.cex", pch.cex, ". Do you mean `cutoff.size`?", call. = )
   }
 
   plot_df <- data.frame(truth = truth, pred = predicted)
@@ -144,8 +112,8 @@ plotEmpROC <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
     writeLines(signal_rule("Values Bottom", line_col = "cyan", lty = "double"))
     print(plot_df[(nrow(plot_df) - 6):nrow(plot_df), ]) # Replacement for utils::tail()
     writeLines(signal_rule("Parameters", line_col = "magenta", lty = "double"))
-    left  <- pad(c("pos.class", "boot.auc", "outline", "pch.cutoff", "add"), 10)
-    right <- add_color(c(pos.class, boot.auc, outline, pch.cutoff, add), "red")
+    left  <- pad(c("pos.class", "boot.auc", "outline", "cutoff", "add"), 10)
+    right <- add_color(c(pos.class, boot.auc, outline, cutoff, add), "red")
     writeLines(
       paste(add_color("\u2020", "green"), left, add_color("\u276F", "cyan"), right)
     )
@@ -277,14 +245,13 @@ plotEmpROC <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
   }
   # Calculates AUC based on specified method (bootstrapped vs. empirical)
   if ( boot.auc ) {
-    auc_data <- calcBootAUC(plot_df$truth, plot_df$pred,
-                            pos.class = pos.class,
-                            nboot     = 1000,
-                            r.seed    = 1001)  # bootstrapped CI95
+    auc_data <- calc_boot_auc(plot_df$truth, plot_df$pred,
+                              pos.class = pos.class,
+                              nboot     = 1000,
+                              r.seed    = 1001)  # bootstrapped CI95
   } else {
-    auc_data <- calcEmpAUC(plot_df$truth, plot_df$pred,
-                           pos.class = pos.class,
-                           ci95 = TRUE)   # se +/- CI95 (DeLong's method)
+    auc_data <- calc_emp_auc(plot_df$truth, plot_df$pred, pos.class = pos.class,
+                             ci95 = TRUE)   # se +/- CI95 (DeLong's method)
   }
 
   # Adds an annotation layer displaying the AUC

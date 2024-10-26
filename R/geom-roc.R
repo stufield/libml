@@ -3,7 +3,7 @@
 #' Create a \verb{"geom"} layer to generate a receiver operator criterion (ROC)
 #'   curve in the \pkg{ggplot2} style grammar of graphics.
 #'   Its primary input is the output of [roc_xy()], and is used
-#'   primarily used in support of the wrapper [plotEmpROC()].
+#'   primarily used in support of the wrapper [plot_emp_roc()].
 #'
 #' @inheritParams ggplot2::geom_line
 #' @family ROC

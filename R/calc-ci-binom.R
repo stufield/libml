@@ -20,11 +20,11 @@
 #' tp <- 16
 #' fn <- 4
 #' sens <- tp / (tp + fn)
-#' calcBinomCI(sens, tp + fn)
+#' calc_ci_binom(sens, tp + fn)
 #' @importFrom stats qnorm
 #' @importFrom tibble tibble
 #' @export
-calcBinomCI <- function(p, n, ci = sqrt(0.95)) {
+calc_ci_binom <- function(p, n, ci = sqrt(0.95)) {
   if ( ci < 0.5 || ci > 1 ) {
     stop("Invalid confidence interval value. Must be in [0.5, 1.0].",
          call. = FALSE)

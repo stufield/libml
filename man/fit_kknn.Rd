@@ -67,7 +67,7 @@ calc_confusion(true, pred$prob_virginica, pos.class = pos) |>
   summary()
 
 # plot ROC
-plotEmpROC(true, pred$prob_virginica, pos)
+plot_emp_roc(true, pred$prob_virginica, pos)
 }
 \seealso{
 \code{\link[=kknn]{kknn()}}

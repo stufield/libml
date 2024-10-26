@@ -52,10 +52,8 @@ calc.wilcox <- function(data, apts = NULL, paired = FALSE,
     response <- .get_response(data)
   }
 
-  data_prep   <- prepCalcData(data, feats = apts, paired = paired,
-                              response = response)
-  disease_idx <- data_prep$which_disease
-  wilcox_df <- apply(data_prep$data, 2, column_wilcox, which = disease_idx,
+  data_prep <- prep_calc(data, feats = apts, paired = paired, response = response)
+  wilcox_df <- apply(data_prep$data, 2, column_wilcox, which = data_prep$pos_idx,
                      paired = paired, ...) |> t() |> data.frame()
 
   if ( paired ) {

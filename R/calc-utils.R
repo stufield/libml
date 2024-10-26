@@ -1,6 +1,6 @@
 
 #' Internal for log-tranform warnings
-#' in the calc.* family of functions
+#'   in the calc.* family of functions
 #' @param x String of the test being performed.
 #' @noRd
 logWarning <- function(x) {

@@ -145,8 +145,8 @@ Pooled Blood Samples. Epidemiology. 16: 73-81.
 Other ROC: 
 \code{\link{calc_roc_fit}()},
 \code{\link{geom_roc}()},
-\code{\link{plotEmpROC}()},
-\code{\link{plotROCbootCI95}()},
+\code{\link{plot_boot_roc}()},
+\code{\link{plot_emp_roc}()},
 \code{\link{roc_xy}()}
 }
 \author{

@@ -26,10 +26,9 @@ calc.lr <- function(data, apts = NULL, response = NULL,
   if ( is.null(response) && is.tr_data(data) ) {
     response <- .get_response(data)
   }
-  data_prep <- prepCalcData(data, feats = apts, response = response)
-  lr_data   <- apply(data_prep$data, 2, column_lr,
-                     which = data_prep$which_disease, paired = paired,
-                     do.mean = do.mean, ...) |> t() |> data.frame()
+  data_prep <- prep_calc(data, feats = apts, response = response)
+  lr_data   <- apply(data_prep$data, 2, column_lr, which = data_prep$pos_idx,
+                     paired = paired, do.mean = do.mean, ...) |> t() |> data.frame()
   lr_data$.rn  <- rownames(lr_data)
   lr_data      <- dplyr::arrange(lr_data, dplyr::desc(log2.fold.change))
   lr_data$rank <- seq_len(nrow(lr_data))

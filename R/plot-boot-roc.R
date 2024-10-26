@@ -3,8 +3,8 @@
 #' Plots a ROC curve with bootstrapped 95% confidence interval
 #' boundary overlay.
 #'
-#' @inheritParams params
 #' @family ROC
+#' @inheritParams params
 #' @param shade.color The color for the bootstrap shaded region.
 #'   Passed as a `fill` argument to downstream `ggplot2` machinery.
 #' @param add Logical. Should a plotting layer be added to an existing plot?
@@ -14,19 +14,19 @@
 #' n <- 75
 #' true <- rep(c("control", "disease"), each = n)
 #' pred <- withr::with_seed(1, c(rnorm(n, 0.2, 0.3), rnorm(n, 0.8, 0.3)))
-#' plotROCbootCI95(true, pred, pos.class = "disease", nboot = 200, color = "blue")
+#' plot_boot_roc(true, pred, pos.class = "disease", nboot = 200, color = "blue")
 #'
 #' # add layer
 #' pred2 <- withr::with_seed(1, c(rnorm(n, 0.2, 0.3), rnorm(n, 0.5, 0.3)))
-#' plotROCbootCI95(true, pred, pos.class = "disease", nboot = 200,
-#'                 shade.color = "blue", color = "blue") +
-#' plotROCbootCI95(true, pred2, pos.class = "disease", nboot = 200,
-#'                 shade.color = "green", color = "red", add = TRUE)
+#' plot_boot_roc(true, pred, pos.class = "disease", nboot = 200,
+#'               shade.color = "blue", color = "blue") +
+#' plot_boot_roc(true, pred2, pos.class = "disease", nboot = 200,
+#'               shade.color = "green", color = "red", add = TRUE)
 #' @importFrom stats quantile
 #' @importFrom purrr detect_index
 #' @export
-plotROCbootCI95 <- function(truth, predicted, pos.class, shade.color = "black",
-                            nboot = 1000, r.seed = 101, add = FALSE, ...) {
+plot_boot_roc <- function(truth, predicted, pos.class, shade.color = "black",
+                          nboot = 1000, r.seed = 101, add = FALSE, ...) {
 
   withr::with_seed(r.seed, {
     # Bootstrapping the original datasets (truth & predicted) 'nboot' times
@@ -38,8 +38,7 @@ plotROCbootCI95 <- function(truth, predicted, pos.class, shade.color = "black",
 
   # Calculating AUCs for all bootstrapped datasets
   aucs <- vapply(boots, function(.x) {
-    calcEmpAUC(.x$truth, .x$predicted, pos.class = pos.class)
-    }, FUN.VALUE = double(1))
+    calc_emp_auc(.x$truth, .x$predicted, pos.class = pos.class)}, double(1))
 
   # Identifying AUC values @ the 2.5th percentile & 97.5th percentile
   qq <- quantile(aucs, probs = c(0.025, 0.975), names = FALSE)

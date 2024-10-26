@@ -6,7 +6,7 @@
 #' @param data A training data `tr_data` object.
 #' @param x.lab Character. Set the x-axis label.
 #' @param as.pvalue Logical. Should p-values be plotted in linear space
-#'   or log10-space (default)?
+#'   or log10-space?
 #' @param type Character. The type measure used to evaluate expression change.
 #'   Can be one of: "median", "t.test", or "ks.test". Pattern is matched so
 #'   abbreviated strings are allowed.
@@ -19,16 +19,16 @@
 #'                    classes = c("control", "disease"))
 #'
 #' # Various options for plotting
-#' plotManhattan(tr, type = "med")
-#' plotManhattan(tr, type = "t")
-#' plotManhattan(tr, type = "ks")
-#' plotManhattan(tr, type = "t", as.pvalue = TRUE)
+#' plot_manhattan(tr, type = "med")
+#' plot_manhattan(tr, type = "t")
+#' plot_manhattan(tr, type = "ks")
+#' plot_manhattan(tr, type = "t", as.pvalue = TRUE)
 #' @importFrom ggplot2 geom_point labs aes geom_hline
 #' @importFrom ggplot2 scale_color_manual ggplot
 #' @export
-plotManhattan <- function(data, x.lab = "Feature",
-                          type = c("median", "t.test", "ks.test"),
-                          as.pvalue = FALSE) {
+plot_manhattan <- function(data, x.lab = "Feature",
+                           type = c("median", "t.test", "ks.test"),
+                           as.pvalue = FALSE) {
   type <- match.arg(type)
   withr::local_options(list(g.praise = FALSE))
 

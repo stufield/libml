@@ -26,11 +26,8 @@ calc.t <- function(data, apts = NULL, bh = TRUE, paired = FALSE,
     response <- .get_response(data)
   }
 
-  data_prep <- prepCalcData(data, feats = apts, paired = paired,
-                            response = response)
-
-  disease_idx <- data_prep$which_disease
-  t_data <- apply(data_prep$data, 2, column_t, which = disease_idx,
+  data_prep <- prep_calc(data, feats = apts, paired = paired, response = response)
+  t_data <- apply(data_prep$data, 2, column_t, which = data_prep$pos_idx,
                   paired = paired, ...) |> t() |> data.frame()
 
   ret.list             <- list()

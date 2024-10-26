@@ -45,7 +45,7 @@
 #'   summary()
 #'
 #' # plot ROC
-#' plotEmpROC(true, pred$prob_virginica, pos)
+#' plot_emp_roc(true, pred$prob_virginica, pos)
 #' @importFrom kknn kknn
 #' @export
 fit_kknn <- function(formula, train, test, K = 10, distance = 2,

@@ -12,7 +12,7 @@ pred <- c(0.700711545301601, 0.956837461562827, 0.213352001970634,
           0.913478652015328, 0.206772719044238, 0.814283016137779,
           0.0201671982649714, 0.924804413458332)
 
-auc <- calcBootAUC(true, pred, "disease", 1000, r.seed = 100)
+auc <- calc_boot_auc(true, pred, "disease", 1000, r.seed = 100)
 
 
 # Testing ----
@@ -29,7 +29,7 @@ test_that("the values are correct for r.seed provided", {
 })
 
 test_that("the values are correct for r.seed different r.seed", {
-  auc <- calcBootAUC(true, pred, "disease", 1000, r.seed = 10)
+  auc <- calc_boot_auc(true, pred, "disease", 1000, r.seed = 10)
   expect_equal(auc, list(auc = 0.222222222222222,
                          lower.limit = 0.0301406926406926,
                          upper.limit = 0.505654761904762))

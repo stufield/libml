@@ -57,8 +57,8 @@ ggplot2::ggplot(rocxy, ggplot2::aes(x = x, y = y)) +
 Other ROC: 
 \code{\link{create_roc_data}()},
 \code{\link{geom_roc}()},
-\code{\link{plotEmpROC}()},
-\code{\link{plotROCbootCI95}()},
+\code{\link{plot_boot_roc}()},
+\code{\link{plot_emp_roc}()},
 \code{\link{roc_xy}()}
 }
 \author{

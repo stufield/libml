@@ -131,7 +131,7 @@ print.confusion_matrix <- function(x, ...) {
 #'   \item{metrics:}{Performance metric estimates, `n`, and associated
 #'     binomial 95% confidence intervals. Note that `MCC` has a range in
 #'     \verb{[-1, 1]}, therefore confidence intervals are not calculated for this
-#'     metric ([calcBinomCI()] expects a probability value).}
+#'     metric ([calc_ci_binom()] expects a probability value).}
 #'   \item{stats:}{F-measure, G-mean, and Weighted Accuracy.}
 #' @seealso [calc_confusion()]
 #' @references The Statistical Evaluation of Medical Tests for Classification
@@ -188,7 +188,7 @@ summary.confusion_matrix <- function(object, ...) {
     "Prevalence",     n + p,          (fn + tp) / (tp + fn + tn + fp),
     "MCC",            NA_integer_,    mcc
   )
-  ci <- liter(metrics$p, metrics$n, .f = calcBinomCI) |>
+  ci <- liter(metrics$p, metrics$n, .f = calc_ci_binom) |>
     bind_rows()
   metrics$CI95_lower <- ci$lower  # pull lower CI95
   metrics$CI95_upper <- ci$upper  # pull upper CI95

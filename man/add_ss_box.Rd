@@ -20,16 +20,16 @@ lines, points, bar, box, or ROC.}
 \item{alpha}{Numeric in \verb{[0, 1]}. The color transparency level.
 See also \code{\link[ggplot2:reexports]{ggplot2::alpha()}}.}
 
-\item{sens}{Numeric. The sensitivity: \verb{[0, 1]}.}
+\item{sens}{Numeric. The sensitivity: \eqn{[0, 1]}.}
 
-\item{spec}{Numeric. The specificity: \verb{[0, 1]}.}
+\item{spec}{Numeric. The specificity: \eqn{[0, 1]}.}
 
 \item{n.controls}{Integer. Number of control or non-cases.}
 
 \item{n.cases}{Integer. Number of cases/disease.}
 }
 \value{
-A \verb{2x2} matrix containing rows of sensitivity and
+A \eqn{2x2} matrix containing rows of sensitivity and
 specificity respectively and columns of lower and upper 95\%
 joint confidence intervals respectively.
 }
@@ -61,7 +61,7 @@ ci95
 g + add_ss_box(ci95, col = "blue", alpha = 0.25)
 }
 \seealso{
-\code{\link[=calcBinomCI]{calcBinomCI()}}
+\code{\link[=calc_ci_binom]{calc_ci_binom()}}
 }
 \author{
 Stu Field, Amanda Hiser

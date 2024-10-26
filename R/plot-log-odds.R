@@ -20,14 +20,14 @@
 #'   true <- sample(c("control", "disease"), n, replace = TRUE)
 #'   pred <- runif(n)
 #' })
-#' plotLogOdds(true, pred, "disease")
-#' plotLogOdds(true, pred, "disease", scramble = TRUE)
+#' plot_log_odds(true, pred, "disease")
+#' plot_log_odds(true, pred, "disease", scramble = TRUE)
 #' @importFrom ggplot2 ggplot aes geom_point labs xlim geom_vline
 #' @importFrom ggplot2 scale_fill_manual scale_color_manual scale_shape_manual
 #' @export
-plotLogOdds <- function(truth, predicted, pos.class,  cutoff = 0.5,
-                        main = NULL, y.lab = NULL, max.prob = NULL,
-                        scramble = FALSE) {
+plot_log_odds <- function(truth, predicted, pos.class,  cutoff = 0.5,
+                          main = NULL, y.lab = NULL, max.prob = NULL,
+                          scramble = FALSE) {
 
   if ( !missing(max.prob) ) {
     warning("The `max.prob =` argument needs implementation.", call. = FALSE)
@@ -81,7 +81,7 @@ plotLogOdds <- function(truth, predicted, pos.class,  cutoff = 0.5,
     dplyr::arrange(type) |>
     dplyr::mutate(y = dplyr::row_number())
 
-  p <- df |>
+  df |>
     ggplot2::ggplot(ggplot2::aes(x = log_odds, y = y,
                                  shape = type, color = type,
                                  fill = type) ) +
@@ -97,6 +97,4 @@ plotLogOdds <- function(truth, predicted, pos.class,  cutoff = 0.5,
     # implement max.prob here eventually
     SomaPlotr::theme_soma() +
     NULL
-
-  p
 }

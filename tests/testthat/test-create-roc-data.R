@@ -66,8 +66,10 @@ test_that("the ROC data are correct when AUC is included", {
   # from here out only care about CI95 columns of df
   z <- dplyr::select(a, auc)
   expect_s3_class(z, "roc_data")
-  expect_equal(data.frame(z),
-               data.frame(auc = rep(calcEmpAUC(true, pred, "disease"), length(true))))
+  expect_equal(
+    data.frame(z),
+    data.frame(auc = rep(calc_emp_auc(true, pred, "disease"), length(true)))
+  )
 })
 
 # AUC and CIs ----

@@ -41,15 +41,15 @@ add_ss_box <- function(x, col = "black", alpha = 0.35) {
 #' given sensitivity and specificity.
 #'
 #' @rdname add_ss_box
-#' @param sens Numeric. The sensitivity: \verb{[0, 1]}.
-#' @param spec Numeric. The specificity: \verb{[0, 1]}.
+#' @param sens Numeric. The sensitivity: \eqn{[0, 1]}.
+#' @param spec Numeric. The specificity: \eqn{[0, 1]}.
 #' @param n.controls Integer. Number of control or non-cases.
 #' @param n.cases Integer. Number of cases/disease.
-#' @return A \verb{2x2} matrix containing rows of sensitivity and
+#' @return A \eqn{2x2} matrix containing rows of sensitivity and
 #'   specificity respectively and columns of lower and upper 95%
 #'   joint confidence intervals respectively.
 #' @author Mike Mehan
-#' @seealso [calcBinomCI()]
+#' @seealso [calc_ci_binom()]
 #' @examples
 #' # calculate CI95s for 80/80 sens/spec
 #' ci95 <- calc_joint_CI95(0.8, 0.8, 35, 65)
@@ -60,8 +60,8 @@ add_ss_box <- function(x, col = "black", alpha = 0.35) {
 #' @export
 calc_joint_CI95 <- function(sens, spec, n.controls, n.cases) {
   rbind(
-    sens = calcBinomCI(sens, n = n.cases),
-    spec = calcBinomCI(spec, n = n.controls)
+    sens = calc_ci_binom(sens, n = n.cases),
+    spec = calc_ci_binom(spec, n = n.controls)
   )
 }
 

@@ -186,7 +186,7 @@ See David Meyer <email: David.Meyer@R-project.org>.
 \seealso{
 \code{\link[=fit_gauss]{fit_gauss()}}
 
-\code{\link[=plotLogOdds]{plotLogOdds()}}, \code{\link[SomaPlotr:plotPDF]{SomaPlotr::plotPDFlist()}}, \code{\link[SomaPlotr:plotCDF]{SomaPlotr::plotCDFlist()}}
+\code{\link[=plot_log_odds]{plot_log_odds()}}, \code{\link[SomaPlotr:plotPDF]{SomaPlotr::plotPDFlist()}}, \code{\link[SomaPlotr:plotCDF]{SomaPlotr::plotCDFlist()}}
 
 The `fit*()` family: 
 \code{\link{fit_gbm}()},

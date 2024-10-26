@@ -24,7 +24,7 @@
 #' @author Stu Field
 #' @references Fawcett, Tom. 2006. An introduction to ROC analysis. Pattern
 #'   Recognition Letters. 27:861-874.
-#' @seealso [plotEmpROC()], [create_roc_data()]
+#' @seealso [plot_emp_roc()], [create_roc_data()]
 #' @examples
 #' n <- 25
 #' withr::with_seed(22, {

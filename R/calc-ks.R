@@ -23,14 +23,14 @@ calc.ks <- function(data, apts = NULL, response = NULL, bh = TRUE, ...) {
   if ( is.null(response) && is.tr_data(data) ) {
     response <- .get_response(data)
   }
-  data_prep   <- prepCalcData(data, feats = apts, response = response)
-  disease_idx <- data_prep$which_disease
-  ks_data     <- apply(data_prep$data, 2, column_ks, which = disease_idx, ...) |>
+
+  data_prep <- prep_calc(data, feats = apts, response = response)
+  ks_data <- apply(data_prep$data, 2, column_ks, which = data_prep$pos_idx, ...) |>
     t() |> data.frame()
 
   # fix edge case of tied p-values of ks.dist can separate features
   if ( anyDuplicated(ks_data$p.value) != 0 ) {
-    ks_data <- ks_data[ order(ks_data$ks.dist, decreasing = TRUE), ]
+    ks_data <- ks_data[order(ks_data$ks.dist, decreasing = TRUE), ]
   }
 
   ret.list             <- list()

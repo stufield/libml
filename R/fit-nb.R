@@ -283,7 +283,7 @@ predict.libml_nb <- function(object, newdata, type = c("class", "posterior", "ra
 #'   in the `data`, or its `rowname`. Can be `length(n)`.
 #' @return `plot.libml_nb`, `plot.naiveBayes`: A plot, either a list of
 #'   PDFs/CDFs, or a log-odds plot.
-#' @seealso [plotLogOdds()], [SomaPlotr::plotPDFlist()], [SomaPlotr::plotCDFlist()]
+#' @seealso [plot_log_odds()], [SomaPlotr::plotPDFlist()], [SomaPlotr::plotCDFlist()]
 #' @examples
 #' # Plotting
 #' plot(m2, tr_iris)
@@ -365,9 +365,9 @@ plot.libml_nb <- function(x, data, features, plot.type = c("pdf", "cdf", "log.od
       )
     }
     pred <- predict(x, newdata = data, type = "posterior")[, 2L]
-    p    <- plotLogOdds(truth     = data[[response]],
-                        predicted = pred,
-                        pos.class = get_pos_class(x))
+    p    <- plot_log_odds(truth     = data[[response]],
+                          predicted = pred,
+                          pos.class = get_pos_class(x))
   }
   p
 }

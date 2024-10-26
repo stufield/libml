@@ -1,12 +1,12 @@
 #' Plot AUCs and Error Bars
 #'
 #' Plots a list of AUCs as barplots and added error bars for each
-#' corresponding to the 95% confidence interval for each. See
-#' [calcEmpAUC()] for how to generate the AUCs and CI95s.
+#'   corresponding to the 95% confidence interval for each. See
+#'   [calc_emp_auc()] for how to generate the AUCs and CI95s.
 #'
 #' @inheritParams params
 #' @param data A `data.frame` object of AUCs and 95% confidence intervals.
-#'   Each row is the result of a call to [calcEmpAUC()] with
+#'   Each row is the result of a call to [calc_emp_auc()] with
 #'   `ci95 = TRUE` and converted to a single row `data.frame`. See example.
 #' @param color Character or numeric vector containing colors for each of
 #'   the barplots, as used by [ggplot()].
@@ -15,28 +15,29 @@
 #' @param flip Logical. Should the axes be flipped? See example.
 #' @return A [ggplot()] plot.
 #' @author Stu Field
-#' @seealso [calcEmpAUC()]
+#' @seealso [calc_emp_auc()]
 #' @examples
 #' # create random AUCs and CI95s
 #' withr::with_seed(22, {
 #'   true <- sample(c("control", "disease"), 20, replace = TRUE)
 #'   auc_df <- lapply(1:5, function(.x) {
-#'     data.frame(calcEmpAUC(true, runif(20), "disease", ci95 = TRUE))
+#'     data.frame(calc_emp_auc(true, runif(20), "disease", ci95 = TRUE))
 #'   }) |> do.call(what = rbind)
 #' })
 #' auc_df
-#' barplotAUCs(auc_df)
+#'
+#' barplot_auc(auc_df)
 #'
 #' # Set rownames to identify the bars
 #' rownames(auc_df) <- LETTERS[1:nrow(auc_df)]
-#' barplotAUCs(auc_df)
+#' barplot_auc(auc_df)
 #'
 #' # Flip axes
-#' barplotAUCs(auc_df, color = SomaPlotr::soma_colors$purple, flip = TRUE)
+#' barplot_auc(auc_df, color = SomaPlotr::soma_colors$purple, flip = TRUE)
 #' @importFrom ggplot2 ggplot aes geom_errorbar
 #' @importFrom ggplot2 geom_bar labs coord_flip
 #' @export
-barplotAUCs <- function(data, color = SomaPlotr::soma_colors$lightgrey,
+barplot_auc <- function(data, color = SomaPlotr::soma_colors$lightgrey,
                         flip = FALSE,
                         main = bquote("AUCs \U00B1 CI95")) {
 

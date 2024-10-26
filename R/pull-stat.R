@@ -1,4 +1,4 @@
-#' Get a classification performance metric/statistic
+#' Pull a classification performance metric/statistic
 #'
 #' Indexes into the S3 summary method for `confusion_matrix`
 #' class object.
@@ -20,8 +20,8 @@
 #'   }
 #' @param x A summary object from a call to [calc_confusion()],
 #'   a `summary.confusion_matrix` object.
-#' @param which Character. A matched string for the test statistic desired.
-#' @return Double. The desired classification performance statistic.
+#' @param which `character(1)`. Matched string for the test desired statistic.
+#' @return `double(1)`. The classification performance statistic.
 #' @author Stu Field
 #' @seealso [calc_confusion()]
 #' @examples
@@ -36,21 +36,21 @@
 #' class(c_mat)
 #'
 #' # pull out elements
-#' getStat(c_mat, "Spec")
-#' getStat(c_mat, "Sens")
-#' getStat(c_mat, "Recall")    # same
-#' getStat(c_mat, "Accuracy")
-#' getStat(c_mat, "Error")     # 1 - accuracy
-#' getStat(c_mat, "PPV")
-#' getStat(c_mat, "NPV")
-#' getStat(c_mat, "F_measure")
-#' getStat(c_mat, "Wt_Acc")
+#' pull_stat(c_mat, "Spec")
+#' pull_stat(c_mat, "Sens")
+#' pull_stat(c_mat, "Recall")    # same
+#' pull_stat(c_mat, "Accuracy")
+#' pull_stat(c_mat, "Error")     # 1 - accuracy
+#' pull_stat(c_mat, "PPV")
+#' pull_stat(c_mat, "NPV")
+#' pull_stat(c_mat, "F_measure")
+#' pull_stat(c_mat, "Wt_Acc")
 #' @export
-getStat <- function(x, which = c("Sensitivity", "Recall",
-                                 "Specificity", "Precision",
-                                 "PPV", "NPV", "Accuracy", "MCC",
-                                 "Error", "F_measure",
-                                 "G_mean", "Wt_Acc")) {
+pull_stat <- function(x, which = c("Sensitivity", "Recall",
+                                   "Specificity", "Precision",
+                                   "PPV", "NPV", "Accuracy", "MCC",
+                                   "Error", "F_measure",
+                                   "G_mean", "Wt_Acc")) {
   stopifnot(inherits(x, "summary.confusion_matrix"))
   which     <- match.arg(which)
   str_match <- switch(which,
