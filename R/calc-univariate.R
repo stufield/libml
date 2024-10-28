@@ -6,6 +6,7 @@
 #' \itemize{
 #'   \item{t-tests for binary endpoints}
 #'   \item{linear models for continuous endpoints}
+#'   \item{log2FC: ratio of group medians)}
 #' }
 #'
 #' @param data A `data.frame` object containing data for analysis.
@@ -23,19 +24,23 @@
 #' * `t.test` returns the t statistic, `t`.
 #' * `lm` returns the intercept, slope, and t statistic of the slope,
 #'   `intercept`, `slope`, and `t_slope` respectively.
+#' * `log2fc` returns the log2-fold-change of the ratio of group medians.
 #'
 #' @author Stu Field
 #' @examples
 #' calc_univariate(mtcars, "vs")
 #'
 #' calc_univariate(mtcars, "mpg", "lm")
+#'
+#' calc_univariate(mtcars, "vs", "log2")
 #' @importFrom dplyr mutate arrange select row_number
 #' @importFrom purrr map
 #' @importFrom tibble tibble
-#' @importFrom stats as.formula formula lm p.adjust t.test
+#' @importFrom stats lm p.adjust t.test
 #' @importFrom tidyr unnest
 #' @export
-calc_univariate <- function(data, var, test = c("t.test", "lm")) {
+calc_univariate <- function(data, var,
+                            test = c("t.test", "lm", "log2fc")) {
   stopifnot(
     "`data` must be a `data.frame` object." = is.data.frame(data),
     " `var` must be a character string."    = is.character(var)
@@ -44,6 +49,7 @@ calc_univariate <- function(data, var, test = c("t.test", "lm")) {
   .fun <- switch(test,
                  t.test = stats::t.test,
                  lm     = stats::lm,
+                 log2fc = .log2fc,
                  NA)
 
   if ( is.soma_adat(data) ) {
@@ -56,13 +62,17 @@ calc_univariate <- function(data, var, test = c("t.test", "lm")) {
     idx <- names(which(vapply(data, is.numeric, NA)))
     tbl <- tibble(feature = setdiff(idx, var))
   }
-  tbl |>
+  ret <- tbl |>
    mutate(formula = map(feature, ~ create_form(.x, var)),  # create formula
           test    = map(formula, ~ .fun(.x, data = data)), # fit tests
           stats   = map(test, .format_test)                # pull out statistic
     ) |>
     unnest(cols = stats) |>
-    arrange(p_value) |>
+    arrange(p_value)
+  if ( identical(test, "log2fc") ) {
+    ret$p_value <- NA_real_  # nuke p_value for logFC (after sorting)
+  }
+  ret |>
     mutate(fdr          = p.adjust(p_value, method = "fdr"),
            p_bonferroni = p.adjust(p_value, method = "bonferroni"),
            rank         = row_number()) |>
@@ -110,3 +120,28 @@ calc_univariate <- function(data, var, test = c("t.test", "lm")) {
            p_value = "Pr(>|t|)")
 }
 
+#' @noRd
+.format_test.log2fc <- function(obj) {
+  # add dummy p_value for sorting
+  # in primary function; is nuked later
+  obj$p_value <- -obj$abs_log2fc
+  obj
+}
+
+# internal for log2-FC tables
+#' @importFrom tibble tibble
+#' @noRd
+.log2fc <- function(x, data) {
+  chr <- as.character(x)
+  stopifnot(length(chr) == 3L)
+  response <- chr[2L]
+  var <- chr[3L]
+  groups <- split(data[[response]], data[[var]])
+  y <- lapply(groups, stats::median, na.rm = TRUE)
+  stopifnot(length(groups) == 2L)
+  ret <- tibble(
+    log2fc     = log2(y[[2L]] / y[[1L]]),
+    abs_log2fc = abs(log2fc)
+  )
+  structure(ret, class = c("log2fc", class(ret)))
+}

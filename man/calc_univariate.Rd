@@ -4,7 +4,7 @@
 \alias{calc_univariate}
 \title{Create Table of Univariate Results}
 \usage{
-calc_univariate(data, var, test = c("t.test", "lm"))
+calc_univariate(data, var, test = c("t.test", "lm", "log2fc"))
 }
 \arguments{
 \item{data}{A \code{data.frame} object containing data for analysis.}
@@ -29,6 +29,7 @@ Test-specific statistics include the following:
 \item \code{t.test} returns the t statistic, \code{t}.
 \item \code{lm} returns the intercept, slope, and t statistic of the slope,
 \code{intercept}, \code{slope}, and \code{t_slope} respectively.
+\item \code{log2fc} returns the log2-fold-change of the ratio of group medians.
 }
 }
 \description{
@@ -38,12 +39,15 @@ Currently supports:
 \itemize{
 \item{t-tests for binary endpoints}
 \item{linear models for continuous endpoints}
+\item{log2FC: ratio of group medians)}
 }
 }
 \examples{
 calc_univariate(mtcars, "vs")
 
 calc_univariate(mtcars, "mpg", "lm")
+
+calc_univariate(mtcars, "vs", "log2")
 }
 \author{
 Stu Field

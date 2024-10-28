@@ -45,7 +45,6 @@ seqid2apt <- function(x) {
   paste0("seq.", sub("-", ".", x))
 }
 
-
 col_palette <- list(
   purple     = "#24135F",
   lightgreen = "#00A499",
@@ -58,4 +57,3 @@ col_palette <- list(
   darkgrey   = "#54585A",
   blue       = "#004C97"
 )
-
