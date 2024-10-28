@@ -7,7 +7,7 @@
 plot_manhattan(
   data,
   x.lab = "Feature",
-  type = c("t.test", "median", "ks.test"),
+  type = c("t.test", "log2fc", "ks.test"),
   as.pvalue = FALSE
 )
 }
@@ -17,7 +17,7 @@ plot_manhattan(
 \item{x.lab}{Character. Set the x-axis label.}
 
 \item{type}{Character. The type measure used to evaluate expression change.
-Can be one of: "median", "t.test", or "ks.test". Pattern is matched so
+Can be one of: "log2fc", "t.test", or "ks.test". Pattern is matched so
 abbreviated strings are allowed.}
 
 \item{as.pvalue}{Logical. Should p-values be plotted in linear space
@@ -34,7 +34,7 @@ tr <- create_train(sim_test_data,
                    classes = c("control", "disease"))
 
 # Various options for plotting
-plot_manhattan(tr, type = "med")
+plot_manhattan(tr, type = "log2")
 plot_manhattan(tr, type = "t")
 plot_manhattan(tr, type = "ks")
 plot_manhattan(tr, type = "t", as.pvalue = TRUE)
