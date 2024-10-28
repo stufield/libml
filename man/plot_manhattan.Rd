@@ -7,7 +7,7 @@
 plot_manhattan(
   data,
   x.lab = "Feature",
-  type = c("median", "t.test", "ks.test"),
+  type = c("t.test", "median", "ks.test"),
   as.pvalue = FALSE
 )
 }

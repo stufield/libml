@@ -25,7 +25,10 @@
 #' @importFrom ggplot2 geom_point labs scale_fill_gradient scale_color_manual
 #' @export
 plot_bayes_boundary <- function(data, pos.class, res = 50, main = NULL) {
-  stopifnot(ncol(data) == 3L, is.numeric(res))
+  stopifnot(
+    "`data` must have at *least* 3 columns to plot." = ncol(data) == 3L,
+    "`res` must be numeric."                         = is.numeric(res)
+  )
   train <- data |>
     dplyr::rename_if(is.factor, function(.x) "class") |> # rename response
     dplyr::rename_at(1:2, function(.x) c("F1", "F2"))    # rename features 1,2
@@ -43,12 +46,12 @@ plot_bayes_boundary <- function(data, pos.class, res = 50, main = NULL) {
   p + geom_raster(aes(fill = Pr), alpha = 0.5) +
     geom_contour(aes(x = F1, y = F2, z = Pr), binwidth = 0.5,
                  color = "navy", linetype = "dashed") +
-    scale_fill_gradient(low  = SomaPlotr::soma_colors2$teal,
-                        high = SomaPlotr::soma_colors2$purple) +
+    scale_fill_gradient(low  = col_palette$lightgreen,
+                        high = col_palette$purple) +
     geom_point(data = train, mapping = aes(x = F1, y = F2, color = class),
                size = 2.5, alpha = 0.5) +
-    scale_color_manual(values = c(SomaPlotr::soma_colors2$teal,
-                                  SomaPlotr::soma_colors2$purple)) +
+    scale_color_manual(values = c(col_palette$lightgreen,
+                                  col_palette$purple)) +
     geom_point(data = train, aes(x = F1, y = F2),
                size = 2.5, shape = 21, color = "black") +
     labs(x = "Feature 1", y = "Feature 2", title = main) +

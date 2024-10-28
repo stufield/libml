@@ -33,12 +33,11 @@
 #' barplot_auc(auc_df)
 #'
 #' # Flip axes
-#' barplot_auc(auc_df, color = SomaPlotr::soma_colors$purple, flip = TRUE)
+#' barplot_auc(auc_df, color = libml:::col_palette$purple, flip = TRUE)
 #' @importFrom ggplot2 ggplot aes geom_errorbar
 #' @importFrom ggplot2 geom_bar labs coord_flip
 #' @export
-barplot_auc <- function(data, color = SomaPlotr::soma_colors$lightgrey,
-                        flip = FALSE,
+barplot_auc <- function(data, color = col_palette$lightgrey, flip = FALSE,
                         main = bquote("AUCs \U00B1 CI95")) {
 
   if ( is.na(.row_names_info(data, 0L)[[1L]]) ) {

@@ -4,7 +4,9 @@
 # but that function is slow and re-orders the rows by variable
 # relative to either expand.grid() or cross_df()
 # this is for internal use only
-#' @importFrom purrr as_tibble
+
+#' @importFrom tibble as_tibble
+#' @noRd
 expand_grid <- function(...) {
   out <- expand.grid(..., KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE)
   as_tibble(out)

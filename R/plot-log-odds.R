@@ -71,9 +71,9 @@ plot_log_odds <- function(truth, predicted, pos.class,  cutoff = 0.5,
 
   log_cutoff <- log(cutoff / (1 - cutoff))
 
-  cols <- c(SomaPlotr::soma_colors$purple,
-            rep(SomaPlotr::soma_colors$lightgrey, 2),
-            SomaPlotr::soma_colors$lightgreen)
+  cols <- c(col_palette$purple,
+            rep(col_palette$lightgrey, 2),
+            col_palette$lightgreen)
 
   df <- data.frame(predict = predicted) |>
     dplyr::mutate(log_odds = log(predict / (1 - predict)),

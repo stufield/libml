@@ -6,7 +6,7 @@
 \usage{
 barplot_auc(
   data,
-  color = SomaPlotr::soma_colors$lightgrey,
+  color = col_palette$lightgrey,
   flip = FALSE,
   main = bquote("AUCs ± CI95")
 )
@@ -50,7 +50,7 @@ rownames(auc_df) <- LETTERS[1:nrow(auc_df)]
 barplot_auc(auc_df)
 
 # Flip axes
-barplot_auc(auc_df, color = SomaPlotr::soma_colors$purple, flip = TRUE)
+barplot_auc(auc_df, color = libml:::col_palette$purple, flip = TRUE)
 }
 \seealso{
 \code{\link[=calc_emp_auc]{calc_emp_auc()}}
