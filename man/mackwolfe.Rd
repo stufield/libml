@@ -67,9 +67,6 @@ Myles Hollander and Douglas A. Wolfe (1973).
 \emph{Nonparametric Statistical Methods}. New York: John Wiley & Sons.
 Pages 115-120, 215.
 }
-\seealso{
-\code{\link[=calc.mackwolfe]{calc.mackwolfe()}}
-}
 \author{
 Stu Field, Michael Mehan
 }

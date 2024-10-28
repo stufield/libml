@@ -61,7 +61,7 @@ When specifying filtering variables, the factor levels
 will be ordered \emph{alphabetically} in the resulting "Response"
 variable unless ordering is specified by the \code{classes}
 argument. This is important, for example, when performing
-\code{\link[=calc.t]{calc.t()}}, which performs t-tests as \eqn{class2 - class1},
+repeated univariate statistics where \eqn{class2 - class1},
 i.e. the positive class is 2!
 }
 \section{Functions}{

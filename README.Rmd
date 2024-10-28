@@ -60,7 +60,7 @@ remotes::install_github("libml")
 
 To load `libml` simply make a call to `library()` as usual:
 
-```{r, eval = FALSE}
+```{r load, eval = TRUE}
 library(libml)
 ```
 

@@ -56,30 +56,6 @@ correction (\code{TRUE}) or by Storey's q-value correction.}
 \item{r.seed}{Integer. The value of the random seed if
 reproducibility is desired.}
 }
-\value{
-A list object of class \verb{c(stat_table, *_table)} containing:
-\item{stat.table}{A data frame (table) of the statistical results (see below)}
-\item{test}{The name of the statistical test performed, e.g. "KS-test".}
-\item{call}{The direct call made the \verb{calc.*()}.}
-\item{paired}{Logical. Whether the values are paired (if applicable).}
-\item{response}{The "Response" column used in the statistical test.}
-\item{counts}{Group counts split by the "Response" column (if applicable).}
-\item{log}{Logical. Whether the RFU values were log10-transformed.}
-\item{data.frame}{The name of the data frame containing the RFU data.}
-\item{data.dim}{The dimensions of the data frame used for testing.}
-
-The \code{stat.table} contains:
-\itemize{
-\item \strong{Test Statistic}: KS-distance, t-statistic, U, W, H, r, rho, tau, etc.
-\item \strong{Signed Statistic}: Signed test statistic (if applicable).
-\item \strong{p.value}: Unadjusted p-values for the test statistic.
-\item \strong{fdr or q.value}: FDR adjustment to p-values (either BH or Storey).
-\item \strong{p.bonferroni}: Bonferroni corrected p-value.
-\item \strong{rank}: Ranking by p-value.
-\item \strong{\code{loCI95}}: Lower 95\% confidence interval (\code{\link[=calc.cor]{calc.cor()}} Pearson only).
-\item \strong{\code{hiCI95}}: Lower 95\% confidence interval (\code{\link[=calc.cor]{calc.cor()}} Pearson only).
-}
-}
 \description{
 The parameters below are commonly used throughout
 the \pkg{libml} package.

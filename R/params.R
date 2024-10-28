@@ -56,25 +56,4 @@
 #'
 #' @param r.seed Integer. The value of the random seed if
 #'   reproducibility is desired.
-#'
-#' @return A list object of class `c(stat_table, *_table)` containing:
-#' \item{stat.table}{A data frame (table) of the statistical results (see below)}
-#' \item{test}{The name of the statistical test performed, e.g. "KS-test".}
-#' \item{call}{The direct call made the `calc.*()`.}
-#' \item{paired}{Logical. Whether the values are paired (if applicable).}
-#' \item{response}{The "Response" column used in the statistical test.}
-#' \item{counts}{Group counts split by the "Response" column (if applicable).}
-#' \item{log}{Logical. Whether the RFU values were log10-transformed.}
-#' \item{data.frame}{The name of the data frame containing the RFU data.}
-#' \item{data.dim}{The dimensions of the data frame used for testing.}
-#'
-#' The `stat.table` contains:
-#'   + __Test Statistic__: KS-distance, t-statistic, U, W, H, r, rho, tau, etc.
-#'   + __Signed Statistic__: Signed test statistic (if applicable).
-#'   + __p.value__: Unadjusted p-values for the test statistic.
-#'   + __fdr or q.value__: FDR adjustment to p-values (either BH or Storey).
-#'   + __p.bonferroni__: Bonferroni corrected p-value.
-#'   + __rank__: Ranking by p-value.
-#'   + __`loCI95`__: Lower 95% confidence interval ([calc.cor()] Pearson only).
-#'   + __`hiCI95`__: Lower 95% confidence interval ([calc.cor()] Pearson only).
 NULL

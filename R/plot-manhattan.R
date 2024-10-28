@@ -11,7 +11,6 @@
 #'   Can be one of: "median", "t.test", or "ks.test". Pattern is matched so
 #'   abbreviated strings are allowed.
 #' @author Stu Field
-#' @seealso [calc.ks()], [calc.t()]
 #' @examples
 #' tr <- create_train(sim_test_data,
 #'                    class_response %in% c("control", "disease"),

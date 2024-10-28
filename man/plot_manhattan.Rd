@@ -39,9 +39,6 @@ plot_manhattan(tr, type = "t")
 plot_manhattan(tr, type = "ks")
 plot_manhattan(tr, type = "t", as.pvalue = TRUE)
 }
-\seealso{
-\code{\link[=calc.ks]{calc.ks()}}, \code{\link[=calc.t]{calc.t()}}
-}
 \author{
 Stu Field
 }

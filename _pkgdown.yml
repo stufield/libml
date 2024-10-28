@@ -1,14 +1,12 @@
-url: https://confluence.sladmin.com/display/BITOOLS/somaverse
+url: https://
 
 home:
   strip_header: true
   links:
   - text: Bitbucket
-    href: http://bitbucket.sladmin.com/projects/SV/repos/somaclassify/browse
+    href: http://
   - text: Report a bug
-    href: bitools@somalogic.com
-  - text: Learn more about SomaScan
-    href: http://www.somalogic.com
+    href: stu.g.field@gmail.com
   - text: The tidyverse
     href: https://www.tidyverse.org
 
@@ -33,7 +31,7 @@ articles:
   - title: Getting Started
     navbar: ~
     contents:
-    - SomaClassify
+    - libml
 
   - title: Nested Tibbles in SomaScan Analyses
     navbar: ~
@@ -51,25 +49,17 @@ articles:
     contents:
     - plotting-ROC-with-geom_roc
 
-reference:
-  - title: The calc.* family and friends
-    desc:  Calculate univariate tables by analyte.
-    contents:
-    - starts_with("calc\\.")
-    - mackwolfe
-    - removeOutliers
-
   - title: Classifier performance
     desc: >
       Utilities for evaluating (binary) classifier performance,
       including confusion matrix tools.
     contents:
     - calc_confusion
-    - getStat
-    - getCutoffSpec
-    - getCutoffMax
-    - calcAUC
-    - calcBootAUC
+    - pull_stat
+    - get_spec_cutoff
+    - get_max_cutoff
+    - calc_auc
+    - calc_boot_auc
 
   - title: Training data
     desc: >
@@ -96,9 +86,9 @@ reference:
     contents:
     - reexports
     - select_features
-    - getGini
+    - get_gini
     - s3-calcPredictions
-    - getModelCoef
+    - get_Model_coef
 
   - title: Plotting utilities
     desc: >
@@ -112,8 +102,8 @@ reference:
       Tools for generating and evaluating Reciever Operaterator Criterion.
     contents:
     - matches("*ROC*")
-    - addSensSpecBox
-    - calcBinomCI
+    - add_ss_box
+    - calc_ci_binom
     - -compareBayesForestROC  # remove b/c in SomaClassify-deprecated
 
   - title: Parameters
@@ -125,13 +115,6 @@ reference:
     desc:  Package data objects.
     contents:
     - fake_iris
-
-  - title: Deprecated
-    desc: >
-      Functions that have been deprecated in the
-      current SomaClassify release.
-    contents:
-    - SomaClassify-deprecated
 
 news:
   - one_page: true

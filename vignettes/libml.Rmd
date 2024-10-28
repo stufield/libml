@@ -32,8 +32,8 @@ k-fold cross-validation, classification performance metrics, and ROC plotting.
 ## Introduction
 
 The `libml` package provides functions to create training datasets, 
-perform univariate tests (via the `calc.*` function family,
-train classifiers, and plot ROC curves. 
+perform univariate tests (via the `calc_univariate()`, train classifiers,
+and plot ROC curves. 
 The models types supported in this package are primarily geared toward:
 
 * Naive Bayes
@@ -91,46 +91,6 @@ as desired:
 ```{r train2, eval = FALSE}
 tr2 <- create_train(iris, Species == "setosa", Sepal.Length > 5,
                     group.var = Species)
-```
-
-
--------------------
-
-
-## Univariate: The `calc.*` Family
-
-The `calc.*` family are a series of wrappers for creating univariate tables
-of statistical test results ordered by p-value. 
-These functions perform a univariate test on each feature (SOMAmer analyte)
-in the `tr_data` object using the existing "Response" column by default
-(this can be otherwise defined by the user). 
-
-The resulting `stat.table` object is sorted by *p-value*, and columns
-for multiple testing corrections (fdr, Bonferroni) and numeric rank
-are added. 
-
-The current suite of univariate tests are:
-
-* `calc.ks()`: KS table
-* `calc.t()`: t-test table (paired or unpaired)
-* `calc.wilcox()`, `calc.mw()`: Wilcoxon table; Mann-Whitney table
-* `calc.cor()`: Correlation table (Spearman, Pearson, Kendall)
-* `calc.lr()`: Log-ratio table
-* `calc.kw()`: Kruskall-Wallace table
-* `calc.lm()`: Linear regression table
-* `calc.glm()`: Generalized linear regression table
-* `calc.robust.lm()`: Robust linear regression table
-* `calc.mackwolfe()`: Mach-Wolfe test table
-
-Some tests, like `calc.t()`, have support for paired analyses. To perform paired
-tests the `tr_data` object must be sorted by the "Response" column and then 
-by `SampleId` (identifying the pairs) to ensure the samples are paired properly.
-
-
-#### Examples
-
-```{r calc_ks}
-calc.ks(splyr::sim_test_data, response = "class_response")
 ```
 
 

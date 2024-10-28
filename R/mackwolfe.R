@@ -31,7 +31,6 @@
 #'   \item{peak:}{The peak as determined by test statistic}
 #'   \item{groups:}{The factor levels of supplied `group` parameter.}
 #' @author Stu Field, Michael Mehan
-#' @seealso [calc.mackwolfe()]
 #' @references  Myles Hollander and Douglas A. Wolfe (1973).
 #'   *Nonparametric Statistical Methods*. New York: John Wiley & Sons.
 #'   Pages 115-120, 215.

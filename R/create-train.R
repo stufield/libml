@@ -9,7 +9,7 @@
 #' will be ordered _alphabetically_ in the resulting "Response"
 #' variable unless ordering is specified by the `classes`
 #' argument. This is important, for example, when performing
-#' [calc.t()], which performs t-tests as \eqn{class2 - class1},
+#' repeated univariate statistics where \eqn{class2 - class1},
 #' i.e. the positive class is 2!
 #'
 #' @param data A `data.frame` used to create a training data set.
