@@ -44,7 +44,7 @@ stripLMC <- function(x) UseMethod("stripLMC")
 #' @export
 stripLMC.default <- function(x) {
   stop(
-    "Only valid models for `stripLMC()` are {value('lm')} or ",
+    "Only valid models for `stripLMC()` are", value("lm"), " or ",
     value("glm"), ". You passed: ", value(class(x)),
     call. = FALSE
   )
