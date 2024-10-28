@@ -31,6 +31,7 @@
 #' calc_univariate(mtcars, "mpg", "lm")
 #' @importFrom dplyr mutate arrange select row_number
 #' @importFrom purrr map
+#' @importFrom tibble tibble
 #' @importFrom stats as.formula formula lm p.adjust t.test
 #' @importFrom tidyr unnest
 #' @export
@@ -49,6 +50,8 @@ calc_univariate <- function(data, var, test = c("t.test", "lm")) {
     tbl <- attr(data, "Col.Meta") |>
       mutate(feature = seqid2apt(SeqId)) |>
       select(feature, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt)
+  } else if ( any(is.apt(names(data))) ) {
+    tbl <- tibble(feature = getAnalytes(data))
   } else {
     idx <- names(which(vapply(data, is.numeric, NA)))
     tbl <- tibble(feature = setdiff(idx, var))
