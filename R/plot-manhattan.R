@@ -26,30 +26,33 @@
 #' @importFrom ggplot2 scale_color_manual ggplot
 #' @export
 plot_manhattan <- function(data, x.lab = "Feature",
-                           type = c("median", "t.test", "ks.test"),
+                           type = c("t.test", "median", "ks.test"),
                            as.pvalue = FALSE) {
   type <- match.arg(type)
-  withr::local_options(list(g.praise = FALSE))
+  withr::local_options(list(praise_usr = FALSE))
 
   if ( type == "median" ) {
-    stat_table <- calc.lr(data, do.mean = FALSE)
-    y.lab      <- bquote(log[2]~"Median Ratio")
+    stop("Fix for log-ratio option in `calc_univariate()`", call. = FALSE)
+    stat_table <- calc_univariate(data, do.mean = FALSE)
+    y_lab      <- bquote(log[2] ~ (Median~Ratio))
   } else if ( type == "t.test" ) {
-    y.lab      <- "t-test Statistic"
-    stat_table <- calc.t(data)
+    y_lab      <- "t-test Statistic"
+    stat_table <- calc_univariate(data, var = .get_response(data))
   } else if ( type == "ks.test" ) {
-    stat_table <- withr::with_options(list(warn = -1), calc.ks(data))
-    y.lab      <- "KS Distance"
+    stop("Fix for KS option in `calc_univariate()`", call. = FALSE)
+    stat_table <- withr::with_options(list(warn = -1), calc_univariate(data))
+    y_lab      <- "KS Distance"
   }
 
-  # pull out stat.table from object
-  stat_table <- stat_table$stat.table
+  # reorder back to original order in `data`
+  .idx <- match(names(data), stat_table$feature, nomatch = 0L)
+  stat_table <- stat_table[.idx, ]
 
-  # reorder back to original SOMAmer order
-  stat_table <- stat_table[getAnalytes(data), , drop = FALSE]
-  idx <- grep("^signed", names(stat_table))
-  stopifnot(is_int(idx))
-  names(stat_table)[idx] <- "plot_y"
+  stat_idx <- grep("^t$|^ks$|^lr$", names(stat_table))  # get stat column
+  stopifnot(
+    "Couldn't identify the test statistic in the stat-table." = is_int(stat_idx)
+  )
+  names(stat_table)[stat_idx] <- "plot_y"
 
   if ( as.pvalue ) {
     if ( type == "median" ) {
@@ -58,7 +61,7 @@ plot_manhattan <- function(data, x.lab = "Feature",
         call. = FALSE
       )
     }
-    y.lab <- bquote(-log[10] ~ (italic(p) - value))
+    y_lab <- bquote(-log[10] ~ (italic(p) - value))
   }
 
   stat_table$expression <- ifelse(stat_table$plot_y > 0, "UP", "DOWN") |>
@@ -72,8 +75,8 @@ plot_manhattan <- function(data, x.lab = "Feature",
   p <- stat_table |>
     ggplot(aes(x = x, y = plot_y, fill = expression, color = expression)) +
     geom_point(alpha = 0.75) +
-    scale_color_manual(values = unname(unlist(SomaPlotr::soma_colors2)[1:2])) +
-    labs(title = "Manhattan Plot", x = x.lab, y = y.lab) +
+    scale_color_manual(values = unlist(col_palette, use.names = FALSE)[1:2L]) +
+    labs(title = "Manhattan Plot", x = x.lab, y = y_lab) +
     SomaPlotr::theme_soma()
   if ( as.pvalue ) {
     p <- p + geom_hline(yintercept = c(2, 3, 4), linetype = "dashed",
