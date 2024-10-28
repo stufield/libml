@@ -62,11 +62,11 @@ calc_univariate <- function(data, var, test = c("t.test", "lm")) {
           stats   = map(test, .format_test)                # pull out statistic
     ) |>
     unnest(cols = stats) |>
+    arrange(p_value) |>
     mutate(fdr          = p.adjust(p_value, method = "fdr"),
            p_bonferroni = p.adjust(p_value, method = "bonferroni"),
            rank         = row_number()) |>
     select(-formula, -test) |>
-    arrange(p_value) |>
     add_class("uni_tbl")
 }
 
