@@ -13,6 +13,8 @@
 #' @param var `character(1)`. A response variable, a column in `data`.
 #' @param test `character(1)`. A statistical test to run.
 #'   See above for currently supports tests.
+#' @param ... Additional parameters passed to the statistic
+#'   function defined in `test`.
 #' @return A `tibble` of features and univariate test results.
 #' Common columns are:
 #' * `p_value`
@@ -42,7 +44,8 @@
 #' @importFrom tidyr unnest
 #' @export
 calc_univariate <- function(data, var,
-                            test = c("t.test", "lm", "ks", "log2fc")) {
+                            test = c("t.test", "lm", "ks", "log2fc"),
+                            ...) {
   stopifnot(
     "`data` must be a `data.frame` object." = is.data.frame(data),
     " `var` must be a character string."    = is.character(var)
@@ -67,7 +70,7 @@ calc_univariate <- function(data, var,
   }
   ret <- tbl |>
    mutate(formula = map(feature, ~ create_form(.x, var)),  # create formula
-          test    = map(formula, ~ .fun(.x, data = data)), # fit tests
+          test    = map(formula, function(.x) .fun(.x, data = data, ...)), # fit tests
           stats   = map(test, .format_test)                # pull out statistic
     ) |>
     unnest(cols = stats) |>

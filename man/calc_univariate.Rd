@@ -4,7 +4,7 @@
 \alias{calc_univariate}
 \title{Create Table of Univariate Results}
 \usage{
-calc_univariate(data, var, test = c("t.test", "lm", "ks", "log2fc"))
+calc_univariate(data, var, test = c("t.test", "lm", "ks", "log2fc"), ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} object containing data for analysis.}
@@ -13,6 +13,9 @@ calc_univariate(data, var, test = c("t.test", "lm", "ks", "log2fc"))
 
 \item{test}{\code{character(1)}. A statistical test to run.
 See above for currently supports tests.}
+
+\item{...}{Additional parameters passed to the statistic
+function defined in \code{test}.}
 }
 \value{
 A \code{tibble} of features and univariate test results.
