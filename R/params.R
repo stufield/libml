@@ -29,13 +29,12 @@
 #' @param col Character or integer. Specify the colors for
 #' lines, points, bar, box, or ROC.
 #'
-#' @param data A `soma_adat` or `data.frame` object containing RFU data.
-#'   Should contain a "Response" column/field indicating the dependent
-#'   response variable, often the grouping variable. The `response =`
-#'   variable can also be specified to override the default.
+#' @param data A `tibble` or `data.frame` object containing data for analysis.
+#'   Should often contain a "Response" column indicating the 
+#'   response variable, often the grouping variable.
 #'
-#' @param apts Character vector of `AptNames` to use. If `NULL` (default),
-#'   all analyte RFU fields in `data` are used.
+#' @param feats,apts Character vector of features, usually column names
+#'   of a data frame.
 #'
 #' @param response Character. The column name to use as the
 #'   response grouping. Expected to be a factor with 2 levels.
@@ -43,14 +42,6 @@
 #'   factor (i.e. alphabetical order). Level 2 of the factor is
 #'   considered the `disease/case` group, thus positive values
 #'   for the statistic indicate up-regulation in `Level2` compared `Level1`.
-#'
-#' @param bh Logical. Indicating whether returned p-values will be
-#'   adjusted for false discovery by "Benjamini & Hochberg"
-#'   correction (`TRUE`) or by Storey's q-value correction.
-#'
-#' @param n Integer. The number of rows to show in the S3 print method.
-#'
-#' @param file A file name to write table output, typically a `*.csv`.
 #'
 #' @param nboot Integer. The number of bootstrap estimates to perform.
 #'

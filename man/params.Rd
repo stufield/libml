@@ -28,13 +28,12 @@ lines, points, bar, box, or ROC.}
 \item{col}{Character or integer. Specify the colors for
 lines, points, bar, box, or ROC.}
 
-\item{data}{A \code{soma_adat} or \code{data.frame} object containing RFU data.
-Should contain a "Response" column/field indicating the dependent
-response variable, often the grouping variable. The \verb{response =}
-variable can also be specified to override the default.}
+\item{data}{A \code{tibble} or \code{data.frame} object containing data for analysis.
+Should often contain a "Response" column indicating the
+response variable, often the grouping variable.}
 
-\item{apts}{Character vector of \code{AptNames} to use. If \code{NULL} (default),
-all analyte RFU fields in \code{data} are used.}
+\item{feats, apts}{Character vector of features, usually column names
+of a data frame.}
 
 \item{response}{Character. The column name to use as the
 response grouping. Expected to be a factor with 2 levels.
@@ -42,14 +41,6 @@ If not a factor, \code{response} will be coerced to a
 factor (i.e. alphabetical order). Level 2 of the factor is
 considered the \code{disease/case} group, thus positive values
 for the statistic indicate up-regulation in \code{Level2} compared \code{Level1}.}
-
-\item{bh}{Logical. Indicating whether returned p-values will be
-adjusted for false discovery by "Benjamini & Hochberg"
-correction (\code{TRUE}) or by Storey's q-value correction.}
-
-\item{n}{Integer. The number of rows to show in the S3 print method.}
-
-\item{file}{A file name to write table output, typically a \verb{*.csv}.}
 
 \item{nboot}{Integer. The number of bootstrap estimates to perform.}
 

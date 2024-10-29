@@ -117,7 +117,7 @@ print.tr_data <- function(x, ...) {
     signal_rule("Training Data Object", lty = "double", line_col = "green")
   )
   key <- c("response", "class labels", "counts", "factor", "n") |> pad(15)
-  value <- list(response = attr(x, "response_var"),
+  value <- list(response = .get_response(x),
                 classes  = value(attr(x, "class_labels")),
                 counts   = sprintf("[%s]", value(attr(x, "counts"))),
                 factor   = attr(x, "is_factor"),
