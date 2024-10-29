@@ -30,6 +30,8 @@
 #' @examples
 #' calc_univariate(mtcars, "vs")
 #'
+#' calc_univariate(mtcars, "vs", "ks")
+#'
 #' calc_univariate(mtcars, "mpg", "lm")
 #'
 #' calc_univariate(mtcars, "vs", "log2")
@@ -40,7 +42,7 @@
 #' @importFrom tidyr unnest
 #' @export
 calc_univariate <- function(data, var,
-                            test = c("t.test", "lm", "log2fc")) {
+                            test = c("t.test", "lm", "ks", "log2fc")) {
   stopifnot(
     "`data` must be a `data.frame` object." = is.data.frame(data),
     " `var` must be a character string."    = is.character(var)
@@ -49,6 +51,7 @@ calc_univariate <- function(data, var,
   .fun <- switch(test,
                  t.test = stats::t.test,
                  lm     = stats::lm,
+                 ks     = .ks.test,
                  log2fc = .log2fc,
                  NA)
 
@@ -103,7 +106,16 @@ calc_univariate <- function(data, var,
 #' @importFrom tibble tibble
 #' @noRd
 .format_test.htest <- function(obj) {
-  tibble(t = unname(obj$statistic), p_value = obj$p.value)
+  # flip sign if class 2 is greater
+  obj$statistic <- ifelse(obj$estimate[2L] > obj$estimate[1L],
+                          -obj$statistic, obj$statistic) |> unname()
+  tibble(t = obj$statistic, p_value = obj$p.value)
+}
+
+#' @importFrom tibble tibble
+#' @noRd
+.format_test.ks.test <- function(obj) {
+  tibble(ks_dist = obj$statistic, p_value = obj$p.value)
 }
 
 #' @importFrom dplyr bind_cols rename
@@ -130,6 +142,7 @@ calc_univariate <- function(data, var,
 
 # internal for log2-FC tables
 #' @importFrom tibble tibble
+#' @importFrom stats median
 #' @noRd
 .log2fc <- function(x, data) {
   chr <- as.character(x)
@@ -144,4 +157,21 @@ calc_univariate <- function(data, var,
     abs_log2fc = abs(log2fc)
   )
   structure(ret, class = c("log2fc", class(ret)))
+}
+
+# internal for KS-distance tables
+# necessary to get the sign correct
+#' @importFrom tibble tibble
+#' @importFrom stats ks.test median
+#' @noRd
+.ks.test <- function(x, data) {
+  ks <- ks.test(x, data = data)
+  response <- ks$response
+  groups   <- split(data[[response]], data[[as.character(x)[3L]]])
+  stopifnot(length(groups) == 2L)
+  y <- lapply(groups, stats::median, na.rm = TRUE) |>
+    vapply(base::mean, na.rm = TRUE, 0.1, USE.NAMES = FALSE)
+  # flip sign if class 2 is greater
+  ks$statistic <- ifelse(y[2L] > y[1L], ks$statistic, -ks$statistic) |> unname()
+  ks
 }

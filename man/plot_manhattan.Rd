@@ -8,7 +8,7 @@ plot_manhattan(
   data,
   x.lab = "Feature",
   type = c("t.test", "log2fc", "ks.test"),
-  as.pvalue = FALSE
+  as_pvalue = FALSE
 )
 }
 \arguments{
@@ -20,7 +20,7 @@ plot_manhattan(
 Can be one of: "log2fc", "t.test", or "ks.test". Pattern is matched so
 abbreviated strings are allowed.}
 
-\item{as.pvalue}{Logical. Should p-values be plotted in linear space
+\item{as_pvalue}{Logical. Should p-values be plotted in linear space
 or log10-space?}
 }
 \description{
@@ -34,10 +34,10 @@ tr <- create_train(sim_test_data,
                    classes = c("control", "disease"))
 
 # Various options for plotting
-plot_manhattan(tr, type = "log2")
 plot_manhattan(tr, type = "t")
+plot_manhattan(tr, type = "log2")
 plot_manhattan(tr, type = "ks")
-plot_manhattan(tr, type = "t", as.pvalue = TRUE)
+plot_manhattan(tr, type = "t", as_pvalue = TRUE)
 }
 \author{
 Stu Field

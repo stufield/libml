@@ -19,6 +19,8 @@ if ( getRversion() >= "2.15.1" ) {
       "Feature",
       "type",
       "log_odds",
+      "formula",
+      "log2fc",
       "y",
       "pred",
       "Pr", "F1", "F2",    # Bayes bivariate boundary
