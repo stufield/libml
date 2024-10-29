@@ -33,7 +33,7 @@
 #'   Should often contain a "Response" column indicating the 
 #'   response variable, often the grouping variable.
 #'
-#' @param feats,apts Character vector of features, usually column names
+#' @param feats Character vector of features, usually column names
 #'   of a data frame.
 #'
 #' @param response Character. The column name to use as the

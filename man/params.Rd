@@ -32,7 +32,7 @@ lines, points, bar, box, or ROC.}
 Should often contain a "Response" column indicating the
 response variable, often the grouping variable.}
 
-\item{feats, apts}{Character vector of features, usually column names
+\item{feats}{Character vector of features, usually column names
 of a data frame.}
 
 \item{response}{Character. The column name to use as the
