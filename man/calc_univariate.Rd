@@ -4,7 +4,12 @@
 \alias{calc_univariate}
 \title{Create Table of Univariate Results}
 \usage{
-calc_univariate(data, var, test = c("t.test", "lm", "ks", "log2fc"), ...)
+calc_univariate(
+  data,
+  var,
+  test = c("t.test", "lm", "ks", "kw", "wilcox", "mw", "log2fc"),
+  ...
+)
 }
 \arguments{
 \item{data}{A \code{data.frame} object containing data for analysis.}
@@ -49,6 +54,10 @@ Currently supports:
 calc_univariate(mtcars, "vs")
 
 calc_univariate(mtcars, "vs", "ks")
+
+calc_univariate(mtcars, "cyl", "kw")
+
+calc_univariate(mtcars, "vs", "wilcox")
 
 calc_univariate(mtcars, "mpg", "lm")
 

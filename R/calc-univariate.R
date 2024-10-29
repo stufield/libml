@@ -34,17 +34,22 @@
 #'
 #' calc_univariate(mtcars, "vs", "ks")
 #'
+#' calc_univariate(mtcars, "cyl", "kw")
+#'
+#' calc_univariate(mtcars, "vs", "wilcox")
+#'
 #' calc_univariate(mtcars, "mpg", "lm")
 #'
 #' calc_univariate(mtcars, "vs", "log2")
 #' @importFrom dplyr mutate arrange select row_number
 #' @importFrom purrr map
 #' @importFrom tibble tibble
-#' @importFrom stats lm p.adjust t.test
+#' @importFrom stats lm p.adjust t.test kruskal.test
 #' @importFrom tidyr unnest
 #' @export
 calc_univariate <- function(data, var,
-                            test = c("t.test", "lm", "ks", "log2fc"),
+                            test = c("t.test", "lm", "ks", "kw",
+                                     "wilcox", "mw", "log2fc"),
                             ...) {
   stopifnot(
     "`data` must be a `data.frame` object." = is.data.frame(data),
@@ -55,6 +60,9 @@ calc_univariate <- function(data, var,
                  t.test = stats::t.test,
                  lm     = stats::lm,
                  ks     = .ks.test,
+                 wilcox = stats::wilcox.test,
+                 mw     = stats::wilcox.test,
+                 kw     = stats::kruskal.test,
                  log2fc = .log2fc,
                  NA)
 
@@ -110,9 +118,16 @@ calc_univariate <- function(data, var,
 #' @noRd
 .format_test.htest <- function(obj) {
   # flip sign if class 2 is greater
-  obj$statistic <- ifelse(obj$estimate[2L] > obj$estimate[1L],
-                          -obj$statistic, obj$statistic) |> unname()
-  tibble(t = obj$statistic, p_value = obj$p.value)
+  if ( grepl("t-test", obj$method) ) {
+    stat <- "t"
+    obj$statistic <- ifelse(obj$estimate[2L] > obj$estimate[1L],
+                            -obj$statistic, obj$statistic)
+  } else if ( grepl("Kruskal", obj$method) ) {
+    stat <- "H"   # K-W test
+  } else if ( grepl("Wilcoxon", obj$method) ) {
+    stat <- "U"   # Mann-Whitney
+  }
+  setNames(tibble(unname(obj$statistic), obj$p.value), c(stat, "p_value"))
 }
 
 #' @importFrom tibble tibble
