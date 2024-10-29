@@ -61,7 +61,7 @@ As with most analyses, start by pre-processing the data via 3 steps:
 
 ```{r preprocess}
 # pre-process simulated data
-data  <- splyr::sim_test_data
+data  <- splyr::sim_adat
 feats <- grep("^seq.", names(data), value = TRUE)
 for ( i in feats ) {
   data[[i]] <- log10(data[[i]])

@@ -12,7 +12,7 @@
 #'   abbreviated strings are allowed.
 #' @author Stu Field
 #' @examples
-#' tr <- create_train(sim_test_data,
+#' tr <- create_train(sim_adat,
 #'                    class_response %in% c("control", "disease"),
 #'                    group.var = class_response,
 #'                    classes = c("control", "disease"))

@@ -78,7 +78,7 @@ test_that("`get_model_features()` correct features for train:logistic regression
 
 # caret Regression model ----
 test_that("`get_model_features()` correct features for train:linear regression", {
-  data        <- sim_test_data
+  data        <- sim_adat
   fts         <- attributes(data)$sig_feats$reg
   caret_data  <- data[, c(fts, "reg_response")]
   t_crtl      <- caret::trainControl(method = "repeatedcv")
