@@ -6,7 +6,11 @@
 #' \itemize{
 #'   \item{t-tests for binary endpoints}
 #'   \item{linear models for continuous endpoints}
-#'   \item{log2FC: ratio of group medians)}
+#'   \item{log2FC for the ratio of group medians)}
+#'   \item{Kruskal-Wallis for non-parametric multi-group comparisons}
+#'   \item{KS for for non-parametric binary comparisons}
+#'   \item{Wilcox for non-parametric binary comparisons (Mann-Whitney)}
+#'   \item{Mack-Wolfe for non-parametric trends (JT-test)}
 #' }
 #'
 #' @param data A `data.frame` object containing data for analysis.
@@ -27,6 +31,10 @@
 #' * `lm` returns the intercept, slope, and t statistic of the slope,
 #'   `intercept`, `slope`, and `t_slope` respectively.
 #' * `log2fc` returns the log2-fold-change of the ratio of group medians.
+#' * `Kruskal-Wallis` returns the `H` test statistic.
+#' * `KS` returns the `D` test statistic.
+#' * `Wilcox` returns the `U` test statistic.
+#' * `Mack-Wolfe` returns the `Ap` test statistic.
 #'
 #' @author Stu Field
 #' @examples
@@ -41,6 +49,10 @@
 #' calc_univariate(mtcars, "mpg", "lm")
 #'
 #' calc_univariate(mtcars, "vs", "log2")
+#'
+#' # grouping variable must be factor for mack-wolfe
+#' mtcars$carb <- as.factor(mtcars$carb)
+#' calc_univariate(mtcars, "carb", "mack", peak = "jt")
 #' @importFrom dplyr mutate arrange select row_number
 #' @importFrom purrr map
 #' @importFrom tibble tibble
@@ -49,7 +61,7 @@
 #' @export
 calc_univariate <- function(data, var,
                             test = c("t.test", "lm", "ks", "kw",
-                                     "wilcox", "mw", "log2fc"),
+                                     "wilcox", "mw", "mackwolfe", "log2fc"),
                             ...) {
   stopifnot(
     "`data` must be a `data.frame` object." = is.data.frame(data),
@@ -60,6 +72,7 @@ calc_univariate <- function(data, var,
                  t.test = stats::t.test,
                  lm     = stats::lm,
                  ks     = .ks.test,
+                 mackwolfe = mack_wolfe,
                  wilcox = stats::wilcox.test,
                  mw     = stats::wilcox.test,
                  kw     = stats::kruskal.test,
@@ -128,6 +141,13 @@ calc_univariate <- function(data, var,
     stat <- "U"   # Mann-Whitney
   }
   setNames(tibble(unname(obj$statistic), obj$p.value), c(stat, "p_value"))
+}
+
+#' @importFrom tibble tibble
+#' @noRd
+.format_test.mack_wolfe <- function(obj) {
+  tibble(Ap = obj$Ap, Astar = obj$Astar, n = obj$n,
+         peak = obj$peak, p_value = obj$p_value)
 }
 
 #' @importFrom tibble tibble

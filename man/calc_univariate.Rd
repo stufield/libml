@@ -7,7 +7,7 @@
 calc_univariate(
   data,
   var,
-  test = c("t.test", "lm", "ks", "kw", "wilcox", "mw", "log2fc"),
+  test = c("t.test", "lm", "ks", "kw", "wilcox", "mw", "mackwolfe", "log2fc"),
   ...
 )
 }
@@ -38,6 +38,10 @@ Test-specific statistics include the following:
 \item \code{lm} returns the intercept, slope, and t statistic of the slope,
 \code{intercept}, \code{slope}, and \code{t_slope} respectively.
 \item \code{log2fc} returns the log2-fold-change of the ratio of group medians.
+\item \code{Kruskal-Wallis} returns the \code{H} test statistic.
+\item \code{KS} returns the \code{D} test statistic.
+\item \code{Wilcox} returns the \code{U} test statistic.
+\item \code{Mack-Wolfe} returns the \code{Ap} test statistic.
 }
 }
 \description{
@@ -47,7 +51,11 @@ Currently supports:
 \itemize{
 \item{t-tests for binary endpoints}
 \item{linear models for continuous endpoints}
-\item{log2FC: ratio of group medians)}
+\item{log2FC for the ratio of group medians)}
+\item{Kruskal-Wallis for non-parametric multi-group comparisons}
+\item{KS for for non-parametric binary comparisons}
+\item{Wilcox for non-parametric binary comparisons (Mann-Whitney)}
+\item{Mack-Wolfe for non-parametric trends (JT-test)}
 }
 }
 \examples{
@@ -62,6 +70,10 @@ calc_univariate(mtcars, "vs", "wilcox")
 calc_univariate(mtcars, "mpg", "lm")
 
 calc_univariate(mtcars, "vs", "log2")
+
+# grouping variable must be factor for mack-wolfe
+mtcars$carb <- as.factor(mtcars$carb)
+calc_univariate(mtcars, "carb", "mack", peak = "jt")
 }
 \author{
 Stu Field
