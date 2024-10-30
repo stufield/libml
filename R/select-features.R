@@ -6,7 +6,7 @@
 #' a _formula_.
 #'
 #' @param model A model with an S3 [get_model_features()] method. See description
-#'   in [globalr::get_model_features()].
+#'   in [helpr::get_model_features()].
 #' @param .data A `data.frame`, typically containing a test data
 #'   of samples to to subset down to the minimal set of features.
 #' @return A `data.frame`-like object (depending on class of `.data`) subset

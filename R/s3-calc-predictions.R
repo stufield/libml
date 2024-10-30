@@ -11,7 +11,7 @@
 #'     that are used for predictions if `newdata = NULL`.
 #' }
 #'
-#' @inheritParams globalr::calc_predictions
+#' @inheritParams helpr::calc_predictions
 #' @inheritParams params
 #' @param model A model object. Currently one of:
 #' \itemize{
@@ -79,7 +79,7 @@
 NULL
 
 #' @export
-globalr::calc_predictions
+helpr::calc_predictions
 
 #' @describeIn s3-calc_predictions
 #'   S3 method for "robust" Naive Bayes models.

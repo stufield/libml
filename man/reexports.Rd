@@ -14,6 +14,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{globalr}{\code{\link[globalr:s3-generics]{calc_predictions}}, \code{\link[globalr:s3-generics]{get_model_coef}}, \code{\link[globalr:s3-generics]{get_model_features}}}
+  \item{helpr}{\code{\link[helpr:s3-generics]{calc_predictions}}, \code{\link[helpr:s3-generics]{get_model_coef}}, \code{\link[helpr:s3-generics]{get_model_features}}}
 }}
 

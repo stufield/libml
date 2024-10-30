@@ -1,6 +1,6 @@
 
 #' @export
-globalr::get_model_features
+helpr::get_model_features
 
 #' @noRd
 #' @export

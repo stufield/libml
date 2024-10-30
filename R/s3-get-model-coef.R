@@ -32,7 +32,7 @@ NULL
 
 
 #' @export
-globalr::get_model_coef
+helpr::get_model_coef
 
 
 #' @describeIn get_model_coef-libml

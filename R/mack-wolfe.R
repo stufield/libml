@@ -297,6 +297,7 @@ mack_wolfe_unknown <- function() {
 
 
 # S3 print ----
+
 #' @noRd
 #' @export
 print.mack_wolfe <- function(x, ...) {
