@@ -15,6 +15,7 @@ if ( getRversion() >= "2.15.1" ) {
       "feature",
       "RFU",
       "rfu_df",
+      "L", "n", "nperm", # mackwolfe
       "plot_y",
       "Feature",
       "type",
