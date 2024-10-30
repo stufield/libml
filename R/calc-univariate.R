@@ -42,17 +42,20 @@
 #'
 #' calc_univariate(mtcars, "vs", "ks")
 #'
+#' calc_univariate(mtcars, "mpg", "lm")
+#'
 #' calc_univariate(mtcars, "cyl", "kw")
 #'
 #' calc_univariate(mtcars, "vs", "wilcox")
-#'
-#' calc_univariate(mtcars, "mpg", "lm")
 #'
 #' calc_univariate(mtcars, "vs", "log2")
 #'
 #' # grouping variable must be factor for mack-wolfe
 #' mtcars$carb <- as.factor(mtcars$carb)
 #' calc_univariate(mtcars, "carb", "mack", peak = "jt")
+#'
+#' # for logistic: `var` is the LHS of the formula
+#' calc_univariate(mtcars, "vs", "logistic")
 #' @importFrom dplyr mutate arrange select row_number
 #' @importFrom purrr map
 #' @importFrom tibble tibble
@@ -60,7 +63,7 @@
 #' @importFrom tidyr unnest
 #' @export
 calc_univariate <- function(data, var,
-                            test = c("t.test", "lm", "ks", "kw",
+                            test = c("t.test", "lm", "ks", "kw", "logistic",
                                      "wilcox", "mw", "mackwolfe", "log2fc"),
                             ...) {
   stopifnot(
@@ -73,6 +76,7 @@ calc_univariate <- function(data, var,
                  lm     = stats::lm,
                  ks     = .ks.test,
                  mackwolfe = mack_wolfe,
+                 logistic  = .logistic,
                  wilcox = stats::wilcox.test,
                  mw     = stats::wilcox.test,
                  kw     = stats::kruskal.test,
@@ -156,6 +160,20 @@ calc_univariate <- function(data, var,
   tibble(ks_dist = obj$statistic, p_value = obj$p.value)
 }
 
+#' @importFrom tibble tibble
+#' @noRd
+.format_test.glm <- function(obj) {
+  pars <- obj$coefficients
+  var  <- setdiff(names(pars), "(Intercept)")
+  p_value <- summary(obj)$coefficients[var, "Pr(>|z|)"]
+  tibble(
+    intercept  = pars["(Intercept)"],
+    slope      = pars[var],
+    odds_ratio = exp(slope),
+    p_value    = p_value
+  )
+}
+
 #' @importFrom dplyr bind_cols rename
 #' @importFrom tibble as_tibble
 #' @noRd
@@ -182,8 +200,8 @@ calc_univariate <- function(data, var,
 #' @importFrom tibble tibble
 #' @importFrom stats median
 #' @noRd
-.log2fc <- function(x, data) {
-  chr <- as.character(x)
+.log2fc <- function(frmla, data) {
+  chr <- as.character(frmla)
   stopifnot(length(chr) == 3L)
   response <- chr[2L]
   var <- chr[3L]
@@ -202,14 +220,24 @@ calc_univariate <- function(data, var,
 #' @importFrom tibble tibble
 #' @importFrom stats ks.test median
 #' @noRd
-.ks.test <- function(x, data) {
-  ks <- ks.test(x, data = data)
+.ks.test <- function(frmla, data) {
+  ks <- ks.test(frmla, data = data)
   response <- ks$response
-  groups   <- split(data[[response]], data[[as.character(x)[3L]]])
+  groups   <- split(data[[response]], data[[as.character(frmla)[3L]]])
   stopifnot(length(groups) == 2L)
   y <- lapply(groups, stats::median, na.rm = TRUE) |>
     vapply(base::mean, na.rm = TRUE, 0.1, USE.NAMES = FALSE)
   # flip sign if class 2 is greater
   ks$statistic <- ifelse(y[2L] > y[1L], ks$statistic, -ks$statistic) |> unname()
   ks
+}
+
+# this wrapper is necessary
+# because for logistic regression
+# the formula is reversed
+.logistic <- function(frmla, data) {
+  chr <- as.character(frmla)
+  stopifnot(length(chr) == 3L)
+  new_form <- create_form(chr[3L], chr[2L])
+  fit_logistic(new_form, data)
 }

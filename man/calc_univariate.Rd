@@ -7,7 +7,7 @@
 calc_univariate(
   data,
   var,
-  test = c("t.test", "lm", "ks", "kw", "wilcox", "mw", "mackwolfe", "log2fc"),
+  test = c("t.test", "lm", "ks", "kw", "logistic", "wilcox", "mw", "mackwolfe", "log2fc"),
   ...
 )
 }
@@ -63,17 +63,20 @@ calc_univariate(mtcars, "vs")
 
 calc_univariate(mtcars, "vs", "ks")
 
+calc_univariate(mtcars, "mpg", "lm")
+
 calc_univariate(mtcars, "cyl", "kw")
 
 calc_univariate(mtcars, "vs", "wilcox")
-
-calc_univariate(mtcars, "mpg", "lm")
 
 calc_univariate(mtcars, "vs", "log2")
 
 # grouping variable must be factor for mack-wolfe
 mtcars$carb <- as.factor(mtcars$carb)
 calc_univariate(mtcars, "carb", "mack", peak = "jt")
+
+# for logistic: `var` is the LHS of the formula
+calc_univariate(mtcars, "vs", "logistic")
 }
 \author{
 Stu Field

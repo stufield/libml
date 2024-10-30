@@ -39,7 +39,7 @@ if ( getRversion() >= "2.15.1" ) {
       "SampleGroup",
       "log2.fold.change",
       "Gini_Importance",
-      "Response",
+      "slope",
       "specificity",   # plotEmpROC
       "sensitivity",   # plotEmpROC
       "sens_upperCI",  # plotEmpROC

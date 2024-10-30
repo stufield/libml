@@ -31,6 +31,7 @@ NULL
   register_s3_method("libml", ".format_test", "ks.test")
   register_s3_method("libml", ".format_test", "log2fc")
   register_s3_method("libml", ".format_test", "mack_wolfe")
+  register_s3_method("libml", ".format_test", "glm")
 }
 
 
