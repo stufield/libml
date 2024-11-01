@@ -86,12 +86,12 @@ fit_nb.default <- function(x, y, mad = FALSE, laplace = 0,
 
   # estimation local function
   .estimate <- function(var) {
-    if ( is.numeric(var) && !is.Integer(var) ) {
+    if ( is.numeric(var) && !is_int_vec(var) ) {
       do.call(
         "rbind",
         tapply(var, y, function(.x) fit_gauss(.x, mad = mad))
       )
-    } else if ( is.numeric(var) && is.Integer(var) ) {
+    } else if ( is.numeric(var) && is_int_vec(var) ) {
       cbind(mu    = tapply(var, y, mean, na.rm = TRUE),
             sigma = tapply(var, y, sd, na.rm = TRUE))
     } else {

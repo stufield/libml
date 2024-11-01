@@ -93,22 +93,25 @@ calc_confusion <- function(truth, predicted, pos.class, cutoff = 0.5) {
   neg  <- setdiff(truth, pos.class)
   # order: control/non-event class 1st
   levs <- c(neg, pos.class)
+  truth_factor <- factor(truth, levels = levs)
 
   data.frame(
       # re-factoring here ensures that the pos.class argument is obeyed
-      Truth     = factor(truth, levels = levs),
+      Truth     = truth_factor,
       Predicted = factor(ifelse(predicted >= cutoff, pos.class, neg),
                          levels = levs)
-    ) |>
+  ) |>
     table() |>
     structure(
       pos.class = as.character(pos.class),
-      class = c("confusion_matrix", "table")
+      class     = c("confusion_matrix", "table"),
+      auc       = calc_auc(truth, predicted),
+      brier     = calc_brier(truth_factor, predicted)
     )
 }
 
 #' @describeIn calc_confusion
-#' A S3 print method for classes `confusion_matrix`.
+#'   S3 print method for classes `confusion_matrix`.
 #' @param x A `confusion_matrix` or `summary.confusion_matrix` class object.
 #' @export
 print.confusion_matrix <- function(x, ...) {
@@ -122,7 +125,7 @@ print.confusion_matrix <- function(x, ...) {
 
 
 #' @describeIn calc_confusion
-#' Calculates the confusion statistics from a confusion matrix.
+#'   Calculates the confusion statistics from a confusion matrix.
 #' @param object A `confusion_matrix` object, e.g. one created with
 #'   [calc_confusion()], of a specific format (see `Details`).
 #' @return Summary method returns a list object of class
@@ -178,15 +181,17 @@ summary.confusion_matrix <- function(object, ...) {
              Wt_Acc    = beta * sensitivity + (1 - beta) * specificity)
 
   metrics <- tribble(
-    ~metric,         ~n,             ~p,
-    "Sensitivity",    p,              sensitivity,
-    "Specificity",    n,              specificity,
-    "PPV_Precision",  tp + fp,        precision,
-    "NPV",            tn + fn,        npv,
-    "Accuracy",       n + p,          accuracy,
-    "Bal_Accuracy",   n + p,          (sensitivity + specificity) / 2,
-    "Prevalence",     n + p,          (fn + tp) / (tp + fn + tn + fp),
-    "MCC",            NA_integer_,    mcc
+    ~metric,          ~n,             ~p,
+    "Sensitivity",     p,              sensitivity,
+    "Specificity",     n,              specificity,
+    "PPV (Precision)", tp + fp,        precision,
+    "NPV",             tn + fn,        npv,
+    "Accuracy",        n + p,          accuracy,
+    "Bal Accuracy",    n + p,          (sensitivity + specificity) / 2,
+    "Prevalence",      n + p,          (fn + tp) / (tp + fn + tn + fp),
+    "AUC",             n + p,          attr(object, "auc"),
+    "Brier Score",     n + p,          attr(object, "brier"),
+    "MCC",             NA_integer_,    mcc
   )
   ci <- liter(metrics$p, metrics$n, .f = calc_ci_binom) |>
     bind_rows()
@@ -201,16 +206,22 @@ summary.confusion_matrix <- function(object, ...) {
 
 
 #' @describeIn calc_confusion
-#' A S3 print method for class `summary.confusion_matrix`.
+#'   S3 print method for class `summary.confusion_matrix`.
 #' @export
 print.summary.confusion_matrix <- function(x, ...) {
-  writeLines(signal_rule("Confusion Matrix Summary", line_col = "blue", lty = "double"))
+  writeLines(
+    signal_rule("Confusion Matrix Summary", line_col = "blue", lty = "double")
+  )
   print(x$confusion)
-  writeLines(signal_rule("Performance Metrics (CI95%)", line_col = "green"))
+  writeLines(
+    signal_rule("Performance Metrics (CI95%)", line_col = "green")
+  )
   cat("\n")
   print(x$metrics)
   cat("\n")
-  writeLines(signal_rule("Additional Statistics", line_col = "green"))
+  writeLines(
+    signal_rule("Additional Statistics", line_col = "green")
+  )
   cat("\n")
   print(round(x$stats, 3L))
   invisible(x)

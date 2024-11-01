@@ -1,7 +1,10 @@
 
-true <- c("cont", "cont", "disease", "disease", "cont", "cont", "disease",
-          "cont", "disease", "disease", "disease", "disease", "disease",
-          "disease", "cont", "disease", "disease", "cont", "cont", "cont")
+# Setup -----
+true <- c("cont", "cont", "disease", "disease",
+          "cont", "cont", "disease", "cont",
+          "disease", "disease", "disease", "disease",
+          "disease", "disease", "cont", "disease",
+          "disease", "cont", "cont", "cont")
 
 pred <- c(0.700711545301601, 0.956837461562827, 0.213352001970634,
           0.661061500199139, 0.923318882007152, 0.795719761401415,
@@ -24,6 +27,8 @@ test_that("`pull_stat()` pulls the correct values from 'summary.confusion_matrix
   expect_equal(pull_stat(c_mat, "NPV"), 0.2)
   expect_equal(pull_stat(c_mat, "PPV"), 0.3)
   expect_equal(pull_stat(c_mat, "Precision"), pull_stat(c_mat, "PPV"))
+  expect_equal(pull_stat(c_mat, "AUC"), 0.77777777777778)
+  expect_equal(pull_stat(c_mat, "Brier"), 0.483766396008)
   expect_equal(pull_stat(c_mat, "MCC"), -0.502518907629606)
   expect_equal(pull_stat(c_mat, "F_measure"), 0.285714285714286)
   expect_equal(pull_stat(c_mat, "G_mean"), 0.246182981958665)

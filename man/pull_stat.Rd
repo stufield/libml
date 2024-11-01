@@ -7,7 +7,7 @@
 pull_stat(
   x,
   which = c("Sensitivity", "Recall", "Specificity", "Precision", "PPV", "NPV",
-    "Accuracy", "MCC", "Error", "F_measure", "G_mean", "Wt_Acc")
+    "Accuracy", "MCC", "AUC", "Brier", "Error", "F_measure", "G_mean", "Wt_Acc")
 )
 }
 \arguments{

@@ -22,10 +22,12 @@ pred <- c(0.222461252938956, 0.360352846328169, 0.532661496894434,
 # Testing ----
 test_that("calc_conf traps and errors: `truth` must be character, integer, or factor", {
   n <- 10
-  expect_error_free(calc_confusion(sample(0:1, n, replace = TRUE), runif(n), "1"))
+  expect_no_error(
+    calc_confusion(sample(0:1, n, replace = TRUE), runif(n), "1")
+  )
   x <- sample(c("a", "b"), n, replace = TRUE)
-  expect_error_free(calc_confusion(x, runif(n), "b"))
-  expect_error_free(calc_confusion(factor(x), runif(n), "b"))
+  expect_no_error(calc_confusion(x, runif(n), "b"))
+  expect_no_error(calc_confusion(factor(x), runif(n), "b"))
 })
 
 test_that("pos.class numeric or character when in `truth`", {
@@ -120,7 +122,7 @@ test_that("confusion matrix S3 summary method gives expected values; cutoff = 0.
   expect_equal(sumry$confusion,
                calc_confusion(factor(true), pred, pos.class = "disease", 0.75))
   expect_s3_class(sumry$metrics, "tbl_df")
-  expect_equal(dim(sumry$metrics), c(8, 5))
+  expect_equal(dim(sumry$metrics), c(10L, 5L))
   expect_named(sumry$metrics, c("metric", "n", "estimate",
                                 "CI95_lower", "CI95_upper"))
   expect_equal(vapply(sumry$metrics, typeof, character(1)),
@@ -129,40 +131,42 @@ test_that("confusion matrix S3 summary method gives expected values; cutoff = 0.
                  estimate   = "double",
                  CI95_lower = "double",
                  CI95_upper = "double"))
-  expect_equal(sumry$metrics$metric,
-               c("Sensitivity",
-                 "Specificity",
-                 "PPV_Precision",
-                 "NPV",
-                 "Accuracy",
-                 "Bal_Accuracy",
-                 "Prevalence",
-                 "MCC"))
-  expect_equal(sumry$metrics$estimate, c(0.4000000000,
-                                         0.7000000000,
-                                         0.5714285714,
-                                         0.5384615385,
-                                         0.5500000000,
-                                         0.5500000000,
-                                         0.5000000000,
-                                         0.1048284837))
-  expect_equal(sumry$metrics$n, c(10, 10, 7, 13, 20, 20, 20, NA_integer_))
-  expect_equal(sumry$metrics$CI95_lower, c(0.05352652806,
-                                           0.37590374360,
-                                           0.15310924434,
-                                           0.22923697581,
-                                           0.30120767938,
-                                           0.30120767938,
-                                           0.24995431,
-                                           NA_integer_))
-  expect_equal(sumry$metrics$CI95_upper, c(0.7464734719,
-                                           1.0000000000,
-                                           0.9897478985,
-                                           0.8476861011,
-                                           0.7987923206,
-                                           0.7987923206,
-                                           0.7500457,
-                                           NA_integer_))
+
+  x <- tibble::tibble(
+    metric = c("Sensitivity",
+               "Specificity",
+               "PPV (Precision)",
+               "NPV",
+               "Accuracy",
+               "Bal Accuracy",
+               "Prevalence",
+               "AUC",
+               "Brier Score",
+               "MCC"),
+         n = c(10L, 10L, 7L, 13L, 20L, 20L, 20L, 20L, 20L, NA_integer_),
+  estimate = c(0.4, 0.7, 0.571428571428571, 0.538461538461538, 0.55, 0.55, 0.5,
+               0.57, 0.31229479451574, 0.104828483672192),
+  CI95_lower = c(0.053526528057833,
+                 0.375903743596594,
+                 0.153109244339309,
+                 0.229236975812673,
+                 0.301207679383086,
+                 0.301207679383086,
+                 0.249954309633907,
+                 0.322416883725584,
+                 0.080537774567429,NA),
+  CI95_upper = c(0.746473471942167,
+                 1.00,
+                 0.989747898517834,
+                 0.847686101110404,
+                 0.798792320616914,
+                 0.798792320616914,
+                 0.750045690366093,
+                 0.817583116274416,
+                 0.544051814464051,NA)
+  )
+  expect_equal(sumry$metrics, x)
+
   # Print method
   expect_snapshot_output(sumry)
 })

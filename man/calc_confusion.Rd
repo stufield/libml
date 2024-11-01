@@ -83,11 +83,11 @@ The \code{summary} calculations are:
 }
 \section{Functions}{
 \itemize{
-\item \code{print(confusion_matrix)}: A S3 print method for classes \code{confusion_matrix}.
+\item \code{print(confusion_matrix)}: S3 print method for classes \code{confusion_matrix}.
 
 \item \code{summary(confusion_matrix)}: Calculates the confusion statistics from a confusion matrix.
 
-\item \code{print(summary.confusion_matrix)}: A S3 print method for class \code{summary.confusion_matrix}.
+\item \code{print(summary.confusion_matrix)}: S3 print method for class \code{summary.confusion_matrix}.
 
 }}
 \examples{
