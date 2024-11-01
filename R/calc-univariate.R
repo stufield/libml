@@ -85,10 +85,10 @@ calc_univariate <- function(data, var,
 
   if ( is.soma_adat(data) ) {
     tbl <- attr(data, "Col.Meta") |>
-      mutate(feature = seqid2apt(SeqId)) |>
+      mutate(feature = add_seq(SeqId)) |>
       select(feature, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt)
-  } else if ( any(is.apt(names(data))) ) {
-    tbl <- tibble(feature = getAnalytes(data))
+  } else if ( any(is_seq(names(data))) ) {
+    tbl <- tibble(feature = get_analytes(data))
   } else {
     idx <- names(which(vapply(data, is.numeric, NA)))
     tbl <- tibble(feature = setdiff(idx, var))

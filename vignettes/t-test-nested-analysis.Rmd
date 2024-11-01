@@ -76,7 +76,7 @@ analysis "object":
 ```{r tbl}
 t_tbl <- attr(data, "Col.Meta") |>
   dplyr::filter(Units == "RFU") |> # optionally filter features here
-  dplyr::mutate(feature = libml:::seqid2apt(SeqId)) |>
+  dplyr::mutate(feature = libml:::add_seq(SeqId)) |>
   select(feature, SeqId, TargetFullName, EntrezGeneSymbol, UniProt)
 
 head(t_tbl)

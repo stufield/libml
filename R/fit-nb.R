@@ -312,7 +312,7 @@ plot.libml_nb <- function(x, data, features, plot.type = c("pdf", "cdf", "log.od
   if ( is.soma_adat(data) && !is.null(attr(data, "Col.Meta")) ) {
     col_meta <- attr(data, "Col.Meta")
     targets <- col_meta$TargetFullName %||% col_meta$Target
-    tg <- setNames(as.list(targets), seqid2apt(col_meta$SeqId))
+    tg <- setNames(as.list(targets), add_seq(col_meta$SeqId))
   } else {
     tg <- NULL
   }
