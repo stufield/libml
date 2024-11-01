@@ -4,7 +4,6 @@
 #'
 #' @family auc
 #' @inheritParams params
-#' @param ... Additional arguments passed to [caTools::colAUC()].
 #' @return All return a numeric scalar corresponding to the area under
 #'   the curve. For 95% confidence intervals (`ci95 = TRUE`), [calc_emp_auc()]
 #'   returns a `list` object with these elements:
@@ -12,6 +11,8 @@
 #'     \item{lower.limit}{lower 95% confidence limit based on standard error AUC.}
 #'     \item{upper.limit}{upper 95% confidence limit based on standard error AUC.}
 #' @author Stu Field
+#' @note [calc_auc()] is designed specifically, and only (!),
+#'   for binary 2-class problems.
 #' @examples
 #' n <- 20
 #' withr::with_seed(22, {
@@ -21,13 +22,27 @@
 #' calc_auc(true, pred)
 #'
 #' @export
-calc_auc <- function(truth, predicted, ...) {
-  as.numeric(caTools::colAUC(predicted, truth, ...))
+calc_auc <- function(truth, predicted) {
+  if ( !is.factor(truth) ) truth <- as.factor(truth)
+  levs <- levels(truth)
+  tab  <- table(truth)
+  stopifnot("`truth` is not binary." = length(tab) == 2L)  # must be binary
+  idx <- lapply(as.factor(levs), function(.x) which(truth == .x))
+  auc <- 0.5
+  c1  <- 1L
+  c2  <- 2L
+  n1  <- as.numeric(tab[levs[c1]])
+  n2  <- as.numeric(tab[levs[c2]])
+  if (n1 > 0 & n2 > 0) {
+    r <- rank(c(predicted[idx[[c1]]], predicted[idx[[c2]]]))
+    auc <- (sum(r[1:n1]) - n1 * (n1 + 1) / 2) / (n1 * n2)
+  }
+  max(auc, 1 - auc)
 }
 
 
 #' @describeIn calc_auc
-#' Calculate the _empirical_ AUC, optionally with corresponding 95%
+#'   Calculate the _empirical_ AUC, optionally with corresponding 95%
 #'   confidence intervals according to the DeLong approach via the standard
 #'   error of the AUC estimate. This empirical AUC estimate is calculated via
 #'   the trapezoid area at each step along the x-axis of a ROC curve.
@@ -75,7 +90,7 @@ calc_emp_auc <- function(truth, predicted, pos.class, ci95 = FALSE) {
 #' @export
 calc_pepe_auc <- function(truth, predicted, pos.class) {
   stopifnot(
-    "`truth` and `predicted` must be of equal length." = 
+    "`truth` and `predicted` must be of equal length." =
       length(truth) == length(predicted),
     "`pos.class` must be in `truth`." = pos.class %in% truth
   )

@@ -33,7 +33,6 @@ Imports:
     withr
 Suggests:
     caret,
-    caTools,
     e1071,
     glmnet,
     knitr,

@@ -7,7 +7,7 @@
 \alias{calc_boot_auc}
 \title{Calculate Area Under Curve}
 \usage{
-calc_auc(truth, predicted, ...)
+calc_auc(truth, predicted)
 
 calc_emp_auc(truth, predicted, pos.class, ci95 = FALSE)
 
@@ -27,8 +27,6 @@ In most instances you will have to also pass a \code{pos.class} argument
 defining the positive/event class.}
 
 \item{predicted}{Numeric. A numeric vector of class probabilities.}
-
-\item{...}{Additional arguments passed to \code{\link[caTools:colAUC]{caTools::colAUC()}}.}
 
 \item{pos.class}{Character. Name of the "positive" or "event" class.}
 
@@ -70,6 +68,10 @@ the trapezoid area at each step along the x-axis of a ROC curve.
 \emph{empirical} bootstrap iterations and using Pepe's AUC calculation.
 
 }}
+\note{
+\code{\link[=calc_auc]{calc_auc()}} is designed specifically, and only (!),
+for binary 2-class problems.
+}
 \examples{
 n <- 20
 withr::with_seed(22, {
