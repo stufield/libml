@@ -140,11 +140,11 @@ fit_nb.formula <- function(formula, data, ...) {
       call. = FALSE)
   }
   response <- as.character(formula[[2L]])
-  y   <- data[[response]]
-  idx <- names(data) %in% response
-  X   <- as_tibble(data[, !idx])  # strip class but not attrs
+  X <- stats::model.frame(formula, data)
+  y <- X[[response]]
+  idx <- which(names(X) %in% response)   # remove response
   call <- list(...)$orig_call %||% match.call(expand.dots = TRUE)
-  fit_nb(X, y, orig_call = call, ...)
+  fit_nb(X[, -idx, drop = FALSE], y, orig_call = call, ...)
 }
 
 
@@ -222,11 +222,9 @@ predict.libml_nb <- function(object, newdata, type = c("class", "posterior", "ra
   }
 
   isnumeric <- vapply(newdata, is.numeric, FUN.VALUE = NA)
-  # suppress NAs generated warning for meta data if present
-  newdata <- suppressWarnings(data.matrix(newdata[, features]))
-  prior   <- prop.table(c(object$apriori)) |> log()
+  prior <- prop.table(c(object$apriori)) |> log()
   L <- lapply(seq_len(nrow(newdata)), function(.i) {
-       ndata <- newdata[.i, ]
+       ndata <- newdata[.i, , drop = FALSE]
        likelihood <- lapply(features, function(.v) {
            nd <- ndata[[.v]]    # scalar; new data point
            if ( is.na(nd) ) {
