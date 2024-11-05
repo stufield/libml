@@ -183,22 +183,22 @@ print.libml_nb <- function(x, ...) {
 
 #' @describeIn fit_nb
 #'   S3 predict method for `libml_nb`.
-#' @param object A model object of class `libml_nb`.
+#' @param object A `libml_nb` model object.
 #' @param newdata A `data.frame` with new predictors, containing at least
-#'   the model covariates (but possibly more columns than the training data).
+#'   the model covariates (possibly more columns than the training data).
 #'   Note that the column names of `newdata` are matched against the
-#'   training data ones.
+#'   training data.
 #' @param type If `"class"` (default), the class name with maximal
 #'   posterior probability is returned for each sample, otherwise the
-#'   conditional _a-posterior_ probabilities for each class are returned.
+#'   conditional *a-posterior* probabilities for each class are returned.
 #'   Additionally, if called from within the S3 plot method, a character
 #'   string determining the plot type, currently either CDF or PDF (default).
 #'   Argument can be shortened and is matched.
-#' @param threshold Value below which should be replaced. See `min.prob`.
-#' @param min.prob Value indicating the minimum probability a prediction
-#'   can take. See `threshold` argument.
-#' @return `predict.libml_nb`: Depending on the `type` argument,
-#'   the posterior probability of a robustly estimated naive Bayes model.
+#' @param threshold `numeric(1)`. Indicating the minimum probability
+#'   a prediction can take.
+#' @return `predict.libml_nb`: depending on the `type` argument,
+#'   either the predicted class name or the posterior probability
+#'   of a robustly estimated naive Bayes model.
 #' @examples
 #' # Predictions
 #' table(predict(m1, iris), iris$Species) # benchmark
@@ -206,10 +206,11 @@ print.libml_nb <- function(x, ...) {
 #'
 #' @importFrom stats dnorm
 #' @export
-predict.libml_nb <- function(object, newdata, type = c("class", "posterior", "raw"),
-                             threshold = 1e-06, min.prob = NULL, ...) {
+predict.libml_nb <- function(object, newdata,
+                             type = c("class", "posterior", "raw"),
+                             threshold = NULL, ...) {
 
-  type    <- match.arg(type)
+  type <- match.arg(type)
   # map to either posterior or raw
   type      <- switch(type, class = "class", raw = , posterior = "posterior")
   newdata   <- as.data.frame(newdata)
@@ -222,49 +223,54 @@ predict.libml_nb <- function(object, newdata, type = c("class", "posterior", "ra
   }
 
   isnumeric <- vapply(newdata, is.numeric, FUN.VALUE = NA)
-  prior <- prop.table(c(object$apriori)) |> log()
-  L <- lapply(seq_len(nrow(newdata)), function(.i) {
-       ndata <- newdata[.i, , drop = FALSE]
-       likelihood <- lapply(features, function(.v) {
-           nd <- ndata[[.v]]    # scalar; new data point
-           if ( is.na(nd) ) {
-             signal_oops(
-               "Bad `newdata` in row", value(.i), "...",
-               "check for NAs, non-numerics, meta data, etc."
-             )
-             rep.int(1L, length(prior))
-           } else {
-             if ( isnumeric[.v] ) {
-               mu_sd <- object$tables[[.v]]                  # parameter table
-               mu_sd[, 2L][ mu_sd[, 2L] == 0 ] <- threshold  # limit sd=0
-               prob <- dnorm(nd, mean = mu_sd[, 1L], sd = mu_sd[, 2L])
-             } else {
-               prob <- object$tables[[.v]][, nd]
-             }
-             prob[ prob == 0 ] <- threshold
-             if ( !is.null(min.prob) ) {
-               prob[ prob < min.prob ]     <- min.prob
-               prob[ prob > 1 - min.prob ] <- 1 - min.prob
-             }
-             prob
-           }
-      }) |> data.frame() |> setNames(features)
+  stopifnot(
+    "All features must be numeric." = all(isnumeric[features])
+  )
+  prior <- log(prop.table(c(object$apriori)))
+  pars  <- object$tables[features] |> # ensure order
+    do.call(what = rbind)
+  levs  <- object$levels
+  L     <- length(levs)
 
-      checkNaiveBayesBias(likelihood)         # check excessive feature bias
-      likelihood <- rowSums(log(likelihood))
-      posterior  <- likelihood + prior
+  LL <- apply(newdata[, features, drop = FALSE], 1, function(row) {
+    mu_vec <- pars[, "mu"]
+    sd_vec <- pars[, "sigma"]
+    sd_vec[sd_vec == 0] <- 1e-06  # limit sd=0 (??? sgf???)
+    sample_vec <- rep(row, each = L)
+    probs <- dnorm(sample_vec, mean = mu_vec, sd = sd_vec)
 
-      if ( type != "class" ) {
-        posterior <- exp(posterior) / sum(exp(posterior))
-      }
-      data.frame(as.list(posterior))
+    if ( !is.null(threshold) ) {
+      stopifnot(
+        "`threshold` must be a scalar double." = is_dbl(threshold)
+      )
+      probs[probs < threshold] <- threshold
+      probs[probs > 1 - threshold] <- 1 - threshold
+    }
+
+    likelihood <- matrix(probs, nrow = L, dimnames = list(levs, features))
+
+    # check excessive feature bias
+    if ( !is.null(flag <- check_nb_bias(likelihood)) ) {
+      warning(
+        "Features heavily influencing the ",
+        "Bayes likelihood: ", value(flag), call. = FALSE
+      )
+    }
+
+    likelihood <- rowSums(log(likelihood))
+    posterior  <- likelihood + prior
+
+    if ( type != "class" ) {
+      posterior <- exp(posterior) / sum(exp(posterior))
+    }
+    data.frame(as.list(posterior))
   }) |> dplyr::bind_rows()
 
   if ( type == "class" ) {
-    maxprob <- apply(L, 1, which.max)
-    L <- factor(object$levels[maxprob], levels = object$levels)
+    maxprob <- apply(LL, 1, which.max)
+    LL <- factor(object$levels[maxprob], levels = levs)
   }
-  L
+  LL
 }
 
 
@@ -383,32 +389,27 @@ plot.naiveBayes <- plot.libml_nb
 #' during the prediction of a naive Bayes model for a single sample.
 #'
 #' @param likelihoods A `matrix` or `tibble` class object with the
-#' rows as the possible classes (>= 2) and the columns as the features.
-#' Likelihoods should not yet be log-transformed and entries should be as they
-#' come from [dnorm()].
-#' @param max.lr The threshold maximum allowed log-likelihood ratio.
-#' @return `checkNaiveBayesBias`: If excessive influence on likelihoods are
-#' detected a warning is triggered and the responsible feature(s) are flagged.
+#'   rows as the possible classes (>= 2) and the columns as the features.
+#'   Likelihoods should not yet be log-transformed and entries should be as they
+#'   come from [dnorm()].
+#' @param max_lr The threshold maximum allowed log-likelihood ratio.
+#' @return `check_nb_bias`: `NULL` if none are detected. If excessive influence
+#'   on likelihoods are detected, the features responsible are returned.
 #' @author Stu Field
 #' @examples
 #' lik <- matrix(runif(6), ncol = 3)
 #' rownames(lik) <- c("control", "disease")
 #' colnames(lik) <- c("p1", "p2", "p3")
 #' log(lik)
-#' checkNaiveBayesBias(lik)
-#' checkNaiveBayesBias(lik, max.lr = 1)   # set a low threshold
+#' check_nb_bias(lik)
+#' check_nb_bias(lik, max_lr = 1) # set a low threshold
 #' @noRd
-checkNaiveBayesBias <- function(likelihoods, max.lr = 1e04) {
+check_nb_bias <- function(likelihoods, max_lr = 1e04) {
   lr <- apply(log(likelihoods), 1L, function(.x) .x / .x[1L]) |>
     abs() |> t()
-  for ( i in seq_len(nrow(lr)) ) {
-    which_high <- which(lr[i, ] > max.lr)
-    if ( length(which_high) > 0L ) {
-      flag_feats <- colnames(likelihoods)[which_high]
-      warning(
-        "These features are heavily influencing the naive ",
-        "Bayes likelihood: ", value(flag_feats), call. = FALSE
-      )
-    }
+  if ( any(lr > max_lr) ) {
+    flag_feats <- names(keep_it(colSums(lr >= max_lr) > 0, function(x) x > 0))
+  } else {
+    invisible()
   }
 }

@@ -25,8 +25,7 @@ fit_nb(x, ...)
   object,
   newdata,
   type = c("class", "posterior", "raw"),
-  threshold = 1e-06,
-  min.prob = NULL,
+  threshold = NULL,
   ...
 )
 
@@ -79,12 +78,12 @@ become a memory issue and thus the default is \code{FALSE}.}
 \item{data}{A data frame of predictors (categorical and/or numeric), i.e.
 the ADAT used to train the model.}
 
-\item{object}{A model object of class \code{libml_nb}.}
+\item{object}{A \code{libml_nb} model object.}
 
 \item{newdata}{A \code{data.frame} with new predictors, containing at least
-the model covariates (but possibly more columns than the training data).
+the model covariates (possibly more columns than the training data).
 Note that the column names of \code{newdata} are matched against the
-training data ones.}
+training data.}
 
 \item{type}{If \code{"class"} (default), the class name with maximal
 posterior probability is returned for each sample, otherwise the
@@ -93,10 +92,8 @@ Additionally, if called from within the S3 plot method, a character
 string determining the plot type, currently either CDF or PDF (default).
 Argument can be shortened and is matched.}
 
-\item{threshold}{Value below which should be replaced. See \code{min.prob}.}
-
-\item{min.prob}{Value indicating the minimum probability a prediction
-can take. See \code{threshold} argument.}
+\item{threshold}{\code{numeric(1)}. Indicating the minimum probability
+a prediction can take.}
 
 \item{features}{An optional feature specifying which subset of model features
 to plot. If missing, all features are plotted.}
@@ -114,8 +111,9 @@ in the \code{data}, or its \code{rowname}. Can be \code{length(n)}.}
 \value{
 \code{libml_nb}: A naive Bayes model with robustly fit parameters.
 
-\code{predict.libml_nb}: Depending on the \code{type} argument,
-the posterior probability of a robustly estimated naive Bayes model.
+\code{predict.libml_nb}: depending on the \code{type} argument,
+either the predicted class name or the posterior probability
+of a robustly estimated naive Bayes model.
 
 \code{plot.libml_nb}, \code{plot.naiveBayes}: A plot, either a list of
 PDFs/CDFs, or a log-odds plot.
