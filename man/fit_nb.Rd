@@ -146,7 +146,7 @@ That is, \code{fit_gauss(..., mad = TRUE)}.
 
 \item \code{predict(libml_nb)}: S3 predict method for \code{libml_nb}.
 
-\item \code{plot(libml_nb)}: A S3 plot method for \code{libml_nb}.
+\item \code{plot(libml_nb)}: S3 plot method for \code{libml_nb}.
 
 \item \code{plot(naiveBayes)}: Plot a \code{naiveBayes} (\code{e1071}) model object.
 

@@ -141,10 +141,14 @@ fit_nb.formula <- function(formula, data, ...) {
   }
   response <- as.character(formula[[2L]])
   X <- stats::model.frame(formula, data)
-  y <- X[[response]]
   idx <- which(names(X) %in% response)   # remove response
   call <- list(...)$orig_call %||% match.call(expand.dots = TRUE)
-  fit_nb(X[, -idx, drop = FALSE], y, orig_call = call, ...)
+  fit_nb(
+    structure(X[, -idx, drop = FALSE], response_var = response), # add for downstream
+    X[[response]],
+    orig_call = call,
+    ...
+  )
 }
 
 
@@ -162,7 +166,7 @@ fit_nb.tr_data <- function(x, ...) {
 
 
 #' @describeIn fit_nb
-#' S3 print method for `libml_nb`.
+#'   S3 print method for `libml_nb`.
 #' @export
 print.libml_nb <- function(x, ...) {
   cat("\nRobust Naive Bayes Classifier for Discrete Predictors\n\n")
@@ -275,7 +279,7 @@ predict.libml_nb <- function(object, newdata,
 
 
 #' @describeIn fit_nb
-#'   A S3 plot method for `libml_nb`.
+#'   S3 plot method for `libml_nb`.
 #' @param features An optional feature specifying which subset of model features
 #'   to plot. If missing, all features are plotted.
 #' @param plot.type Character. A string determining the plot type, currently
