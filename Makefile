@@ -16,7 +16,6 @@ roxygen: docs
 docs:
 	@ $(RSCRIPT) -e "roxygen2::roxygenise(roclets = c('collate', 'namespace', 'rd'))"
 
-
 readme:
 	@ echo "Rendering README.Rmd"
 	@ $(RSCRIPT) \

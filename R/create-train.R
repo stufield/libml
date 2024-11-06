@@ -23,11 +23,14 @@
 #'   performed (default), or a string `character(2)` indicating _first_
 #'   and _second_ class labels respectively. See the Details section
 #'   for more information about factor levels.
+#'
 #' @return A `"tibble"` with a `tr_data` class added.
 #'   This object contains the subset training data with a
 #'   additional attributes about the groupings and the "Response" variable.
+#'
 #' @author Stu Field
 #' @seealso [dplyr::filter()]
+#'
 #' @examples
 #' # New "tr_data" object with default factor levels
 #' classes <- c("setosa", "versicolor")
@@ -113,9 +116,7 @@ is.tr_data <- function(data) {
 #' @noRd
 #' @export
 print.tr_data <- function(x, ...) {
-  writeLines(
-    signal_rule("Training Data Object", lty = "double", line_col = "green")
-  )
+  signal_rule("Training Data Object", lty = "double", line_col = "green")
   key <- c("response", "class labels", "counts", "factor", "n") |> pad(15)
   value <- list(response = .get_response(x),
                 classes  = value(attr(x, "class_labels")),
@@ -125,7 +126,7 @@ print.tr_data <- function(x, ...) {
   liter(key, value, function(.x, .y) {
     writeLines(paste(add_style$red(symbl$bullet), .x, .y))
   })
-  writeLines(signal_rule(line_col = "blue"))
+  signal_rule(line_col = "blue")
   NextMethod()
   invisible(x)
 }
@@ -141,6 +142,7 @@ print.tr_data <- function(x, ...) {
 #' @param do.log Logical. Should RFU values be log10-transformed prior to
 #'   plotting?
 #' @param do.pdfs Logical. Should smoothed densities PDF be plotted?
+#'
 #' @seealso [SomaPlotr::plotCDFbyGroup()]
 #' @examples
 #' # S3 plot method

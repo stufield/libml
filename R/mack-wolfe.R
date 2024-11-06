@@ -24,6 +24,7 @@
 #'   to perform. If `NULL`, a p-value approximation is
 #'   used (if `length(x) > 10`).
 #' @param ... Additional arguments passed to downstream S3 methods.
+#'
 #' @return Returns a `mack_wolfe` class object:
 #'   \item{Ap:}{The Mack-Wolfe test statistic (if peak known)}
 #'   \item{Astar:}{The Normal approximation of the test statistic}
@@ -35,6 +36,7 @@
 #'     value was evaluated}
 #'   \item{peak:}{The peak as determined by test statistic}
 #'   \item{groups:}{The factor levels of supplied `group` parameter.}
+#'
 #' @author Stu Field, Michael Mehan
 #' @references Myles Hollander and Douglas A. Wolfe (1973).
 #'   *Nonparametric Statistical Methods*. New York: John Wiley & Sons.
@@ -302,11 +304,9 @@ mack_wolfe_unknown <- function() {
 #' @export
 print.mack_wolfe <- function(x, ...) {
   txt <- paste("peak", ifelse(is.na(x$Ap), "unknown", "known"))
-  writeLines(
-    signal_rule(
-      paste0("Mack-Wolfe test for umbrella alternatives (", txt, ")"),
-      line_col = "blue", lty = "double"
-    )
+  signal_rule(
+    paste0("Mack-Wolfe test for umbrella alternatives (", txt, ")"),
+    line_col = "blue", lty = "double"
   )
   cat("\n")
   y <- x
@@ -322,6 +322,6 @@ print.mack_wolfe <- function(x, ...) {
   key <- pad(sub("Astar", "Ap*", key), 8)
   liter(key, y, function(.x, .y) writeLines(paste("\u2022", .x, "=", value(.y))))
   cat("\n")
-  writeLines(signal_rule(line_col = "green", lty = "double"))
+  signal_rule(line_col = "green", lty = "double")
   invisible(x)
 }

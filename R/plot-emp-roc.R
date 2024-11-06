@@ -8,6 +8,7 @@
 #' @family ROC
 #' @inheritParams params
 #' @inheritParams geom_roc
+#'
 #' @param add Integer. The position in the plotting stack indicating where to
 #'   add the ROC curve relative to an existing plot.
 #'   Zero indexing is used, thus `add = 0L` (default) refers to a new plot
@@ -53,9 +54,11 @@
 #' @param boot.auc Logical. Should bootstrap confidence intervals of AUC
 #'   be calculated?
 #' @param do.grid Logical. Should grid lines be added to the ROC curve?
+#'
 #' @return A ROC curve is plotted and its corresponding AUC is returned.
 #' @author Michael R. Mehan, Stu Field
 #' @seealso [create_roc_data()], [roc_xy()], [geom_roc()]
+#'
 #' @examples
 #' true <- rep(c("control", "disease"), each = 50)
 #' pred <- withr::with_seed(8,
@@ -106,18 +109,18 @@ plot_emp_roc <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
   plot_df <- plot_df[order(plot_df$pred, decreasing = TRUE), ]
 
   if ( debug ) {
-    writeLines(signal_rule("Debugging", line_col = "blue", lty = "double"))
-    writeLines(signal_rule("Values Top", line_col = "cyan", lty = "double"))
+    signal_rule("Debugging", line_col = "blue", lty = "double")
+    signal_rule("Values Top", line_col = "cyan", lty = "double")
     print(plot_df[1:6, ])
-    writeLines(signal_rule("Values Bottom", line_col = "cyan", lty = "double"))
+    signal_rule("Values Bottom", line_col = "cyan", lty = "double")
     print(plot_df[(nrow(plot_df) - 6):nrow(plot_df), ]) # Replacement for utils::tail()
-    writeLines(signal_rule("Parameters", line_col = "magenta", lty = "double"))
+    signal_rule("Parameters", line_col = "magenta", lty = "double")
     left  <- pad(c("pos.class", "boot.auc", "outline", "cutoff", "add"), 10)
     right <- add_color(c(pos.class, boot.auc, outline, cutoff, add), "red")
     writeLines(
       paste(add_color("\u2020", "green"), left, add_color("\u276F", "cyan"), right)
     )
-    writeLines(signal_rule(line_col = "green", lty = "double"))
+    signal_rule(line_col = "green", lty = "double")
   }
 
   # Calculates x & y coordinates of ROC curve

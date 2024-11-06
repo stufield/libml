@@ -115,7 +115,7 @@ calc_confusion <- function(truth, predicted, pos.class, cutoff = 0.5) {
 #' @param x A `confusion_matrix` or `summary.confusion_matrix` class object.
 #' @export
 print.confusion_matrix <- function(x, ...) {
-  writeLines(signal_rule("Confusion", line_col = "green"))
+  signal_rule("Confusion", line_col = "green")
   cat("\n")
   cat("Positive Class: ", attributes(x)$pos.class, "\n\n", sep  = "")
   NextMethod()
@@ -209,19 +209,13 @@ summary.confusion_matrix <- function(object, ...) {
 #'   S3 print method for class `summary.confusion_matrix`.
 #' @export
 print.summary.confusion_matrix <- function(x, ...) {
-  writeLines(
-    signal_rule("Confusion Matrix Summary", line_col = "blue", lty = "double")
-  )
+  signal_rule("Confusion Matrix Summary", line_col = "blue", lty = "double")
   print(x$confusion)
-  writeLines(
-    signal_rule("Performance Metrics (CI95%)", line_col = "green")
-  )
+  signal_rule("Performance Metrics (CI95%)", line_col = "green")
   cat("\n")
   print(x$metrics)
   cat("\n")
-  writeLines(
-    signal_rule("Additional Statistics", line_col = "green")
-  )
+  signal_rule("Additional Statistics", line_col = "green")
   cat("\n")
   print(round(x$stats, 3L))
   invisible(x)
