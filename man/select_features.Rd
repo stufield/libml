@@ -49,7 +49,7 @@ select_features(sm, test)
 
 # KKNN
 # note: test data passed during fitting
-kknn <- fit_kknn(Species ~ ., train = train, test = test, K = 10)
+kknn <- fit_kknn(Species ~ ., train = train, test = test, k_neighbors = 10)
 select_features(kknn, test)
 }
 \author{

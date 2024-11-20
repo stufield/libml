@@ -6,21 +6,9 @@
 #' @inheritParams params
 #' @inheritParams kknn::kknn
 #'
+#' @param k_neighbors See `k` in [kknn()].
 #' @param distance `numeric(1)`. Parameter of Minkowski distance.
 #'   `Manhattan = 1` and `Euclidean = 2`.
-#' @param kernel Character. Kernel to use. Possible choices are:
-#'   \describe{
-#'     \item{rectangular}{standard unweighted `knn`}
-#'     \item{triangular}{\eqn{1 - |u|, |u| \le 1}}
-#'     \item{epanechnikov}{beta(2, 2)}
-#'     \item{biweight}{beta(3, 3)}
-#'     \item{triweight}{beta(4, 4)}
-#'     \item{cos}{\eqn{cos(0.5\pi u)}}
-#'     \item{inv}{?}
-#'     \item{gaussian}{\eqn{exp(-0.5u^2)}}
-#'     \item{rank}{?}
-#'     \item{optimal}{?}
-#'   }
 #' @param ... Additional arguments passed to [kknn()].
 #'
 #' @return A k-nearest neighbors model, as returned by [kknn()],
@@ -34,7 +22,7 @@
 #' # Use fake training data from iris data set
 #' trainIdx <- sample(nrow(tr_iris), 90)  # random 90% training
 #' kknnfit  <- fit_kknn(Species ~ ., train = tr_iris[trainIdx, ],
-#'                     test = tr_iris[-trainIdx, ])
+#'                      test = tr_iris[-trainIdx, ])
 #' pos  <- get_pos_class(kknnfit)
 #' true <- tr_iris$Species[-trainIdx]   # true class names
 #' pred <- calc_predictions(kknnfit)    # model predictions
@@ -48,18 +36,18 @@
 #' plot_emp_roc(true, pred$prob_virginica, pos)
 #' @importFrom kknn kknn
 #' @export
-fit_kknn <- function(formula, train, test, k = 10, distance = 2,
+fit_kknn <- function(formula, train, test, k_neighbors = 10, distance = 2,
                      kernel = "triangular", ...) {
 
   model <- kknn(formula, train = train, test = test,
-                k = min(k, nrow(train)),
+                k = min(k_neighbors, nrow(train)),
                 distance = distance, kernel = kernel, ...)
   resp_col       <- as.character(attributes(model$terms)$predvars)[2L]
   model$Response <- test[[resp_col]]
   model$classes  <- levels(model$fitted.values)
   model$train    <- deparse(substitute(train))
   row.names(model$prob) <- row.names(test)
-  model$k        <- k
+  model$k        <- k_neighbors
   model$call     <- match.call()
   model$distance <- distance
   model$kernel   <- kernel

@@ -124,7 +124,7 @@ calc_predictions(sm, test, 0.35)
 
 # KKNN
 # test data passed during fitting:
-kknn <- fit_kknn(Species ~ ., train = train, test = test, K = 10)
+kknn <- fit_kknn(Species ~ ., train = train, test = test, k_neighbors = 10)
 calc_predictions(kknn)                 # do NOT pass test data
 calc_predictions(kknn, cutoff = 0.48)
 }

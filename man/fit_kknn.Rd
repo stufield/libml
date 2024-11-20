@@ -8,7 +8,7 @@ fit_kknn(
   formula,
   train,
   test,
-  k = 10,
+  k_neighbors = 10,
   distance = 2,
   kernel = "triangular",
   ...
@@ -22,24 +22,13 @@ the model to be fitted (e.g. \eqn{response ~ x_1 + x_2 + ... + x_n}).}
 
 \item{test}{Matrix or data frame of test set cases.}
 
-\item{k}{Number of neighbors considered.}
+\item{k_neighbors}{See \code{k} in \code{\link[=kknn]{kknn()}}.}
 
 \item{distance}{\code{numeric(1)}. Parameter of Minkowski distance.
 \code{Manhattan = 1} and \code{Euclidean = 2}.}
 
-\item{kernel}{Character. Kernel to use. Possible choices are:
-\describe{
-\item{rectangular}{standard unweighted \code{knn}}
-\item{triangular}{\eqn{1 - |u|, |u| \le 1}}
-\item{epanechnikov}{beta(2, 2)}
-\item{biweight}{beta(3, 3)}
-\item{triweight}{beta(4, 4)}
-\item{cos}{\eqn{cos(0.5\pi u)}}
-\item{inv}{?}
-\item{gaussian}{\eqn{exp(-0.5u^2)}}
-\item{rank}{?}
-\item{optimal}{?}
-}}
+\item{kernel}{Kernel to use. Possible choices are "rectangular" (which is standard unweighted knn), "triangular", "epanechnikov" (or beta(2,2)), 
+	"biweight" (or beta(3,3)), "triweight" (or beta(4,4)), "cos", "inv", "gaussian", "rank" and "optimal".}
 
 \item{...}{Additional arguments passed to \code{\link[=kknn]{kknn()}}.}
 }
@@ -56,7 +45,7 @@ Wrapper for fitting weighted \emph{k}-nearest neighbor classifiers.
 # Use fake training data from iris data set
 trainIdx <- sample(nrow(tr_iris), 90)  # random 90\% training
 kknnfit  <- fit_kknn(Species ~ ., train = tr_iris[trainIdx, ],
-                    test = tr_iris[-trainIdx, ])
+                     test = tr_iris[-trainIdx, ])
 pos  <- get_pos_class(kknnfit)
 true <- tr_iris$Species[-trainIdx]   # true class names
 pred <- calc_predictions(kknnfit)    # model predictions
