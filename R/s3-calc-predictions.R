@@ -218,4 +218,3 @@ calc_predictions.kknn <- function(model, newdata = NULL, cutoff = 0.5, ...) {
     names = c("pred_class", paste0("prob_", names(p)))
   )
 }
-

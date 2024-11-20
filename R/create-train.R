@@ -75,7 +75,7 @@ create_train <- function(data, ..., group.var, classes = NULL) {
     neg.class <- classes[1L]
     pos.class <- classes[2L]
     levs  <- c(neg.class, pos.class)
-    tdata <-tdata |>
+    tdata <- tdata |>
       dplyr::mutate(!!gr_sym := factor(!!gr_sym, levels = levs))
   }
 

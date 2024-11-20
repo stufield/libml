@@ -20,13 +20,13 @@ lines, points, bar, box, or ROC.}
 \item{alpha}{Numeric in \verb{[0, 1]}. The color transparency level.
 See also \code{\link[ggplot2:reexports]{ggplot2::alpha()}}.}
 
-\item{sens}{Numeric. The sensitivity: \eqn{[0, 1]}.}
+\item{sens}{\code{numeric(n)}. The sensitivity: \eqn{[0, 1]}.}
 
-\item{spec}{Numeric. The specificity: \eqn{[0, 1]}.}
+\item{spec}{\code{numeric(n)}. The specificity: \eqn{[0, 1]}.}
 
-\item{n.controls}{Integer. Number of control or non-cases.}
+\item{n.controls}{\code{integer(1)}. Number of control or non-cases.}
 
-\item{n.cases}{Integer. Number of cases/disease.}
+\item{n.cases}{\code{integer(1)}. Number of cases/disease.}
 }
 \value{
 A \eqn{2x2} matrix containing rows of sensitivity and

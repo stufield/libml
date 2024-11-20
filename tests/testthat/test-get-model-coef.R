@@ -19,7 +19,7 @@ expected_class_coefs <- list(
 expected_class_coefs <- lapply(expected_class_coefs, setNames, nm = features)
 
 expected_reg_coefs  <- list(
-  svm          = c(0.01165406, 0.30312404, 0.03302784, 0.46405124, 0.13513110, 0.31726695),
+  svm = c(0.01165406, 0.30312404, 0.03302784, 0.46405124, 0.13513110, 0.31726695),
   caret_glmnet = c(200.000000, 147.57921, 63.43358, 146.50549, 50.84156, 151.31570)
 ) |>
 lapply(setNames, nm = reg_features)

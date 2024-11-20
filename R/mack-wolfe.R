@@ -119,7 +119,7 @@ mack_wolfe.numeric <- function(x, group, peak = "jt", rm_outliers = FALSE,
   }
 
   levels <- levels(group)
-  L <- length(levels)
+  L <- length(levels)  # nolint: object_usage_linter.
   n <- length(x)
 
   if ( n != length(group) ) {
@@ -144,7 +144,6 @@ mack_wolfe.numeric <- function(x, group, peak = "jt", rm_outliers = FALSE,
     n <- length(x)   # update `n` if outliers removed
   }
 
-  # add logic here
   if ( is.null(peak) ) {
     ret <- mack_wolfe_unknown()
   } else {

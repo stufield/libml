@@ -14,7 +14,8 @@
 #' @family fit
 #' @param x A numeric matrix, a `tr_data` class objects, or a data frame
 #'   of predictors. If called from an S3 generic method (e.g.
-#'   [plot.libml_nb()]) or [print.libml_nb()]), either a `libml_nb` or `naiveBayes` object.
+#'   [plot.libml_nb()]) or [print.libml_nb()]), either a
+#'   `libml_nb` or `naiveBayes` object.
 #' @param y A vector indicating the true classes for each sample. Ideally a
 #'   factor class object with appropriate levels.
 #' @param mad Logical. Should non-parametric approximations be applied during
@@ -117,7 +118,7 @@ fit_nb.default <- function(x, y, mad = FALSE, laplace = 0,
   ret$apriori <- apriori
   ret$tables  <- tables
   ret$levels  <- levels(y)
-  ret$response<- response
+  ret$response <- response
   resp_df     <- setNames(data.frame(y), response)
   ret$data    <- if ( keep.data ) cbind(x, resp_df) else FALSE # nolint
   ret$call    <- list(...)$orig_call %||% match.call(expand.dots = FALSE)
@@ -412,7 +413,7 @@ check_nb_bias <- function(likelihoods, max_lr = 1e04) {
   lr <- apply(log(likelihoods), 1L, function(.x) .x / .x[1L]) |>
     abs() |> t()
   if ( any(lr > max_lr) ) {
-    flag_feats <- names(keep_it(colSums(lr >= max_lr) > 0, function(x) x > 0))
+    names(keep_it(colSums(lr >= max_lr) > 0, function(x) x > 0))
   } else {
     invisible()
   }

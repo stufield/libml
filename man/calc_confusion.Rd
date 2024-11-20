@@ -16,11 +16,11 @@ calc_confusion(truth, predicted, pos.class, cutoff = 0.5)
 \method{print}{summary.confusion_matrix}(x, ...)
 }
 \arguments{
-\item{truth}{Character or factor. A vector of true class names.
+\item{truth}{\code{character(n)} or \code{factor(n)}. A vector of true class names.
 In most instances you will have to also pass a \code{pos.class} argument
 defining the positive/event class.}
 
-\item{predicted}{Numeric. A numeric vector of class probabilities.}
+\item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
 \item{pos.class}{Character. Name of the "positive" or "event" class.}
 

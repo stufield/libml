@@ -38,17 +38,20 @@ add_ss_box <- function(x, col = "black", alpha = 0.35) {
 #' Calculate Joint 95% CI
 #'
 #' Calculate the joint 95% confidence interval
-#' given sensitivity and specificity.
+#'   given sensitivity and specificity.
 #'
 #' @rdname add_ss_box
-#' @param sens Numeric. The sensitivity: \eqn{[0, 1]}.
-#' @param spec Numeric. The specificity: \eqn{[0, 1]}.
-#' @param n.controls Integer. Number of control or non-cases.
-#' @param n.cases Integer. Number of cases/disease.
+#'
+#' @param sens `numeric(n)`. The sensitivity: \eqn{[0, 1]}.
+#' @param spec `numeric(n)`. The specificity: \eqn{[0, 1]}.
+#' @param n.controls `integer(1)`. Number of control or non-cases.
+#' @param n.cases `integer(1)`. Number of cases/disease.
 #' @return A \eqn{2x2} matrix containing rows of sensitivity and
 #'   specificity respectively and columns of lower and upper 95%
 #'   joint confidence intervals respectively.
+#'
 #' @author Mike Mehan
+#'
 #' @seealso [calc_ci_binom()]
 #' @examples
 #' # calculate CI95s for 80/80 sens/spec
@@ -74,13 +77,15 @@ calc_joint_CI95 <- function(sens, spec, n.controls, n.cases) {
 #' @param right Value for the right side of the box.
 #' @param col Color of the box.
 #' @param alpha Shading value of the box, passed to [ggplot2::alpha()].
+#'
 #' @author Stu Field, Amanda Hiser
+#'
 #' @importFrom graphics par
 #' @importFrom ggplot2 annotate
 #' @noRd
 .add_box <- function(bottom = NULL, top = NULL, left = NULL,
                      right = NULL, col, alpha) {
-  par <- par("usr")
+  par <- par("usr")  # nolint: undesirable_linter.
   bottom <- bottom %||% par[3L]
   left   <- left %||% par[1L]
   top    <- top %||% par[4L]

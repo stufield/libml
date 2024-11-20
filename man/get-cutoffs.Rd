@@ -11,11 +11,11 @@ get_max_cutoff(truth, predicted, pos.class)
 get_spec_cutoff(truth, predicted, spec, pos.class)
 }
 \arguments{
-\item{truth}{Character or factor. A vector of true class names.
+\item{truth}{\code{character(n)} or \code{factor(n)}. A vector of true class names.
 In most instances you will have to also pass a \code{pos.class} argument
 defining the positive/event class.}
 
-\item{predicted}{Numeric. A numeric vector of class probabilities.}
+\item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
 \item{pos.class}{Character. Name of the "positive" or "event" class.}
 

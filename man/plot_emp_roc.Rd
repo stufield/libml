@@ -33,11 +33,11 @@ plot_emp_roc(
 )
 }
 \arguments{
-\item{truth}{Character or factor. A vector of true class names.
+\item{truth}{\code{character(n)} or \code{factor(n)}. A vector of true class names.
 In most instances you will have to also pass a \code{pos.class} argument
 defining the positive/event class.}
 
-\item{predicted}{Numeric. A numeric vector of class probabilities.}
+\item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
 \item{pos.class}{Character. Name of the "positive" or "event" class.}
 
@@ -136,10 +136,13 @@ pred <- withr::with_seed(8,
         )
 
 plot_emp_roc(true, pred, pos.class = "disease", col = "dodgerblue")
-plot_emp_roc(true, pred, pos.class = "disease", ci95 = TRUE, boxes = FALSE, col = "red")
+plot_emp_roc(true, pred, pos.class = "disease", ci95 = TRUE, boxes = FALSE,
+             col = "red")
 
-plot_emp_roc(true, pred, pos.class = "disease", ci95 = FALSE, shape = 21, col = "green")
-plot_emp_roc(true, pred, pos.class = "disease", boot.auc = TRUE, col = "royalblue")
+plot_emp_roc(true, pred, pos.class = "disease", ci95 = FALSE, shape = 21,
+             col = "green")
+plot_emp_roc(true, pred, pos.class = "disease", boot.auc = TRUE,
+             col = "royalblue")
 
 plot_emp_roc(true, pred, pos.class = "disease", plot.fit = "both", col = "purple")
 plot_emp_roc(true, pred, pos.class = "disease", plot.fit = TRUE, ci95 = FALSE,
@@ -147,7 +150,8 @@ plot_emp_roc(true, pred, pos.class = "disease", plot.fit = TRUE, ci95 = FALSE,
 
 # Debugging with `debug = TRUE` displays
 # curve points to the console
-plot_emp_roc(true, pred, pos.class = "disease", debug = TRUE, col = "firebrick3")
+plot_emp_roc(true, pred, pos.class = "disease", debug = TRUE,
+             col = "firebrick3")
 
 # Multiple curves can be drawn on the same plot
 true2 <- rep(c("control", "disease"), each = 50)
@@ -156,7 +160,8 @@ pred2 <- withr::with_seed(8,
             rnorm(50, mean = 0.7, sd = 0.4))
         )
 plot_emp_roc(true, pred, pos.class = "disease", col = "firebrick3") +
-  plot_emp_roc(true2, pred2, pos.class = "disease", col = "forestgreen", add = 1)
+  plot_emp_roc(true2, pred2, pos.class = "disease",
+               col = "forestgreen", add = 1)
 }
 \seealso{
 \code{\link[=create_roc_data]{create_roc_data()}}, \code{\link[=roc_xy]{roc_xy()}}, \code{\link[=geom_roc]{geom_roc()}}

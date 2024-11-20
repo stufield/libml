@@ -15,7 +15,7 @@ if ( getRversion() >= "2.15.1" ) {
       "feature",
       "RFU",
       "rfu_df",
-      "L", "n", "nperm", # mackwolfe
+      "L", "n", "nperm", # mack_wolfe
       "plot_y",
       "Feature",
       "type",
@@ -24,28 +24,26 @@ if ( getRversion() >= "2.15.1" ) {
       "log2fc",
       "y",
       "pred",
-      "Pr", "F1", "F2",    # Bayes bivariate boundary
+      "Pr", "F1", "F2",    # bayes_bivariate_boundary
       "group",
       "lower.limit",
       "upper.limit",
-      "AptName", "EntrezGeneSymbol", "SeqId", "TargetFullName", "UniProt", "stats", # calc_univariate()
+      # calc_univariate
+      "AptName", "EntrezGeneSymbol", "SeqId", "TargetFullName", "UniProt", "stats",
       "auc",
-      "p_value_x", "p_value_y", "xnoty", "ynotx", "xory", "xy", "x_cutoff", "y_cutoff", # plot_contrast_tbls()
+      # plot_contrast_tbls
+      "p_value_x", "p_value_y", "xnoty", "ynotx", "xory", "xy", "x_cutoff", "y_cutoff",
       "truth",
       "ci",              # calc_confusion
       "estimate",        # calc_confusion
       "metric",          # getStat
       "Predicted",
       "SampleGroup",
-      "log2.fold.change",
-      "Gini_Importance",
+      "Gini_Importance", # get_gini
       "slope",
-      "specificity",   # plotEmpROC
-      "sensitivity",   # plotEmpROC
-      "sens_upperCI",  # plotEmpROC
-      "sens_lowerCI",  # plotEmpROC
-      "spec_upperCI",  # plotEmpROC
-      "spec_lowerCI",  # plotEmpROC
+      # plotEmpROC
+      "specificity", "sensitivity",   "sens_upperCI", "sens_lowerCI", "spec_upperCI",
+      "spec_lowerCI",
       "x1",            # plotROCbootCI95
       "y1",
       "y2"

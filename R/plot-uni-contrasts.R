@@ -35,7 +35,7 @@ plot_uni_contrasts <- function(x, y, cutoff = 0.05 / nrow(x), ident = FALSE,
 
   x <- filter(x, x$feature %in% common)
   y <- filter(y, y$feature %in% common)
-  lab <- bquote(-italic(log)[10] ~ (italic(p)-value))
+  lab <- bquote(-italic(log)[10] ~ (italic(p) - value))
 
   plot_df <- full_join(x, y, by = "feature", suffix = c("_x", "_y")) |>
     select(feature, p_value_x, p_value_y) |>
@@ -53,7 +53,7 @@ plot_uni_contrasts <- function(x, y, cutoff = 0.05 / nrow(x), ident = FALSE,
   c3 <- "#840B55"
   linecol <- "#54585A"
   border <- "black"
-  alpha = 0.7
+  alpha <- 0.7
 
   plot_df |>
     ggplot(aes(x = -log10(p_value_x), y = -log10(p_value_y))) +

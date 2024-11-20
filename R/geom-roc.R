@@ -129,5 +129,3 @@ geom_rocfit <- function(mapping = NULL, data = NULL, stat = "identity",
   geom_function(mapping = mapping, position = position,
                 fun = .rocFun, args = as.list(pars), ...)
 }
-
-

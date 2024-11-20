@@ -154,7 +154,7 @@ test_that("confusion matrix S3 summary method gives expected values; cutoff = 0.
                  0.301207679383086,
                  0.249954309633907,
                  0.322416883725584,
-                 0.080537774567429,NA),
+                 0.080537774567429, NA),
   CI95_upper = c(0.746473471942167,
                  1.00,
                  0.989747898517834,
@@ -163,7 +163,7 @@ test_that("confusion matrix S3 summary method gives expected values; cutoff = 0.
                  0.798792320616914,
                  0.750045690366093,
                  0.817583116274416,
-                 0.544051814464051,NA)
+                 0.544051814464051, NA)
   )
   expect_equal(sumry$metrics, x)
 

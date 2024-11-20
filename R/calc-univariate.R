@@ -94,9 +94,9 @@ calc_univariate <- function(data, var,
     tbl <- tibble(feature = setdiff(idx, var))
   }
   ret <- tbl |>
-   mutate(formula = map(feature, ~ create_form(.x, var)),  # create formula
-          test    = map(formula, function(.x) .fun(.x, data = data, ...)), # fit tests
-          stats   = map(test, .format_test)                # pull out statistic
+    mutate(formula = map(feature, ~ create_form(.x, var)), # create formula
+           test    = map(formula, function(.x) .fun(.x, data = data, ...)), # fit
+           stats   = map(test, .format_test)  # pull out statistic
     ) |>
     unnest(cols = stats) |>
     arrange(p_value)

@@ -5,11 +5,11 @@
 #'
 #' @name params
 #'
-#' @param truth Character or factor. A vector of true class names.
+#' @param truth `character(n)` or `factor(n)`. A vector of true class names.
 #'   In most instances you will have to also pass a `pos.class` argument
 #'   defining the positive/event class.
 #'
-#' @param predicted Numeric. A numeric vector of class probabilities.
+#' @param predicted `numeric(n)`. A numeric vector of class probabilities.
 #'
 #' @param pos.class Character. Name of the "positive" or "event" class.
 #'
@@ -30,7 +30,7 @@
 #' lines, points, bar, box, or ROC.
 #'
 #' @param data A `tibble` or `data.frame` object containing data for analysis.
-#'   Should often contain a "Response" column indicating the 
+#'   Should often contain a "Response" column indicating the
 #'   response variable, often the grouping variable.
 #'
 #' @param feats Character vector of features, usually column names

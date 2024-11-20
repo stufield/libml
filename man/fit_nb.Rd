@@ -52,7 +52,8 @@ fit_nb(x, ...)
 \arguments{
 \item{x}{A numeric matrix, a \code{tr_data} class objects, or a data frame
 of predictors. If called from an S3 generic method (e.g.
-\code{\link[=plot.libml_nb]{plot.libml_nb()}}) or \code{\link[=print.libml_nb]{print.libml_nb()}}), either a \code{libml_nb} or \code{naiveBayes} object.}
+\code{\link[=plot.libml_nb]{plot.libml_nb()}}) or \code{\link[=print.libml_nb]{print.libml_nb()}}), either a
+\code{libml_nb} or \code{naiveBayes} object.}
 
 \item{...}{Additional arguments passed to the default \code{\link[=fit_nb]{fit_nb()}}
 default method. Currently not used in the \code{predict} or \code{print} S3 methods,

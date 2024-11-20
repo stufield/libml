@@ -67,10 +67,13 @@
 #'         )
 #'
 #' plot_emp_roc(true, pred, pos.class = "disease", col = "dodgerblue")
-#' plot_emp_roc(true, pred, pos.class = "disease", ci95 = TRUE, boxes = FALSE, col = "red")
+#' plot_emp_roc(true, pred, pos.class = "disease", ci95 = TRUE, boxes = FALSE,
+#'              col = "red")
 #'
-#' plot_emp_roc(true, pred, pos.class = "disease", ci95 = FALSE, shape = 21, col = "green")
-#' plot_emp_roc(true, pred, pos.class = "disease", boot.auc = TRUE, col = "royalblue")
+#' plot_emp_roc(true, pred, pos.class = "disease", ci95 = FALSE, shape = 21,
+#'              col = "green")
+#' plot_emp_roc(true, pred, pos.class = "disease", boot.auc = TRUE,
+#'              col = "royalblue")
 #'
 #' plot_emp_roc(true, pred, pos.class = "disease", plot.fit = "both", col = "purple")
 #' plot_emp_roc(true, pred, pos.class = "disease", plot.fit = TRUE, ci95 = FALSE,
@@ -78,7 +81,8 @@
 #'
 #' # Debugging with `debug = TRUE` displays
 #' # curve points to the console
-#' plot_emp_roc(true, pred, pos.class = "disease", debug = TRUE, col = "firebrick3")
+#' plot_emp_roc(true, pred, pos.class = "disease", debug = TRUE,
+#'              col = "firebrick3")
 #'
 #' # Multiple curves can be drawn on the same plot
 #' true2 <- rep(c("control", "disease"), each = 50)
@@ -87,7 +91,8 @@
 #'             rnorm(50, mean = 0.7, sd = 0.4))
 #'         )
 #' plot_emp_roc(true, pred, pos.class = "disease", col = "firebrick3") +
-#'   plot_emp_roc(true2, pred2, pos.class = "disease", col = "forestgreen", add = 1)
+#'   plot_emp_roc(true2, pred2, pos.class = "disease",
+#'                col = "forestgreen", add = 1)
 #' @importFrom ggplot2 geom_ribbon geom_point geom_text geom_segment annotate
 #' @export
 plot_emp_roc <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,

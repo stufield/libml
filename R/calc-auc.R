@@ -33,7 +33,7 @@ calc_auc <- function(truth, predicted) {
   c2  <- 2L
   n1  <- as.numeric(tab[levs[c1]])
   n2  <- as.numeric(tab[levs[c2]])
-  if (n1 > 0 & n2 > 0) {
+  if ( n1 > 0 && n2 > 0 ) {
     r <- rank(c(predicted[idx[[c1]]], predicted[idx[[c2]]]))
     auc <- (sum(r[1:n1]) - n1 * (n1 + 1) / 2) / (n1 * n2)
   }
@@ -46,6 +46,7 @@ calc_auc <- function(truth, predicted) {
 #'   confidence intervals according to the DeLong approach via the standard
 #'   error of the AUC estimate. This empirical AUC estimate is calculated via
 #'   the trapezoid area at each step along the x-axis of a ROC curve.
+#'
 #' @param ci95 Logical. Should DeLong's standard error based confidence
 #'   limits be included with the AUC estimate?
 #' @seealso [plot_emp_roc()], [roc_xy()]
