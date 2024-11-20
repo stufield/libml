@@ -10,26 +10,26 @@ plot_emp_roc(
   pos_class,
   auc = TRUE,
   add = 0L,
-  boot.auc = FALSE,
+  boot_auc = FALSE,
   adj = c(0, 0),
-  auc.pos = c(0.5, 0.5),
-  auc.shift = 1.25,
-  auc.label = NULL,
-  auc.size = 5,
+  auc_pos = c(0.5, 0.5),
+  auc_shift = 1.25,
+  auc_label = NULL,
+  auc_size = 5,
   shape = NULL,
   size = 2,
   cutoff = 0.5,
-  cutoff.size = 5,
-  cutoff.shape = 23,
+  cutoff_size = 5,
+  cutoff_shape = 23,
   col = 1,
   ci95 = TRUE,
   lwd = 2,
   outline = TRUE,
   boxes = TRUE,
-  box.alpha = 0.35,
+  box_alpha = 0.35,
   debug = FALSE,
-  plot.fit = FALSE,
-  do.grid = TRUE
+  plot_fit = FALSE,
+  do_grid = TRUE
 )
 }
 \arguments{
@@ -49,26 +49,26 @@ Zero indexing is used, thus \code{add = 0L} (default) refers to a new plot
 and \code{add = 1L} will add a ROC layer to the existing plot and
 correctly position the \code{AUC} annotations shifted accordingly.}
 
-\item{boot.auc}{\code{logical(1)}. Should bootstrap confidence
+\item{boot_auc}{\code{logical(1)}. Should bootstrap confidence
 intervals of AUC be calculated?}
 
 \item{adj}{\code{numeric(1)} in \verb{[0, 1]}. Coordinates that are
 used to align the AUC text.}
 
-\item{auc.pos}{\code{numeric(1)} in \verb{[0, 1]} indicating where to
+\item{auc_pos}{\code{numeric(1)} in \verb{[0, 1]} indicating where to
 place the AUC text. Must be of \code{length == 2L}, indicating the
 x-axis and y-axis positions, respectively. By default, the AUC
 will be placed slightly to the right of center of the plot.}
 
-\item{auc.shift}{The vertical (downward) shift between AUC text values if
+\item{auc_shift}{The vertical (downward) shift between AUC text values if
 multiple ROCs are plotted.}
 
-\item{auc.label}{\code{character(1)}. Adds an additional label to
+\item{auc_label}{\code{character(1)}. Adds an additional label to
 the AUC text, i.e.
 \verb{"AUC = 0.99", with label "Extra Text": "Extra Text AUC = 0.99")}.
 Must be added individually to each plot.}
 
-\item{auc.size}{\code{numeric(1)}. The size for the AUC text.}
+\item{auc_size}{\code{numeric(1)}. The size for the AUC text.}
 
 \item{shape}{\code{numeric(1)}. Shape of points (between 0 and 25),
 similar to \code{pch} of \code{\link[graphics:points]{graphics::points()}}. See \code{\link[=geom_point]{geom_point()}}.}
@@ -86,10 +86,10 @@ the cutoff corresponding to the maximum \emph{perpendicular} distance
 between the curve and the unit diagonal. The CI95 of the operating
 point (boxes) can be omitted by setting \code{cutoff = NA}.}
 
-\item{cutoff.size}{\code{numeric(1)} in \verb{[0, 1]}, the character
+\item{cutoff_size}{\code{numeric(1)} in \verb{[0, 1]}, the character
 size for the cutoff point symbol.}
 
-\item{cutoff.shape}{\code{numeric(1)}. The point symbol used for the
+\item{cutoff_shape}{\code{numeric(1)}. The point symbol used for the
 cutoff point plotted on the ROC. Defaults to a diamond (\code{23}).}
 
 \item{col}{\code{character(1)} or \code{integer(1)}. Specify the colors for
@@ -106,7 +106,7 @@ the main plot line?}
 drawn (showing the joint CI95 of the sensitivity and
 specificity confidence intervals) at the cutoff point?}
 
-\item{box.alpha}{\code{numeric(1)} in \verb{[0, 1]}, the shading
+\item{box_alpha}{\code{numeric(1)} in \verb{[0, 1]}, the shading
 transparency for the confidence interval box at a given cutoff.}
 
 \item{debug}{\code{logical(1)}. Should debugging mode be activated?
@@ -115,14 +115,14 @@ each cutoff, prints the "positive class", prints the prediction
 data to the console, and various other internal objects useful
 for debugging.}
 
-\item{plot.fit}{\code{logical(1)}. Should a maximum-likelihood
+\item{plot_fit}{\code{logical(1)}. Should a maximum-likelihood
 (or least-squares if ML fails) fit of the curve be plotted?
-If \code{plot.fit = TRUE}, only the fit will be plotted, without the
+If \code{plot_fit = TRUE}, only the fit will be plotted, without the
 empirical ROC.
-Can also be \code{plot.fit = "both"}, where a fit will be \emph{added}
+Can also be \code{plot_fit = "both"}, where a fit will be \emph{added}
 to the empirical ROC.}
 
-\item{do.grid}{\code{logical(1)}. Should grid lines be added to the ROC?}
+\item{do_grid}{\code{logical(1)}. Should grid lines be added to the ROC?}
 }
 \value{
 A ROC curve is plotted and its corresponding AUC is returned.
@@ -146,12 +146,12 @@ plot_emp_roc(true, pred, pos_class = "disease", ci95 = TRUE, boxes = FALSE,
 
 plot_emp_roc(true, pred, pos_class = "disease", ci95 = FALSE, shape = 21,
              col = "green")
-plot_emp_roc(true, pred, pos_class = "disease", boot.auc = TRUE,
+plot_emp_roc(true, pred, pos_class = "disease", boot_auc = TRUE,
              col = "royalblue")
 
-plot_emp_roc(true, pred, pos_class = "disease", plot.fit = "both",
+plot_emp_roc(true, pred, pos_class = "disease", plot_fit = "both",
              col = "purple")
-plot_emp_roc(true, pred, pos_class = "disease", plot.fit = TRUE, ci95 = FALSE,
+plot_emp_roc(true, pred, pos_class = "disease", plot_fit = TRUE, ci95 = FALSE,
              auc = FALSE, cutoff = NA, col = 2, lwd = 4) # curve only; no cutoff
 
 # Debugging with `debug = TRUE` displays
