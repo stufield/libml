@@ -311,13 +311,14 @@ predict.libml_nb <- function(object, newdata,
 #' @examples
 #' # Plotting
 #' plot(m2, tr_iris)
-#' plot(m2, tr_iris, id = 50)      # sample 50 is definitely "setosa"
-#' plot(m1, tr_iris, plot.type = "cdf")  # plot type CDF
+#' plot(m2, tr_iris, id = 20)      # sample 20 is definitely "virginica"
+#' plot(m1, tr_iris, plot_type = "cdf")  # plot type CDF
 #' plot(m2, tr_iris, features = "Sepal.Length", id = 70)  # 1 feature
-#' plot(m1, tr_iris, plot.type = "cdf", lty = "longdash") # pass-through of lty
+#' plot(m1, tr_iris, plot_type = "cdf", lty = "longdash") # pass-through of lty
 #' @importFrom dplyr all_of
 #' @export
-plot.libml_nb <- function(x, data, features, plot_type = c("pdf", "cdf", "log_odds"),
+plot.libml_nb <- function(x, data, features,
+                          plot_type = c("pdf", "cdf", "log_odds"),
                           x_lab = "value", id, ...) {
 
   if ( missing(data) && inherits(x$data, "data.frame") ) {
@@ -390,7 +391,7 @@ plot.libml_nb <- function(x, data, features, plot_type = c("pdf", "cdf", "log_od
     pred <- predict(x, newdata = data, type = "posterior")[, 2L]
     p    <- plot_log_odds(truth     = data[[response]],
                           predicted = pred,
-                          pos.class = get_pos_class(x))
+                          pos_class = get_pos_class(x))
   }
   p
 }

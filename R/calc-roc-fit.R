@@ -33,7 +33,7 @@
 #' true <- rep(c("control", "case"), each = n)
 #' pred <- withr::with_seed(1, c(rnorm(n, 0.45, 0.2), rnorm(n, 0.65, 0.2)))
 #'
-#' rocxy <- data.frame(roc_xy(true, pred, pos.class = "case"))
+#' rocxy <- data.frame(roc_xy(true, pred, pos_class = "case"))
 #' calc_roc_fit(rocxy)        # Max Lik
 #' calc_roc_fit(rocxy, "LS")  # Least Squares
 #'

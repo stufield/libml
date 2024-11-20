@@ -5,19 +5,19 @@
 \title{Common Parameters in \pkg{libml}}
 \arguments{
 \item{truth}{\code{character(n)} or \code{factor(n)}. A vector of true class names.
-In most instances you will have to also pass a \code{pos.class} argument
+In most instances you will have to also pass a \code{pos_class} argument
 defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
+\item{pos_class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
 \item{cutoff}{\code{numeric(1)}. A cutoff for the decision/operating point,
 predictions above which are considered the \emph{positive} class.}
 
 \item{main}{\code{character(1)}. Optional string for the plot title.}
 
-\item{y.lab}{\code{character(1)}. Optional label for the y-axis.}
+\item{y_lab}{\code{character(1)}. Optional label for the y-axis.}
 
 \item{alpha}{\code{numeric(1)} in \verb{[0, 1]}. The color transparency.
 See also \code{\link[ggplot2:reexports]{ggplot2::alpha()}}.}
@@ -34,6 +34,9 @@ response variable, often the grouping variable.}
 
 \item{feats}{\code{character(n)}. A vector of features, usually column names
 of a data frame.}
+
+\item{formula}{A \code{formula} class object, specifying
+the model to be fitted (e.g. \eqn{response ~ x_1 + x_2 + ... + x_n}).}
 
 \item{response}{\code{character(1)}. The column name to use as the
 response grouping. Expected to be a factor with 2 levels.

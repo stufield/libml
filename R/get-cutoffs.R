@@ -24,12 +24,12 @@
 #' get_max_cutoff(true, pred, "disease")
 #'
 #' @export
-get_max_cutoff <- function(truth, predicted, pos.class) {
-  xy <- roc_xy(truth, predicted, pos.class)   # ROC c(x,y) for `points()`
+get_max_cutoff <- function(truth, predicted, pos_class) {
+  xy <- roc_xy(truth, predicted, pos_class)   # ROC c(x,y) for `points()`
   perp_dist <- apply(xy, 1, calc_roc_perpendicular)
   spec <- 1 - xy[, "x"]
   max_spec <- spec[which.max(perp_dist)]     # specificity at max perp
-  get_spec_cutoff(truth, predicted, spec = max_spec, pos.class)
+  get_spec_cutoff(truth, predicted, spec = max_spec, pos_class)
 }
 
 #' Get Cutoff for a Given Specificity
@@ -48,13 +48,13 @@ get_max_cutoff <- function(truth, predicted, pos.class) {
 #' # via specificity
 #' get_spec_cutoff(true, pred, 0.4, "disease")
 #' @export
-get_spec_cutoff <- function(truth, predicted, spec, pos.class) {
-  n_neg <- sum(truth != pos.class)
+get_spec_cutoff <- function(truth, predicted, spec, pos_class) {
+  n_neg <- sum(truth != pos_class)
   tol   <- .Machine$double.eps^0.5 # fix underflow
   fp    <- 0
 
   for ( i in seq_along(truth) ) {
-    if ( truth[i] != pos.class ) {
+    if ( truth[i] != pos_class ) {
       fp <- fp + 1
     }
     if ( (1 - fp / n_neg) - spec < -tol ) {

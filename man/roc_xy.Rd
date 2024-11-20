@@ -4,16 +4,16 @@
 \alias{roc_xy}
 \title{ROC Curve Coordinates}
 \usage{
-roc_xy(truth, predicted, pos.class)
+roc_xy(truth, predicted, pos_class)
 }
 \arguments{
 \item{truth}{\code{character(n)} or \code{factor(n)}. A vector of true class names.
-In most instances you will have to also pass a \code{pos.class} argument
+In most instances you will have to also pass a \code{pos_class} argument
 defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
+\item{pos_class}{\code{character(1)}. Name of the "positive" or "event" class.}
 }
 \value{
 A matrix containing the \code{x} and \code{y} coordinates for the

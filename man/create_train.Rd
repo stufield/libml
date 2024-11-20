@@ -16,7 +16,7 @@ is.tr_data(data)
 \item{data}{A \code{data.frame} used to create a training data set.}
 
 \item{...}{Arguments passed to \code{\link[=filter]{filter()}} used to subset \emph{rows}.
-If passing to the S3 plot method for objects of class \code{tr_data},
+If passing to the S3 plot method for \code{tr_data} class objects,
 additional arguments are passed to \code{\link[SomaPlotr:plotCDF]{SomaPlotr::plotCDFbyGroup()}}
 via the \code{...}.}
 

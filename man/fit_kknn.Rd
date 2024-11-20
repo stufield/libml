@@ -15,8 +15,8 @@ fit_kknn(
 )
 }
 \arguments{
-\item{formula}{An object of class "formula": a symbolic
-description of the model to be fitted (e.g. \eqn{Response ~ terms}).}
+\item{formula}{A \code{formula} class object, specifying
+the model to be fitted (e.g. \eqn{response ~ x_1 + x_2 + ... + x_n}).}
 
 \item{train}{Matrix or data frame of training set cases.}
 
@@ -63,7 +63,7 @@ pred <- calc_predictions(kknnfit)    # model predictions
 pred
 
 # Confusion matrix
-calc_confusion(true, pred$prob_virginica, pos.class = pos) |>
+calc_confusion(true, pred$prob_virginica, pos_class = pos) |>
   summary()
 
 # plot ROC

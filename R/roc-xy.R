@@ -43,21 +43,21 @@
 #' ggplot2::ggplot(data.frame(xy), ggplot2::aes(x = x, y = y)) +
 #'   geom_roc(outline = FALSE, shape = 19)
 #' @export
-roc_xy <- function(truth, predicted, pos.class) {
+roc_xy <- function(truth, predicted, pos_class) {
   stopifnot(
     length(truth) == length(predicted),
-    pos.class %in% truth
+    pos_class %in% truth
   )
 
-  if ( is.factor(truth) && typeof(pos.class) == "character" ) {
+  if ( is.factor(truth) && typeof(pos_class) == "character" ) {
     truth <- as.character(truth)    # assume user intent is character
   }
 
-  if ( typeof(truth) != typeof(pos.class) ) {
+  if ( typeof(truth) != typeof(pos_class) ) {
     warning(
       "You are passing un-matched types: ",
       "truth = ", value(typeof(truth)), " vs. ",
-      "pos.class = ", value(typeof(pos.class)), ". ",
+      "pos_class = ", value(typeof(pos_class)), ". ",
       "Matched types is safer and more robust.",
       call. = FALSE
     )
@@ -72,5 +72,5 @@ roc_xy <- function(truth, predicted, pos.class) {
   ord <- order(predicted, decreasing = TRUE)   # ord indices
   # must pre-order class names by decreasing prediction
   # for input into `roc_xy_cpp()`
-  roc_xy_cpp(truth[ord], predicted[ord], as.character(pos.class))
+  roc_xy_cpp(truth[ord], predicted[ord], as.character(pos_class))
 }

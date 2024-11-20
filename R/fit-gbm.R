@@ -13,7 +13,7 @@
 #'   true class names for each sample (row) in `x`.
 #' @param ... Arguments passed to [gbm()].
 #'
-#' @return An object of class `gbm`, as returned by [gbm()].
+#' @return A `gbm` class object, as returned by [gbm()].
 #' @author Stu Field
 #' @seealso [gbm()], [create_train()]
 #'

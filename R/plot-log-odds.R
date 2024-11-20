@@ -29,8 +29,8 @@
 #' @importFrom ggplot2 ggplot aes geom_point labs xlim geom_vline
 #' @importFrom ggplot2 scale_fill_manual scale_color_manual scale_shape_manual
 #' @export
-plot_log_odds <- function(truth, predicted, pos.class,  cutoff = 0.5,
-                          main = NULL, y.lab = NULL, max_prob = NULL,
+plot_log_odds <- function(truth, predicted, pos_class,  cutoff = 0.5,
+                          main = NULL, y_lab = NULL, max_prob = NULL,
                           scramble = FALSE) {
 
   if ( !is.null(max_prob) ) {
@@ -40,8 +40,8 @@ plot_log_odds <- function(truth, predicted, pos.class,  cutoff = 0.5,
 
   sample_order <- c("FP", "TN", "TP", "FN")
 
-  if ( is.null(y.lab) ) {
-    y.lab <- paste("Sample Order:", paste(sample_order, collapse = "-"))
+  if ( is.null(y_lab) ) {
+    y_lab <- paste("Sample Order:", paste(sample_order, collapse = "-"))
   }
 
   # threshold machine precision for edge case 1/0; Inf
@@ -57,20 +57,20 @@ plot_log_odds <- function(truth, predicted, pos.class,  cutoff = 0.5,
     })
   }
 
-  if ( !pos.class %in% truth ) {
+  if ( !pos_class %in% truth ) {
     stop(
-      "Please check spelling of `pos.class =` argument: ",
-      value(pos.class), call. = FALSE
+      "Please check spelling of `pos_class =` argument: ",
+      value(pos_class), call. = FALSE
     )
   }
 
   # assumes binary
-  neg_class <- setdiff(unique(truth), pos.class) # nolint: object_usage_linter.
+  neg_class <- setdiff(unique(truth), pos_class) # nolint: object_usage_linter.
 
   types <- dplyr::case_when(
-    predicted < cutoff  & truth == pos.class ~ "FN",
+    predicted < cutoff  & truth == pos_class ~ "FN",
     predicted >= cutoff & truth == neg_class ~ "FP",
-    predicted >= cutoff & truth == pos.class ~ "TP",
+    predicted >= cutoff & truth == pos_class ~ "TP",
     predicted < cutoff  & truth == neg_class ~ "TN"
   )
 
@@ -95,7 +95,7 @@ plot_log_odds <- function(truth, predicted, pos.class,  cutoff = 0.5,
     ggplot2::scale_color_manual(values = cols, name = "") +
     ggplot2::scale_shape_manual(values = c(19, 17, 15, 19), name = "") +
     ggplot2::labs(x = bquote(italic(log)[e] ~ (italic(p) / (1 - italic(p)))),
-                  y = y.lab, title = main) +
+                  y = y_lab, title = main) +
     ggplot2::geom_vline(xintercept = log_cutoff, linetype = "longdash") +
     ggplot2::xlim(-ceiling(max(abs(df$log_odds))),
                   ceiling(max(abs(df$log_odds)))) +

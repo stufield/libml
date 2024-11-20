@@ -34,7 +34,7 @@
 #' })
 #'
 #' # Summary of confusion matrix
-#' c_mat <- calc_confusion(true, pred, pos.class = "disease") |> summary()
+#' c_mat <- calc_confusion(true, pred, pos_class = "disease") |> summary()
 #' class(c_mat)
 #'
 #' # pull out elements

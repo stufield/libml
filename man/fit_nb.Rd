@@ -173,10 +173,10 @@ table(predict(m2, iris), iris$Species) # approx same for Gaussian data; no outli
 
 # Plotting
 plot(m2, tr_iris)
-plot(m2, tr_iris, id = 50)      # sample 50 is definitely "setosa"
-plot(m1, tr_iris, plot.type = "cdf")  # plot type CDF
+plot(m2, tr_iris, id = 20)      # sample 20 is definitely "virginica"
+plot(m1, tr_iris, plot_type = "cdf")  # plot type CDF
 plot(m2, tr_iris, features = "Sepal.Length", id = 70)  # 1 feature
-plot(m1, tr_iris, plot.type = "cdf", lty = "longdash") # pass-through of lty
+plot(m1, tr_iris, plot_type = "cdf", lty = "longdash") # pass-through of lty
 }
 \references{
 This function was \emph{heavily} influenced by \code{\link[e1071:naiveBayes]{e1071::naiveBayes()}}

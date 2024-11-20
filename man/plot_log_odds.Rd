@@ -7,29 +7,29 @@
 plot_log_odds(
   truth,
   predicted,
-  pos.class,
+  pos_class,
   cutoff = 0.5,
   main = NULL,
-  y.lab = NULL,
+  y_lab = NULL,
   max_prob = NULL,
   scramble = FALSE
 )
 }
 \arguments{
 \item{truth}{\code{character(n)} or \code{factor(n)}. A vector of true class names.
-In most instances you will have to also pass a \code{pos.class} argument
+In most instances you will have to also pass a \code{pos_class} argument
 defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
+\item{pos_class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
 \item{cutoff}{\code{numeric(1)}. A cutoff for the decision/operating point,
 predictions above which are considered the \emph{positive} class.}
 
 \item{main}{\code{character(1)}. Optional string for the plot title.}
 
-\item{y.lab}{\code{character(1)}. Optional label for the y-axis.}
+\item{y_lab}{\code{character(1)}. Optional label for the y-axis.}
 
 \item{max_prob}{\code{numeric(1)}. Maximum probability value cutoff for
 the log-odds plot. Removes extreme samples from the plot

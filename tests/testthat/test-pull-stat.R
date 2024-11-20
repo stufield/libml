@@ -15,7 +15,7 @@ pred <- c(0.700711545301601, 0.956837461562827, 0.213352001970634,
           0.0201671982649714, 0.924804413458332)
 
 # Generate confusion summary object ----
-c_mat <- summary(calc_confusion(true, pred, pos.class = "disease"))
+c_mat <- summary(calc_confusion(true, pred, pos_class = "disease"))
 
 # Testing ----
 test_that("`pull_stat()` pulls the correct values from `summary_confusion_matrix`", {

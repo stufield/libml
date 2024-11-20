@@ -22,12 +22,12 @@
 #'                    F2    = tr_iris$Sepal.Length,
 #'                    class = tr_iris$Species)
 #' head(data)
-#' plot_bayes_boundary(data, pos.class = "virginica")
+#' plot_bayes_boundary(data, pos_class = "virginica")
 #' @importFrom stats predict
 #' @importFrom ggplot2 aes ggplot geom_contour geom_raster
 #' @importFrom ggplot2 geom_point labs scale_fill_gradient scale_color_manual
 #' @export
-plot_bayes_boundary <- function(data, pos.class, res = 50L, main = NULL) {
+plot_bayes_boundary <- function(data, pos_class, res = 50L, main = NULL) {
   stopifnot(
     "`data` must have at *least* 3 columns to plot." = ncol(data) == 3L,
     "`res` must be integer."                         = is_int(res)
@@ -35,8 +35,8 @@ plot_bayes_boundary <- function(data, pos.class, res = 50L, main = NULL) {
   train <- data |>
     dplyr::rename_if(is.factor, function(.x) "class") |> # rename response
     dplyr::rename_at(1:2L, function(.x) c("F1", "F2"))   # rename features 1,2
-  train$class <- factor(train$class,    # pos.class 2nd
-                        levels = c(setdiff(train$class, pos.class), pos.class))
+  train$class <- factor(train$class,    # pos_class 2nd
+                        levels = c(setdiff(train$class, pos_class), pos_class))
   model <- fit_nb(class ~ F1 + F2, data = train)
 
   df <- expand_grid(

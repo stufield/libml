@@ -30,7 +30,7 @@ test_that("calc_conf traps and errors: `truth` must be character, integer, or fa
   expect_no_error(calc_confusion(factor(x), runif(n), "b"))
 })
 
-test_that("pos.class numeric or character when in `truth`", {
+test_that("`pos_class` numeric or character when in `truth`", {
   x <- sample(0:1, 10, replace = TRUE)
   y <- runif(10)
   expect_equal(
@@ -58,22 +58,22 @@ test_that("calc_conf traps and errors: truth not binary", {
   )
 })
 
-test_that("calc_conf traps and errors: pos.class missing", {
+test_that("calc_conf traps and errors: `pos_class` missing", {
   expect_error(
     calc_confusion(true, pred),
-    "You must pass a `pos.class` argument specifying the event class."
+    "You must pass a `pos_class` argument specifying the event class."
   )
   # Also trips when truth is a factor
   expect_error(
     calc_confusion(factor(true), pred),
-    "You must pass a `pos.class` argument specifying the event class."
+    "You must pass a `pos_class` argument specifying the event class."
   )
 })
 
-test_that("calc_conf traps and errors: `pos.class` not in `truth`", {
+test_that("calc_conf traps and errors: `pos_class` not in `truth`", {
   expect_error(
     calc_confusion(true, pred, "event"),
-    paste("Your choice of `pos.class` is not contained in `truth`.",
+    paste("Your choice of `pos_class` is not contained in `truth`.",
           "Please choose one of: 'control', 'disease'")
     )
 
@@ -89,7 +89,7 @@ test_that("calc_conf returns expected shape, dimensions, and values", {
   expect_equal(dim(tbl), c(2, 2))
   expect_equal(as.numeric(tbl), c(6L, 5L, 4L, 5L))
   # Reverse positive class = control
-  tbl <- calc_confusion(true, pred, "control")   # by pos.class =
+  tbl <- calc_confusion(true, pred, "control")   # by pos_class =
   expect_equal(as.numeric(tbl), c(5L, 6L, 5L, 4L))
 })
 
@@ -100,7 +100,7 @@ test_that("calc_conf returns expected values at different cutoff", {
   expect_equal(as.numeric(tbl), c(7L, 6L, 3L, 4L))
 })
 
-test_that("calc_conf ignores factor levels and uses pos.class argument", {
+test_that("calc_conf ignores factor levels and uses `pos_class` param", {
   f1 <- factor(true, levels = c("control", "disease"))
   f2 <- factor(true, levels = c("disease", "control"))
   c1 <- calc_confusion(f1, pred, "disease")
@@ -115,12 +115,12 @@ test_that("calc_conf ignores factor levels and uses pos.class argument", {
 
 # Summary ----
 test_that("confusion matrix S3 summary method gives expected values; cutoff = 0.75", {
-  sumry <- summary(calc_confusion(true, pred, pos.class = "disease", 0.75))
+  sumry <- summary(calc_confusion(true, pred, pos_class = "disease", 0.75))
   expect_type(sumry, "list")
   expect_s3_class(sumry, "summary_confusion_matrix")
   expect_named(sumry, c("confusion", "metrics", "stats"))
   expect_equal(sumry$confusion,
-               calc_confusion(factor(true), pred, pos.class = "disease", 0.75))
+               calc_confusion(factor(true), pred, pos_class = "disease", 0.75))
   expect_s3_class(sumry$metrics, "tbl_df")
   expect_equal(dim(sumry$metrics), c(10L, 5L))
   expect_named(sumry$metrics, c("metric", "n", "estimate",

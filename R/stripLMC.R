@@ -5,7 +5,7 @@
 #'   when building thousands of models, e.g. during
 #'   cross-validation to manage memory.
 #'
-#' @param x A model object of class `"lm"` or `"glm"`.
+#' @param x A model object, either `lm` or `glm` class.
 #'
 #' @return A stripped down (size) `"lm"` or `"glm"` object.
 #'   For `"lm"` class, removes or sets -> 0 these elements:

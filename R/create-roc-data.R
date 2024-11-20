@@ -40,18 +40,18 @@
 #'
 #' @importFrom tibble as_tibble
 #' @export
-create_roc_data <- function(truth, predicted, pos.class, do.ci = FALSE,
+create_roc_data <- function(truth, predicted, pos_class, do.ci = FALSE,
                             cutoffs = seq(0.00001, 0.99999,
                                           length.out = length(truth)),
                             include.auc = FALSE) {
 
   stopifnot(
-    "The `pos.class` must be in `truth`." = pos.class %in% truth
+    "The `pos_class` must be in `truth`." = pos_class %in% truth
   )
   ret <- lapply(cutoffs, function(.cut) {
            eval_cut_cpp(truth     = as.character(truth),
                         predicted = predicted,
-                        pos_class = as.character(pos.class),
+                        pos_class = as.character(pos_class),
                         cutoff    = .cut)
   })
   ret  <- data.frame(do.call(rbind, ret))
@@ -61,7 +61,7 @@ create_roc_data <- function(truth, predicted, pos.class, do.ci = FALSE,
   ret$YoudenJ <- (ret$sensitivity + ret$specificity) - 1 # Youden Index
 
   if ( include.auc ) {
-    auc <- calc_emp_auc(truth, predicted, pos.class, do.ci)
+    auc <- calc_emp_auc(truth, predicted, pos_class, do.ci)
     if ( do.ci ) {
       ret$auc_lowerCI <- auc$lower.limit   # add to end
       ret$auc_upperCI <- auc$upper.limit   # add to end
@@ -73,8 +73,8 @@ create_roc_data <- function(truth, predicted, pos.class, do.ci = FALSE,
 
   if ( do.ci ) {
     counts      <- table(truth)
-    n_disease   <- counts[[pos.class]]
-    n_control   <- counts[[setdiff(names(counts), pos.class)]]
+    n_disease   <- counts[[pos_class]]
+    n_control   <- counts[[setdiff(names(counts), pos_class)]]
     sens_limits <- calc_ci_binom(ret$sensitivity, n = n_disease, ci = sqrt(0.95))
     names(sens_limits) <- c("sens_lowerCI", "sens_upperCI")
     spec_limits <- calc_ci_binom(ret$specificity, n = n_control, ci = sqrt(0.95))

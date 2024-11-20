@@ -9,31 +9,34 @@
 \usage{
 calc_auc(truth, predicted)
 
-calc_emp_auc(truth, predicted, pos.class, ci95 = FALSE)
+calc_emp_auc(truth, predicted, pos_class, ci95 = FALSE)
 
-calc_pepe_auc(truth, predicted, pos.class)
+calc_pepe_auc(truth, predicted, pos_class)
 
 calc_boot_auc(
   truth,
   predicted,
-  pos.class,
+  pos_class,
   nboot = 1000,
-  r.seed = sample(1000, 1)
+  r_seed = sample(1000, 1)
 )
 }
 \arguments{
 \item{truth}{\code{character(n)} or \code{factor(n)}. A vector of true class names.
-In most instances you will have to also pass a \code{pos.class} argument
+In most instances you will have to also pass a \code{pos_class} argument
 defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
+\item{pos_class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
 \item{ci95}{\code{logical(1)}. Should DeLong's standard error based confidence
 limits be included with the AUC estimate?}
 
 \item{nboot}{\code{integer(1)}. The number of bootstrap estimates to perform.}
+
+\item{r_seed}{`integer(1). The value of the random seed if
+reproducibility is desired.}
 }
 \value{
 All return a numeric scalar corresponding to the area under
@@ -86,7 +89,7 @@ calc_pepe_auc(true, pred, "disease")
 
 # bootstrapped AUC
 calc_boot_auc(true, pred, "disease")
-calc_boot_auc(true, pred, "disease", nboot = 100, r.seed = 100)  # reproducible
+calc_boot_auc(true, pred, "disease", nboot = 100, r_seed = 100)  # reproducible
 }
 \references{
 DeLong et al. (1988) for the calculation of the Standard Error

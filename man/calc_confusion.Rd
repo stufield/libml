@@ -7,7 +7,7 @@
 \alias{print.summary_confusion_matrix}
 \title{Calculate confusion matrix}
 \usage{
-calc_confusion(truth, predicted, pos.class, cutoff = 0.5)
+calc_confusion(truth, predicted, pos_class, cutoff = 0.5)
 
 \method{print}{confusion_matrix}(x, ...)
 
@@ -17,12 +17,12 @@ calc_confusion(truth, predicted, pos.class, cutoff = 0.5)
 }
 \arguments{
 \item{truth}{\code{character(n)} or \code{factor(n)}. A vector of true class names.
-In most instances you will have to also pass a \code{pos.class} argument
+In most instances you will have to also pass a \code{pos_class} argument
 defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
+\item{pos_class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
 \item{cutoff}{\code{numeric(1)}. A cutoff for the decision/operating point,
 predictions above which are considered the \emph{positive} class.}
@@ -35,11 +35,11 @@ predictions above which are considered the \emph{positive} class.}
 \code{\link[=calc_confusion]{calc_confusion()}}.}
 }
 \value{
-An object of class \code{confusion_matrix}, with the \emph{True} values
-along the y-axis and \emph{Predicted} values along the x-axis.
+A \code{confusion_matrix} class object, with the \emph{true} values
+along the y-axis and \emph{predicted} values along the x-axis.
 
-Summary method returns a list object of class
-\code{summary_confusion_matrix} consisting of:
+Summary method returns a \code{summary_confusion_matrix} class object
+(list) consisting of:
 \item{confusion:}{The class counts based on the confusion matrix.}
 \item{metrics:}{Performance metric estimates, \code{n}, and associated
 binomial 95\% confidence intervals. Note that \code{MCC} has a range in
@@ -52,7 +52,7 @@ Calculate a confusion matrix from a series of predictions,
 true class names and a decision cutoff. Returns a
 \verb{2x2} confusion matrix. It is imperative that the
 \emph{positive} class is clearly defined to avoid  ambiguity
-with factor levels, therefore passing \verb{pos.class =} argument
+with factor levels, therefore passing \code{pos_class} argument
 is \emph{not} optional.
 See \code{Details} for assumptions about the table layout.
 }
@@ -98,16 +98,16 @@ withr::with_seed(22, {
   true <- sample(c("control", "disease"), n, replace = TRUE)
   pred <- runif(n)
 })
-(c_mat <- calc_confusion(true, pred, pos.class = "disease"))
+(c_mat <- calc_confusion(true, pred, pos_class = "disease"))
 
-calc_confusion(true, pred, pos.class = "disease", 0.75)    # specify cutoff
+calc_confusion(true, pred, pos_class = "disease", 0.75)    # specify cutoff
 
 # factor levels of `truth` are ignored
-# The `pos.class` argument is respected always
+# The `pos_class` argument is respected always
 true_a <- factor(true, levels = c("control", "disease"))
 true_b <- factor(true, levels = c("disease", "control"))
-a <- calc_confusion(true_a, pred, pos.class = "disease")
-b <- calc_confusion(true_b, pred, pos.class = "disease")
+a <- calc_confusion(true_a, pred, pos_class = "disease")
+b <- calc_confusion(true_b, pred, pos_class = "disease")
 identical(a, b)
 
 # S3 summary method

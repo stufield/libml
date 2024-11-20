@@ -7,7 +7,7 @@
 plot_emp_roc(
   truth,
   predicted,
-  pos.class,
+  pos_class,
   auc = TRUE,
   add = 0L,
   boot.auc = FALSE,
@@ -34,12 +34,12 @@ plot_emp_roc(
 }
 \arguments{
 \item{truth}{\code{character(n)} or \code{factor(n)}. A vector of true class names.
-In most instances you will have to also pass a \code{pos.class} argument
+In most instances you will have to also pass a \code{pos_class} argument
 defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
+\item{pos_class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
 \item{auc}{\code{logical(1)}. Should the AUC be printed on the plot?}
 
@@ -140,23 +140,23 @@ pred <- withr::with_seed(8,
             rnorm(50, mean = 0.6, sd = 0.2))    # disease predictions
         )
 
-plot_emp_roc(true, pred, pos.class = "disease", col = "dodgerblue")
-plot_emp_roc(true, pred, pos.class = "disease", ci95 = TRUE, boxes = FALSE,
+plot_emp_roc(true, pred, pos_class = "disease", col = "dodgerblue")
+plot_emp_roc(true, pred, pos_class = "disease", ci95 = TRUE, boxes = FALSE,
              col = "red")
 
-plot_emp_roc(true, pred, pos.class = "disease", ci95 = FALSE, shape = 21,
+plot_emp_roc(true, pred, pos_class = "disease", ci95 = FALSE, shape = 21,
              col = "green")
-plot_emp_roc(true, pred, pos.class = "disease", boot.auc = TRUE,
+plot_emp_roc(true, pred, pos_class = "disease", boot.auc = TRUE,
              col = "royalblue")
 
-plot_emp_roc(true, pred, pos.class = "disease", plot.fit = "both",
+plot_emp_roc(true, pred, pos_class = "disease", plot.fit = "both",
              col = "purple")
-plot_emp_roc(true, pred, pos.class = "disease", plot.fit = TRUE, ci95 = FALSE,
+plot_emp_roc(true, pred, pos_class = "disease", plot.fit = TRUE, ci95 = FALSE,
              auc = FALSE, cutoff = NA, col = 2, lwd = 4) # curve only; no cutoff
 
 # Debugging with `debug = TRUE` displays
 # curve points to the console
-plot_emp_roc(true, pred, pos.class = "disease", debug = TRUE,
+plot_emp_roc(true, pred, pos_class = "disease", debug = TRUE,
              col = "firebrick3")
 
 # Multiple curves can be drawn on the same plot
@@ -165,8 +165,8 @@ pred2 <- withr::with_seed(8,
           c(rnorm(50, mean = 0.5, sd = 0.3),
             rnorm(50, mean = 0.7, sd = 0.4))
         )
-plot_emp_roc(true, pred, pos.class = "disease", col = "firebrick3") +
-  plot_emp_roc(true2, pred2, pos.class = "disease",
+plot_emp_roc(true, pred, pos_class = "disease", col = "firebrick3") +
+  plot_emp_roc(true2, pred2, pos_class = "disease",
                col = "forestgreen", add = 1)
 }
 \seealso{

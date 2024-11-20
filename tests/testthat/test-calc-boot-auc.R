@@ -12,7 +12,7 @@ pred <- c(0.700711545301601, 0.956837461562827, 0.213352001970634,
           0.913478652015328, 0.206772719044238, 0.814283016137779,
           0.0201671982649714, 0.924804413458332)
 
-auc <- calc_boot_auc(true, pred, "disease", 1000, r.seed = 100)
+auc <- calc_boot_auc(true, pred, "disease", 1000, r_seed = 100)
 
 
 # Testing ----
@@ -22,14 +22,14 @@ test_that("the shape and dimensions are returned correctly", {
   expect_length(auc, 3L)
 })
 
-test_that("the values are correct for r.seed provided", {
+test_that("the values are correct for `r_seed` provided", {
   expect_equal(auc, list(auc = 0.222222222222222,
                          lower.limit = 0.0208175505050505,
                          upper.limit = 0.48))
 })
 
-test_that("the values are correct for r.seed different r.seed", {
-  auc <- calc_boot_auc(true, pred, "disease", 1000, r.seed = 10)
+test_that("the values are correct for `r_seed` different r_seed", {
+  auc <- calc_boot_auc(true, pred, "disease", 1000, r_seed = 10)
   expect_equal(auc, list(auc = 0.222222222222222,
                          lower.limit = 0.0301406926406926,
                          upper.limit = 0.505654761904762))

@@ -4,7 +4,7 @@
 \alias{plot_bayes_boundary}
 \title{Plot a Naive Bayes Decision Boundary}
 \usage{
-plot_bayes_boundary(data, pos.class, res = 50L, main = NULL)
+plot_bayes_boundary(data, pos_class, res = 50L, main = NULL)
 }
 \arguments{
 \item{data}{A \code{data.frame} object containing 3 columns:
@@ -14,7 +14,7 @@ plot_bayes_boundary(data, pos.class, res = 50L, main = NULL)
 \item \strong{class}: vector of the response classes as a factor.
 }}
 
-\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
+\item{pos_class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
 \item{res}{\code{integer(1)}. The resolution for the plot. Higher
 resolutions require more computation time.}
@@ -30,7 +30,7 @@ data <- data.frame(F1    = tr_iris$Petal.Length,
                    F2    = tr_iris$Sepal.Length,
                    class = tr_iris$Species)
 head(data)
-plot_bayes_boundary(data, pos.class = "virginica")
+plot_bayes_boundary(data, pos_class = "virginica")
 }
 \seealso{
 \code{\link[=geom_contour]{geom_contour()}}, \code{\link[=fit_nb]{fit_nb()}}

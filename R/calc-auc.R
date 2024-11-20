@@ -64,12 +64,12 @@ calc_auc <- function(truth, predicted) {
 #'
 #' @importFrom stats var
 #' @export
-calc_emp_auc <- function(truth, predicted, pos.class, ci95 = FALSE) {
+calc_emp_auc <- function(truth, predicted, pos_class, ci95 = FALSE) {
 
-  auc <- empAUC_cpp(roc_xy(truth, predicted, pos.class))
+  auc <- empAUC_cpp(roc_xy(truth, predicted, pos_class))
 
   if ( ci95 ) {
-    idx     <- which(truth == pos.class)
+    idx     <- which(truth == pos_class)
     pos_vec <- predicted[idx]
     neg_vec <- predicted[-idx]
     n_neg   <- length(neg_vec)
@@ -96,13 +96,13 @@ calc_emp_auc <- function(truth, predicted, pos.class, ci95 = FALSE) {
 #' calc_pepe_auc(true, pred, "disease")
 #'
 #' @export
-calc_pepe_auc <- function(truth, predicted, pos.class) {
+calc_pepe_auc <- function(truth, predicted, pos_class) {
   stopifnot(
     "`truth` and `predicted` must be of equal length." =
       length(truth) == length(predicted),
-    "`pos.class` must be in `truth`." = pos.class %in% truth
+    "`pos_class` must be in `truth`." = pos_class %in% truth
   )
-  idx     <- which(truth == pos.class)
+  idx     <- which(truth == pos_class)
   pos_vec <- predicted[idx]
   neg_vec <- predicted[-idx]
   auc     <- double(1)
@@ -136,25 +136,25 @@ calc_pepe_auc <- function(truth, predicted, pos.class) {
 #' @examples
 #' # bootstrapped AUC
 #' calc_boot_auc(true, pred, "disease")
-#' calc_boot_auc(true, pred, "disease", nboot = 100, r.seed = 100)  # reproducible
+#' calc_boot_auc(true, pred, "disease", nboot = 100, r_seed = 100)  # reproducible
 #' @importFrom stats quantile
 #' @importFrom withr with_seed
 #' @export
-calc_boot_auc <- function(truth, predicted, pos.class,
-                          nboot = 1000, r.seed = sample(1000, 1)) {
-  est <- calc_pepe_auc(truth, predicted, pos.class)   # empirical AUC estimate
+calc_boot_auc <- function(truth, predicted, pos_class,
+                          nboot = 1000, r_seed = sample(1000, 1)) {
+  est <- calc_pepe_auc(truth, predicted, pos_class)   # empirical AUC estimate
   # bench::mark(
-  #   emp  = calc_emp_auc(truth, predicted, pos.class),
-  #   pepe = calc_pepe_auc(truth, predicted, pos.class)
+  #   emp  = calc_emp_auc(truth, predicted, pos_class),
+  #   pepe = calc_pepe_auc(truth, predicted, pos_class)
   # )
   .data <- data.frame(truth = truth, predicted = predicted)
-  boots <- with_seed(r.seed, {
+  boots <- with_seed(r_seed, {
     replicate(nboot, sample(seq_len(nrow(.data)), replace = TRUE), simplify = FALSE)
   })
   boot_pop <- vapply(boots, function(.x) { # iterate AUC over boots
       df <- .data[.x, ]
       # Pepe's AUC is MUCH faster than empirical AUC
-      calc_pepe_auc(df$truth, df$predicted, pos.class = pos.class)
+      calc_pepe_auc(df$truth, df$predicted, pos_class = pos_class)
     }, FUN.VALUE = 0.1)
   ci95 <- quantile(boot_pop, probs = c(0.025, 0.975), names = FALSE) # CI95
   list(auc = est, lower.limit = ci95[1L], upper.limit = ci95[2L])

@@ -77,7 +77,7 @@ test_that("`roc_xy()` trips correct errors", {
   )
   expect_error(
     roc_xy(df$true, df$pred, "diseaseeeeee"),
-    "pos.class %in% truth is not TRUE",
+    "pos_class %in% truth is not TRUE",
   )
   expect_error(
     roc_xy(df$true,  df$pred[-1L], "disease"),
@@ -94,11 +94,11 @@ test_that("`roc_xy()` trips correct warning", {
   )
   expect_warning(
     b <- roc_xy(x, y, 1L),       # warning; double vs integer
-    "You are passing un-matched types: truth = 'double' vs. pos.class = 'integer'"
+    "You are passing un-matched types: truth = 'double' vs. pos_class = 'integer'"
   )
   expect_warning(
     z <- roc_xy(x, y, "1"),       # warning; double vs character
-    "You are passing un-matched types: truth = 'double' vs. pos.class = 'character'"
+    "You are passing un-matched types: truth = 'double' vs. pos_class = 'character'"
   )
 
   # expect NO warning; special case; factor type matched with character type
@@ -114,7 +114,7 @@ test_that("`roc_xy()` more edge cases", {
   true <- c(1L, 1L, 1L, 0L, 0L) # integer
   mat  <- cbind(c(0, 0, 0, 0, 0.5, 1.0), c(0.0, 1 / 3, 2 / 3, 1.0, 1.0, 1.0))
   colnames(mat) <- c("x", "y")
-  # true (integer) vs pos.class (double)
+  # true (integer) vs pos_class (double)
   expect_warning(x <- roc_xy(true, pred, 1.0), "integer.*double")
   expect_equal(x, mat)
   expect_warning(x <- roc_xy(true, pred, "1"), "integer.*character")

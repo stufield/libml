@@ -4,7 +4,7 @@
 #'   true class names and a decision cutoff. Returns a
 #'   \verb{2x2} confusion matrix. It is imperative that the
 #'   *positive* class is clearly defined to avoid  ambiguity
-#'   with factor levels, therefore passing `pos.class =` argument
+#'   with factor levels, therefore passing `pos_class` argument
 #'   is *not* optional.
 #'   See `Details` for assumptions about the table layout.
 #'
@@ -39,8 +39,8 @@
 #'
 #' @param ... Arguments passed to the `print` and `summary` generics.
 #'
-#' @return An object of class `confusion_matrix`, with the _True_ values
-#'   along the y-axis and _Predicted_ values along the x-axis.
+#' @return A `confusion_matrix` class object, with the *true* values
+#'   along the y-axis and *predicted* values along the x-axis.
 #'
 #' @examples
 #' n <- 20
@@ -48,20 +48,20 @@
 #'   true <- sample(c("control", "disease"), n, replace = TRUE)
 #'   pred <- runif(n)
 #' })
-#' (c_mat <- calc_confusion(true, pred, pos.class = "disease"))
+#' (c_mat <- calc_confusion(true, pred, pos_class = "disease"))
 #'
-#' calc_confusion(true, pred, pos.class = "disease", 0.75)    # specify cutoff
+#' calc_confusion(true, pred, pos_class = "disease", 0.75)    # specify cutoff
 #'
 #' # factor levels of `truth` are ignored
-#' # The `pos.class` argument is respected always
+#' # The `pos_class` argument is respected always
 #' true_a <- factor(true, levels = c("control", "disease"))
 #' true_b <- factor(true, levels = c("disease", "control"))
-#' a <- calc_confusion(true_a, pred, pos.class = "disease")
-#' b <- calc_confusion(true_b, pred, pos.class = "disease")
+#' a <- calc_confusion(true_a, pred, pos_class = "disease")
+#' b <- calc_confusion(true_b, pred, pos_class = "disease")
 #' identical(a, b)
 #'
 #' @export
-calc_confusion <- function(truth, predicted, pos.class, cutoff = 0.5) {
+calc_confusion <- function(truth, predicted, pos_class, cutoff = 0.5) {
 
   stopifnot(length(truth) == length(predicted))
 
@@ -73,9 +73,9 @@ calc_confusion <- function(truth, predicted, pos.class, cutoff = 0.5) {
     )
   }
 
-  if ( missing(pos.class) ) {
+  if ( missing(pos_class) ) {
     stop(
-      "You must pass a `pos.class` argument specifying the event class.",
+      "You must pass a `pos_class` argument specifying the event class.",
       call. = FALSE
     )
   }
@@ -87,28 +87,28 @@ calc_confusion <- function(truth, predicted, pos.class, cutoff = 0.5) {
     )
   }
 
-  if ( !pos.class %in% truth ) {
+  if ( !pos_class %in% truth ) {
     stop(
-      "Your choice of `pos.class` is not contained in `truth`. ",
+      "Your choice of `pos_class` is not contained in `truth`. ",
       "Please choose one of: ", value(unique(truth)), call. = FALSE
     )
   }
 
   # safe b/c binary check above
-  neg  <- setdiff(truth, pos.class)
+  neg  <- setdiff(truth, pos_class)
   # order: control/non-event class 1st
-  levs <- c(neg, pos.class)
+  levs <- c(neg, pos_class)
   truth_factor <- factor(truth, levels = levs)
 
   data.frame(
-      # re-factoring here ensures that the pos.class argument is obeyed
+      # re-factoring here ensures that the pos_class argument is obeyed
       Truth     = truth_factor,
-      Predicted = factor(ifelse(predicted >= cutoff, pos.class, neg),
+      Predicted = factor(ifelse(predicted >= cutoff, pos_class, neg),
                          levels = levs)
   ) |>
     table() |>
     structure(
-      pos.class = as.character(pos.class),
+      pos_class = as.character(pos_class),
       class     = c("confusion_matrix", "table"),
       auc       = calc_auc(truth, predicted),
       brier     = calc_brier(truth_factor, predicted)
@@ -124,7 +124,7 @@ calc_confusion <- function(truth, predicted, pos.class, cutoff = 0.5) {
 print.confusion_matrix <- function(x, ...) {
   signal_rule("Confusion", line_col = "green")
   cat("\n")
-  cat("Positive Class: ", attributes(x)$pos.class, "\n\n", sep  = "")
+  cat("Positive Class: ", attributes(x)$pos_class, "\n\n", sep  = "")
   NextMethod()
   cat("\n")
   invisible(x)
@@ -137,8 +137,8 @@ print.confusion_matrix <- function(x, ...) {
 #' @param object A `confusion_matrix` object, created via
 #'   [calc_confusion()].
 #'
-#' @return Summary method returns a list object of class
-#'   `summary_confusion_matrix` consisting of:
+#' @return Summary method returns a `summary_confusion_matrix` class object
+#'   (list) consisting of:
 #'   \item{confusion:}{The class counts based on the confusion matrix.}
 #'   \item{metrics:}{Performance metric estimates, `n`, and associated
 #'     binomial 95% confidence intervals. Note that `MCC` has a range in

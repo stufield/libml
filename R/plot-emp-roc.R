@@ -71,23 +71,23 @@
 #'             rnorm(50, mean = 0.6, sd = 0.2))    # disease predictions
 #'         )
 #'
-#' plot_emp_roc(true, pred, pos.class = "disease", col = "dodgerblue")
-#' plot_emp_roc(true, pred, pos.class = "disease", ci95 = TRUE, boxes = FALSE,
+#' plot_emp_roc(true, pred, pos_class = "disease", col = "dodgerblue")
+#' plot_emp_roc(true, pred, pos_class = "disease", ci95 = TRUE, boxes = FALSE,
 #'              col = "red")
 #'
-#' plot_emp_roc(true, pred, pos.class = "disease", ci95 = FALSE, shape = 21,
+#' plot_emp_roc(true, pred, pos_class = "disease", ci95 = FALSE, shape = 21,
 #'              col = "green")
-#' plot_emp_roc(true, pred, pos.class = "disease", boot.auc = TRUE,
+#' plot_emp_roc(true, pred, pos_class = "disease", boot.auc = TRUE,
 #'              col = "royalblue")
 #'
-#' plot_emp_roc(true, pred, pos.class = "disease", plot.fit = "both",
+#' plot_emp_roc(true, pred, pos_class = "disease", plot.fit = "both",
 #'              col = "purple")
-#' plot_emp_roc(true, pred, pos.class = "disease", plot.fit = TRUE, ci95 = FALSE,
+#' plot_emp_roc(true, pred, pos_class = "disease", plot.fit = TRUE, ci95 = FALSE,
 #'              auc = FALSE, cutoff = NA, col = 2, lwd = 4) # curve only; no cutoff
 #'
 #' # Debugging with `debug = TRUE` displays
 #' # curve points to the console
-#' plot_emp_roc(true, pred, pos.class = "disease", debug = TRUE,
+#' plot_emp_roc(true, pred, pos_class = "disease", debug = TRUE,
 #'              col = "firebrick3")
 #'
 #' # Multiple curves can be drawn on the same plot
@@ -96,12 +96,12 @@
 #'           c(rnorm(50, mean = 0.5, sd = 0.3),
 #'             rnorm(50, mean = 0.7, sd = 0.4))
 #'         )
-#' plot_emp_roc(true, pred, pos.class = "disease", col = "firebrick3") +
-#'   plot_emp_roc(true2, pred2, pos.class = "disease",
+#' plot_emp_roc(true, pred, pos_class = "disease", col = "firebrick3") +
+#'   plot_emp_roc(true2, pred2, pos_class = "disease",
 #'                col = "forestgreen", add = 1)
 #' @importFrom ggplot2 geom_ribbon geom_point geom_text geom_segment annotate
 #' @export
-plot_emp_roc <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
+plot_emp_roc <- function(truth, predicted, pos_class, auc = TRUE, add = 0L,
                          boot.auc = FALSE, adj = c(0, 0), auc.pos = c(0.5, 0.5),
                          auc.shift = 1.25, auc.label = NULL, auc.size = 5,
                          shape = NULL, size = 2, cutoff = 0.5, cutoff.size = 5,
@@ -109,9 +109,9 @@ plot_emp_roc <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
                          outline = TRUE, boxes = TRUE, box.alpha = 0.35,
                          debug = FALSE, plot.fit = FALSE, do.grid = TRUE) {
 
-  if ( missing(pos.class) ) {
+  if ( missing(pos_class) ) {
     stop(
-      "You *must* pass a `pos.class =` argument to `plot_emp_roc()`.",
+      "You *must* pass a `pos_class =` argument to `plot_emp_roc()`.",
       call. = FALSE
     )
   }
@@ -126,8 +126,8 @@ plot_emp_roc <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
     signal_rule("Values Bottom", line_col = "cyan", lty = "double")
     print(plot_df[(nrow(plot_df) - 6):nrow(plot_df), ]) # Replacement for utils::tail()
     signal_rule("Parameters", line_col = "magenta", lty = "double")
-    left  <- pad(c("pos.class", "boot.auc", "outline", "cutoff", "add"), 10)
-    right <- add_color(c(pos.class, boot.auc, outline, cutoff, add), "red")
+    left  <- pad(c("pos_class", "boot.auc", "outline", "cutoff", "add"), 10)
+    right <- add_color(c(pos_class, boot.auc, outline, cutoff, add), "red")
     writeLines(
       paste(add_color("\u2020", "green"), left, add_color("\u276F", "cyan"), right)
     )
@@ -135,10 +135,10 @@ plot_emp_roc <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
   }
 
   # Calculates x & y coordinates of ROC curve
-  xy <- roc_xy(plot_df$truth, plot_df$pred, pos.class)
+  xy <- roc_xy(plot_df$truth, plot_df$pred, pos_class)
 
   if ( is.numeric(cutoff) && cutoff < 0 ) {
-    cutoff <- get_max_cutoff(plot_df$truth, plot_df$pred, pos.class)
+    cutoff <- get_max_cutoff(plot_df$truth, plot_df$pred, pos_class)
   }
 
   # Creates vector of ROC evaluations for each cutoff value
@@ -146,7 +146,7 @@ plot_emp_roc <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
                               predicted = plot_df$pred,
                               do.ci     = TRUE,
                               cutoffs   = cutoff,
-                              pos.class = pos.class) |> unlist()
+                              pos_class = pos_class) |> unlist()
 
   # Creates plot mapping (to be applied when add = FALSE)
   p <- ggplot(data = as.data.frame(xy), aes(x = x, y = y)) +
@@ -198,7 +198,7 @@ plot_emp_roc <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
     } else {
       roc_df <- create_roc_data(truth     = plot_df$truth,
                                 predicted = plot_df$pred,
-                                pos.class = pos.class,
+                                pos_class = pos_class,
                                 cutoffs   = plot_df$pred,
                                 do.ci     = TRUE)
 
@@ -229,7 +229,7 @@ plot_emp_roc <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
                                 predicted = plot_df$pred,
                                 cutoffs   = plot_df$pred,
                                 do.ci     = FALSE,
-                                pos.class = pos.class)
+                                pos_class = pos_class)
     }
 
     # Adds text annotation layer to indicate values at
@@ -260,11 +260,11 @@ plot_emp_roc <- function(truth, predicted, pos.class, auc = TRUE, add = 0L,
   # Calculates AUC based on specified method (bootstrapped vs. empirical)
   if ( boot.auc ) {
     auc_data <- calc_boot_auc(plot_df$truth, plot_df$pred,
-                              pos.class = pos.class,
+                              pos_class = pos_class,
                               nboot     = 1000,
-                              r.seed    = 1001)  # bootstrapped CI95
+                              r_seed    = 1001)  # bootstrapped CI95
   } else {
-    auc_data <- calc_emp_auc(plot_df$truth, plot_df$pred, pos.class = pos.class,
+    auc_data <- calc_emp_auc(plot_df$truth, plot_df$pred, pos_class = pos_class,
                              ci95 = TRUE)   # se +/- CI95 (DeLong's method)
   }
 

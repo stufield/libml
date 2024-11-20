@@ -6,18 +6,18 @@
 \alias{get_spec_cutoff}
 \title{Get Distance Cutoffs}
 \usage{
-get_max_cutoff(truth, predicted, pos.class)
+get_max_cutoff(truth, predicted, pos_class)
 
-get_spec_cutoff(truth, predicted, spec, pos.class)
+get_spec_cutoff(truth, predicted, spec, pos_class)
 }
 \arguments{
 \item{truth}{\code{character(n)} or \code{factor(n)}. A vector of true class names.
-In most instances you will have to also pass a \code{pos.class} argument
+In most instances you will have to also pass a \code{pos_class} argument
 defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
+\item{pos_class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
 \item{spec}{\code{numeric(1)}. The desired specificity.}
 }

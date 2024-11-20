@@ -28,7 +28,7 @@ true class names for each sample (row) in \code{x}.}
 \item{data}{A data frame of predictors (categorical and/or numeric).}
 }
 \value{
-An object of class \code{gbm}, as returned by \code{\link[=gbm]{gbm()}}.
+A \code{gbm} class object, as returned by \code{\link[=gbm]{gbm()}}.
 }
 \description{
 A wrapper for fitting boosted binary regression models

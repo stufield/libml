@@ -7,7 +7,7 @@
 #'
 #' @inheritParams params
 #'
-#' @param shade.color The color for the bootstrap shaded region.
+#' @param shade_color The color for the bootstrap shaded region.
 #'   Passed as a `fill` argument to downstream `ggplot2` machinery.
 #' @param add Logical. Should a plotting layer be added to an existing plot?
 #' @param ... Additional arguments passed to [geom_roc()], e.g. `color =`.
@@ -18,21 +18,21 @@
 #' n <- 75
 #' true <- rep(c("control", "disease"), each = n)
 #' pred <- withr::with_seed(1, c(rnorm(n, 0.2, 0.3), rnorm(n, 0.8, 0.3)))
-#' plot_boot_roc(true, pred, pos.class = "disease", nboot = 200, color = "blue")
+#' plot_boot_roc(true, pred, pos_class = "disease", nboot = 200, color = "blue")
 #'
 #' # add layer
 #' pred2 <- withr::with_seed(1, c(rnorm(n, 0.2, 0.3), rnorm(n, 0.5, 0.3)))
-#' plot_boot_roc(true, pred, pos.class = "disease", nboot = 200,
-#'               shade.color = "blue", color = "blue") +
-#' plot_boot_roc(true, pred2, pos.class = "disease", nboot = 200,
-#'               shade.color = "green", color = "red", add = TRUE)
+#' plot_boot_roc(true, pred, pos_class = "disease", nboot = 200,
+#'               shade_color = "blue", color = "blue") +
+#' plot_boot_roc(true, pred2, pos_class = "disease", nboot = 200,
+#'               shade_color = "green", color = "red", add = TRUE)
 #' @importFrom stats quantile
 #' @importFrom purrr detect_index
 #' @export
-plot_boot_roc <- function(truth, predicted, pos.class, shade.color = "black",
-                          nboot = 1000, r.seed = 101, add = FALSE, ...) {
+plot_boot_roc <- function(truth, predicted, pos_class, shade_color = "black",
+                          nboot = 1000, r_seed = 101, add = FALSE, ...) {
 
-  withr::with_seed(r.seed, {
+  withr::with_seed(r_seed, {
     # Bootstrapping the original datasets (truth & predicted) 'nboot' times
     boots <- replicate(nboot, {
       idx <- sample(seq_len(length(truth)), replace = TRUE)
@@ -42,7 +42,7 @@ plot_boot_roc <- function(truth, predicted, pos.class, shade.color = "black",
 
   # Calculating AUCs for all bootstrapped datasets
   aucs <- vapply(boots, function(.x) {
-    calc_emp_auc(.x$truth, .x$predicted, pos.class = pos.class)}, double(1))
+    calc_emp_auc(.x$truth, .x$predicted, pos_class = pos_class)}, double(1))
 
   # Identifying AUC values @ the 2.5th percentile & 97.5th percentile
   qq <- quantile(aucs, probs = c(0.025, 0.975), names = FALSE)
@@ -54,7 +54,7 @@ plot_boot_roc <- function(truth, predicted, pos.class, shade.color = "black",
 
   # Calculating CI95 for the chosen bootstrapped datasets
   ci95 <- lapply(boots, function(.x) { # boots now length = 2
-    pars <- calc_roc_fit(roc_xy(.x$truth, .x$predicted, pos.class))
+    pars <- calc_roc_fit(roc_xy(.x$truth, .x$predicted, pos_class))
     x <- seq(0, 1, length = 100)
     y <- 1 - (1 - x^pars["beta"])^(1 / pars["alpha"])
     list(x = x, y = y)
@@ -67,7 +67,7 @@ plot_boot_roc <- function(truth, predicted, pos.class, shade.color = "black",
                     y2 = ci95$lower[[2L]])   # line2 y-values
 
   # Generating ROC data for curve
-  rocxy <- roc_xy(truth, predicted, pos.class = pos.class) |> data.frame()
+  rocxy <- roc_xy(truth, predicted, pos_class = pos_class) |> data.frame()
 
   # Setting up grid & plot theme
   p <- ggplot(rocxy, aes(x = x, y = y)) +
@@ -83,7 +83,7 @@ plot_boot_roc <- function(truth, predicted, pos.class, shade.color = "black",
   # Generating final ROC plot w/ boundary overlay
   g <- list(geom_roc(data = rocxy, aes(x = x, y = y), ...),
             geom_ribbon(data = lim, aes(x = x1, y = x1, ymin = y2, ymax = y1),
-                        fill = shade.color, alpha = 0.25))
+                        fill = shade_color, alpha = 0.25))
 
   if ( add ) {
     invisible(g)

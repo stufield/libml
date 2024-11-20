@@ -1,12 +1,11 @@
 #' Fit Weighted k-Nearest Neighbor Classifier
 #'
-#' Wrapper for fitting weighted _k_-nearest neighbor classifiers.
+#' Wrapper for fitting weighted *k*-nearest neighbor classifiers.
 #'
 #' @family fit
+#' @inheritParams params
 #' @inheritParams kknn::kknn
 #'
-#' @param formula An object of class "formula": a symbolic
-#'   description of the model to be fitted (e.g. \eqn{Response ~ terms}).
 #' @param distance `numeric(1)`. Parameter of Minkowski distance.
 #'   `Manhattan = 1` and `Euclidean = 2`.
 #' @param kernel Character. Kernel to use. Possible choices are:
@@ -42,7 +41,7 @@
 #' pred
 #'
 #' # Confusion matrix
-#' calc_confusion(true, pred$prob_virginica, pos.class = pos) |>
+#' calc_confusion(true, pred$prob_virginica, pos_class = pos) |>
 #'   summary()
 #'
 #' # plot ROC

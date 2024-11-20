@@ -7,27 +7,30 @@
 plot_boot_roc(
   truth,
   predicted,
-  pos.class,
-  shade.color = "black",
+  pos_class,
+  shade_color = "black",
   nboot = 1000,
-  r.seed = 101,
+  r_seed = 101,
   add = FALSE,
   ...
 )
 }
 \arguments{
 \item{truth}{\code{character(n)} or \code{factor(n)}. A vector of true class names.
-In most instances you will have to also pass a \code{pos.class} argument
+In most instances you will have to also pass a \code{pos_class} argument
 defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
+\item{pos_class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
-\item{shade.color}{The color for the bootstrap shaded region.
+\item{shade_color}{The color for the bootstrap shaded region.
 Passed as a \code{fill} argument to downstream \code{ggplot2} machinery.}
 
 \item{nboot}{\code{integer(1)}. The number of bootstrap estimates to perform.}
+
+\item{r_seed}{`integer(1). The value of the random seed if
+reproducibility is desired.}
 
 \item{add}{Logical. Should a plotting layer be added to an existing plot?}
 
@@ -41,14 +44,14 @@ boundary overlay.
 n <- 75
 true <- rep(c("control", "disease"), each = n)
 pred <- withr::with_seed(1, c(rnorm(n, 0.2, 0.3), rnorm(n, 0.8, 0.3)))
-plot_boot_roc(true, pred, pos.class = "disease", nboot = 200, color = "blue")
+plot_boot_roc(true, pred, pos_class = "disease", nboot = 200, color = "blue")
 
 # add layer
 pred2 <- withr::with_seed(1, c(rnorm(n, 0.2, 0.3), rnorm(n, 0.5, 0.3)))
-plot_boot_roc(true, pred, pos.class = "disease", nboot = 200,
-              shade.color = "blue", color = "blue") +
-plot_boot_roc(true, pred2, pos.class = "disease", nboot = 200,
-              shade.color = "green", color = "red", add = TRUE)
+plot_boot_roc(true, pred, pos_class = "disease", nboot = 200,
+              shade_color = "blue", color = "blue") +
+plot_boot_roc(true, pred2, pos_class = "disease", nboot = 200,
+              shade_color = "green", color = "red", add = TRUE)
 }
 \seealso{
 Other ROC: 

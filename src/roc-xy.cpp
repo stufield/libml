@@ -222,11 +222,11 @@ bench::mark(
 
 
 # old version of eval_cutoff()
-eval_cutoff <- function(truth, predicted, pos.class, cutoff) {
-  tp  <- sum(truth == pos.class & predicted >= cutoff) # predict pos, is pos
-  fn  <- sum(truth == pos.class & predicted <  cutoff) # predict neg, is pos
-  fp  <- sum(truth != pos.class & predicted >= cutoff) # predict pos, is neg
-  tn  <- sum(truth != pos.class & predicted <  cutoff) # predict neg, is neg
+eval_cutoff <- function(truth, predicted, pos_class, cutoff) {
+  tp  <- sum(truth == pos_class & predicted >= cutoff) # predict pos, is pos
+  fn  <- sum(truth == pos_class & predicted <  cutoff) # predict neg, is pos
+  fp  <- sum(truth != pos_class & predicted >= cutoff) # predict pos, is neg
+  tn  <- sum(truth != pos_class & predicted <  cutoff) # predict neg, is neg
   sens <- tp / (tp + fn)   # sensitivity, recall
   spec <- tn / (fp + tn)   # specificity (compliment to sensitivity)
   ppv  <- tp / (tp + fp)   # precision (PPV)

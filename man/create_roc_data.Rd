@@ -10,7 +10,7 @@
 create_roc_data(
   truth,
   predicted,
-  pos.class,
+  pos_class,
   do.ci = FALSE,
   cutoffs = seq(1e-05, 0.99999, length.out = length(truth)),
   include.auc = FALSE
@@ -30,12 +30,12 @@ calc_roc_corner(xy)
 }
 \arguments{
 \item{truth}{\code{character(n)} or \code{factor(n)}. A vector of true class names.
-In most instances you will have to also pass a \code{pos.class} argument
+In most instances you will have to also pass a \code{pos_class} argument
 defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
+\item{pos_class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
 \item{do.ci}{\code{logical(1)}. Should binomial confidence limits be
 calculated and added to the return value?}

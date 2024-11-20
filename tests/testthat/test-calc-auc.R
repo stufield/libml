@@ -17,10 +17,10 @@ test_that("`calc_emp_auc()` generates expected output", {
   expect_equal(auc$auc, 0.47252747252747)
   expect_equal(auc$lower.limit, 0.19502890465025)
   expect_equal(auc$upper.limit, 0.75002604040469)
-  # pos.class typo error
+  # pos_class typo error
   expect_error(
     calc_emp_auc(df$true, df$pred, "diseaseeee"),
-    "pos.class %in% truth is not TRUE"
+    "pos_class %in% truth is not TRUE"
   )
 })
 
@@ -34,7 +34,7 @@ test_that("`calc_emp_auc()` generates expected output with edge case", {
   expect_equal(a, 1)
 })
 
-test_that("`calc_emp_auc()` converts factors -> character to match pos.class type", {
+test_that("`calc_emp_auc()` converts factors -> character to match `pos_class` type", {
   x <- c(0, 1)
   y <- c(0.1, 0.9)
   expect_warning(calc_emp_auc(factor(x), y, "1"), NA)   # expect no warning!

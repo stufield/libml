@@ -14,7 +14,7 @@
 #'
 #' @param data A `data.frame` used to create a training data set.
 #' @param ... Arguments passed to [filter()] used to subset *rows*.
-#'   If passing to the S3 plot method for objects of class `tr_data`,
+#'   If passing to the S3 plot method for `tr_data` class objects,
 #'   additional arguments are passed to [SomaPlotr::plotCDFbyGroup()]
 #'   via the `...`.
 #' @param group.var `character(1)`. Can be quoted or unquoted.
@@ -73,9 +73,9 @@ create_train <- function(data, ..., group.var, classes = NULL) {
   if ( !is.null(classes) ) {
     stopifnot("`classes` param must be `character(2)`." =
                 length(classes) == 2L && is.character(classes))
-    neg.class <- classes[1L]
-    pos.class <- classes[2L]
-    levs  <- c(neg.class, pos.class)
+    neg_class <- classes[1L]
+    pos_class <- classes[2L]
+    levs  <- c(neg_class, pos_class)
     tdata <- tdata |>
       dplyr::mutate(!!gr_sym := factor(!!gr_sym, levels = levs))
   }

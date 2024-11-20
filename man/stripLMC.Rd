@@ -7,7 +7,7 @@
 stripLMC(x)
 }
 \arguments{
-\item{x}{A model object of class \code{"lm"} or \code{"glm"}.}
+\item{x}{A model object, either \code{lm} or \code{glm} class.}
 }
 \value{
 A stripped down (size) \code{"lm"} or \code{"glm"} object.
