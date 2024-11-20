@@ -83,7 +83,7 @@ calc_univariate <- function(data, var,
                  log2fc = .log2fc,
                  NA)
 
-  if ( is.soma_adat(data) ) {
+  if ( is_soma_adat(data) ) {
     tbl <- attr(data, "Col.Meta") |>
       mutate(feature = add_seq(SeqId)) |>
       select(feature, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt)

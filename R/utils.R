@@ -17,7 +17,7 @@ expand_grid <- function(...) {
   attr(x, "response_var")
 }
 
-is.soma_adat <- getFromNamespace("is.soma_adat", "helpr")
+is_soma_adat <- getFromNamespace("is_soma_adat", "helpr")
 is_seq <- getFromNamespace("is_seq", "helpr")
 add_seq <- getFromNamespace("add_seq", "helpr")
 get_analytes <- getFromNamespace("get_analytes", "helpr")

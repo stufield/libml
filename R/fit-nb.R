@@ -317,7 +317,7 @@ plot.libml_nb <- function(x, data, features, plot.type = c("pdf", "cdf", "log.od
 
   response <- x$response %||% .get_response(data)
 
-  if ( is.soma_adat(data) && !is.null(attr(data, "Col.Meta")) ) {
+  if ( is_soma_adat(data) && !is.null(attr(data, "Col.Meta")) ) {
     col_meta <- attr(data, "Col.Meta")
     targets <- col_meta$TargetFullName %||% col_meta$Target
     tg <- setNames(as.list(targets), add_seq(col_meta$SeqId))
