@@ -38,10 +38,10 @@
 \item \code{soma_lognet}
 }}
 
-\item{newdata}{The test set (\code{data.frame}) containing protein
+\item{newdata}{The test set (\code{data.frame}) containing
 (features) corresponding to the model parameters.
-For some models, if \code{newdata = NULL}, training (or out-of-bag)
-predictions are returned.}
+For some models, if \code{newdata = NULL}, training
+(or out-of-bag) predictions are returned.}
 
 \item{cutoff}{Numeric. A cutoff for the decision/operating point,
 predictions above which are considered the \emph{positive} class.}
