@@ -1,6 +1,5 @@
 
 test_that("libml is in style compliance", {
-  skip_on_jenkins()  # don't run on Jenkins
   skip_on_check()    # don't run on check()
   skip_on_covr()     # don't run if in 'covr'
   skip_if_not_installed("lintr")
