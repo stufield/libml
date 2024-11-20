@@ -17,7 +17,7 @@
 #'   If passing to the S3 plot method for `tr_data` class objects,
 #'   additional arguments are passed to [SomaPlotr::plotCDFbyGroup()]
 #'   via the `...`.
-#' @param group.var `character(1)`. Can be quoted or unquoted.
+#' @param group_var `character(1)`. Can be quoted or unquoted.
 #'   Must be a column name of `data`.
 #' @param classes Either `NULL`, where no factor conversion will be
 #'   performed (default), or a string `character(2)` indicating *first*
@@ -35,7 +35,7 @@
 #' @examples
 #' # New "tr_data" object with default factor levels
 #' classes <- c("setosa", "versicolor")
-#' tr <- create_train(iris, Species %in% classes, group.var = Species)
+#' tr <- create_train(iris, Species %in% classes, group_var = Species)
 #'
 #' # Getting Variables
 #' attr(tr, "response_var")
@@ -46,11 +46,11 @@
 #'
 #' # with re-naming factors
 #' tr2 <- create_train(iris, Species %in% classes,
-#'                     group.var = Species, classes = rev(classes))
+#'                     group_var = Species, classes = rev(classes))
 #' attr(tr2, "counts")
 #' @importFrom stats setNames
 #' @export
-create_train <- function(data, ..., group.var, classes = NULL) {
+create_train <- function(data, ..., group_var, classes = NULL) {
 
   if ( is.tr_data(data) ) {
     warning(
@@ -60,10 +60,10 @@ create_train <- function(data, ..., group.var, classes = NULL) {
     return(data)
   }
 
-  gr_sym <- as.name(substitute(group.var))
-  var    <- as.character(substitute(group.var))
+  gr_sym <- as.name(substitute(group_var))
+  var    <- as.character(substitute(group_var))
   if ( identical(var, "") ) {
-    stop("The `group.var` param must be passed.", call. = FALSE)
+    stop("The `group_var` param must be passed.", call. = FALSE)
   }
   nms   <- names(attributes(data))         # remember atts order
   tdata <- dplyr::filter(data, ...) |> droplevels()
@@ -142,8 +142,8 @@ print.tr_data <- function(x, ...) {
 #' @param ft `character(1)`. The name of a column in `data`
 #'   containing values to generate CDFs or PDFs.
 #' @param main `character(1)`. Title for the plot. See [ggplot2::ggtitle()].
-#' @param do.log `logical(1)`. Should values be log10-transformed?
-#' @param do.pdfs `logical(1)`. Should smoothed densities PDF be plotted?
+#' @param do_log `logical(1)`. Should values be log10-transformed?
+#' @param do_pdfs `logical(1)`. Should smoothed densities PDF be plotted?
 #'
 #' @seealso [SomaPlotr::plotCDFbyGroup()]
 #' @examples
@@ -155,16 +155,16 @@ print.tr_data <- function(x, ...) {
 #'
 #' plot(tr, ft, cols = c("black", "black"))   # b/w
 #'
-#' plot(tr, ft, do.pdfs = TRUE)
+#' plot(tr, ft, do_pdfs = TRUE)
 #'
-#' plot(tr, ft, do.pdfs = TRUE, cols = c("blue", "red"))
+#' plot(tr, ft, do_pdfs = TRUE, cols = c("blue", "red"))
 #' @export
-plot.tr_data <- function(x, ft, main = ft, do.pdfs = FALSE,
-                         do.log = TRUE, ...) {
-  if ( do.log ) {
+plot.tr_data <- function(x, ft, main = ft, do_pdfs = FALSE,
+                         do_log = TRUE, ...) {
+  if ( do_log ) {
     x[[ft]] <- log10(x[[ft]])
   }
-  if ( do.pdfs ) {
+  if ( do_pdfs ) {
     p_fun <- SomaPlotr::plotPDFbyGroup
   } else {
     p_fun <- SomaPlotr::plotCDFbyGroup

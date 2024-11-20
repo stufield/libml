@@ -2,19 +2,19 @@
 classes <- c("setosa", "versicolor")
 
 # Testing ----
-test_that("`create_train()` can use quoted or unquoted `group.var` argument", {
+test_that("`create_train()` can use quoted or unquoted `group_var` argument", {
   expect_error(
     create_train(iris),
-    "The `group.var` param must be passed."
+    "The `group_var` param must be passed."
   )
   expect_identical(
-    create_train(iris, Species %in% classes, group.var = Species),
-    create_train(iris, Species %in% classes, group.var = "Species")
+    create_train(iris, Species %in% classes, group_var = Species),
+    create_train(iris, Species %in% classes, group_var = "Species")
   )
 })
 
 test_that("the `create_train()` function generates correct object", {
-  tr <- create_train(iris, Species %in% classes, group.var = Species)
+  tr <- create_train(iris, Species %in% classes, group_var = Species)
   expect_s3_class(tr, "tr_data")
   expect_s3_class(tr, "tbl_df")
   expect_true("Species" %in% names(tr))
@@ -30,7 +30,7 @@ test_that("the `create_train()` function generates correct object", {
 })
 
 test_that("the `create_train()` function converts properly", {
-  irisTR <- create_train(iris, group.var = Species)
+  irisTR <- create_train(iris, group_var = Species)
   expect_s3_class(irisTR, "tr_data")
   expect_s3_class(irisTR, "tbl_df")
   expect_true("Species" %in% names(irisTR))
@@ -46,7 +46,7 @@ test_that("the `create_train()` function converts properly", {
 test_that("the `create_train()` classes argument function properly", {
   # should reclass levels of Species
   expect_no_message(
-    tr1 <- create_train(iris, Species %in% classes, group.var = Species,
+    tr1 <- create_train(iris, Species %in% classes, group_var = Species,
                         classes = classes)
   )
   atts1 <- attributes(tr1)
@@ -56,7 +56,7 @@ test_that("the `create_train()` classes argument function properly", {
   expect_equal(atts1$counts, c(setosa = 50, versicolor = 50))
 
   expect_message(
-    tr2 <- create_train(iris, Species %in% classes, group.var = Species,
+    tr2 <- create_train(iris, Species %in% classes, group_var = Species,
                         classes = rev(classes)),
     "Class order is non-alphabetic: 'versicolor > setosa'"
   )
@@ -69,6 +69,6 @@ test_that("the `create_train()` classes argument function properly", {
 
 test_that("the `create_train()` S3 print method generates expected output", {
   expect_snapshot_output(
-    create_train(iris, Species %in% classes, group.var = Species)
+    create_train(iris, Species %in% classes, group_var = Species)
   )
 })

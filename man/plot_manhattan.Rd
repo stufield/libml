@@ -30,7 +30,7 @@ of the training set for each analyte.
 \examples{
 tr <- create_train(sim_adat,
                    class_response \%in\% c("control", "disease"),
-                   group.var = class_response,
+                   group_var = class_response,
                    classes = c("control", "disease"))
 
 # Various options for plotting

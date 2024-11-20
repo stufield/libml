@@ -6,11 +6,11 @@
 \alias{plot.tr_data}
 \title{Create a Training Data Object}
 \usage{
-create_train(data, ..., group.var, classes = NULL)
+create_train(data, ..., group_var, classes = NULL)
 
 is.tr_data(data)
 
-\method{plot}{tr_data}(x, ft, main = ft, do.pdfs = FALSE, do.log = TRUE, ...)
+\method{plot}{tr_data}(x, ft, main = ft, do_pdfs = FALSE, do_log = TRUE, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} used to create a training data set.}
@@ -20,7 +20,7 @@ If passing to the S3 plot method for \code{tr_data} class objects,
 additional arguments are passed to \code{\link[SomaPlotr:plotCDF]{SomaPlotr::plotCDFbyGroup()}}
 via the \code{...}.}
 
-\item{group.var}{\code{character(1)}. Can be quoted or unquoted.
+\item{group_var}{\code{character(1)}. Can be quoted or unquoted.
 Must be a column name of \code{data}.}
 
 \item{classes}{Either \code{NULL}, where no factor conversion will be
@@ -35,9 +35,9 @@ containing values to generate CDFs or PDFs.}
 
 \item{main}{\code{character(1)}. Title for the plot. See \code{\link[ggplot2:labs]{ggplot2::ggtitle()}}.}
 
-\item{do.pdfs}{\code{logical(1)}. Should smoothed densities PDF be plotted?}
+\item{do_pdfs}{\code{logical(1)}. Should smoothed densities PDF be plotted?}
 
-\item{do.log}{\code{logical(1)}. Should values be log10-transformed?}
+\item{do_log}{\code{logical(1)}. Should values be log10-transformed?}
 }
 \value{
 A \code{tibble} with an additioinal \code{tr_data} class.
@@ -73,7 +73,7 @@ for a specific feature (analyte) in a "tr_data" object.
 \examples{
 # New "tr_data" object with default factor levels
 classes <- c("setosa", "versicolor")
-tr <- create_train(iris, Species \%in\% classes, group.var = Species)
+tr <- create_train(iris, Species \%in\% classes, group_var = Species)
 
 # Getting Variables
 attr(tr, "response_var")
@@ -84,7 +84,7 @@ attr(tr, "counts")
 
 # with re-naming factors
 tr2 <- create_train(iris, Species \%in\% classes,
-                    group.var = Species, classes = rev(classes))
+                    group_var = Species, classes = rev(classes))
 attr(tr2, "counts")
 # S3 plot method
 ft <- "Sepal.Length"  # random feature
@@ -94,9 +94,9 @@ plot(tr, ft, cols = c("blue", "red"))
 
 plot(tr, ft, cols = c("black", "black"))   # b/w
 
-plot(tr, ft, do.pdfs = TRUE)
+plot(tr, ft, do_pdfs = TRUE)
 
-plot(tr, ft, do.pdfs = TRUE, cols = c("blue", "red"))
+plot(tr, ft, do_pdfs = TRUE, cols = c("blue", "red"))
 }
 \seealso{
 \code{\link[dplyr:filter]{dplyr::filter()}}

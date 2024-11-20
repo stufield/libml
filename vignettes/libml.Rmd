@@ -72,7 +72,7 @@ Training data objects created using `create_train()` from an `data.frame`
 object.
 The `create_train()` function can subset the data based on the i
 information passed in the `...` (passed to `dplyr::filter()` and are labeled 
-by the `group.var =` argument.
+by the `group_var =` argument.
 A "Response" column to the end of the data frame corresponding to the classes.
 The negative and positive classes are the grouped according to this column
 and a `dplyr::group_by()` call, creating a "grouped tibble" object.
