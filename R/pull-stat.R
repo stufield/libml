@@ -56,12 +56,12 @@ pull_stat <- function(x, which = c("Sensitivity", "Recall",
   stopifnot(inherits(x, "summary_confusion_matrix"))
   which     <- match.arg(which)
   str_match <- switch(which,
-                      Precision   =, # nolint: infix_spaces_linter2.
+                      Precision   = ,
                       PPV         = "PPV (Precision)",
-                      Recall      =, # nolint: infix_spaces_linter2.
+                      Recall      = ,
                       Sensitivity = "Sensitivity",
                       Specificity = "Specificity",
-                      Error       =, # nolint: infix_spaces_linter2.
+                      Error       = ,
                       Accuracy    = "Accuracy",
                       Brier       = "Brier Score",
                       AUC         = "AUC",
