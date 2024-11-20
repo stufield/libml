@@ -45,10 +45,17 @@ a common use-case example.
   [purrr and list-columns](https://jennybc.github.io/purrr-tutorial/ls13_list-columns.html)
 
 
+### In `libml`
+
+See `calc_univariate()`.
+
+-----------------
+
+
 ## Example Analysis
 
-A very common task in proteomics is a univariate analysis of RFU based
-analyte measurements. This means that each analyte/feature is analyzed
+A very common task in proteomics is a univariate analysis of features.
+This means that each analyte/feature is analyzed
 independently and the exact same statistical test is applied repeatedly
 over the columns of feature data.
 This is so common it forms the basis of most preliminary analyses.

@@ -22,14 +22,15 @@ options(width = 100)
 
 ## Introduction & Brief Review of ROC Curves
 
-This vignette describes how to plot ROC curves using functions found in **libml**. 
-Before starting on the code walk through, however, we will provide a quick 
-refresher on ROC curves. Skip to the next section if this information is
-already familiar to you.
+This vignette describes how to plot ROC curves using functions found in
+**libml**. Before starting on the code walk through, however, we will provide
+a quick refresher on ROC curves. Skip to the next section if this information
+is already familiar to you.
 
 A **receiver operating characteristic curve**, or **ROC curve**, is a
 graphical device that helps to visualize the discriminatory ability of a
 binary classifier system. 
+
 To produce a ROC curve, the sensitivity (aka true positive rate) 
 and specificity (aka false positive rate) are calculated for different
 values from a continuous set of data. To translate this into a visualization,
@@ -57,7 +58,7 @@ This is how the curve got its name.
 
 ## Plotting ROC Curves
 
-At SomaLogic, ROC curves are a frequently used visualization tool for model 
+ROC curves are a frequently used visualization tool for model 
 assessment, classifier performance, biomarker evaluation, and more.
 Consequently, the **libml** package is well-equipped to easily
 and quickly generate and visualize ROC curves and AUC values. 
@@ -109,7 +110,6 @@ bit by applying and/or modifying additional theme elements:
 ```{r cleaned-plot}
 p <- ggplot(data = rocxy, aes(x = x, y = y)) +
   labs(x = "1 - Specificity", y = "Sensitivity") +
-  SomaPlotr::theme_soma() +
   theme(panel.grid = element_blank()) +
   geom_abline(slope = 1, intercept = 0, size = 0.2,
               linetype = "dashed", color = "grey") +
@@ -155,8 +155,8 @@ generating custom annotations under the hood.
 ```{r single-plot}
 plot_emp_roc(truth     = true,
              predicted = pred,
-             pos.class = "disease",
-             plot.fit  = "both",  # both ROC and fit line should be drawn
+             pos_class = "disease",
+             plot_fit  = "both",  # both ROC and fit line should be drawn
              col       = "red",
              shape     = 10)
 ```
@@ -175,7 +175,7 @@ data <- lapply(1:4, function(.x) {
 }) |> setNames(paste0("df_", 1:4L))
 
 # Create a color palette to distinguish the curves
-cols <- unlist(SomaPlotr::soma_colors2)
+cols <- unlist(libml:::col_palette)
 
 # Create a base plot & layer additional curves layered on top
 plot_emp_roc(data$df_1$truth, data$df_1$pred, "disease", col = cols[1L]) +
