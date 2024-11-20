@@ -1,11 +1,12 @@
 #' Strip Linear Model Components
 #'
-#' Strips linear model (`"lm"` or `"glm"`) object components down
-#' the bare essentials to reduce size. Used typically
-#' when building thousands of models, e.g. during cross-validation
-#' to manage memory.
+#' Strips linear model (`"lm"` or `"glm"`) object components
+#'   down the bare essentials to reduce size. Used typically
+#'   when building thousands of models, e.g. during
+#'   cross-validation to manage memory.
 #'
 #' @param x A model object of class `"lm"` or `"glm"`.
+#'
 #' @return A stripped down (size) `"lm"` or `"glm"` object.
 #'   For `"lm"` class, removes or sets -> 0 these elements:
 #'     - `model`
@@ -18,8 +19,10 @@
 #'     - `terms`
 #'     - `formula`
 #'     - `family` (`family`, `link`, `linkfun`, and `linkinv` remain)
+#'
 #' @author Stu Field
 #' @seealso [glm()], [lm()], [summary()], [residuals()]
+#'
 #' @examples
 #' fat_lm <- function() {
 #'   junk <- runif(1e5)

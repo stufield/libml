@@ -15,16 +15,21 @@
 #'   for positive classes, right for negative classes.
 #'
 #' @family ROC
+#'
 #' @inheritParams params
+#'
 #' @return A matrix containing the `x` and `y` coordinates for the
 #'   ROC curve. A matrix is preferred over a data frame for speed of indexing
 #'   while iterating over the rows and having to convert between classes.
 #'   Downstream code will often convert to data frame while the main AUC
 #'   functionality prefers a matrix.
+#'
 #' @author Stu Field
+#' @seealso [plot_emp_roc()], [create_roc_data()]
+#'
 #' @references Fawcett, Tom. 2006. An introduction to ROC analysis. Pattern
 #'   Recognition Letters. 27:861-874.
-#' @seealso [plot_emp_roc()], [create_roc_data()]
+#'
 #' @examples
 #' n <- 25
 #' withr::with_seed(22, {

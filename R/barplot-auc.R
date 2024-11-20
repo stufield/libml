@@ -5,6 +5,7 @@
 #'   [calc_emp_auc()] for how to generate the AUCs and CI95s.
 #'
 #' @inheritParams params
+#'
 #' @param data A `data.frame` object of AUCs and 95% confidence intervals.
 #'   Each row is the result of a call to [calc_emp_auc()] with
 #'   `ci95 = TRUE` and converted to a single row `data.frame`. See example.
@@ -12,9 +13,11 @@
 #'   the barplots, as used by [ggplot()].
 #'   Vector length should match the number of rows in `data`.
 #'   Colors are recycled as necessary.
-#' @param flip Logical. Should the axes be flipped? See example.
+#' @param flip `logical(1)`. Should the axes be flipped? See example.
+#'
 #' @return A [ggplot()] plot.
 #' @author Stu Field
+#'
 #' @seealso [calc_emp_auc()]
 #' @examples
 #' # create random AUCs and CI95s

@@ -1,32 +1,33 @@
 #' Create a Training Data Object
 #'
 #' Generate a training data set from a original parent data set
-#' typically via some subset of the original parent. Final groups
-#' _must_ be binary, and generate a 2 factor level "Response"
-#' column used in many downstream statistical testing functions.
+#'   typically via some subset of the original parent. Final groups
+#'   *must* be binary, and generate a 2 factor level "Response"
+#'   column used in many downstream statistical testing functions.
 #'
 #' When specifying filtering variables, the factor levels
-#' will be ordered _alphabetically_ in the resulting "Response"
-#' variable unless ordering is specified by the `classes`
-#' argument. This is important, for example, when performing
-#' repeated univariate statistics where \eqn{class2 - class1},
-#' i.e. the positive class is 2!
+#'   will be ordered _alphabetically_ in the resulting "Response"
+#'   variable unless ordering is specified by the `classes`
+#'   argument. This is important, for example, when performing
+#'   repeated univariate statistics where \eqn{class2 - class1},
+#'   i.e. the positive class is 2!
 #'
 #' @param data A `data.frame` used to create a training data set.
 #' @param ... Arguments passed to [filter()] used to subset *rows*.
 #'   If passing to the S3 plot method for objects of class `tr_data`,
 #'   additional arguments are passed to [SomaPlotr::plotCDFbyGroup()]
 #'   via the `...`.
-#' @param group.var Either a quoted or unquoted string.
-#'   Must a column contained within `data`.
+#' @param group.var `character(1)`. Can be quoted or unquoted.
+#'   Must be a column name of `data`.
 #' @param classes Either `NULL`, where no factor conversion will be
-#'   performed (default), or a string `character(2)` indicating _first_
-#'   and _second_ class labels respectively. See the Details section
+#'   performed (default), or a string `character(2)` indicating *first*
+#'   and *second* class labels respectively. See the Details section
 #'   for more information about factor levels.
 #'
-#' @return A `"tibble"` with a `tr_data` class added.
+#' @return A `tibble` with an additioinal `tr_data` class.
 #'   This object contains the subset training data with a
-#'   additional attributes about the groupings and the "Response" variable.
+#'   additional attributes about the groupings and the
+#'   "Response" variable.
 #'
 #' @author Stu Field
 #' @seealso [dplyr::filter()]
@@ -104,10 +105,12 @@ create_train <- function(data, ..., group.var, classes = NULL) {
 #' Test for Training Data objects
 #'
 #' [is.tr_data()] checks whether an object
-#' is a `tr_data` class object.
+#'   is a `tr_data` class object.
 #'
 #' @rdname create_train
+#'
 #' @return Logical. Whether `data` inherits from class `tr_data`.
+#'
 #' @export
 is.tr_data <- function(data) {
   inherits(data, "tr_data")
@@ -132,16 +135,15 @@ print.tr_data <- function(x, ...) {
 }
 
 #' @describeIn create_train
-#' Plots a CDF, and optionally an accompanying smoothed PDF
+#'   Plots a CDF, and optionally an accompanying smoothed PDF
 #'   for a specific feature (analyte) in a "tr_data" object.
 #'
 #' @param x A `tr_data` object.
-#' @param ft Character. The name of a column in `data` containing values
-#'   to generate CDFs or PDFs.
-#' @param main Character. Title for the plot. See [ggplot2::ggtitle()].
-#' @param do.log Logical. Should RFU values be log10-transformed prior to
-#'   plotting?
-#' @param do.pdfs Logical. Should smoothed densities PDF be plotted?
+#' @param ft `character(1)`. The name of a column in `data`
+#'   containing values to generate CDFs or PDFs.
+#' @param main `character(1)`. Title for the plot. See [ggplot2::ggtitle()].
+#' @param do.log `logical(1)`. Should values be log10-transformed?
+#' @param do.pdfs `logical(1)`. Should smoothed densities PDF be plotted?
 #'
 #' @seealso [SomaPlotr::plotCDFbyGroup()]
 #' @examples

@@ -19,7 +19,7 @@ fit_logistic(x, ..., strip)
 \method{fit_logistic}{matrix}(x, y, strip = FALSE, ...)
 }
 \arguments{
-\item{strip}{Logical. Should certain entries of the model object
+\item{strip}{\code{logical(1)}. Should certain entries of the model object
 be stripped via \code{\link[=stripLMC]{stripLMC()}} to reduce object size?
 If true, some downstream functionality is compromised, e.g. \code{\link[=summary]{summary()}} and
 \code{\link[=residuals]{residuals()}}, however when iterating over 1000s of models this may be
@@ -37,9 +37,8 @@ arguments eventually be passed to \code{\link[=glm]{glm()}} via the \code{...}.}
 \describe{
 \item{character}{A \code{character(1)} indicating the column in \code{x}
 containing the true class names.}
-\item{vector}{A vector (\code{nrow(x)}) containign the true class names
-for each sample. That is a vector with \emph{2} levels. If not
-a factor class, it will be converted to one via \code{\link[=as.factor]{as.factor()}}.}
+\item{vector}{A vector \code{factor(n)} of true class names
+for each sample (row) in \code{x}.}
 }}
 }
 \value{

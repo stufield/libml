@@ -12,16 +12,17 @@
 #'   That is, `fit_gauss(..., mad = TRUE)`.
 #'
 #' @family fit
+#'
 #' @param x A numeric matrix, a `tr_data` class objects, or a data frame
 #'   of predictors. If called from an S3 generic method (e.g.
 #'   [plot.libml_nb()]) or [print.libml_nb()]), either a
 #'   `libml_nb` or `naiveBayes` object.
-#' @param y A vector indicating the true classes for each sample. Ideally a
-#'   factor class object with appropriate levels.
-#' @param mad Logical. Should non-parametric approximations be applied during
-#'   the parameter estimation procedure. See `Details` section.
-#' @param laplace positive double controlling Laplace smoothing. The default
-#'   (`0`) disables Laplace smoothing.
+#' @param y `factor(n)`. If not passing a formula, a factor with
+#'   true class names for each sample (row) in `x`.
+#' @param mad `logical(1)`. Should non-parametric approximations be
+#'   applied during the parameter estimation procedure. See `Details`.
+#' @param laplace `double(1)`. Positive controlling Laplace smoothing.
+#'   The default (`0`) disables Laplace smoothing.
 #' @param ... Additional arguments passed to the default [fit_nb()]
 #'   default method. Currently not used in the `predict` or `print` S3 methods,
 #'   but is used in the S3 plot method, arguments passed to
@@ -29,11 +30,14 @@
 #' @param keep.data Logical. Should the training data used to fit the model be
 #'   included in the model object? When building thousands of models, this can
 #'   become a memory issue and thus the default is `FALSE`.
+#'
 #' @return `libml_nb`: A naive Bayes model with robustly fit parameters.
 #' @author Stu Field
 #' @seealso [fit_gauss()]
+#'
 #' @references This function was _heavily_ influenced by [e1071::naiveBayes()]
 #'   See David Meyer <email: David.Meyer@R-project.org>.
+#'
 #' @examples
 #' head(tr_iris)
 #' # standard naive Bayes
@@ -56,6 +60,7 @@ fit_nb <- function(x, ...) UseMethod("fit_nb")
 
 #' @describeIn fit_nb
 #'   S3 `default` method for fit_nb.
+#'
 #' @export
 fit_nb.default <- function(x, y, mad = FALSE, laplace = 0,
                            keep.data = FALSE, ...) {
@@ -128,10 +133,12 @@ fit_nb.default <- function(x, y, mad = FALSE, laplace = 0,
 
 #' @describeIn fit_nb
 #'   S3 `formula` method for fit_nb.
+#'
 #' @param formula A model formula of the form: `class ~ x1 + x2 + ...`
 #'   (no interactions).
 #' @param data A data frame of predictors (categorical and/or numeric), i.e.
 #'   the ADAT used to train the model.
+#'
 #' @export
 fit_nb.formula <- function(formula, data, ...) {
   if ( !inherits(data, "data.frame") ) {
@@ -155,6 +162,7 @@ fit_nb.formula <- function(formula, data, ...) {
 
 #' @describeIn fit_nb
 #'   S3 `tr_data` method for fit_nb.
+#'
 #' @export
 fit_nb.tr_data <- function(x, ...) {
   call <- match.call(expand.dots = FALSE)
@@ -168,6 +176,7 @@ fit_nb.tr_data <- function(x, ...) {
 
 #' @describeIn fit_nb
 #'   S3 print method for `libml_nb`.
+#'
 #' @export
 print.libml_nb <- function(x, ...) {
   cat("\nRobust Naive Bayes Classifier for Discrete Predictors\n\n")
@@ -188,6 +197,7 @@ print.libml_nb <- function(x, ...) {
 
 #' @describeIn fit_nb
 #'   S3 predict method for `libml_nb`.
+#'
 #' @param object A `libml_nb` model object.
 #' @param newdata A `data.frame` with new predictors, containing at least
 #'   the model covariates (possibly more columns than the training data).
@@ -201,9 +211,11 @@ print.libml_nb <- function(x, ...) {
 #'   Argument can be shortened and is matched.
 #' @param threshold `numeric(1)`. Indicating the minimum probability
 #'   a prediction can take.
+#'
 #' @return `predict.libml_nb`: depending on the `type` argument,
 #'   either the predicted class name or the posterior probability
 #'   of a robustly estimated naive Bayes model.
+#'
 #' @examples
 #' # Predictions
 #' table(predict(m1, iris), iris$Species) # benchmark
@@ -281,18 +293,21 @@ predict.libml_nb <- function(object, newdata,
 
 #' @describeIn fit_nb
 #'   S3 plot method for `libml_nb`.
+#'
 #' @param features An optional feature specifying which subset of model features
 #'   to plot. If missing, all features are plotted.
-#' @param plot.type Character. A string determining the plot type, currently
+#' @param plot_type `character(1)`. A string determining the plot type, currently
 #'   either a probability density function (PDF, default), CDF, or log-odds
-#'   plots. Arguments can be shortened and is matched via [match.arg()].
-#' @param x.lab Character. Optional label for the x-axis.
-#' @param id An optional identifier of a specific sample to plot on top of
-#'   either PDFs or CDFs. This may be either a numeric index of the sample row
-#'   in the `data`, or its `rowname`. Can be `length(n)`.
-#' @return `plot.libml_nb`, `plot.naiveBayes`: A plot, either a list of
+#'   plots. Matched via [match.arg()].
+#' @param x_lab `character(1)`. Optional label for the x-axis.
+#' @param id `integer(n)` or `character(n)`. Optional identifier of
+#'   a specific sample to plot on top of either PDFs or CDFs.
+#'   Either an index of the sample row in the `data`, or its `rowname`.
+#'
+#' @return `plot.libml_nb`: A plot, either a list of
 #'   PDFs/CDFs, or a log-odds plot.
 #' @seealso [plot_log_odds()], [SomaPlotr::plotPDFlist()], [SomaPlotr::plotCDFlist()]
+#'
 #' @examples
 #' # Plotting
 #' plot(m2, tr_iris)
@@ -302,8 +317,8 @@ predict.libml_nb <- function(object, newdata,
 #' plot(m1, tr_iris, plot.type = "cdf", lty = "longdash") # pass-through of lty
 #' @importFrom dplyr all_of
 #' @export
-plot.libml_nb <- function(x, data, features, plot.type = c("pdf", "cdf", "log.odds"),
-                          x.lab = "value", id, ...) {
+plot.libml_nb <- function(x, data, features, plot_type = c("pdf", "cdf", "log_odds"),
+                          x_lab = "value", id, ...) {
 
   if ( missing(data) && inherits(x$data, "data.frame") ) {
     data <- x$data
@@ -326,7 +341,7 @@ plot.libml_nb <- function(x, data, features, plot.type = c("pdf", "cdf", "log.od
     tg <- NULL
   }
 
-  plot.type <- match.arg(plot.type)
+  plot_type <- match.arg(plot_type)
 
   if ( missing(id) ) {
     id <- NULL
@@ -338,7 +353,7 @@ plot.libml_nb <- function(x, data, features, plot.type = c("pdf", "cdf", "log.od
 
   data <- dplyr::select(data, all_of(c(features, response)))
 
-  if ( plot.type == "pdf" ) {
+  if ( plot_type == "pdf" ) {
     p <- lapply(features, function(ft) {
        if ( is.null(id) ) {
          ablines <- NULL
@@ -347,11 +362,11 @@ plot.libml_nb <- function(x, data, features, plot.type = c("pdf", "cdf", "log.od
        }
        title <- tg[[ft]] %||% ft
        split(data[[ft]], data[[response]]) |>
-         SomaPlotr::plotPDFlist(x.lab = x.lab, ablines = ablines, ...,
+         SomaPlotr::plotPDFlist(x.lab = x_lab, ablines = ablines, ...,
                                 main = title)
       })
 
-  } else if ( plot.type == "cdf" ) {
+  } else if ( plot_type == "cdf" ) {
 
     p <- lapply(features, function(ft) {
        if ( is.null(id) ) {
@@ -361,12 +376,11 @@ plot.libml_nb <- function(x, data, features, plot.type = c("pdf", "cdf", "log.od
        }
        title <- tg[[ft]] %||% ft
        split(data[[ft]], data[[response]]) |>
-         SomaPlotr::plotCDFlist(x.lab = x.lab, ablines = ablines, ...,
+         SomaPlotr::plotCDFlist(x.lab = x_lab, ablines = ablines, ...,
                                 main = title)
       }) |> invisible()
 
-  } else if ( plot.type == "log.odds" ) {
-
+  } else if ( plot_type == "log_odds" ) {
     if ( length(x$levels) != 2L ) {
       stop(
         "Log-odds plots not supported for non-binary class predictions: ",
@@ -384,6 +398,7 @@ plot.libml_nb <- function(x, data, features, plot.type = c("pdf", "cdf", "log.od
 
 #' @describeIn fit_nb
 #'   Plot a `naiveBayes` (`e1071`) model object.
+#'
 #' @export
 plot.naiveBayes <- plot.libml_nb
 
@@ -391,16 +406,18 @@ plot.naiveBayes <- plot.libml_nb
 #' Check Naive Bayes Feature Bias
 #'
 #' Catch (warning) for excessive feature bias in naiveBayes likelihoods
-#' during the prediction of a naive Bayes model for a single sample.
+#'   during the prediction of a naive Bayes model for a single sample.
 #'
 #' @param likelihoods A `matrix` or `tibble` class object with the
 #'   rows as the possible classes (>= 2) and the columns as the features.
 #'   Likelihoods should not yet be log-transformed and entries should be as they
 #'   come from [dnorm()].
-#' @param max_lr The threshold maximum allowed log-likelihood ratio.
+#' @param max_lr `numeric(1)`. The threshold maximum allowed log-likelihood ratio.
+#'
 #' @return `check_nb_bias`: `NULL` if none are detected. If excessive influence
 #'   on likelihoods are detected, the features responsible are returned.
 #' @author Stu Field
+#'
 #' @examples
 #' lik <- matrix(runif(6), ncol = 3)
 #' rownames(lik) <- c("control", "disease")

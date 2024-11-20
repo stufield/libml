@@ -21,9 +21,9 @@ the barplots, as used by \code{\link[=ggplot]{ggplot()}}.
 Vector length should match the number of rows in \code{data}.
 Colors are recycled as necessary.}
 
-\item{flip}{Logical. Should the axes be flipped? See example.}
+\item{flip}{\code{logical(1)}. Should the axes be flipped? See example.}
 
-\item{main}{Character. Optional string for the plot title.}
+\item{main}{\code{character(1)}. Optional string for the plot title.}
 }
 \value{
 A \code{\link[=ggplot]{ggplot()}} plot.

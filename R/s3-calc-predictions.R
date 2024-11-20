@@ -11,8 +11,11 @@
 #'     that are used for predictions if `newdata = NULL`.
 #' }
 #'
+#' @name s3-calc_predictions
+#'
 #' @inheritParams helpr::calc_predictions
 #' @inheritParams params
+#'
 #' @param model A model object. Currently one of:
 #' \itemize{
 #'   \item `glm` (for logistic regression)
@@ -22,8 +25,8 @@
 #'   \item `svm`
 #'   \item `gbm`
 #'   \item `kknn`
-#'   \item `soma_lognet`
 #' }
+#'
 #' @return A `data.frame` with predicted class and class probabilities for
 #'   each row in `newdata`:
 #'   \item{`pred_class`}{predicted class for each new observation.
@@ -33,8 +36,10 @@
 #'   \item{`prob_*`}{probability of belonging to class `*` for each new observation.}
 #'   \item{`pred_linear`}{for linear models, the linear predictor for
 #'                        each new observation.}
+#'
 #' @author Stu Field
 #' @seealso [fit_nb()], [randomForest()], [fit_logistic()], [fit_kknn()]
+#'
 #' @examples
 #' # Use training data from iris data set:
 #' train <- head(tr_iris, -3L)
@@ -75,7 +80,6 @@
 #' kknn <- fit_kknn(Species ~ ., train = train, test = test, K = 10)
 #' calc_predictions(kknn)                 # do NOT pass test data
 #' calc_predictions(kknn, cutoff = 0.48)
-#' @name s3-calc_predictions
 NULL
 
 #' @export
@@ -83,6 +87,7 @@ helpr::calc_predictions
 
 #' @describeIn s3-calc_predictions
 #'   S3 method for "robust" Naive Bayes models.
+#'
 #' @export
 calc_predictions.libml_nb <- function(model, newdata, cutoff = 0.5, ...) {
   test <- select_features(model, newdata)
@@ -102,11 +107,13 @@ calc_predictions.libml_nb <- function(model, newdata, cutoff = 0.5, ...) {
 
 #' @describeIn s3-calc_predictions
 #'   S3 method for Naive Bayes models.
+#'
 #' @export
 calc_predictions.naiveBayes <- calc_predictions.libml_nb
 
 #' @describeIn s3-calc_predictions
 #'   S3 method for Random Forest models.
+#'
 #' @export
 calc_predictions.randomForest <- function(model, newdata = NULL, cutoff = 0.5, ...) {
   pos <- get_pos_class(model)
@@ -130,6 +137,7 @@ calc_predictions.randomForest <- function(model, newdata = NULL, cutoff = 0.5, .
 
 #' @describeIn s3-calc_predictions
 #'   S3 method for Gradient Boosted Tree models.
+#'
 #' @export
 calc_predictions.gbm <- function(model, newdata, cutoff = 0.5, ...) {
   test <- select_features(model, newdata)
@@ -152,6 +160,7 @@ calc_predictions.gbm <- function(model, newdata, cutoff = 0.5, ...) {
 
 #' @describeIn s3-calc_predictions
 #'   S3 method for Support Vector Machines.
+#'
 #' @export
 calc_predictions.svm <- function(model, newdata, cutoff = 0.5, ...) {
   test <- select_features(model, newdata)
@@ -172,6 +181,7 @@ calc_predictions.svm <- function(model, newdata, cutoff = 0.5, ...) {
 
 #' @describeIn s3-calc_predictions
 #'   S3 method for Logistic Regression via `glm`.
+#'
 #' @export
 calc_predictions.glm <- function(model, newdata, cutoff = 0.5, ...) {
   test <- select_features(model, newdata)
@@ -193,6 +203,7 @@ calc_predictions.glm <- function(model, newdata, cutoff = 0.5, ...) {
 
 #' @describeIn s3-calc_predictions
 #'   S3 method for Weighted k-Nearest Neighbor.
+#'
 #' @export
 calc_predictions.kknn <- function(model, newdata = NULL, cutoff = 0.5, ...) {
 

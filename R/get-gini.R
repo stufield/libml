@@ -1,13 +1,16 @@
 #' Calculate Sorted Gini Importance
 #'
-#' Generate a table of sorted Gini importance scores for a
-#' random forest model.
+#' Generate a table of sorted Gini importance
+#'   scores for a random forest model.
 #'
-#' @param rf.model A random forest model object (class `randomForest`).
+#' @param rf.model A random forest model object (see \pkg{randomForest}).
+#'
 #' @return A `tibble` of the sorted importance(s). `MeanDecreaseAccuracy` is
 #'   the mean decrease in accuracy resulting from removing the feature.
+#'
 #' @author Stu Field
 #' @seealso [randomForest()]
+#'
 #' @examples
 #' # Use tr_iris training data from iris data set
 #' rf <- withr::with_seed(101, {

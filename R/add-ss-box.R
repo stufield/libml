@@ -12,7 +12,9 @@
 #' @param x A \verb{2x2} data frame or `tibble` containing the lower
 #'   and upper CI95 joint confidence limits for sensitivity and specificity.
 #'   A call to [calc_joint_CI95()] generates values in this specified format.
+#'
 #' @author Stu Field, Amanda Hiser
+#'
 #' @examples
 #' g <- ggplot2::ggplot(data.frame(x = 0.2, y = 0.8), ggplot2::aes(x = x, y = y)) +
 #'   ggplot2::geom_point(shape = 18, size = 3) +

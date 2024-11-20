@@ -22,15 +22,12 @@ defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{Character. Name of the "positive" or "event" class.}
+\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
 \item{shade.color}{The color for the bootstrap shaded region.
 Passed as a \code{fill} argument to downstream \code{ggplot2} machinery.}
 
-\item{nboot}{Integer. The number of bootstrap estimates to perform.}
-
-\item{r.seed}{Integer. The value of the random seed if
-reproducibility is desired.}
+\item{nboot}{\code{integer(1)}. The number of bootstrap estimates to perform.}
 
 \item{add}{Logical. Should a plotting layer be added to an existing plot?}
 

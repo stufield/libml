@@ -10,41 +10,41 @@ defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{Character. Name of the "positive" or "event" class.}
+\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
-\item{cutoff}{Numeric. A cutoff for the decision/operating point,
+\item{cutoff}{\code{numeric(1)}. A cutoff for the decision/operating point,
 predictions above which are considered the \emph{positive} class.}
 
-\item{main}{Character. Optional string for the plot title.}
+\item{main}{\code{character(1)}. Optional string for the plot title.}
 
-\item{y.lab}{Character. Optional label for the y-axis.}
+\item{y.lab}{\code{character(1)}. Optional label for the y-axis.}
 
-\item{alpha}{Numeric in \verb{[0, 1]}. The color transparency level.
+\item{alpha}{\code{numeric(1)} in \verb{[0, 1]}. The color transparency.
 See also \code{\link[ggplot2:reexports]{ggplot2::alpha()}}.}
 
-\item{color}{Character or integer. Specify the colors for
+\item{color}{\code{character(1)} or \code{integer(1)}. Specify the colors for
 lines, points, bar, box, or ROC.}
 
-\item{col}{Character or integer. Specify the colors for
+\item{col}{\code{character(1)} or \code{integer(1)}. Specify the colors for
 lines, points, bar, box, or ROC.}
 
 \item{data}{A \code{tibble} or \code{data.frame} object containing data for analysis.
 Should often contain a "Response" column indicating the
 response variable, often the grouping variable.}
 
-\item{feats}{Character vector of features, usually column names
+\item{feats}{\code{character(n)}. A vector of features, usually column names
 of a data frame.}
 
-\item{response}{Character. The column name to use as the
+\item{response}{\code{character(1)}. The column name to use as the
 response grouping. Expected to be a factor with 2 levels.
 If not a factor, \code{response} will be coerced to a
 factor (i.e. alphabetical order). Level 2 of the factor is
 considered the \code{disease/case} group, thus positive values
 for the statistic indicate up-regulation in \code{Level2} compared \code{Level1}.}
 
-\item{nboot}{Integer. The number of bootstrap estimates to perform.}
+\item{nboot}{\code{integer(1)}. The number of bootstrap estimates to perform.}
 
-\item{r.seed}{Integer. The value of the random seed if
+\item{r_seed}{`integer(1). The value of the random seed if
 reproducibility is desired.}
 }
 \description{

@@ -4,15 +4,18 @@
 #'
 #' @family auc
 #' @inheritParams params
+#'
 #' @return All return a numeric scalar corresponding to the area under
 #'   the curve. For 95% confidence intervals (`ci95 = TRUE`), [calc_emp_auc()]
 #'   returns a `list` object with these elements:
 #'     \item{auc}{The area under the curve (empirical).}
 #'     \item{lower.limit}{lower 95% confidence limit based on standard error AUC.}
 #'     \item{upper.limit}{upper 95% confidence limit based on standard error AUC.}
+#'
 #' @author Stu Field
 #' @note [calc_auc()] is designed specifically, and only (!),
 #'   for binary 2-class problems.
+#'
 #' @examples
 #' n <- 20
 #' withr::with_seed(22, {
@@ -47,11 +50,13 @@ calc_auc <- function(truth, predicted) {
 #'   error of the AUC estimate. This empirical AUC estimate is calculated via
 #'   the trapezoid area at each step along the x-axis of a ROC curve.
 #'
-#' @param ci95 Logical. Should DeLong's standard error based confidence
+#' @param ci95 `logical(1)`. Should DeLong's standard error based confidence
 #'   limits be included with the AUC estimate?
+#'
 #' @seealso [plot_emp_roc()], [roc_xy()]
 #' @references DeLong et al. (1988) for the calculation of the Standard Error
 #'   of the Area Under the Curve (AUC) and of the difference between two AUCs.
+#'
 #' @examples
 #' # Empirical AUC
 #' calc_emp_auc(true, pred, "disease")
@@ -82,8 +87,10 @@ calc_emp_auc <- function(truth, predicted, pos.class, ci95 = FALSE) {
 
 #' @describeIn calc_auc
 #'   Calculate the AUC according to Margaret Pepe's book.
+#'
 #' @references [calc_pepe_auc()]: M. Pepe. The Statistical
 #'   Evaluation of Medical Tests for Classification and Prediction.
+#'
 #' @examples
 #' # Pepe's AUC
 #' calc_pepe_auc(true, pred, "disease")
@@ -115,14 +122,17 @@ calc_pepe_auc <- function(truth, predicted, pos.class) {
 #' @describeIn calc_auc
 #'   Bootstrapped confidence intervals for the 95% limits are calculated via
 #'   _empirical_ bootstrap iterations and using Pepe's AUC calculation.
+#'
 #' @inheritParams params
+#' @author Stu Field
+#' @seealso [replicate()], [plot_emp_roc()]
+#'
 #' @return A list containing bootstrap intervals based on the number
 #'   of bootstraps performed:
 #'     \item{auc}{The raw Pepe AUC estimate from original data.}
 #'     \item{lower.limit}{The lower CI95 of the estimate.}
 #'     \item{upper.limit}{The upper CI95 of the estimate.}
-#' @author Stu Field
-#' @seealso [replicate()], [plot_emp_roc()]
+#'
 #' @examples
 #' # bootstrapped AUC
 #' calc_boot_auc(true, pred, "disease")

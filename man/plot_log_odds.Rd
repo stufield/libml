@@ -11,7 +11,7 @@ plot_log_odds(
   cutoff = 0.5,
   main = NULL,
   y.lab = NULL,
-  max.prob = NULL,
+  max_prob = NULL,
   scramble = FALSE
 )
 }
@@ -22,31 +22,33 @@ defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{Character. Name of the "positive" or "event" class.}
+\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
-\item{cutoff}{Numeric. A cutoff for the decision/operating point,
+\item{cutoff}{\code{numeric(1)}. A cutoff for the decision/operating point,
 predictions above which are considered the \emph{positive} class.}
 
-\item{main}{Character. Optional string for the plot title.}
+\item{main}{\code{character(1)}. Optional string for the plot title.}
 
-\item{y.lab}{Character. Optional label for the y-axis.}
+\item{y.lab}{\code{character(1)}. Optional label for the y-axis.}
 
-\item{max.prob}{Numeric. Maximum probability value cutoff for
+\item{max_prob}{\code{numeric(1)}. Maximum probability value cutoff for
 the log-odds plot. Removes extreme samples from the plot
 to avoid distorting x-axis.}
 
-\item{scramble}{Logical. Should values be randomized to avoid
+\item{scramble}{\code{logical(1)}. Should values be randomized to avoid
 monotonically decreasing probability scores (aesthetic)?}
 }
 \description{
 Plot the log-odds, \deqn{log(Prob / (1 - Prob))} for each sample.
-See \code{Details} for note about extreme probabilities.
+See \code{Section} for note about extreme probabilities.
 }
-\details{
-\strong{Note:} extreme values in \verb{[0, 1]} are thresholded at
+\section{Extreme probabilities}{
+
+extreme values in \verb{[0, 1]} are thresholded at
 \code{.Machine$double.eps^0.5}, or \verb{[1.490116119e-08, 0.9999999851]}
 to restrict the x-axis and avoid \code{Inf} values in log-odds space (\verb{0/1}).
 }
+
 \examples{
 n <- 20
 withr::with_seed(22, {

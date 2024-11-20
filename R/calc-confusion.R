@@ -1,10 +1,12 @@
 #' Calculate confusion matrix
 #'
-#' Calculate a confusion matrix from a series of predictions, true class
-#' names and a decision cutoff. Returns a \verb{2x2} confusion matrix. It is
-#' imperative that the _positive_ class is clearly defined to avoid
-#' ambiguity with factor levels, therefore passing `pos.class =` argument
-#' is not optional. See `Details` for assumptions about the table layout.
+#' Calculate a confusion matrix from a series of predictions,
+#'   true class names and a decision cutoff. Returns a
+#'   \verb{2x2} confusion matrix. It is imperative that the
+#'   *positive* class is clearly defined to avoid  ambiguity
+#'   with factor levels, therefore passing `pos.class =` argument
+#'   is *not* optional.
+#'   See `Details` for assumptions about the table layout.
 #'
 #' Assume a \verb{2x2} table with notation:
 #'
@@ -33,10 +35,13 @@
 #'                             sqrt( (TP + FP) (TP + FN) (TN + FP) (TN + FN) )}
 #'
 #' @inheritParams params
-#' @param ... Arguments corresponding to the `print` and `summary` generics.
+#' @author Stu Field
+#'
+#' @param ... Arguments passed to the `print` and `summary` generics.
+#'
 #' @return An object of class `confusion_matrix`, with the _True_ values
 #'   along the y-axis and _Predicted_ values along the x-axis.
-#' @author Stu Field
+#'
 #' @examples
 #' n <- 20
 #' withr::with_seed(22, {
@@ -112,7 +117,9 @@ calc_confusion <- function(truth, predicted, pos.class, cutoff = 0.5) {
 
 #' @describeIn calc_confusion
 #'   S3 print method for classes `confusion_matrix`.
-#' @param x A `confusion_matrix` or `summary.confusion_matrix` class object.
+#'
+#' @param x A `confusion_matrix` or `summary_confusion_matrix` class object.
+#'
 #' @export
 print.confusion_matrix <- function(x, ...) {
   signal_rule("Confusion", line_col = "green")
@@ -126,21 +133,25 @@ print.confusion_matrix <- function(x, ...) {
 
 #' @describeIn calc_confusion
 #'   Calculates the confusion statistics from a confusion matrix.
-#' @param object A `confusion_matrix` object, e.g. one created with
-#'   [calc_confusion()], of a specific format (see `Details`).
+#'
+#' @param object A `confusion_matrix` object, created via
+#'   [calc_confusion()].
+#'
 #' @return Summary method returns a list object of class
-#'   `summary.confusion_matrix` consisting of:
+#'   `summary_confusion_matrix` consisting of:
 #'   \item{confusion:}{The class counts based on the confusion matrix.}
 #'   \item{metrics:}{Performance metric estimates, `n`, and associated
 #'     binomial 95% confidence intervals. Note that `MCC` has a range in
 #'     \verb{[-1, 1]}, therefore confidence intervals are not calculated for this
 #'     metric ([calc_ci_binom()] expects a probability value).}
 #'   \item{stats:}{F-measure, G-mean, and Weighted Accuracy.}
+#'
 #' @seealso [calc_confusion()]
 #' @references The Statistical Evaluation of Medical Tests for Classification
 #'   and Prediction. 2004. Margaret Pepe, Altman, DG, Bland, JM. 1994.
 #'   "Diagnostic tests 1: sensitivity and specificity", British Medical
 #'   Journal, vol 308, 1552.
+#'
 #' @examples
 #' # S3 summary method
 #' summary(c_mat)
@@ -149,7 +160,6 @@ print.confusion_matrix <- function(x, ...) {
 #' @export
 summary.confusion_matrix <- function(object, ...) {
 
-  stopifnot(all(dim(object) == c(2L, 2L)))
   tn <- object[1L, 1L]
   tp <- object[2L, 2L]
   fn <- object[2L, 1L]
@@ -200,15 +210,16 @@ summary.confusion_matrix <- function(object, ...) {
   metrics <- rename(metrics, "estimate" = p)   # rename p -> estimate
   structure(
     list(confusion = object, metrics = metrics, stats = stats),
-    class = c("summary.confusion_matrix", "list")
+    class = c("summary_confusion_matrix", "list")
   )
 }
 
 
 #' @describeIn calc_confusion
-#'   S3 print method for class `summary.confusion_matrix`.
+#'   S3 print method for class `summary_confusion_matrix`.
+#'
 #' @export
-print.summary.confusion_matrix <- function(x, ...) {
+print.summary_confusion_matrix <- function(x, ...) {
   signal_rule("Confusion Matrix Summary", line_col = "blue", lty = "double")
   print(x$confusion)
   signal_rule("Performance Metrics (CI95%)", line_col = "green")

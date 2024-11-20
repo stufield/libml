@@ -19,8 +19,8 @@ simplest way to achieve this is a call to \code{\link[=create_train]{create_trai
 
 \item{...}{Arguments passed to \code{\link[=gbm]{gbm()}}.}
 
-\item{y}{Factor. If not passing a formula, a factor with
-true class names for each sample.}
+\item{y}{\code{factor(n)}. If not passing a formula, a factor with
+true class names for each sample (row) in \code{x}.}
 
 \item{formula}{A model formula of the form:
 \eqn{class ~ x1 + x2 + ...+ xn`}, (no interactions).}

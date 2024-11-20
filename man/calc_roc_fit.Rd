@@ -11,11 +11,11 @@ calc_roc_fit(xy, optim = c("ML", "LS"), start = c(alpha = 0.5, beta = 0.5))
 coordinates of an empirical ROC curve. This is typically
 the return value of a call to \code{\link[=roc_xy]{roc_xy()}}.}
 
-\item{optim}{Character. One of "ML" or "LS" indicating whether
+\item{optim}{\code{character(1)}. Either "ML" or "LS" indicating whether
 Maximum Likelihood (default) or Non-linear Least Squares should
 be used in the optimization.}
 
-\item{start}{Numeric. A \emph{named} length 2 vector of initial start
+\item{start}{\code{numeric(2)}. A \emph{named} vector of initial start
 values for \eqn{\alpha} and \eqn{\beta}.
 \eqn{\alpha} is the cost of a false positive and \eqn{\beta} is
 the cost of a false negative.}

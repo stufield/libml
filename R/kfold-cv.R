@@ -1,41 +1,44 @@
 #' Calculate k-Fold Cross-Validation
 #'
-#' Perform _k_-fold internal cross-validation on a `tr_data`
-#' class object.
+#' Perform _k_-fold internal cross-validation on
+#'   a `tr_data` class object.
 #'
 #' @param data A training data set, for convenience can be created via
 #'   [create_train()], but _must_ contain only the
 #'   features to be used in fitting the model and `"Response"` column.
-#' @param model.type Which type of model to run.
-#' @param k Integer. The number of folds to perform (_k_-fold cross-validation).
-#' @param ... Additional arguments passed to the base model fitting function, e.g.
-#'   [kknn::kknn()] or [randomForest::randomForest()].
+#' @param model_type Which type of model to run.
+#' @param k `integer(1)`. The number of folds to perform (*k*-fold cross-validation).
+#' @param ... Additional arguments passed to the base model
+#'   fitting function, e.g. [randomForest::randomForest()].
+#'
 #' @return A `tibble` containing model predictions, true class names,
 #'   and the fold of the sample used to make the prediction.
+#'
 #' @author Stu Field
 #' @seealso [fit_nb()], [fit_kknn()]
 #' @seealso [randomForest::randomForest()], [fit_gbm()], [fit_logistic()]
+#'
 #' @examples
 #' # naive Bayes
 #' # Use fake training data from iris data set
-#' xv_k10_n <- kfold_cv(tr_iris, k = 10, model.type = "nb")
+#' xv_k10_n <- kfold_cv(tr_iris, k = 10, model_type = "nb")
 #' xv_k10_n
 #'
 #' # Boosted Regression Model
-#' xv_k10_b <- kfold_cv(tr_iris, k = 10, model.type = "gbm")
+#' xv_k10_b <- kfold_cv(tr_iris, k = 10, model_type = "gbm")
 #' xv_k10_b
 #'
 #' # Weighted K-Nearest-Neighbor
 #' # Pass K = 9 for number of neighbors in hood
-#' xv_k10_k <- kfold_cv(tr_iris, k = 10, model.type = "kknn", K = 9)
+#' xv_k10_k <- kfold_cv(tr_iris, k = 10, model_type = "kknn", K = 9)
 #' xv_k10_k
 #'
 #' # Random Forest
-#' xv_k10_f <- kfold_cv(tr_iris, k = 10, model.type = "rf")
+#' xv_k10_f <- kfold_cv(tr_iris, k = 10, model_type = "rf")
 #' xv_k10_f
 #' @importFrom tibble tibble
 #' @export
-kfold_cv <- function(data, k, model.type = c("lr", "nb", "rf",
+kfold_cv <- function(data, k, model_type = c("lr", "nb", "rf",
                                              "svm", "kknn", "gbm"), ...) {
 
   if ( !inherits(data, "tr_data") ) {
@@ -45,7 +48,7 @@ kfold_cv <- function(data, k, model.type = c("lr", "nb", "rf",
     )
   }
 
-  mtype   <- match.arg(model.type)
+  mtype   <- match.arg(model_type)
   cv_data <- data
   n       <- nrow(data)
 

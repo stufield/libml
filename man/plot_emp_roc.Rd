@@ -39,85 +39,90 @@ defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{Character. Name of the "positive" or "event" class.}
+\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
-\item{auc}{Logical. Should the AUC be printed on the plot?}
+\item{auc}{\code{logical(1)}. Should the AUC be printed on the plot?}
 
-\item{add}{Integer. The position in the plotting stack indicating where to
-add the ROC curve relative to an existing plot.
+\item{add}{\code{integer(1)}. The position in the plotting stack
+indicating where to add the ROC curve relative to an existing plot.
 Zero indexing is used, thus \code{add = 0L} (default) refers to a new plot
 and \code{add = 1L} will add a ROC layer to the existing plot and
 correctly position the \code{AUC} annotations shifted accordingly.}
 
-\item{boot.auc}{Logical. Should bootstrap confidence intervals of AUC
-be calculated?}
+\item{boot.auc}{\code{logical(1)}. Should bootstrap confidence
+intervals of AUC be calculated?}
 
-\item{adj}{Numeric in \verb{[0, 1]}. Coordinates that are used to align
-the AUC text.}
+\item{adj}{\code{numeric(1)} in \verb{[0, 1]}. Coordinates that are
+used to align the AUC text.}
 
-\item{auc.pos}{Numeric in \verb{[0, 1]} indicating where to place the AUC
-text. Must be of \code{length == 2L}, indicating the x-axis and y-axis positions,
-respectively. By default, the AUC will be placed slightly to the right
-of center of the plot.}
+\item{auc.pos}{\code{numeric(1)} in \verb{[0, 1]} indicating where to
+place the AUC text. Must be of \code{length == 2L}, indicating the
+x-axis and y-axis positions, respectively. By default, the AUC
+will be placed slightly to the right of center of the plot.}
 
 \item{auc.shift}{The vertical (downward) shift between AUC text values if
 multiple ROCs are plotted.}
 
-\item{auc.label}{Character string. Adds an additional label to the AUC text
-(Default: "AUC = 0.99", with label "Extra Text": "Extra Text AUC = 0.99").
+\item{auc.label}{\code{character(1)}. Adds an additional label to
+the AUC text, i.e.
+\verb{"AUC = 0.99", with label "Extra Text": "Extra Text AUC = 0.99")}.
 Must be added individually to each plot.}
 
-\item{auc.size}{Character size of the AUC text.}
+\item{auc.size}{\code{numeric(1)}. The size for the AUC text.}
 
-\item{shape}{Numeric. Shape of points. Must be a number between 0 and 25,
+\item{shape}{\code{numeric(1)}. Shape of points (between 0 and 25),
 similar to \code{pch} of \code{\link[graphics:points]{graphics::points()}}. See \code{\link[=geom_point]{geom_point()}}.}
 
-\item{size}{Numeric. Size of points. Similar to \code{cex} of \code{\link[graphics:points]{graphics::points()}}.
-Modifying \code{size} will not affect the plot if \code{shape} is set to
-\code{NULL} (the default). See [geom_point())].
+\item{size}{\code{numeric(1)}. Size of points. Similar to \code{cex}
+of \code{\link[graphics:points]{graphics::points()}}. Modifying \code{size} will not affect the plot if
+\code{shape} is set to \code{NULL} (the default). See [geom_point())].
 
 [geom_point())]: R:geom_point())}
 
-\item{cutoff}{The decision cutoff, aka operating point, for the
-\emph{positive} classes. By default, the operating point is set to 0.5.
-Alternatively, choosing a negative number calculates the cutoff
-corresponding to the maximum \emph{perpendicular} distance between the
-curve and the unit diagonal. The CI95 of the operating point (boxes)
-can be omitted by setting \code{cutoff = NA}.}
+\item{cutoff}{\code{numeric(1)}. The decision cutoff, aka operating point,
+for the \emph{positive} classes. By default, the operating point is
+set to 0.5. Alternatively, choosing a negative number calculates
+the cutoff corresponding to the maximum \emph{perpendicular} distance
+between the curve and the unit diagonal. The CI95 of the operating
+point (boxes) can be omitted by setting \code{cutoff = NA}.}
 
-\item{cutoff.size}{Numeric in \verb{[0, 1]}, the character size for
-the cutoff point symbol.}
+\item{cutoff.size}{\code{numeric(1)} in \verb{[0, 1]}, the character
+size for the cutoff point symbol.}
 
-\item{cutoff.shape}{Numeric. The point symbol used for the cutoff point
-plotted on the ROC. Defaults to a diamond (\code{23}).}
+\item{cutoff.shape}{\code{numeric(1)}. The point symbol used for the
+cutoff point plotted on the ROC. Defaults to a diamond (\code{23}).}
 
-\item{col}{Character or integer. Specify the colors for
+\item{col}{\code{character(1)} or \code{integer(1)}. Specify the colors for
 lines, points, bar, box, or ROC.}
 
-\item{ci95}{Logical. Should any confidence intervals be plotted?}
+\item{ci95}{\code{logical(1)}. Should any confidence intervals be plotted?}
 
-\item{lwd}{Line width. See \code{\link[=par]{par()}}.}
+\item{lwd}{\code{numeric(1)}. Line width (see \code{\link[=par]{par()}}).}
 
-\item{outline}{Logical. Should black outlines be drawn around the main plot line?}
+\item{outline}{\code{logical(1)}. Should black outlines be drawn around
+the main plot line?}
 
-\item{boxes}{Logical. Should confidence interval boxes be drawn (showing the
-joint CI95 of the sensitivity and specificity confidence intervals) at the
-cutoff point?}
+\item{boxes}{\code{logical(1)}. Should confidence interval boxes be
+drawn (showing the joint CI95 of the sensitivity and
+specificity confidence intervals) at the cutoff point?}
 
-\item{box.alpha}{Numeric in \verb{[0, 1]}, the shading transparency for
-the confidence interval box at a given cutoff.}
+\item{box.alpha}{\code{numeric(1)} in \verb{[0, 1]}, the shading
+transparency for the confidence interval box at a given cutoff.}
 
-\item{debug}{Logical. Should debugging mode be activated? When activated,
-annotates the values of the plotting steps at each cutoff, prints the
-"positive class", prints the prediction data to the console, and
-various other internal objects useful for debugging.}
+\item{debug}{\code{logical(1)}. Should debugging mode be activated?
+When activated, annotates the values of the plotting steps at
+each cutoff, prints the "positive class", prints the prediction
+data to the console, and various other internal objects useful
+for debugging.}
 
-\item{plot.fit}{Logical/Character. Should a maximum-likelihood
+\item{plot.fit}{\code{logical(1)}. Should a maximum-likelihood
 (or least-squares if ML fails) fit of the curve be plotted?
-If \code{plot.fit = "both"}, a fit will be \emph{added} to the ROC.
-If \code{plot.fit = TRUE}, only the fit will be plotted, without the ROC.}
+If \code{plot.fit = TRUE}, only the fit will be plotted, without the
+empirical ROC.
+Can also be \code{plot.fit = "both"}, where a fit will be \emph{added}
+to the empirical ROC.}
 
-\item{do.grid}{Logical. Should grid lines be added to the ROC curve?}
+\item{do.grid}{\code{logical(1)}. Should grid lines be added to the ROC?}
 }
 \value{
 A ROC curve is plotted and its corresponding AUC is returned.
@@ -144,9 +149,10 @@ plot_emp_roc(true, pred, pos.class = "disease", ci95 = FALSE, shape = 21,
 plot_emp_roc(true, pred, pos.class = "disease", boot.auc = TRUE,
              col = "royalblue")
 
-plot_emp_roc(true, pred, pos.class = "disease", plot.fit = "both", col = "purple")
+plot_emp_roc(true, pred, pos.class = "disease", plot.fit = "both",
+             col = "purple")
 plot_emp_roc(true, pred, pos.class = "disease", plot.fit = TRUE, ci95 = FALSE,
-             auc = FALSE, cutoff = NA, col = 2, lwd = 4) # curve only, no cutoff
+             auc = FALSE, cutoff = NA, col = 2, lwd = 4) # curve only; no cutoff
 
 # Debugging with `debug = TRUE` displays
 # curve points to the console

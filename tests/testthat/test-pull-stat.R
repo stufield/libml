@@ -18,7 +18,7 @@ pred <- c(0.700711545301601, 0.956837461562827, 0.213352001970634,
 c_mat <- summary(calc_confusion(true, pred, pos.class = "disease"))
 
 # Testing ----
-test_that("`pull_stat()` pulls the correct values from 'summary.confusion_matrix'", {
+test_that("`pull_stat()` pulls the correct values from `summary_confusion_matrix`", {
   expect_equal(pull_stat(c_mat, "Spec"), 0.222222222222)
   expect_equal(pull_stat(c_mat, "Sens"), 0.272727272727)
   expect_equal(pull_stat(c_mat, "Recall"), pull_stat(c_mat, "Sens"))    # same

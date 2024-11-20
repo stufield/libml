@@ -1,59 +1,64 @@
 #' Plot Empirical ROC Curve
 #'
 #' Plotting function to generate a receiver operator criterion
-#' (ROC) curve for binary data and binary classifiers. This function is
-#' a wrapper around [geom_roc()], with window dressing for commonly used
-#' aesthetics and annotations.
+#'   (ROC) curve for binary data and binary classifiers. This function is
+#'   a wrapper around [geom_roc()], with window dressing for commonly used
+#'   aesthetics and annotations.
 #'
 #' @family ROC
+#'
 #' @inheritParams params
 #' @inheritParams geom_roc
 #'
-#' @param add Integer. The position in the plotting stack indicating where to
-#'   add the ROC curve relative to an existing plot.
+#' @param add `integer(1)`. The position in the plotting stack
+#'   indicating where to add the ROC curve relative to an existing plot.
 #'   Zero indexing is used, thus `add = 0L` (default) refers to a new plot
 #'   and `add = 1L` will add a ROC layer to the existing plot and
 #'   correctly position the `AUC` annotations shifted accordingly.
-#' @param auc Logical. Should the AUC be printed on the plot?
-#' @param auc.pos Numeric in \verb{[0, 1]} indicating where to place the AUC
-#'   text. Must be of `length == 2L`, indicating the x-axis and y-axis positions,
-#'   respectively. By default, the AUC will be placed slightly to the right
-#'   of center of the plot.
-#' @param auc.size Character size of the AUC text.
-#' @param adj Numeric in \verb{[0, 1]}. Coordinates that are used to align
-#'   the AUC text.
+#' @param auc `logical(1)`. Should the AUC be printed on the plot?
+#' @param auc.pos `numeric(1)` in \verb{[0, 1]} indicating where to
+#'   place the AUC text. Must be of `length == 2L`, indicating the
+#'   x-axis and y-axis positions, respectively. By default, the AUC
+#'   will be placed slightly to the right of center of the plot.
+#' @param auc.size `numeric(1)`. The size for the AUC text.
+#' @param adj `numeric(1)` in \verb{[0, 1]}. Coordinates that are
+#'   used to align the AUC text.
 #' @param auc.shift The vertical (downward) shift between AUC text values if
 #'   multiple ROCs are plotted.
-#' @param ci95 Logical. Should any confidence intervals be plotted?
-#' @param cutoff The decision cutoff, aka operating point, for the
-#'   *positive* classes. By default, the operating point is set to 0.5.
-#'    Alternatively, choosing a negative number calculates the cutoff
-#'    corresponding to the maximum _perpendicular_ distance between the
-#'    curve and the unit diagonal. The CI95 of the operating point (boxes)
-#'    can be omitted by setting `cutoff = NA`.
-#' @param cutoff.size Numeric in \verb{[0, 1]}, the character size for
-#'   the cutoff point symbol.
-#' @param cutoff.shape Numeric. The point symbol used for the cutoff point
-#'   plotted on the ROC. Defaults to a diamond (`23`).
-#' @param boxes Logical. Should confidence interval boxes be drawn (showing the
-#'   joint CI95 of the sensitivity and specificity confidence intervals) at the
-#'   cutoff point?
-#' @param box.alpha Numeric in \verb{[0, 1]}, the shading transparency for
-#'   the confidence interval box at a given cutoff.
-#' @param auc.label Character string. Adds an additional label to the AUC text
-#'   (Default: "AUC = 0.99", with label "Extra Text": "Extra Text AUC = 0.99").
+#' @param ci95 `logical(1)`. Should any confidence intervals be plotted?
+#' @param cutoff `numeric(1)`. The decision cutoff, aka operating point,
+#'   for the *positive* classes. By default, the operating point is
+#'   set to 0.5. Alternatively, choosing a negative number calculates
+#'   the cutoff corresponding to the maximum _perpendicular_ distance
+#'   between the curve and the unit diagonal. The CI95 of the operating
+#'   point (boxes) can be omitted by setting `cutoff = NA`.
+#' @param cutoff.size `numeric(1)` in \verb{[0, 1]}, the character
+#'   size for the cutoff point symbol.
+#' @param cutoff.shape `numeric(1)`. The point symbol used for the
+#'   cutoff point plotted on the ROC. Defaults to a diamond (`23`).
+#' @param boxes `logical(1)`. Should confidence interval boxes be
+#'   drawn (showing the joint CI95 of the sensitivity and
+#'   specificity confidence intervals) at the cutoff point?
+#' @param box.alpha `numeric(1)` in \verb{[0, 1]}, the shading
+#'   transparency for the confidence interval box at a given cutoff.
+#' @param auc.label `character(1)`. Adds an additional label to
+#'   the AUC text, i.e.
+#'   `"AUC = 0.99", with label "Extra Text": "Extra Text AUC = 0.99")`.
 #'   Must be added individually to each plot.
-#' @param plot.fit Logical/Character. Should a maximum-likelihood
+#' @param plot.fit `logical(1)`. Should a maximum-likelihood
 #'   (or least-squares if ML fails) fit of the curve be plotted?
-#'   If `plot.fit = "both"`, a fit will be _added_ to the ROC.
-#'   If `plot.fit = TRUE`, only the fit will be plotted, without the ROC.
-#' @param debug Logical. Should debugging mode be activated? When activated,
-#'   annotates the values of the plotting steps at each cutoff, prints the
-#'   "positive class", prints the prediction data to the console, and
-#'   various other internal objects useful for debugging.
-#' @param boot.auc Logical. Should bootstrap confidence intervals of AUC
-#'   be calculated?
-#' @param do.grid Logical. Should grid lines be added to the ROC curve?
+#'   If `plot.fit = TRUE`, only the fit will be plotted, without the
+#'   empirical ROC.
+#'   Can also be `plot.fit = "both"`, where a fit will be *added*
+#'   to the empirical ROC.
+#' @param debug `logical(1)`. Should debugging mode be activated?
+#'   When activated, annotates the values of the plotting steps at
+#'   each cutoff, prints the "positive class", prints the prediction
+#'   data to the console, and various other internal objects useful
+#'   for debugging.
+#' @param boot.auc `logical(1)`. Should bootstrap confidence
+#'   intervals of AUC be calculated?
+#' @param do.grid `logical(1)`. Should grid lines be added to the ROC?
 #'
 #' @return A ROC curve is plotted and its corresponding AUC is returned.
 #' @author Michael R. Mehan, Stu Field
@@ -75,9 +80,10 @@
 #' plot_emp_roc(true, pred, pos.class = "disease", boot.auc = TRUE,
 #'              col = "royalblue")
 #'
-#' plot_emp_roc(true, pred, pos.class = "disease", plot.fit = "both", col = "purple")
+#' plot_emp_roc(true, pred, pos.class = "disease", plot.fit = "both",
+#'              col = "purple")
 #' plot_emp_roc(true, pred, pos.class = "disease", plot.fit = TRUE, ci95 = FALSE,
-#'              auc = FALSE, cutoff = NA, col = 2, lwd = 4) # curve only, no cutoff
+#'              auc = FALSE, cutoff = NA, col = 2, lwd = 4) # curve only; no cutoff
 #'
 #' # Debugging with `debug = TRUE` displays
 #' # curve points to the console

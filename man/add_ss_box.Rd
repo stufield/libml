@@ -14,10 +14,10 @@ calc_joint_CI95(sens, spec, n.controls, n.cases)
 and upper CI95 joint confidence limits for sensitivity and specificity.
 A call to \code{\link[=calc_joint_CI95]{calc_joint_CI95()}} generates values in this specified format.}
 
-\item{col}{Character or integer. Specify the colors for
+\item{col}{\code{character(1)} or \code{integer(1)}. Specify the colors for
 lines, points, bar, box, or ROC.}
 
-\item{alpha}{Numeric in \verb{[0, 1]}. The color transparency level.
+\item{alpha}{\code{numeric(1)} in \verb{[0, 1]}. The color transparency.
 See also \code{\link[ggplot2:reexports]{ggplot2::alpha()}}.}
 
 \item{sens}{\code{numeric(n)}. The sensitivity: \eqn{[0, 1]}.}

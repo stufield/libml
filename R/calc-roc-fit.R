@@ -1,29 +1,33 @@
 #' Calculate ROC Curve Parameters
 #'
 #' Use non-linear least squares to calculate the parameters
-#' \eqn{\alpha, \beta} necessary to draw a ROC curve from
-#' empirical data. The objective function assumed is of the form:
-#'   \deqn{y \sim 1 - (1 - x^\beta)^{(1/\alpha)}}{y ~ 1 - (1 - x^beta)^(1/alpha)}
-#'   \deqn{ \alpha \in (0, 1]}{alpha in (0, 1]}
-#'   \deqn{ \beta \in (0, 1]}{beta in (0, 1]}
-#'   \deqn{ x \in (0, 1]}{x in (0, 1]}
+#'   \eqn{\alpha, \beta} necessary to draw a ROC curve from
+#'   empirical data. The objective function assumed is of the form:
+#'     \deqn{y \sim 1 - (1 - x^\beta)^{(1/\alpha)}}{y ~ 1 - (1 - x^beta)^(1/alpha)}
+#'     \deqn{ \alpha \in (0, 1]}{alpha in (0, 1]}
+#'     \deqn{ \beta \in (0, 1]}{beta in (0, 1]}
+#'     \deqn{ x \in (0, 1]}{x in (0, 1]}
 #' \cr
-#' where the extreme x-values (0 and 1) are on the `y = x` equilibrium line.
+#'   where the extreme x-values (0 and 1) are on the `y = x` equilibrium line.
 #'
 #' @family ROC
+#'
 #' @param xy A data frame containing "x" (1 - tnr) and "y" (tpr)
 #'   coordinates of an empirical ROC curve. This is typically
 #'   the return value of a call to [roc_xy()].
-#' @param optim Character. One of "ML" or "LS" indicating whether
+#' @param optim `character(1)`. Either "ML" or "LS" indicating whether
 #'   Maximum Likelihood (default) or Non-linear Least Squares should
 #'   be used in the optimization.
-#' @param start Numeric. A _named_ length 2 vector of initial start
+#' @param start `numeric(2)`. A *named* vector of initial start
 #'   values for \eqn{\alpha} and \eqn{\beta}.
 #'   \eqn{\alpha} is the cost of a false positive and \eqn{\beta} is
 #'   the cost of a false negative.
+#'
 #' @return Model estimates of \eqn{\alpha} and \eqn{\beta}.
+#'
 #' @author Stu Field
 #' @seealso [nls()], [optim()], [roc_xy()]
+#'
 #' @examples
 #' n    <- 15
 #' true <- rep(c("control", "case"), each = n)

@@ -1,15 +1,16 @@
 #' Create Manhattan Plot
 #'
 #' Creates a Manhattan plot of the differences or log-ratios
-#' of the training set for each analyte.
+#'   of the training set for each analyte.
 #'
 #' @param data A training data `tr_data` object.
-#' @param x.lab Character. Set the x-axis label.
-#' @param as_pvalue Logical. Should p-values be plotted in linear space
-#'   or log10-space?
-#' @param type Character. The type measure used to evaluate expression change.
-#'   Can be one of: "log2fc", "t.test", or "ks.test". Pattern is matched so
-#'   abbreviated strings are allowed.
+#' @param x.lab `character(1)`. Set the x-axis label.
+#' @param as_pvalue `logical(1)`. Should p-values be
+#'   plotted in linear space or log10-space?
+#' @param type `character(1)`. The type measure used to
+#'   evaluate expression change.
+#'   One of: "log2fc", "t.test", or "ks.test". Pattern is matched.
+#'
 #' @author Stu Field
 #' @examples
 #' tr <- create_train(sim_adat,

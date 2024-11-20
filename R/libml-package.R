@@ -10,6 +10,8 @@ NULL
 #' @import helpr splyr
 #' @importFrom withr local_seed with_preserve_seed with_seed local_output_sink
 #' @importFrom dplyr mutate select filter group_by
+NULL
+
 # Avoid warning in R CMD check:
 #   Namespace in Imports field not imported from: ‘Rcpp’
 #     All declared Imports should be used.

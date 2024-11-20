@@ -9,12 +9,17 @@
 #'   \eqn{p = 0.51} and \eqn{p = 0.99}, despite both predicting
 #'   a positive class label.
 #'
-#' @param x A vector of binary class data representing
+#' @param x `numeric(n)`. A vector of binary class data representing
 #'   the true classes. Must be all 0 or 1 or numeric coerceable.
-#' @param p A vector of the predicted probabilities, i.e. in \verb{[0, 1]}.
+#' @param p `numeric(n)`. A vector of the predicted probabilities,
+#'   i.e. in \verb{[0, 1]}.
+#'
+#' @author Stu Field
 #' @return The Brier Score, a value in \verb{[0, 1]}, representing
 #'   the error in predictions, `0` being best possible score.
+#'
 #' @references https://en.wikipedia.org/wiki/Brier_score
+#'
 #' @examples
 #' withr::with_seed(1, {
 #'   n <- 100L

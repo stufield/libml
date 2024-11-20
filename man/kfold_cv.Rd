@@ -4,45 +4,45 @@
 \alias{kfold_cv}
 \title{Calculate k-Fold Cross-Validation}
 \usage{
-kfold_cv(data, k, model.type = c("lr", "nb", "rf", "svm", "kknn", "gbm"), ...)
+kfold_cv(data, k, model_type = c("lr", "nb", "rf", "svm", "kknn", "gbm"), ...)
 }
 \arguments{
 \item{data}{A training data set, for convenience can be created via
 \code{\link[=create_train]{create_train()}}, but \emph{must} contain only the
 features to be used in fitting the model and \code{"Response"} column.}
 
-\item{k}{Integer. The number of folds to perform (\emph{k}-fold cross-validation).}
+\item{k}{\code{integer(1)}. The number of folds to perform (\emph{k}-fold cross-validation).}
 
-\item{model.type}{Which type of model to run.}
+\item{model_type}{Which type of model to run.}
 
-\item{...}{Additional arguments passed to the base model fitting function, e.g.
-\code{\link[kknn:kknn]{kknn::kknn()}} or \code{\link[randomForest:randomForest]{randomForest::randomForest()}}.}
+\item{...}{Additional arguments passed to the base model
+fitting function, e.g. \code{\link[randomForest:randomForest]{randomForest::randomForest()}}.}
 }
 \value{
 A \code{tibble} containing model predictions, true class names,
 and the fold of the sample used to make the prediction.
 }
 \description{
-Perform \emph{k}-fold internal cross-validation on a \code{tr_data}
-class object.
+Perform \emph{k}-fold internal cross-validation on
+a \code{tr_data} class object.
 }
 \examples{
 # naive Bayes
 # Use fake training data from iris data set
-xv_k10_n <- kfold_cv(tr_iris, k = 10, model.type = "nb")
+xv_k10_n <- kfold_cv(tr_iris, k = 10, model_type = "nb")
 xv_k10_n
 
 # Boosted Regression Model
-xv_k10_b <- kfold_cv(tr_iris, k = 10, model.type = "gbm")
+xv_k10_b <- kfold_cv(tr_iris, k = 10, model_type = "gbm")
 xv_k10_b
 
 # Weighted K-Nearest-Neighbor
 # Pass K = 9 for number of neighbors in hood
-xv_k10_k <- kfold_cv(tr_iris, k = 10, model.type = "kknn", K = 9)
+xv_k10_k <- kfold_cv(tr_iris, k = 10, model_type = "kknn", K = 9)
 xv_k10_k
 
 # Random Forest
-xv_k10_f <- kfold_cv(tr_iris, k = 10, model.type = "rf")
+xv_k10_f <- kfold_cv(tr_iris, k = 10, model_type = "rf")
 xv_k10_f
 }
 \seealso{

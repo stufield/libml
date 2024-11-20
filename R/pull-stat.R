@@ -1,7 +1,7 @@
-#' Pull a classification performance metric/statistic
+#' Pull a Classification Performance Metric/Statistic
 #'
 #' Indexes into the S3 summary method for `confusion_matrix`
-#' class object.
+#'   class object.
 #'
 #' Optional statistics are restricted to the output of the summary
 #'   method. One of:\cr
@@ -18,12 +18,14 @@
 #'     \item{"G_mean"}
 #'     \item{"Wt_Acc"}
 #'   }
-#' @param x A summary object from a call to [calc_confusion()],
-#'   a `summary.confusion_matrix` object.
+#' @param x A `summary_confusion_matrix` class object, from a
+#'   call to `summary(calc_confusion(...))`.
 #' @param which `character(1)`. Matched string for the test desired statistic.
+#'
 #' @return `double(1)`. The classification performance statistic.
 #' @author Stu Field
 #' @seealso [calc_confusion()]
+#'
 #' @examples
 #' n <- 20
 #' withr::with_seed(22, {
@@ -51,7 +53,7 @@ pull_stat <- function(x, which = c("Sensitivity", "Recall",
                                    "PPV", "NPV", "Accuracy", "MCC",
                                    "AUC", "Brier", "Error", "F_measure",
                                    "G_mean", "Wt_Acc")) {
-  stopifnot(inherits(x, "summary.confusion_matrix"))
+  stopifnot(inherits(x, "summary_confusion_matrix"))
   which     <- match.arg(which)
   str_match <- switch(which,
                       Precision   =, # nolint: infix_spaces_linter2.

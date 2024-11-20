@@ -7,15 +7,15 @@
 get_gini(rf.model)
 }
 \arguments{
-\item{rf.model}{A random forest model object (class \code{randomForest}).}
+\item{rf.model}{A random forest model object (see \pkg{randomForest}).}
 }
 \value{
 A \code{tibble} of the sorted importance(s). \code{MeanDecreaseAccuracy} is
 the mean decrease in accuracy resulting from removing the feature.
 }
 \description{
-Generate a table of sorted Gini importance scores for a
-random forest model.
+Generate a table of sorted Gini importance
+scores for a random forest model.
 }
 \examples{
 # Use tr_iris training data from iris data set

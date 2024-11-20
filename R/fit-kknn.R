@@ -3,13 +3,12 @@
 #' Wrapper for fitting weighted _k_-nearest neighbor classifiers.
 #'
 #' @family fit
+#' @inheritParams kknn::kknn
+#'
 #' @param formula An object of class "formula": a symbolic
 #'   description of the model to be fitted (e.g. \eqn{Response ~ terms}).
-#' @param train Matrix or data frame of training set cases.
-#' @param test Matrix or data frame of test set cases.
-#' @param K Numeric. Number of neighbors considered.
-#' @param distance Numeric. Parameter of Minkowski distance. `1` is
-#'   equivalent to Manhattan distance and `2` is equivalent to Euclidean.
+#' @param distance `numeric(1)`. Parameter of Minkowski distance.
+#'   `Manhattan = 1` and `Euclidean = 2`.
 #' @param kernel Character. Kernel to use. Possible choices are:
 #'   \describe{
 #'     \item{rectangular}{standard unweighted `knn`}
@@ -24,12 +23,14 @@
 #'     \item{optimal}{?}
 #'   }
 #' @param ... Additional arguments passed to [kknn()].
+#'
 #' @return A k-nearest neighbors model, as returned by [kknn()],
 #'   with a `"Response"` variable, `classes`, and function parameters `train`,
-#'   `K`, `distance`, `kernel`, as well as the function call (`call`)
+#'   `k`, `distance`, `kernel`, as well as the function call (`call`)
 #'   added as entries to the list.
 #' @author Stu Field
 #' @seealso [kknn()]
+#'
 #' @examples
 #' # Use fake training data from iris data set
 #' trainIdx <- sample(nrow(tr_iris), 90)  # random 90% training
@@ -48,18 +49,18 @@
 #' plot_emp_roc(true, pred$prob_virginica, pos)
 #' @importFrom kknn kknn
 #' @export
-fit_kknn <- function(formula, train, test, K = 10, distance = 2,
-                    kernel = "triangular", ...) {
+fit_kknn <- function(formula, train, test, k = 10, distance = 2,
+                     kernel = "triangular", ...) {
 
   model <- kknn(formula, train = train, test = test,
-                k = min(K, nrow(train)),
+                k = min(k, nrow(train)),
                 distance = distance, kernel = kernel, ...)
   resp_col       <- as.character(attributes(model$terms)$predvars)[2L]
   model$Response <- test[[resp_col]]
   model$classes  <- levels(model$fitted.values)
   model$train    <- deparse(substitute(train))
   row.names(model$prob) <- row.names(test)
-  model$K        <- K
+  model$k        <- k
   model$call     <- match.call()
   model$distance <- distance
   model$kernel   <- kernel

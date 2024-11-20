@@ -5,22 +5,26 @@
 #'   Its primary input is the output of [roc_xy()], and is used
 #'   primarily used in support of the wrapper [plot_emp_roc()].
 #'
-#' @inheritParams ggplot2::geom_line
 #' @family ROC
+#' @inheritParams ggplot2::geom_line
+#'
 #' @param data A `data.frame` containing "x" and "y" coordinates corresponding
 #'   to an empirical ROC curve. This is result of a call to [roc_xy()], and
 #'   corresponds to the `1 - "tnr"` and `"tpr"` values respectively.
-#' @param lwd Line width. See [par()].
-#' @param shape Numeric. Shape of points. Must be a number between 0 and 25,
+#' @param size `numeric(1)`. Size of points. Similar to `cex`
+#'   of [graphics::points()]. Modifying `size` will not affect the plot if
+#'   `shape` is set to `NULL` (the default). See [geom_point())].
+#' @param lwd `numeric(1)`. Line width (see [par()]).
+#' @param shape `numeric(1)`. Shape of points (between 0 and 25),
 #'   similar to `pch` of [graphics::points()]. See [geom_point()].
-#' @param size Numeric. Size of points. Similar to `cex` of [graphics::points()].
-#'   Modifying `size` will not affect the plot if `shape` is set to
-#'   `NULL` (the default). See [geom_point())].
-#' @param outline Logical. Should black outlines be drawn around the main plot line?
-#' @param ... Additional arguments passed to [layer()], often `lty`, `shape`,
-#'   `lwd`, etc.
+#' @param outline `logical(1)`. Should black outlines be drawn around
+#'   the main plot line?
+#' @param ... Additional arguments passed to [layer()],
+#'   often `lty`, `shape`, `lwd`, etc.
+#'
 #' @author Stu Field, Amanda Hiser
 #' @seealso [roc_xy()], [calc_roc_fit()], [geom_line()], [layer()]
+#'
 #' @examples
 #' library(ggplot2)
 #'
@@ -63,7 +67,7 @@
 #' ggplot() +
 #'   geom_roc(aes(x = x, y = y), data = rocxy, col = "red") +
 #'   geom_roc(aes(x = x, y = y), data = rocxy2, col = "blue")
-#' @importFrom ggplot2 geom_abline geom_line geom_function layer
+#' @importFrom ggplot2 geom_abline geom_line layer
 #' @importFrom ggplot2 theme element_line element_blank
 #' @export
 geom_roc <- function(mapping = NULL, data = NULL, stat = "identity",
@@ -111,6 +115,8 @@ geom_roc <- function(mapping = NULL, data = NULL, stat = "identity",
 
 #' @describeIn geom_roc
 #'   Add a fitted line (layer) to ROC.
+#'
+#' @importFrom ggplot2 geom_function
 #' @export
 geom_rocfit <- function(mapping = NULL, data = NULL, stat = "identity",
                         position = "identity", ...) {

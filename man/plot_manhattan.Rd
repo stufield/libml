@@ -14,14 +14,14 @@ plot_manhattan(
 \arguments{
 \item{data}{A training data \code{tr_data} object.}
 
-\item{x.lab}{Character. Set the x-axis label.}
+\item{x.lab}{\code{character(1)}. Set the x-axis label.}
 
-\item{type}{Character. The type measure used to evaluate expression change.
-Can be one of: "log2fc", "t.test", or "ks.test". Pattern is matched so
-abbreviated strings are allowed.}
+\item{type}{\code{character(1)}. The type measure used to
+evaluate expression change.
+One of: "log2fc", "t.test", or "ks.test". Pattern is matched.}
 
-\item{as_pvalue}{Logical. Should p-values be plotted in linear space
-or log10-space?}
+\item{as_pvalue}{\code{logical(1)}. Should p-values be
+plotted in linear space or log10-space?}
 }
 \description{
 Creates a Manhattan plot of the differences or log-ratios

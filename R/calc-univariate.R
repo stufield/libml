@@ -1,17 +1,17 @@
 #' Create Table of Univariate Results
 #'
 #' Iterates over features to compute univariate tests for each
-#' given an appropriate response variable.
-#' Currently supports:
-#' \itemize{
-#'   \item{t-tests for binary endpoints}
-#'   \item{linear models for continuous endpoints}
-#'   \item{log2FC for the ratio of group medians)}
-#'   \item{Kruskal-Wallis for non-parametric multi-group comparisons}
-#'   \item{KS for for non-parametric binary comparisons}
-#'   \item{Wilcox for non-parametric binary comparisons (Mann-Whitney)}
-#'   \item{Mack-Wolfe for non-parametric trends (JT-test)}
-#' }
+#'   given an appropriate response variable.
+#'   Currently supported tests:
+#'   \itemize{
+#'     \item{t-tests for binary endpoints}
+#'     \item{linear models for continuous endpoints}
+#'     \item{log2FC for the ratio of group medians)}
+#'     \item{Kruskal-Wallis for non-parametric multi-group comparisons}
+#'     \item{KS for for non-parametric binary comparisons}
+#'     \item{Wilcox for non-parametric binary comparisons (Mann-Whitney)}
+#'     \item{Mack-Wolfe for non-parametric trends (JT-test)}
+#'   }
 #'
 #' @param data A `data.frame` object containing data for analysis.
 #' @param var `character(1)`. A response variable, a column in `data`.
@@ -19,22 +19,23 @@
 #'   See above for currently supports tests.
 #' @param ... Additional parameters passed to the statistic
 #'   function defined in `test`.
+#'
 #' @return A `tibble` of features and univariate test results.
-#' Common columns are:
-#' * `p_value`
-#' * `FDR`
-#' * `p_bonferroni`
-#' * `rank`
+#'   Common columns are:
+#'   \item{`p_value`}{The univariate p-value}
+#'   \item{`FDR`}{The false discovery rate corrected p-value}
+#'   \item{`p_bonferroni`}{The Bonferroni corrected p-value}
+#'   \item{`rank`}{The univariate rank of the feature}
 #'
 #' Test-specific statistics include the following:
-#' * `t.test` returns the t statistic, `t`.
-#' * `lm` returns the intercept, slope, and t statistic of the slope,
-#'   `intercept`, `slope`, and `t_slope` respectively.
-#' * `log2fc` returns the log2-fold-change of the ratio of group medians.
-#' * `Kruskal-Wallis` returns the `H` test statistic.
-#' * `KS` returns the `D` test statistic.
-#' * `Wilcox` returns the `U` test statistic.
-#' * `Mack-Wolfe` returns the `Ap` test statistic.
+#'   \item{`t.test`}{returns the t statistic, `t`}
+#'   \item{`lm`}{returns the intercept, slope, and t statistic of the slope,
+#'     `intercept`, `slope`, and `t_slope` respectively}
+#'   \item{`log2fc`}{returns the log2-fold-change of the ratio of group medians}
+#'   \item{`Kruskal-Wallis`}{returns the `H` test statistic}
+#'   \item{`KS`}{returns the `D` test statistic}
+#'   \item{`Wilcox`}{returns the `U` test statistic}
+#'   \item{`Mack-Wolfe`}{returns the `Ap` test statistic}
 #'
 #' @author Stu Field
 #' @examples
@@ -116,10 +117,11 @@ calc_univariate <- function(data, var,
 #' format_test
 #'
 #' Internal helper S3 method to extract desired
-#' statistics from output of various univariate tests.
+#'   statistics from output of various univariate tests.
 #'
 #' @param obj Output of various tests such as [t.test()] and [lm()].
 #' @return A tibble.
+#'
 #' @noRd
 .format_test <- function(obj) UseMethod(".format_test")
 

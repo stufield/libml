@@ -18,13 +18,13 @@ plot_uni_contrasts(
 
 \item{y}{The second univariate tibble to contrast (y-axis).}
 
-\item{cutoff}{\code{numeric(1)}. \code{p-value} cutoff for comparison of tables.}
+\item{cutoff}{\code{numeric(1)}. A \code{p-value} cutoff for comparison of tables.}
 
-\item{ident}{Logical. Should the points beyond the cutoff be identified?}
+\item{ident}{\code{logical(1)}. Should the points beyond the cutoff be identified?}
 
-\item{main}{Optional. A title for the plot.}
+\item{main}{\code{character(1)}. An optional title over ride for the plot.}
 
-\item{label.size}{The size for the labels if \code{ident = TRUE}.}
+\item{label.size}{\code{numeric(1)}. The size for the labels if \code{ident = TRUE}.}
 }
 \value{
 A \code{ggplot} object.

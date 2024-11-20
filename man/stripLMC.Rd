@@ -24,10 +24,10 @@ For \code{"glm"} class, removes or sets to \code{0} these elements:
 - \code{family} (\code{family}, \code{link}, \code{linkfun}, and \code{linkinv} remain)
 }
 \description{
-Strips linear model (\code{"lm"} or \code{"glm"}) object components down
-the bare essentials to reduce size. Used typically
-when building thousands of models, e.g. during cross-validation
-to manage memory.
+Strips linear model (\code{"lm"} or \code{"glm"}) object components
+down the bare essentials to reduce size. Used typically
+when building thousands of models, e.g. during
+cross-validation to manage memory.
 }
 \examples{
 fat_lm <- function() {

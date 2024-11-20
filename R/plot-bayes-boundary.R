@@ -1,19 +1,22 @@
 #' Plot a Naive Bayes Decision Boundary
 #'
 #' Plots the bivariate curved decision boundary for a naive
-#' Bayes classifier/model for _two_ features.
+#'   Bayes classifier/model for *two* (bivariate) features.
 #'
 #' @inheritParams params
+#'
 #' @param data A `data.frame` object containing 3 columns:
 #'   \enumerate{
 #'     \item __F1__: values for the first feature (x-axis).
 #'     \item __F2__: values for the second feature (y-axis).
 #'     \item __class__: vector of the response classes as a factor.
 #'   }
-#' @param res Integer. The resolution for the plot. Higher
+#' @param res `integer(1)`. The resolution for the plot. Higher
 #'   resolutions require more computation time.
+#'
 #' @author Stu Field
 #' @seealso [geom_contour()], [fit_nb()]
+#'
 #' @examples
 #' data <- data.frame(F1    = tr_iris$Petal.Length,
 #'                    F2    = tr_iris$Sepal.Length,
@@ -24,14 +27,14 @@
 #' @importFrom ggplot2 aes ggplot geom_contour geom_raster
 #' @importFrom ggplot2 geom_point labs scale_fill_gradient scale_color_manual
 #' @export
-plot_bayes_boundary <- function(data, pos.class, res = 50, main = NULL) {
+plot_bayes_boundary <- function(data, pos.class, res = 50L, main = NULL) {
   stopifnot(
     "`data` must have at *least* 3 columns to plot." = ncol(data) == 3L,
-    "`res` must be numeric."                         = is.numeric(res)
+    "`res` must be integer."                         = is_int(res)
   )
   train <- data |>
     dplyr::rename_if(is.factor, function(.x) "class") |> # rename response
-    dplyr::rename_at(1:2, function(.x) c("F1", "F2"))    # rename features 1,2
+    dplyr::rename_at(1:2L, function(.x) c("F1", "F2"))   # rename features 1,2
   train$class <- factor(train$class,    # pos.class 2nd
                         levels = c(setdiff(train$class, pos.class), pos.class))
   model <- fit_nb(class ~ F1 + F2, data = train)

@@ -1,15 +1,19 @@
 #' Plot a ROC with CI95
 #'
 #' Plots a ROC curve with bootstrapped 95% confidence interval
-#' boundary overlay.
+#'   boundary overlay.
 #'
 #' @family ROC
+#'
 #' @inheritParams params
+#'
 #' @param shade.color The color for the bootstrap shaded region.
 #'   Passed as a `fill` argument to downstream `ggplot2` machinery.
 #' @param add Logical. Should a plotting layer be added to an existing plot?
 #' @param ... Additional arguments passed to [geom_roc()], e.g. `color =`.
+#'
 #' @author Stu Field, Amanda Hiser
+#'
 #' @examples
 #' n <- 75
 #' true <- rep(c("control", "disease"), each = n)

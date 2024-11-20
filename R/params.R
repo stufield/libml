@@ -11,40 +11,40 @@
 #'
 #' @param predicted `numeric(n)`. A numeric vector of class probabilities.
 #'
-#' @param pos.class Character. Name of the "positive" or "event" class.
+#' @param pos.class `character(1)`. Name of the "positive" or "event" class.
 #'
-#' @param cutoff Numeric. A cutoff for the decision/operating point,
+#' @param cutoff `numeric(1)`. A cutoff for the decision/operating point,
 #'   predictions above which are considered the _positive_ class.
 #'
-#' @param main Character. Optional string for the plot title.
+#' @param main `character(1)`. Optional string for the plot title.
 #'
-#' @param y.lab Character. Optional label for the y-axis.
+#' @param y.lab `character(1)`. Optional label for the y-axis.
 #'
-#' @param alpha Numeric in \verb{[0, 1]}. The color transparency level.
-#' See also [ggplot2::alpha()].
+#' @param alpha `numeric(1)` in \verb{[0, 1]}. The color transparency.
+#'   See also [ggplot2::alpha()].
 #'
-#' @param color Character or integer. Specify the colors for
+#' @param color `character(1)` or `integer(1)`. Specify the colors for
 #'   lines, points, bar, box, or ROC.
 #'
-#' @param col Character or integer. Specify the colors for
+#' @param col `character(1)` or `integer(1)`. Specify the colors for
 #' lines, points, bar, box, or ROC.
 #'
 #' @param data A `tibble` or `data.frame` object containing data for analysis.
 #'   Should often contain a "Response" column indicating the
 #'   response variable, often the grouping variable.
 #'
-#' @param feats Character vector of features, usually column names
+#' @param feats `character(n)`. A vector of features, usually column names
 #'   of a data frame.
 #'
-#' @param response Character. The column name to use as the
+#' @param response `character(1)`. The column name to use as the
 #'   response grouping. Expected to be a factor with 2 levels.
 #'   If not a factor, `response` will be coerced to a
 #'   factor (i.e. alphabetical order). Level 2 of the factor is
 #'   considered the `disease/case` group, thus positive values
 #'   for the statistic indicate up-regulation in `Level2` compared `Level1`.
 #'
-#' @param nboot Integer. The number of bootstrap estimates to perform.
+#' @param nboot `integer(1)`. The number of bootstrap estimates to perform.
 #'
-#' @param r.seed Integer. The value of the random seed if
+#' @param r_seed `integer(1). The value of the random seed if
 #'   reproducibility is desired.
 NULL

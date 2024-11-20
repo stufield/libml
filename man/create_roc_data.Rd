@@ -35,15 +35,15 @@ defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{Character. Name of the "positive" or "event" class.}
+\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
-\item{do.ci}{Logical. Should binomial confidence limits be
-calculated and added to the return value.}
+\item{do.ci}{\code{logical(1)}. Should binomial confidence limits be
+calculated and added to the return value?}
 
-\item{cutoffs}{Various cutoffs at which to evaluate performance.}
+\item{cutoffs}{\code{numeric(n)}. Cutoffs at which to evaluate performance.}
 
-\item{include.auc}{Logical. Should AUC also be calculated and added as a
-column to the returned data frame.}
+\item{include.auc}{\code{logical(1)}. Should AUC also be calculated
+and added as a column to the returned data frame?}
 
 \item{roc_data}{The result of a call to \code{\link[=create_roc_data]{create_roc_data()}}, a
 \code{roc_data} object.}
@@ -61,7 +61,7 @@ to filter.}
 \item{xy}{\code{numeric(2)}. An \verb{(x, y)} coordinate on the ROC curve.}
 }
 \value{
-\code{\link[=create_roc_data]{create_roc_data()}}: An object of class \code{roc_data}, a \code{tibble},
+\code{\link[=create_roc_data]{create_roc_data()}}: A \code{roc_data} class object, a \code{tibble},
 of the ROC data evaluated at each of the cutoff evaluation points.
 AUC is the area under the ROC curve, with values in \eqn{[0, 1]}.
 Youden's J is a method for choosing the "optimal" cut-off based on
@@ -69,7 +69,7 @@ highest total sensitivity and specificity and is calculated via:
 \deqn{
     Youden_J = sensitivity + specificity - 1
   }
-For details on all other classification metrics, see \code{\link[=calc_confusion]{calc_confusion()}}.
+For details on other classification metrics, see \code{\link[=calc_confusion]{calc_confusion()}}.
 
 \code{\link[=filter_roc_data]{filter_roc_data()}}: A filtered \code{roc_data} data frame.
 

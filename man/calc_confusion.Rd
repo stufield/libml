@@ -4,7 +4,7 @@
 \alias{calc_confusion}
 \alias{print.confusion_matrix}
 \alias{summary.confusion_matrix}
-\alias{print.summary.confusion_matrix}
+\alias{print.summary_confusion_matrix}
 \title{Calculate confusion matrix}
 \usage{
 calc_confusion(truth, predicted, pos.class, cutoff = 0.5)
@@ -13,7 +13,7 @@ calc_confusion(truth, predicted, pos.class, cutoff = 0.5)
 
 \method{summary}{confusion_matrix}(object, ...)
 
-\method{print}{summary.confusion_matrix}(x, ...)
+\method{print}{summary_confusion_matrix}(x, ...)
 }
 \arguments{
 \item{truth}{\code{character(n)} or \code{factor(n)}. A vector of true class names.
@@ -22,24 +22,24 @@ defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{Character. Name of the "positive" or "event" class.}
+\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
-\item{cutoff}{Numeric. A cutoff for the decision/operating point,
+\item{cutoff}{\code{numeric(1)}. A cutoff for the decision/operating point,
 predictions above which are considered the \emph{positive} class.}
 
-\item{x}{A \code{confusion_matrix} or \code{summary.confusion_matrix} class object.}
+\item{x}{A \code{confusion_matrix} or \code{summary_confusion_matrix} class object.}
 
-\item{...}{Arguments corresponding to the \code{print} and \code{summary} generics.}
+\item{...}{Arguments passed to the \code{print} and \code{summary} generics.}
 
-\item{object}{A \code{confusion_matrix} object, e.g. one created with
-\code{\link[=calc_confusion]{calc_confusion()}}, of a specific format (see \code{Details}).}
+\item{object}{A \code{confusion_matrix} object, created via
+\code{\link[=calc_confusion]{calc_confusion()}}.}
 }
 \value{
 An object of class \code{confusion_matrix}, with the \emph{True} values
 along the y-axis and \emph{Predicted} values along the x-axis.
 
 Summary method returns a list object of class
-\code{summary.confusion_matrix} consisting of:
+\code{summary_confusion_matrix} consisting of:
 \item{confusion:}{The class counts based on the confusion matrix.}
 \item{metrics:}{Performance metric estimates, \code{n}, and associated
 binomial 95\% confidence intervals. Note that \code{MCC} has a range in
@@ -48,11 +48,13 @@ metric (\code{\link[=calc_ci_binom]{calc_ci_binom()}} expects a probability valu
 \item{stats:}{F-measure, G-mean, and Weighted Accuracy.}
 }
 \description{
-Calculate a confusion matrix from a series of predictions, true class
-names and a decision cutoff. Returns a \verb{2x2} confusion matrix. It is
-imperative that the \emph{positive} class is clearly defined to avoid
-ambiguity with factor levels, therefore passing \verb{pos.class =} argument
-is not optional. See \code{Details} for assumptions about the table layout.
+Calculate a confusion matrix from a series of predictions,
+true class names and a decision cutoff. Returns a
+\verb{2x2} confusion matrix. It is imperative that the
+\emph{positive} class is clearly defined to avoid  ambiguity
+with factor levels, therefore passing \verb{pos.class =} argument
+is \emph{not} optional.
+See \code{Details} for assumptions about the table layout.
 }
 \details{
 Assume a \verb{2x2} table with notation:
@@ -87,7 +89,7 @@ The \code{summary} calculations are:
 
 \item \code{summary(confusion_matrix)}: Calculates the confusion statistics from a confusion matrix.
 
-\item \code{print(summary.confusion_matrix)}: S3 print method for class \code{summary.confusion_matrix}.
+\item \code{print(summary_confusion_matrix)}: S3 print method for class \code{summary_confusion_matrix}.
 
 }}
 \examples{

@@ -26,7 +26,7 @@ object recast as a \code{tr_data} object.
 Contains 50 setosa and 50 virginica samples.
 }
 \note{
-this is the same as \code{fake_iris} pre-existing object.
+This is the same as \code{fake_iris} pre-existing object.
 }
 \examples{
 \dontrun{

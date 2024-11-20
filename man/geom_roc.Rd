@@ -67,18 +67,19 @@ to use \code{position_jitter()}, give the position as \code{"jitter"}.
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
 
-\item{shape}{Numeric. Shape of points. Must be a number between 0 and 25,
+\item{shape}{\code{numeric(1)}. Shape of points (between 0 and 25),
 similar to \code{pch} of \code{\link[graphics:points]{graphics::points()}}. See \code{\link[=geom_point]{geom_point()}}.}
 
-\item{size}{Numeric. Size of points. Similar to \code{cex} of \code{\link[graphics:points]{graphics::points()}}.
-Modifying \code{size} will not affect the plot if \code{shape} is set to
-\code{NULL} (the default). See [geom_point())].
+\item{size}{\code{numeric(1)}. Size of points. Similar to \code{cex}
+of \code{\link[graphics:points]{graphics::points()}}. Modifying \code{size} will not affect the plot if
+\code{shape} is set to \code{NULL} (the default). See [geom_point())].
 
 [geom_point())]: R:geom_point())}
 
-\item{lwd}{Line width. See \code{\link[=par]{par()}}.}
+\item{lwd}{\code{numeric(1)}. Line width (see \code{\link[=par]{par()}}).}
 
-\item{outline}{Logical. Should black outlines be drawn around the main plot line?}
+\item{outline}{\code{logical(1)}. Should black outlines be drawn around
+the main plot line?}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
@@ -91,8 +92,8 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 
-\item{...}{Additional arguments passed to \code{\link[=layer]{layer()}}, often \code{lty}, \code{shape},
-\code{lwd}, etc.}
+\item{...}{Additional arguments passed to \code{\link[=layer]{layer()}},
+often \code{lty}, \code{shape}, \code{lwd}, etc.}
 }
 \description{
 Create a \verb{"geom"} layer to generate a receiver operator criterion (ROC)

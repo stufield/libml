@@ -1,21 +1,27 @@
 #' Calculate Binomial Confidence Interval
 #'
 #' Calculates the _joint_ binomial confidence interval based
-#' on the binomial variance given the data. Uses normal
-#' approximation of the binomial.
+#'   on the binomial variance given the data. Uses normal
+#'   approximation of the binomial.
 #'
-#' @param p Numeric. The classification metric in \verb{[0, 1]}. Can also be a
-#'   vector of values representing the metric of interest (sens or spec).
-#' @param n Integer. The total number of counts in the denominator
+#' @param p `numeric(1)`. The classification metric in \verb{[0, 1]}.
+#'   Can also be a vector of values representing the metric of
+#'   interest (sens or spec).
+#' @param n `integer(1)`. The total number of counts in the denominator
 #'   for the metric being calculated.
-#' @param ci Numeric. The width of the confidence interval
-#'   to be calculated. Must be within \verb{[0.5, 1]}.
+#' @param ci `numeric(1)`. The width of the confidence interval
+#'   to be calculated. Must be in \verb{[0.5, 1]}.
+#'
 #' @return A `tibble` object of the upper and lower binomial
 #'   confidence limits corresponding to the value of `ci`.
+#'
 #' @author Stu Field
 #' @seealso [qnorm()]
-#' @references Margaret Pepe. 2003. The Statistical Evaluation of Medical
-#'   Tests for Classification and Prediction. (maybe?)
+#' @references The Statistical Evaluation of Medical Tests for Classification
+#'   and Prediction. 2004. Margaret Pepe, Altman, DG, Bland, JM. 1994.
+#'   "Diagnostic tests 1: sensitivity and specificity", British Medical
+#'   Journal, vol 308, 1552. (I think?).
+#'
 #' @examples
 #' tp <- 16
 #' fn <- 4

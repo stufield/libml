@@ -117,7 +117,7 @@ test_that("calc_conf ignores factor levels and uses pos.class argument", {
 test_that("confusion matrix S3 summary method gives expected values; cutoff = 0.75", {
   sumry <- summary(calc_confusion(true, pred, pos.class = "disease", 0.75))
   expect_type(sumry, "list")
-  expect_s3_class(sumry, "summary.confusion_matrix")
+  expect_s3_class(sumry, "summary_confusion_matrix")
   expect_named(sumry, c("confusion", "metrics", "stats"))
   expect_equal(sumry$confusion,
                calc_confusion(factor(true), pred, pos.class = "disease", 0.75))

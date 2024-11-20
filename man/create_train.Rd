@@ -20,8 +20,8 @@ If passing to the S3 plot method for objects of class \code{tr_data},
 additional arguments are passed to \code{\link[SomaPlotr:plotCDF]{SomaPlotr::plotCDFbyGroup()}}
 via the \code{...}.}
 
-\item{group.var}{Either a quoted or unquoted string.
-Must a column contained within \code{data}.}
+\item{group.var}{\code{character(1)}. Can be quoted or unquoted.
+Must be a column name of \code{data}.}
 
 \item{classes}{Either \code{NULL}, where no factor conversion will be
 performed (default), or a string \code{character(2)} indicating \emph{first}
@@ -30,20 +30,20 @@ for more information about factor levels.}
 
 \item{x}{A \code{tr_data} object.}
 
-\item{ft}{Character. The name of a column in \code{data} containing values
-to generate CDFs or PDFs.}
+\item{ft}{\code{character(1)}. The name of a column in \code{data}
+containing values to generate CDFs or PDFs.}
 
-\item{main}{Character. Title for the plot. See \code{\link[ggplot2:labs]{ggplot2::ggtitle()}}.}
+\item{main}{\code{character(1)}. Title for the plot. See \code{\link[ggplot2:labs]{ggplot2::ggtitle()}}.}
 
-\item{do.pdfs}{Logical. Should smoothed densities PDF be plotted?}
+\item{do.pdfs}{\code{logical(1)}. Should smoothed densities PDF be plotted?}
 
-\item{do.log}{Logical. Should RFU values be log10-transformed prior to
-plotting?}
+\item{do.log}{\code{logical(1)}. Should values be log10-transformed?}
 }
 \value{
-A \code{"tibble"} with a \code{tr_data} class added.
+A \code{tibble} with an additioinal \code{tr_data} class.
 This object contains the subset training data with a
-additional attributes about the groupings and the "Response" variable.
+additional attributes about the groupings and the
+"Response" variable.
 
 Logical. Whether \code{data} inherits from class \code{tr_data}.
 }

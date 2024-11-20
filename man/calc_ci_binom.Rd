@@ -7,14 +7,15 @@
 calc_ci_binom(p, n, ci = sqrt(0.95))
 }
 \arguments{
-\item{p}{Numeric. The classification metric in \verb{[0, 1]}. Can also be a
-vector of values representing the metric of interest (sens or spec).}
+\item{p}{\code{numeric(1)}. The classification metric in \verb{[0, 1]}.
+Can also be a vector of values representing the metric of
+interest (sens or spec).}
 
-\item{n}{Integer. The total number of counts in the denominator
+\item{n}{\code{integer(1)}. The total number of counts in the denominator
 for the metric being calculated.}
 
-\item{ci}{Numeric. The width of the confidence interval
-to be calculated. Must be within \verb{[0.5, 1]}.}
+\item{ci}{\code{numeric(1)}. The width of the confidence interval
+to be calculated. Must be in \verb{[0.5, 1]}.}
 }
 \value{
 A \code{tibble} object of the upper and lower binomial
@@ -32,8 +33,10 @@ sens <- tp / (tp + fn)
 calc_ci_binom(sens, tp + fn)
 }
 \references{
-Margaret Pepe. 2003. The Statistical Evaluation of Medical
-Tests for Classification and Prediction. (maybe?)
+The Statistical Evaluation of Medical Tests for Classification
+and Prediction. 2004. Margaret Pepe, Altman, DG, Bland, JM. 1994.
+"Diagnostic tests 1: sensitivity and specificity", British Medical
+Journal, vol 308, 1552. (I think?).
 }
 \seealso{
 \code{\link[=qnorm]{qnorm()}}

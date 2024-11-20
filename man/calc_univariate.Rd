@@ -25,29 +25,25 @@ function defined in \code{test}.}
 \value{
 A \code{tibble} of features and univariate test results.
 Common columns are:
-\itemize{
-\item \code{p_value}
-\item \code{FDR}
-\item \code{p_bonferroni}
-\item \code{rank}
-}
+\item{\code{p_value}}{The univariate p-value}
+\item{\code{FDR}}{The false discovery rate corrected p-value}
+\item{\code{p_bonferroni}}{The Bonferroni corrected p-value}
+\item{\code{rank}}{The univariate rank of the feature}
 
 Test-specific statistics include the following:
-\itemize{
-\item \code{t.test} returns the t statistic, \code{t}.
-\item \code{lm} returns the intercept, slope, and t statistic of the slope,
-\code{intercept}, \code{slope}, and \code{t_slope} respectively.
-\item \code{log2fc} returns the log2-fold-change of the ratio of group medians.
-\item \code{Kruskal-Wallis} returns the \code{H} test statistic.
-\item \code{KS} returns the \code{D} test statistic.
-\item \code{Wilcox} returns the \code{U} test statistic.
-\item \code{Mack-Wolfe} returns the \code{Ap} test statistic.
-}
+\item{\code{t.test}}{returns the t statistic, \code{t}}
+\item{\code{lm}}{returns the intercept, slope, and t statistic of the slope,
+\code{intercept}, \code{slope}, and \code{t_slope} respectively}
+\item{\code{log2fc}}{returns the log2-fold-change of the ratio of group medians}
+\item{\code{Kruskal-Wallis}}{returns the \code{H} test statistic}
+\item{\code{KS}}{returns the \code{D} test statistic}
+\item{\code{Wilcox}}{returns the \code{U} test statistic}
+\item{\code{Mack-Wolfe}}{returns the \code{Ap} test statistic}
 }
 \description{
 Iterates over features to compute univariate tests for each
 given an appropriate response variable.
-Currently supports:
+Currently supported tests:
 \itemize{
 \item{t-tests for binary endpoints}
 \item{linear models for continuous endpoints}

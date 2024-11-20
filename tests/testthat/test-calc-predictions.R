@@ -153,7 +153,7 @@ test_that("the Support Vector Machines method returns correct predictions", {
 
 test_that("the `KKNN` method returns correct predictions", {
   # test set passed in during model fit
-  kknn  <- fit_kknn(Species ~ ., train = train, test = test, K = 10)
+  kknn  <- fit_kknn(Species ~ ., train = train, test = test, k = 10)
   pred1 <- calc_predictions(kknn)  # cannot pass test data
   expect_false(has_rn(pred1))
   expect_equal(pred1, data.frame(stringsAsFactors = FALSE,

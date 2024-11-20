@@ -28,15 +28,12 @@ defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{Character. Name of the "positive" or "event" class.}
+\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
-\item{ci95}{Logical. Should DeLong's standard error based confidence
+\item{ci95}{\code{logical(1)}. Should DeLong's standard error based confidence
 limits be included with the AUC estimate?}
 
-\item{nboot}{Integer. The number of bootstrap estimates to perform.}
-
-\item{r.seed}{Integer. The value of the random seed if
-reproducibility is desired.}
+\item{nboot}{\code{integer(1)}. The number of bootstrap estimates to perform.}
 }
 \value{
 All return a numeric scalar corresponding to the area under

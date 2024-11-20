@@ -5,21 +5,21 @@
 #'   or Jonckheere trend test is a special case of the
 #'   Mack-Wolfe where the peak is set to one of the ends.
 #'
-#' @param x Numeric. A numeric _vector_ of values.
+#' @param x `numeric(n)`. A numeric *vector* of values.
 #'   If empty of parameters (see examples), the example
 #'   from Hollander & Wolfe is computed.
 #' @param formula A formula specifying the `lhs` and `rhs`.
 #' @param data A `data.frame` containing variables in the `formula`.
-#' @param group Factor. A vector of groupings matched to `x`.
+#' @param group `factor(n)`. A vector of groupings matched to `x`.
 #'   The factor levels are used as the grouping information.
 #' @param peak `character(1)`. A string corresponding to the
 #'   desired peak factor level.
 #'   If `peak = "jt"` (default) a JT-test is performed.
 #'   If `peak = NULL`, the "peak unknown" version of the
 #'   Mack-Wolfe test is performed.
-#' @param rm_outliers Logical. Should statistical outliers
+#' @param rm_outliers `logical(1)`. Should statistical outliers
 #'   (\eqn{6 * mad} _and_ \eqn{5x}) be removed? See [remove_outliers()].
-#' @param alpha Numeric. The desired significance level.
+#' @param alpha `numeric(1)`. The desired significance level.
 #' @param nperm `integer(1)`. The number of Monte-Carlo simulations
 #'   to perform. If `NULL`, a p-value approximation is
 #'   used (if `length(x) > 10`).
@@ -28,7 +28,7 @@
 #' @return Returns a `mack_wolfe` class object:
 #'   \item{Ap:}{The Mack-Wolfe test statistic (if peak known)}
 #'   \item{Astar:}{The Normal approximation of the test statistic}
-#'   \item{p_value:}{The __two-sided__ p-value associated with the
+#'   \item{p_value:}{The **two-sided** p-value associated with the
 #'     Normal approximation ([pnorm()])}
 #'   \item{Acrit:}{The critical value for the z-distribution at the
 #'     requested significance level (`alpha`)}
@@ -41,6 +41,7 @@
 #' @references Myles Hollander and Douglas A. Wolfe (1973).
 #'   *Nonparametric Statistical Methods*. New York: John Wiley & Sons.
 #'   Pages 115-120, 215.
+#'
 #' @examples
 #' x <- c(36.0, 33.6, 26.9, 35.8, 30.1, 31.2, 35.3,   # g1
 #'        39.9, 29.1, 43.4,                           # g2
@@ -296,8 +297,6 @@ mack_wolfe_unknown <- function() {
                          paste(r, collapse = ", ")))
 }
 
-
-# S3 print ----
 
 #' @noRd
 #' @export

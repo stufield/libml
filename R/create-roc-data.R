@@ -6,12 +6,14 @@
 #'
 #' @family ROC
 #' @inheritParams params
-#' @param cutoffs Various cutoffs at which to evaluate performance.
-#' @param do.ci Logical. Should binomial confidence limits be
-#'   calculated and added to the return value.
-#' @param include.auc Logical. Should AUC also be calculated and added as a
-#'   column to the returned data frame.
-#' @return [create_roc_data()]: An object of class `roc_data`, a `tibble`,
+#'
+#' @param cutoffs `numeric(n)`. Cutoffs at which to evaluate performance.
+#' @param do.ci `logical(1)`. Should binomial confidence limits be
+#'   calculated and added to the return value?
+#' @param include.auc `logical(1)`. Should AUC also be calculated
+#'   and added as a column to the returned data frame?
+#'
+#' @return [create_roc_data()]: A `roc_data` class object, a `tibble`,
 #'   of the ROC data evaluated at each of the cutoff evaluation points.
 #'   AUC is the area under the ROC curve, with values in \eqn{[0, 1]}.
 #'   Youden's J is a method for choosing the "optimal" cut-off based on
@@ -19,9 +21,11 @@
 #'   \deqn{
 #'     Youden_J = sensitivity + specificity - 1
 #'   }
-#'   For details on all other classification metrics, see [calc_confusion()].
+#'   For details on other classification metrics, see [calc_confusion()].
+#'
 #' @author Stu Field
 #' @seealso [calc_roc_perpendicular()], [calc_confusion()]
+#'
 #' @examples
 #' n <- 200
 #' withr::with_seed(22, {

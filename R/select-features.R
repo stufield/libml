@@ -1,17 +1,20 @@
 #' Select Model Features
 #'
 #' Subsets a data frame to only the model predictor
-#' variables (columns), aka the "model frame", for a given a _model_.
-#' Similar to [model.frame()], except a _model_ is passed rather than
-#' a _formula_.
+#'   variables (columns), aka the "model frame", for
+#'   a given a *model*. Similar to [model.frame()],
+#'   except a *model* is passed rather than a *formula*.
 #'
 #' @param model A model with an S3 [get_model_features()] method. See description
 #'   in [helpr::get_model_features()].
 #' @param .data A `data.frame`, typically containing a test data
 #'   of samples to to subset down to the minimal set of features.
-#' @return A `data.frame`-like object (depending on class of `.data`) subset
-#'   to only the variables/features contained in the `model`.
+#'
+#' @return A `data.frame`-like object (depending on
+#'   class of `.data`) subset to only the variables/features
+#'   contained in the `model`.
 #' @author Stu Field
+#'
 #' @examples
 #' # set up training and test data:
 #' idx   <- sample.int(nrow(tr_iris), size = 90L)

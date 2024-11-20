@@ -17,9 +17,9 @@ defining the positive/event class.}
 
 \item{predicted}{\code{numeric(n)}. A numeric vector of class probabilities.}
 
-\item{pos.class}{Character. Name of the "positive" or "event" class.}
+\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
-\item{spec}{Numeric. The desired specificity.}
+\item{spec}{\code{numeric(1)}. The desired specificity.}
 }
 \value{
 \code{\link[=get_max_cutoff]{get_max_cutoff()}}: a numeric cutoff representing

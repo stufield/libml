@@ -1,19 +1,23 @@
 #' Create a Log-Odds Plot
 #'
 #' Plot the log-odds, \deqn{log(Prob / (1 - Prob))} for each sample.
-#' See `Details` for note about extreme probabilities.
+#'   See `Section` for note about extreme probabilities.
 #'
-#' __Note:__ extreme values in \verb{[0, 1]} are thresholded at
-#' `.Machine$double.eps^0.5`, or `[1.490116119e-08, 0.9999999851]`
-#' to restrict the x-axis and avoid `Inf` values in log-odds space (\verb{0/1}).
+#' @section Extreme probabilities:
+#'   extreme values in \verb{[0, 1]} are thresholded at
+#'   `.Machine$double.eps^0.5`, or `[1.490116119e-08, 0.9999999851]`
+#'   to restrict the x-axis and avoid `Inf` values in log-odds space (\verb{0/1}).
 #'
 #' @inheritParams params
-#' @param scramble Logical. Should values be randomized to avoid
+#'
+#' @param scramble `logical(1)`. Should values be randomized to avoid
 #'   monotonically decreasing probability scores (aesthetic)?
-#' @param max.prob Numeric. Maximum probability value cutoff for
+#' @param max_prob `numeric(1)`. Maximum probability value cutoff for
 #'   the log-odds plot. Removes extreme samples from the plot
 #'   to avoid distorting x-axis.
+#'
 #' @author Stu Field
+#'
 #' @examples
 #' n <- 20
 #' withr::with_seed(22, {
@@ -26,11 +30,12 @@
 #' @importFrom ggplot2 scale_fill_manual scale_color_manual scale_shape_manual
 #' @export
 plot_log_odds <- function(truth, predicted, pos.class,  cutoff = 0.5,
-                          main = NULL, y.lab = NULL, max.prob = NULL,
+                          main = NULL, y.lab = NULL, max_prob = NULL,
                           scramble = FALSE) {
 
-  if ( !missing(max.prob) ) {
-    warning("The `max.prob =` argument needs implementation.", call. = FALSE)
+  if ( !is.null(max_prob) ) {
+    warning("The `max_prob =` argument needs implementation.",
+            call. = FALSE)
   }
 
   sample_order <- c("FP", "TN", "TP", "FN")
@@ -94,7 +99,7 @@ plot_log_odds <- function(truth, predicted, pos.class,  cutoff = 0.5,
     ggplot2::geom_vline(xintercept = log_cutoff, linetype = "longdash") +
     ggplot2::xlim(-ceiling(max(abs(df$log_odds))),
                   ceiling(max(abs(df$log_odds)))) +
-    # implement max.prob here eventually
+    # implement max_prob here eventually
     SomaPlotr::theme_soma() +
     NULL
 }

@@ -14,14 +14,15 @@ in \code{\link[helpr:s3-generics]{helpr::get_model_features()}}.}
 of samples to to subset down to the minimal set of features.}
 }
 \value{
-A \code{data.frame}-like object (depending on class of \code{.data}) subset
-to only the variables/features contained in the \code{model}.
+A \code{data.frame}-like object (depending on
+class of \code{.data}) subset to only the variables/features
+contained in the \code{model}.
 }
 \description{
 Subsets a data frame to only the model predictor
-variables (columns), aka the "model frame", for a given a \emph{model}.
-Similar to \code{\link[=model.frame]{model.frame()}}, except a \emph{model} is passed rather than
-a \emph{formula}.
+variables (columns), aka the "model frame", for
+a given a \emph{model}. Similar to \code{\link[=model.frame]{model.frame()}},
+except a \emph{model} is passed rather than a \emph{formula}.
 }
 \examples{
 # set up training and test data:

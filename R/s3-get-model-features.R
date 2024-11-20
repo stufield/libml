@@ -101,6 +101,7 @@ get_model_features.train <- function(model, ...) {
 
 
 #' Extract specific features; remove Intercept() etc.
+#'
 #' @noRd
 extract_feats <- function(x) {
   grep("Intercept|Log\\(scale\\)|^\\*$", x, value = TRUE, invert = TRUE)

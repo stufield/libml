@@ -1,16 +1,20 @@
 #' Get Distance Cutoffs
 #'
 #' For given true class names and predictions, calculate the maximal
-#' perpendicular distance to the unit line, its corresponding
-#' specificity, then the cutoff corresponding to that specificity.
+#'   perpendicular distance to the unit line, its corresponding
+#'   specificity, then the cutoff corresponding to that specificity.
 #'
 #' @name get-cutoffs
+#'
 #' @inheritParams params
+#'
 #' @return [get_max_cutoff()]: a numeric cutoff representing
 #'   the operating point at the maximal perpendicular distance
 #'   from the unit line.
+#'
 #' @author Stu Field
 #' @seealso [calc_roc_perpendicular()], [roc_xy()]
+#'
 #' @examples
 #' n <- 20
 #' withr::with_seed(122, {
@@ -34,16 +38,19 @@ get_max_cutoff <- function(truth, predicted, pos.class) {
 #' cutoff (operating point) from a set of predictions.
 #'
 #' @rdname get-cutoffs
-#' @param spec Numeric. The desired specificity.
+#'
+#' @param spec `numeric(1)`. The desired specificity.
+#'
 #' @return [get_spec_cutoff()]: a numeric cutoff representing
 #'   the operating point for a given specificity.
+#'
 #' @examples
 #' # via specificity
 #' get_spec_cutoff(true, pred, 0.4, "disease")
 #' @export
 get_spec_cutoff <- function(truth, predicted, spec, pos.class) {
   n_neg <- sum(truth != pos.class)
-  tol   <- .Machine$double.eps^0.5 # account for underflow
+  tol   <- .Machine$double.eps^0.5 # fix underflow
   fp    <- 0
 
   for ( i in seq_along(truth) ) {
@@ -51,7 +58,7 @@ get_spec_cutoff <- function(truth, predicted, spec, pos.class) {
       fp <- fp + 1
     }
     if ( (1 - fp / n_neg) - spec < -tol ) {
-      return(predicted[i - 1])
+      return(predicted[i - 1L])
     }
   }
   stop(

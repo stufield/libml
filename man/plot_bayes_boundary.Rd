@@ -4,7 +4,7 @@
 \alias{plot_bayes_boundary}
 \title{Plot a Naive Bayes Decision Boundary}
 \usage{
-plot_bayes_boundary(data, pos.class, res = 50, main = NULL)
+plot_bayes_boundary(data, pos.class, res = 50L, main = NULL)
 }
 \arguments{
 \item{data}{A \code{data.frame} object containing 3 columns:
@@ -14,16 +14,16 @@ plot_bayes_boundary(data, pos.class, res = 50, main = NULL)
 \item \strong{class}: vector of the response classes as a factor.
 }}
 
-\item{pos.class}{Character. Name of the "positive" or "event" class.}
+\item{pos.class}{\code{character(1)}. Name of the "positive" or "event" class.}
 
-\item{res}{Integer. The resolution for the plot. Higher
+\item{res}{\code{integer(1)}. The resolution for the plot. Higher
 resolutions require more computation time.}
 
-\item{main}{Character. Optional string for the plot title.}
+\item{main}{\code{character(1)}. Optional string for the plot title.}
 }
 \description{
 Plots the bivariate curved decision boundary for a naive
-Bayes classifier/model for \emph{two} features.
+Bayes classifier/model for \emph{two} (bivariate) features.
 }
 \examples{
 data <- data.frame(F1    = tr_iris$Petal.Length,

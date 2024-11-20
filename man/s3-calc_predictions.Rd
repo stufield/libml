@@ -35,7 +35,6 @@
 \item \code{svm}
 \item \code{gbm}
 \item \code{kknn}
-\item \code{soma_lognet}
 }}
 
 \item{newdata}{The test set (\code{data.frame}) containing
@@ -43,7 +42,7 @@
 For some models, if \code{newdata = NULL}, training
 (or out-of-bag) predictions are returned.}
 
-\item{cutoff}{Numeric. A cutoff for the decision/operating point,
+\item{cutoff}{\code{numeric(1)}. A cutoff for the decision/operating point,
 predictions above which are considered the \emph{positive} class.}
 
 \item{...}{Used for extensibility of downstream S3 methods.}

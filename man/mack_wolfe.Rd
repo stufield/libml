@@ -21,7 +21,7 @@ mack_wolfe(x, ...)
 )
 }
 \arguments{
-\item{x}{Numeric. A numeric \emph{vector} of values.
+\item{x}{\code{numeric(n)}. A numeric \emph{vector} of values.
 If empty of parameters (see examples), the example
 from Hollander & Wolfe is computed.}
 
@@ -31,7 +31,7 @@ from Hollander & Wolfe is computed.}
 
 \item{data}{A \code{data.frame} containing variables in the \code{formula}.}
 
-\item{group}{Factor. A vector of groupings matched to \code{x}.
+\item{group}{\code{factor(n)}. A vector of groupings matched to \code{x}.
 The factor levels are used as the grouping information.}
 
 \item{peak}{\code{character(1)}. A string corresponding to the
@@ -40,10 +40,10 @@ If \code{peak = "jt"} (default) a JT-test is performed.
 If \code{peak = NULL}, the "peak unknown" version of the
 Mack-Wolfe test is performed.}
 
-\item{rm_outliers}{Logical. Should statistical outliers
+\item{rm_outliers}{\code{logical(1)}. Should statistical outliers
 (\eqn{6 * mad} \emph{and} \eqn{5x}) be removed? See \code{\link[=remove_outliers]{remove_outliers()}}.}
 
-\item{alpha}{Numeric. The desired significance level.}
+\item{alpha}{\code{numeric(1)}. The desired significance level.}
 
 \item{nperm}{\code{integer(1)}. The number of Monte-Carlo simulations
 to perform. If \code{NULL}, a p-value approximation is

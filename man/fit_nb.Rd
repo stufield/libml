@@ -33,8 +33,8 @@ fit_nb(x, ...)
   x,
   data,
   features,
-  plot.type = c("pdf", "cdf", "log.odds"),
-  x.lab = "value",
+  plot_type = c("pdf", "cdf", "log_odds"),
+  x_lab = "value",
   id,
   ...
 )
@@ -43,8 +43,8 @@ fit_nb(x, ...)
   x,
   data,
   features,
-  plot.type = c("pdf", "cdf", "log.odds"),
-  x.lab = "value",
+  plot_type = c("pdf", "cdf", "log_odds"),
+  x_lab = "value",
   id,
   ...
 )
@@ -60,14 +60,14 @@ default method. Currently not used in the \code{predict} or \code{print} S3 meth
 but is used in the S3 plot method, arguments passed to
 \code{\link[SomaPlotr:plotCDF]{SomaPlotr::plotCDFlist()}} or \code{\link[SomaPlotr:plotPDF]{SomaPlotr::plotPDFlist()}}.}
 
-\item{y}{A vector indicating the true classes for each sample. Ideally a
-factor class object with appropriate levels.}
+\item{y}{\code{factor(n)}. If not passing a formula, a factor with
+true class names for each sample (row) in \code{x}.}
 
-\item{mad}{Logical. Should non-parametric approximations be applied during
-the parameter estimation procedure. See \code{Details} section.}
+\item{mad}{\code{logical(1)}. Should non-parametric approximations be
+applied during the parameter estimation procedure. See \code{Details}.}
 
-\item{laplace}{positive double controlling Laplace smoothing. The default
-(\code{0}) disables Laplace smoothing.}
+\item{laplace}{\code{double(1)}. Positive controlling Laplace smoothing.
+The default (\code{0}) disables Laplace smoothing.}
 
 \item{keep.data}{Logical. Should the training data used to fit the model be
 included in the model object? When building thousands of models, this can
@@ -99,15 +99,15 @@ a prediction can take.}
 \item{features}{An optional feature specifying which subset of model features
 to plot. If missing, all features are plotted.}
 
-\item{plot.type}{Character. A string determining the plot type, currently
+\item{plot_type}{\code{character(1)}. A string determining the plot type, currently
 either a probability density function (PDF, default), CDF, or log-odds
-plots. Arguments can be shortened and is matched via \code{\link[=match.arg]{match.arg()}}.}
+plots. Matched via \code{\link[=match.arg]{match.arg()}}.}
 
-\item{x.lab}{Character. Optional label for the x-axis.}
+\item{x_lab}{\code{character(1)}. Optional label for the x-axis.}
 
-\item{id}{An optional identifier of a specific sample to plot on top of
-either PDFs or CDFs. This may be either a numeric index of the sample row
-in the \code{data}, or its \code{rowname}. Can be \code{length(n)}.}
+\item{id}{\code{integer(n)} or \code{character(n)}. Optional identifier of
+a specific sample to plot on top of either PDFs or CDFs.
+Either an index of the sample row in the \code{data}, or its \code{rowname}.}
 }
 \value{
 \code{libml_nb}: A naive Bayes model with robustly fit parameters.
@@ -116,7 +116,7 @@ in the \code{data}, or its \code{rowname}. Can be \code{length(n)}.}
 either the predicted class name or the posterior probability
 of a robustly estimated naive Bayes model.
 
-\code{plot.libml_nb}, \code{plot.naiveBayes}: A plot, either a list of
+\code{plot.libml_nb}: A plot, either a list of
 PDFs/CDFs, or a log-odds plot.
 }
 \description{

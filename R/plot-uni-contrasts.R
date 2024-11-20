@@ -1,16 +1,18 @@
 #' Contrast 2 Univariate Tables
 #'
 #' Compare 2 `univariate` tables from any two analyses
-#' from the [calc_univariate()] function.
+#'   from the [calc_univariate()] function.
 #'
 #' @param x The first univariate tibble to contrast (x-axis).
 #' @param y The second univariate tibble to contrast (y-axis).
-#' @param cutoff `numeric(1)`. `p-value` cutoff for comparison of tables.
-#' @param ident Logical. Should the points beyond the cutoff be identified?
-#' @param label.size The size for the labels if `ident = TRUE`.
-#' @param main Optional. A title for the plot.
+#' @param cutoff `numeric(1)`. A `p-value` cutoff for comparison of tables.
+#' @param ident `logical(1)`. Should the points beyond the cutoff be identified?
+#' @param label.size `numeric(1)`. The size for the labels if `ident = TRUE`.
+#' @param main `character(1)`. An optional title over ride for the plot.
+#'
 #' @return A `ggplot` object.
 #' @author Stu Field
+#'
 #' @examples
 #' a <- calc_univariate(mtcars, var = "vs")
 #' b <- calc_univariate(mtcars, var = "mpg", "lm")

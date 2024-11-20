@@ -2,7 +2,7 @@
 % Please edit documentation in R/pull-stat.R
 \name{pull_stat}
 \alias{pull_stat}
-\title{Pull a classification performance metric/statistic}
+\title{Pull a Classification Performance Metric/Statistic}
 \usage{
 pull_stat(
   x,
@@ -11,8 +11,8 @@ pull_stat(
 )
 }
 \arguments{
-\item{x}{A summary object from a call to \code{\link[=calc_confusion]{calc_confusion()}},
-a \code{summary.confusion_matrix} object.}
+\item{x}{A \code{summary_confusion_matrix} class object, from a
+call to \code{summary(calc_confusion(...))}.}
 
 \item{which}{\code{character(1)}. Matched string for the test desired statistic.}
 }

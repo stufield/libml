@@ -4,8 +4,8 @@ linters: linters_with_defaults(
   object_name_linter = NULL
   )
 exclusions: list(
-  "R/create-train.R" = list(object_usage_linter = 79),
-  "R/calc-auc.R"     = list(commented_code_linter = 136:139),
+  "R/create-train.R" = list(object_usage_linter = 80),
+  "R/calc-auc.R"     = list(commented_code_linter = 146:149),
   "R/plot-emp-roc.R" = list(cyclocomp_linter = Inf),
   "R/RcppExports.R"  = list(trailing_blank_lines_linter = Inf),
   "tests/testthat/helper.R",

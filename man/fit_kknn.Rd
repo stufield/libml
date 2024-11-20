@@ -8,7 +8,7 @@ fit_kknn(
   formula,
   train,
   test,
-  K = 10,
+  k = 10,
   distance = 2,
   kernel = "triangular",
   ...
@@ -22,10 +22,10 @@ description of the model to be fitted (e.g. \eqn{Response ~ terms}).}
 
 \item{test}{Matrix or data frame of test set cases.}
 
-\item{K}{Numeric. Number of neighbors considered.}
+\item{k}{Number of neighbors considered.}
 
-\item{distance}{Numeric. Parameter of Minkowski distance. \code{1} is
-equivalent to Manhattan distance and \code{2} is equivalent to Euclidean.}
+\item{distance}{\code{numeric(1)}. Parameter of Minkowski distance.
+\code{Manhattan = 1} and \code{Euclidean = 2}.}
 
 \item{kernel}{Character. Kernel to use. Possible choices are:
 \describe{
@@ -46,7 +46,7 @@ equivalent to Manhattan distance and \code{2} is equivalent to Euclidean.}
 \value{
 A k-nearest neighbors model, as returned by \code{\link[=kknn]{kknn()}},
 with a \code{"Response"} variable, \code{classes}, and function parameters \code{train},
-\code{K}, \code{distance}, \code{kernel}, as well as the function call (\code{call})
+\code{k}, \code{distance}, \code{kernel}, as well as the function call (\code{call})
 added as entries to the list.
 }
 \description{
