@@ -101,13 +101,15 @@
 #'                col = "forestgreen", add = 1)
 #' @importFrom ggplot2 geom_ribbon geom_point geom_text geom_segment annotate
 #' @export
-plot_emp_roc <- function(truth, predicted, pos_class, auc = TRUE, add = 0L,
-                         boot_auc = FALSE, adj = c(0, 0), auc_pos = c(0.5, 0.5),
-                         auc_shift = 1.25, auc_label = NULL, auc_size = 5,
-                         shape = NULL, size = 2, cutoff = 0.5, cutoff_size = 5,
-                         cutoff_shape = 23, col = 1, ci95 = TRUE, lwd = 2,
-                         outline = TRUE, boxes = TRUE, box_alpha = 0.35,
-                         debug = FALSE, plot_fit = FALSE, do_grid = TRUE) {
+plot_emp_roc <- function(truth, predicted, pos_class,
+                         auc = TRUE, add = 0L, boot_auc = FALSE,
+                         adj = c(0, 0), auc_pos = c(0.5, 0.5), auc_shift = 1.25,
+                         auc_label = NULL, auc_size = 5, shape = NULL,
+                         size = 2, cutoff = 0.5, cutoff_size = 5,
+                         cutoff_shape = 23, col = 1, ci95 = TRUE,
+                         lwd = 2, outline = TRUE, boxes = TRUE,
+                         box_alpha = 0.35, debug = FALSE, plot_fit = FALSE,
+                         do_grid = TRUE) {
 
   if ( missing(pos_class) ) {
     stop(
