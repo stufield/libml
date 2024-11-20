@@ -49,6 +49,11 @@ test_that("`libml_nb` predict method generates correct values", {
              1.319086e-21, 8.465865e-23, 1.740150e-16)
   expect_equal(head(predict(nb2c, iris2, type = "post"))[, 2L], preds)
   expect_equal(head(predict(nb2c, iris2, type = "post"))[, 1L], rep(1, 6L))
+  # type param is same 
+  expect_equal(
+    predict(nb2c, iris2),  # default = "raw"
+    predict(nb2c, iris2, type = "post")
+  )
 })
 
 test_that("the predict method `type = class` returns correct 2 class", {

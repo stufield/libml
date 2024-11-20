@@ -24,7 +24,7 @@ fit_nb(x, ...)
 \method{predict}{libml_nb}(
   object,
   newdata,
-  type = c("class", "posterior", "raw"),
+  type = c("raw", "class", "posterior"),
   threshold = NULL,
   ...
 )
@@ -86,12 +86,12 @@ the model covariates (possibly more columns than the training data).
 Note that the column names of \code{newdata} are matched against the
 training data.}
 
-\item{type}{If \code{"class"} (default), the class name with maximal
+\item{type}{\code{character(1)}. Matched parameter.
+If \code{"class"}, the class name with maximal
 posterior probability is returned for each sample, otherwise the
 conditional \emph{a-posterior} probabilities for each class are returned.
-Additionally, if called from within the S3 plot method, a character
-string determining the plot type, currently either CDF or PDF (default).
-Argument can be shortened and is matched.}
+If called from the S3 plot method, a character \code{type} is a
+string determining the plot type, currently either CDF or PDF (default).}
 
 \item{threshold}{\code{numeric(1)}. Indicating the minimum probability
 a prediction can take.}
@@ -168,8 +168,8 @@ identical(sapply(m1$tables, as.numeric), sapply(m2$tables, as.numeric))
 identical(sapply(m2$tables, as.numeric), sapply(m3$tables, as.numeric))
 
 # Predictions
-table(predict(m1, iris), iris$Species) # benchmark
-table(predict(m2, iris), iris$Species) # approx same for Gaussian data; no outliers
+table(predict(m1, iris, type = "class"), iris$Species) # benchmark
+table(predict(m2, iris, type = "class"), iris$Species) # approx same (Gaussian data)
 
 # Plotting
 plot(m2, tr_iris)

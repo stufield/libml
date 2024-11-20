@@ -203,12 +203,12 @@ print.libml_nb <- function(x, ...) {
 #'   the model covariates (possibly more columns than the training data).
 #'   Note that the column names of `newdata` are matched against the
 #'   training data.
-#' @param type If `"class"` (default), the class name with maximal
+#' @param type `character(1)`. Matched parameter.
+#'   If `"class"`, the class name with maximal
 #'   posterior probability is returned for each sample, otherwise the
 #'   conditional *a-posterior* probabilities for each class are returned.
-#'   Additionally, if called from within the S3 plot method, a character
+#'   If called from the S3 plot method, a character `type` is a
 #'   string determining the plot type, currently either CDF or PDF (default).
-#'   Argument can be shortened and is matched.
 #' @param threshold `numeric(1)`. Indicating the minimum probability
 #'   a prediction can take.
 #'
@@ -218,13 +218,13 @@ print.libml_nb <- function(x, ...) {
 #'
 #' @examples
 #' # Predictions
-#' table(predict(m1, iris), iris$Species) # benchmark
-#' table(predict(m2, iris), iris$Species) # approx same for Gaussian data; no outliers
+#' table(predict(m1, iris, type = "class"), iris$Species) # benchmark
+#' table(predict(m2, iris, type = "class"), iris$Species) # approx same (Gaussian data)
 #'
 #' @importFrom stats dnorm
 #' @export
 predict.libml_nb <- function(object, newdata,
-                             type = c("class", "posterior", "raw"),
+                             type = c("raw", "class", "posterior"),
                              threshold = NULL, ...) {
 
   type <- match.arg(type)
