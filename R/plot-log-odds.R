@@ -29,9 +29,8 @@
 #' @importFrom ggplot2 ggplot aes geom_point labs xlim geom_vline
 #' @importFrom ggplot2 scale_fill_manual scale_color_manual scale_shape_manual
 #' @export
-plot_log_odds <- function(truth, predicted, pos_class,  cutoff = 0.5,
-                          main = NULL, y_lab = NULL, max_prob = NULL,
-                          scramble = FALSE) {
+plot_log_odds <- function(truth, predicted, pos_class, cutoff = 0.5,
+                          y_lab = NULL, max_prob = NULL, scramble = FALSE) {
 
   if ( !is.null(max_prob) ) {
     warning("The `max_prob =` argument needs implementation.",
@@ -77,7 +76,7 @@ plot_log_odds <- function(truth, predicted, pos_class,  cutoff = 0.5,
   log_cutoff <- log(cutoff / (1 - cutoff))
 
   cols <- c(col_palette$purple,
-            rep(col_palette$lightgrey, 2),
+            rep(col_palette$lightgrey, 2L),
             col_palette$lightgreen)
 
   df <- data.frame(predict = predicted) |>
@@ -87,15 +86,18 @@ plot_log_odds <- function(truth, predicted, pos_class,  cutoff = 0.5,
     dplyr::mutate(y = dplyr::row_number())
 
   df |>
-    ggplot2::ggplot(ggplot2::aes(x = log_odds, y = y,
-                                 shape = type, color = type,
-                                 fill = type) ) +
-    ggplot2::geom_point(size = 3, alpha = 0.7) +
+    ggplot2::ggplot(ggplot2::aes(x = log_odds,
+                                 y = y,
+                                 shape = type,
+                                 color = type,
+                                 fill  = type) ) +
+    ggplot2::geom_point(size = 3, alpha = 0.75) +
     ggplot2::scale_fill_manual(values = cols, name = "") +
     ggplot2::scale_color_manual(values = cols, name = "") +
     ggplot2::scale_shape_manual(values = c(19, 17, 15, 19), name = "") +
-    ggplot2::labs(x = bquote(italic(log)[e] ~ (italic(p) / (1 - italic(p)))),
-                  y = y_lab, title = main) +
+    ggplot2::labs(
+      x = bquote(italic(log)[e] ~ (italic(p) / (1 - italic(p)))),
+      y = y_lab) +
     ggplot2::geom_vline(xintercept = log_cutoff, linetype = "longdash") +
     ggplot2::xlim(-ceiling(max(abs(df$log_odds))),
                   ceiling(max(abs(df$log_odds)))) +

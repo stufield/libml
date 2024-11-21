@@ -9,7 +9,6 @@ plot_log_odds(
   predicted,
   pos_class,
   cutoff = 0.5,
-  main = NULL,
   y_lab = NULL,
   max_prob = NULL,
   scramble = FALSE
@@ -26,8 +25,6 @@ defining the positive/event class.}
 
 \item{cutoff}{\code{numeric(1)}. A cutoff for the decision/operating point,
 predictions above which are considered the \emph{positive} class.}
-
-\item{main}{\code{character(1)}. Optional string for the plot title.}
 
 \item{y_lab}{\code{character(1)}. Optional label for the y-axis.}
 
