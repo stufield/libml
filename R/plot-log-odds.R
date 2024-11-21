@@ -86,21 +86,17 @@ plot_log_odds <- function(truth, predicted, pos_class, cutoff = 0.5,
     dplyr::mutate(y = dplyr::row_number())
 
   df |>
-    ggplot2::ggplot(ggplot2::aes(x = log_odds,
-                                 y = y,
-                                 shape = type,
-                                 color = type,
-                                 fill  = type) ) +
-    ggplot2::geom_point(size = 3, alpha = 0.75) +
-    ggplot2::scale_fill_manual(values = cols, name = "") +
-    ggplot2::scale_color_manual(values = cols, name = "") +
-    ggplot2::scale_shape_manual(values = c(19, 17, 15, 19), name = "") +
-    ggplot2::labs(
+    ggplot(aes(x = log_odds, y = y, shape = type,
+               color = type, fill = type) ) +
+    geom_point(size = 3, alpha = 0.75) +
+    scale_fill_manual(values = cols, name = "") +
+    scale_color_manual(values = cols, name = "") +
+    scale_shape_manual(values = c(19, 17, 15, 19), name = "") +
+    labs(
       x = bquote(italic(log)[e] ~ (italic(p) / (1 - italic(p)))),
       y = y_lab) +
-    ggplot2::geom_vline(xintercept = log_cutoff, linetype = "longdash") +
-    ggplot2::xlim(-ceiling(max(abs(df$log_odds))),
-                  ceiling(max(abs(df$log_odds)))) +
+    geom_vline(xintercept = log_cutoff, linetype = "longdash") +
+    xlim(-ceiling(max(abs(df$log_odds))), ceiling(max(abs(df$log_odds)))) +
     # TODO: implement `max_prob` here eventually
     libml_theme()
 }
