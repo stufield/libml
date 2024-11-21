@@ -4,7 +4,7 @@
 \alias{plot_bayes_boundary}
 \title{Plot a Naive Bayes Decision Boundary}
 \usage{
-plot_bayes_boundary(data, pos_class, res = 50L, main = NULL)
+plot_bayes_boundary(data, pos_class, res = 50L)
 }
 \arguments{
 \item{data}{A \code{data.frame} object containing 3 columns:
@@ -18,8 +18,6 @@ plot_bayes_boundary(data, pos_class, res = 50L, main = NULL)
 
 \item{res}{\code{integer(1)}. The resolution for the plot. Higher
 resolutions require more computation time.}
-
-\item{main}{\code{character(1)}. Optional string for the plot title.}
 }
 \description{
 Plots the bivariate curved decision boundary for a naive

@@ -27,7 +27,7 @@
 #' @importFrom ggplot2 aes ggplot geom_contour geom_raster
 #' @importFrom ggplot2 geom_point labs scale_fill_gradient scale_color_manual
 #' @export
-plot_bayes_boundary <- function(data, pos_class, res = 50L, main = NULL) {
+plot_bayes_boundary <- function(data, pos_class, res = 50L) {
   stopifnot(
     "`data` must have at *least* 3 columns to plot." = ncol(data) == 3L,
     "`res` must be integer."                         = is_int(res)
@@ -57,6 +57,6 @@ plot_bayes_boundary <- function(data, pos_class, res = 50L, main = NULL) {
                                   col_palette$purple)) +
     geom_point(data = train, aes(x = F1, y = F2),
                size = 2.5, shape = 21, color = "black") +
-    labs(x = "Feature 1", y = "Feature 2", title = main) +
+    labs(x = "Feature 1", y = "Feature 2") +
     libml_theme(base_size = 12)
 }
