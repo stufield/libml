@@ -9,8 +9,7 @@ plot_uni_contrasts(
   y,
   cutoff = 0.05/nrow(x),
   ident = FALSE,
-  main = "Univariate Table Contrasts",
-  label.size = 2.5
+  label_size = 2.5
 )
 }
 \arguments{
@@ -22,9 +21,7 @@ plot_uni_contrasts(
 
 \item{ident}{\code{logical(1)}. Should the points beyond the cutoff be identified?}
 
-\item{main}{\code{character(1)}. An optional title over ride for the plot.}
-
-\item{label.size}{\code{numeric(1)}. The size for the labels if \code{ident = TRUE}.}
+\item{label_size}{\code{numeric(1)}. The size for the labels if \code{ident = TRUE}.}
 }
 \value{
 A \code{ggplot} object.

@@ -7,8 +7,7 @@
 #' @param y The second univariate tibble to contrast (y-axis).
 #' @param cutoff `numeric(1)`. A `p-value` cutoff for comparison of tables.
 #' @param ident `logical(1)`. Should the points beyond the cutoff be identified?
-#' @param label.size `numeric(1)`. The size for the labels if `ident = TRUE`.
-#' @param main `character(1)`. An optional title over ride for the plot.
+#' @param label_size `numeric(1)`. The size for the labels if `ident = TRUE`.
 #'
 #' @return A `ggplot` object.
 #' @author Stu Field
@@ -21,9 +20,8 @@
 #' @importFrom ggplot2 labs aes geom_hline geom_vline
 #' @importFrom dplyr mutate select filter full_join
 #' @export
-plot_uni_contrasts <- function(x, y, cutoff = 0.05 / nrow(x), ident = FALSE,
-                               main = "Univariate Table Contrasts",
-                               label.size = 2.5) {
+plot_uni_contrasts <- function(x, y, cutoff = 0.05 / nrow(x),
+                               ident = FALSE, label_size = 2.5) {
 
   if ( !(inherits(x, "uni_tbl") && inherits(y, "uni_tbl")) ) {
     stop(
@@ -66,11 +64,11 @@ plot_uni_contrasts <- function(x, y, cutoff = 0.05 / nrow(x), ident = FALSE,
                colour = border, size = 2.5, fill = c3) +
     geom_point(data = filter(plot_df, xy), pch = 21, alpha = alpha,
                colour = border, size = 3.5, fill = c1) +
-    labs(x = lab, y = lab, title = main) + {
+    labs(x = lab, y = lab) + {
       if ( ident ) {
         geom_text(
           data = filter(plot_df, xory), aes(label = feature),
-          hjust = "inward", size = label.size, check_overlap = TRUE
+          hjust = "inward", size = label_size, check_overlap = TRUE
         )
       }
     } +
