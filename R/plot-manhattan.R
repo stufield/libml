@@ -76,7 +76,8 @@ plot_manhattan <- function(data, x.lab = "Feature",
     geom_point(alpha = 0.75) +
     scale_color_manual(values = unlist(col_palette, use.names = FALSE)[1:2L]) +
     labs(title = "Manhattan Plot", x = x.lab, y = y_lab) +
-    SomaPlotr::theme_soma()
+    libml_theme()
+
   if ( as_pvalue ) {
     p <- p + geom_hline(yintercept = c(2, 3, 4), linetype = "dashed",
                         size = 0.25, color = "blue")

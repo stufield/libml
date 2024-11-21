@@ -35,3 +35,34 @@ col_palette <- list(
   darkgrey   = "#54585A",
   blue       = "#004C97"
 )
+
+libml_theme <- function(base_size = 12,
+                        base_family = "",
+                        legend_pos = c("top", "none", "right", "left", "bottom"),
+                        hjust = 0,
+                        aspect_ratio = c("none", "landscape", "profile")) {
+  grey <- col_palette$lightgrey
+  ggplot2::theme_bw(
+    base_size = base_size,
+    base_family = base_family,
+    base_line_size = base_size / 20) +
+  ggplot2::theme(
+    plot.background = ggplot2::element_rect(fill = "transparent", color = NA),
+    plot.title = ggplot2::element_text(hjust = hjust, size = ggplot2::rel(1.5)),
+    legend.position = match.arg(legend_pos),
+    legend.background = ggplot2::element_rect(fill = "transparent", color = NA),
+    legend.key = ggplot2::element_rect(fill = "transparent", color = NA),
+    aspect.ratio = switch(match.arg(aspect_ratio),
+                          landscape = 9 / 16,
+                          profile = 11 / 8.5,
+                          none = NULL),
+    axis.ticks = ggplot2::element_line(color = grey),
+    axis.ticks.length = ggplot2::unit(8, "points"),
+    axis.text.x = ggplot2::element_text(color = grey, size = ggplot2::rel(1.2)),
+    axis.text.y = ggplot2::element_text(color = grey, size = ggplot2::rel(1.2)),
+    axis.line = ggplot2::element_line(color = grey, linewidth = 0.2),
+    panel.background = ggplot2::element_rect(fill = "transparent", color = NA),
+    panel.border = ggplot2::element_blank(),
+    panel.grid = ggplot2::element_line(color = "#B9BDBE", linewidth = 0.2),
+    strip.background = element_blank())
+}

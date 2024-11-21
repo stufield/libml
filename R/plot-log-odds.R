@@ -101,7 +101,6 @@ plot_log_odds <- function(truth, predicted, pos_class, cutoff = 0.5,
     ggplot2::geom_vline(xintercept = log_cutoff, linetype = "longdash") +
     ggplot2::xlim(-ceiling(max(abs(df$log_odds))),
                   ceiling(max(abs(df$log_odds)))) +
-    # implement max_prob here eventually
-    SomaPlotr::theme_soma() +
-    NULL
+    # TODO: implement `max_prob` here eventually
+    libml_theme()
 }

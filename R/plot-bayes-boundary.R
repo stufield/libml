@@ -58,5 +58,5 @@ plot_bayes_boundary <- function(data, pos_class, res = 50L, main = NULL) {
     geom_point(data = train, aes(x = F1, y = F2),
                size = 2.5, shape = 21, color = "black") +
     labs(x = "Feature 1", y = "Feature 2", title = main) +
-    SomaPlotr::theme_soma(base_size = 12)
+    libml_theme(base_size = 12)
 }

@@ -53,7 +53,7 @@ barplot_auc <- function(data, color = col_palette$lightgrey, flip = FALSE,
     geom_bar(stat = "identity", fill = color) +
     geom_errorbar(aes(ymin = lower.limit, ymax = upper.limit), width = 0.25) +
     labs(y = "AUC", title = main, x = NULL) +
-    SomaPlotr::theme_soma()
+    libml_theme()
 
   if ( flip ) {
     p <- p + coord_flip()

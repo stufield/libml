@@ -76,6 +76,5 @@ plot_uni_contrasts <- function(x, y, cutoff = 0.05 / nrow(x), ident = FALSE,
     } +
     geom_hline(yintercept = -log10(cutoff), linetype = "dashed", colour = linecol) +
     geom_vline(xintercept = -log10(cutoff), linetype = "dashed", colour = linecol) +
-    SomaPlotr::theme_soma() +
-    NULL
+    libml_theme()
 }

@@ -73,11 +73,13 @@ plot_boot_roc <- function(truth, predicted, pos_class, shade_color = "black",
   p <- ggplot(rocxy, aes(x = x, y = y)) +
     geom_abline(slope = 1, intercept = 0, size = 0.2,
                 linetype = "dashed", color = "grey") +
-    SomaPlotr::theme_soma() +
+    libml_theme() +
     theme(panel.grid.minor = element_line(linetype = "dashed",
-                                          color = "#B9BDBE", size = 0.2),
+                                          color = "#B9BDBE",
+                                          size  = 0.2),
           panel.grid.major = element_line(linetype = "dashed",
-                                          color = "#B9BDBE", size = 0.2)) +
+                                          color = "#B9BDBE",
+                                          size  = 0.2)) +
     labs(x = "1 - Specificity", y = "Sensitivity")
 
   # Generating final ROC plot w/ boundary overlay

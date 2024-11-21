@@ -153,7 +153,7 @@ plot_emp_roc <- function(truth, predicted, pos_class,
   # Creates plot mapping (to be applied when add = FALSE)
   p <- ggplot(data = as.data.frame(xy), aes(x = x, y = y)) +
     labs(x = "1 - Specificity", y = "Sensitivity") +
-    SomaPlotr::theme_soma() +
+    libml_theme() +
     theme(panel.grid = element_blank())
 
   if ( do_grid ) {
