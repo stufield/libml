@@ -28,9 +28,9 @@ predictions above which are considered the \emph{positive} class.}
 
 \item{y_lab}{\code{character(1)}. Optional label for the y-axis.}
 
-\item{max_prob}{\code{numeric(1)}. Maximum probability value cutoff for
-the log-odds plot. Removes extreme samples from the plot
-to avoid distorting x-axis.}
+\item{max_prob}{\code{numeric(1)}. Experimental. Maximum probability
+value cutoff for the log-odds plot. Removes extreme samples
+from the plot to avoid distorting x-axis.}
 
 \item{scramble}{\code{logical(1)}. Should values be randomized to avoid
 monotonically decreasing probability scores (aesthetic)?}
@@ -43,7 +43,8 @@ See \code{Section} for note about extreme probabilities.
 
 extreme values in \verb{[0, 1]} are thresholded at
 \code{.Machine$double.eps^0.5}, or \verb{[1.490116119e-08, 0.9999999851]}
-to restrict the x-axis and avoid \code{Inf} values in log-odds space (\verb{0/1}).
+to restrict the x-axis and avoid \code{Inf} values in
+log-odds space (\verb{0/1}).
 }
 
 \examples{

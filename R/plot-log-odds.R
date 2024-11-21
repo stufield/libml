@@ -6,15 +6,16 @@
 #' @section Extreme probabilities:
 #'   extreme values in \verb{[0, 1]} are thresholded at
 #'   `.Machine$double.eps^0.5`, or `[1.490116119e-08, 0.9999999851]`
-#'   to restrict the x-axis and avoid `Inf` values in log-odds space (\verb{0/1}).
+#'   to restrict the x-axis and avoid `Inf` values in
+#'   log-odds space (\verb{0/1}).
 #'
 #' @inheritParams params
 #'
 #' @param scramble `logical(1)`. Should values be randomized to avoid
 #'   monotonically decreasing probability scores (aesthetic)?
-#' @param max_prob `numeric(1)`. Maximum probability value cutoff for
-#'   the log-odds plot. Removes extreme samples from the plot
-#'   to avoid distorting x-axis.
+#' @param max_prob `numeric(1)`. Experimental. Maximum probability
+#'   value cutoff for the log-odds plot. Removes extreme samples
+#'   from the plot to avoid distorting x-axis.
 #'
 #' @author Stu Field
 #'
@@ -28,6 +29,7 @@
 #' plot_log_odds(true, pred, "disease", scramble = TRUE)
 #' @importFrom ggplot2 ggplot aes geom_point labs xlim geom_vline
 #' @importFrom ggplot2 scale_fill_manual scale_color_manual scale_shape_manual
+#' @importFrom tibble tibble deframe
 #' @export
 plot_log_odds <- function(truth, predicted, pos_class, cutoff = 0.5,
                           y_lab = NULL, max_prob = NULL, scramble = FALSE) {
@@ -37,19 +39,13 @@ plot_log_odds <- function(truth, predicted, pos_class, cutoff = 0.5,
             call. = FALSE)
   }
 
-  sample_order <- c("FP", "TN", "TP", "FN")
-
-  if ( is.null(y_lab) ) {
-    y_lab <- paste("Sample Order:", paste(sample_order, collapse = "-"))
-  }
-
   # threshold machine precision for edge case 1/0; Inf
   thresh <- .Machine$double.eps^0.5
   predicted[predicted <= thresh]     <- thresh
   predicted[predicted >= 1 - thresh] <- 1 - thresh
 
   if ( scramble ) {
-    withr::with_seed(1001, {
+    withr::with_seed(101, {
       scr_idx   <- sample(seq_along(truth))
       truth     <- truth[scr_idx]
       predicted <- predicted[scr_idx]
@@ -63,7 +59,7 @@ plot_log_odds <- function(truth, predicted, pos_class, cutoff = 0.5,
     )
   }
 
-  # assumes binary
+  # assume binary
   neg_class <- setdiff(unique(truth), pos_class) # nolint: object_usage_linter.
 
   types <- dplyr::case_when(
@@ -75,23 +71,33 @@ plot_log_odds <- function(truth, predicted, pos_class, cutoff = 0.5,
 
   log_cutoff <- log(cutoff / (1 - cutoff))
 
-  cols <- c(col_palette$purple,
-            rep(col_palette$lightgrey, 2L),
-            col_palette$lightgreen)
+  map <- tibble(type  = c("FN", "FP", "TP", "TN"),
+                color = c(col_palette$purple,
+                          col_palette$lightgreen,
+                          rep(col_palette$lightgrey, 2L)))
 
-  df <- data.frame(predict = predicted) |>
-    dplyr::mutate(log_odds = log(predict / (1 - predict)),
-                  type     = factor(types, levels = sample_order)) |>
+  sample_order <- c("FP", "TN", "TP", "FN")
+
+  df <- tibble(
+    predict  = predicted,
+    log_odds = log(predict / (1 - predict)),
+    type     = factor(types, levels = sample_order)
+  ) |>
     dplyr::arrange(type) |>
-    dplyr::mutate(y = dplyr::row_number())
+    add_rowid(name = "y")
+
+  classes <- levels(droplevels(df$type))
+
+  if ( is.null(y_lab) ) {
+    y_lab <- paste("Sample Order:", paste(classes, collapse = "-"))
+  }
 
   df |>
-    ggplot(aes(x = log_odds, y = y, shape = type,
-               color = type, fill = type) ) +
-    geom_point(size = 3, alpha = 0.75) +
-    scale_fill_manual(values = cols, name = "") +
-    scale_color_manual(values = cols, name = "") +
-    scale_shape_manual(values = c(19, 17, 15, 19), name = "") +
+    ggplot(aes(x = log_odds, y = y, shape = type, color = type, fill = type) ) +
+    geom_point(size = 3.5, alpha = 0.55) +
+    scale_fill_manual(values  = deframe(map), name = "")+
+    scale_color_manual(values = deframe(map), name = "")+
+    scale_shape_manual(values = c(TP = 20, TN = 18, FP = 18, FN = 20), name = "") +
     labs(
       x = bquote(italic(log)[e] ~ (italic(p) / (1 - italic(p)))),
       y = y_lab) +
