@@ -40,17 +40,17 @@ containing values to generate CDFs or PDFs.}
 \item{do_log}{\code{logical(1)}. Should values be log10-transformed?}
 }
 \value{
-A \code{tibble} with an additioinal \code{tr_data} class.
+A \code{tibble} with an additional \code{tr_data} class.
 This object contains the subset training data with a
 additional attributes about the groupings and the
-"Response" variable.
+"response" variable.
 
 Logical. Whether \code{data} inherits from class \code{tr_data}.
 }
 \description{
 Generate a training data set from a original parent data set
 typically via some subset of the original parent. Final groups
-\emph{must} be binary, and generate a 2 factor level "Response"
+\emph{must} be binary, and generate a 2 factor level "response"
 column used in many downstream statistical testing functions.
 
 \code{\link[=is.tr_data]{is.tr_data()}} checks whether an object
@@ -58,7 +58,7 @@ is a \code{tr_data} class object.
 }
 \details{
 When specifying filtering variables, the factor levels
-will be ordered \emph{alphabetically} in the resulting "Response"
+will be ordered \emph{alphabetically} in the resulting "response"
 variable unless ordering is specified by the \code{classes}
 argument. This is important, for example, when performing
 repeated univariate statistics where \eqn{class2 - class1},
@@ -74,6 +74,7 @@ for a specific feature (analyte) in a "tr_data" object.
 # New "tr_data" object with default factor levels
 classes <- c("setosa", "versicolor")
 tr <- create_train(iris, Species \%in\% classes, group_var = Species)
+tr
 
 # Getting Variables
 attr(tr, "response_var")
@@ -85,7 +86,7 @@ attr(tr, "counts")
 # with re-naming factors
 tr2 <- create_train(iris, Species \%in\% classes,
                     group_var = Species, classes = rev(classes))
-attr(tr2, "counts")
+tr2
 # S3 plot method
 ft <- "Sepal.Length"  # random feature
 plot(tr, ft)

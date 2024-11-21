@@ -2,11 +2,11 @@
 #'
 #' Generate a training data set from a original parent data set
 #'   typically via some subset of the original parent. Final groups
-#'   *must* be binary, and generate a 2 factor level "Response"
+#'   *must* be binary, and generate a 2 factor level "response"
 #'   column used in many downstream statistical testing functions.
 #'
 #' When specifying filtering variables, the factor levels
-#'   will be ordered _alphabetically_ in the resulting "Response"
+#'   will be ordered *alphabetically* in the resulting "response"
 #'   variable unless ordering is specified by the `classes`
 #'   argument. This is important, for example, when performing
 #'   repeated univariate statistics where \eqn{class2 - class1},
@@ -24,10 +24,10 @@
 #'   and *second* class labels respectively. See the Details section
 #'   for more information about factor levels.
 #'
-#' @return A `tibble` with an additioinal `tr_data` class.
+#' @return A `tibble` with an additional `tr_data` class.
 #'   This object contains the subset training data with a
 #'   additional attributes about the groupings and the
-#'   "Response" variable.
+#'   "response" variable.
 #'
 #' @author Stu Field
 #' @seealso [dplyr::filter()]
@@ -36,6 +36,7 @@
 #' # New "tr_data" object with default factor levels
 #' classes <- c("setosa", "versicolor")
 #' tr <- create_train(iris, Species %in% classes, group_var = Species)
+#' tr
 #'
 #' # Getting Variables
 #' attr(tr, "response_var")
@@ -47,7 +48,7 @@
 #' # with re-naming factors
 #' tr2 <- create_train(iris, Species %in% classes,
 #'                     group_var = Species, classes = rev(classes))
-#' attr(tr2, "counts")
+#' tr2
 #' @importFrom stats setNames
 #' @export
 create_train <- function(data, ..., group_var, classes = NULL) {
@@ -68,28 +69,26 @@ create_train <- function(data, ..., group_var, classes = NULL) {
   nms   <- names(attributes(data))         # remember atts order
   tdata <- dplyr::filter(data, ...) |> droplevels()
   tdata <- dplyr::arrange(tdata, !!gr_sym) # order by response
-  levs  <- NULL
+  tdata[[var]] <- factor(tdata[[var]])
+  levs  <- levels(tdata[[var]])
 
   if ( !is.null(classes) ) {
     stopifnot("`classes` param must be `character(2)`." =
                 length(classes) == 2L && is.character(classes))
-    neg_class <- classes[1L]
-    pos_class <- classes[2L]
-    levs  <- c(neg_class, pos_class)
-    tdata <- tdata |>
-      dplyr::mutate(!!gr_sym := factor(!!gr_sym, levels = levs))
+    levs  <- c(classes[1L], classes[2L])
+    levels(tdata[[var]]) <- levs
   }
 
   tdata    <- tibble::as_tibble(tdata)
   resp_vec <- tdata[[var]]
 
-    if ( !is.null(classes) &&
-         !isTRUE(all.equal(sort(unique(as.character(resp_vec))), levs)) ) {
-      signal_todo(
-        "Note: Class order is non-alphabetic:",
-        value(paste(levs, collapse = " > "))
-      )
-    }
+  if ( !is.null(classes) &&
+       !isTRUE(all.equal(sort(unique(as.character(resp_vec))), levs)) ) {
+    signal_todo(
+      "Note: Class order is non-alphabetic:",
+      value(paste(levs, collapse = " > "))
+    )
+  }
 
   tbl <- c(table(resp_vec))
   attributes(tdata) <- attributes(tdata)[nms] # orig order atts
