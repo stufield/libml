@@ -95,8 +95,8 @@ plot_log_odds <- function(truth, predicted, pos_class, cutoff = 0.5,
   df |>
     ggplot(aes(x = log_odds, y = y, shape = type, color = type, fill = type) ) +
     geom_point(size = 3.5, alpha = 0.55) +
-    scale_fill_manual(values  = deframe(map), name = "")+
-    scale_color_manual(values = deframe(map), name = "")+
+    scale_fill_manual(values  = deframe(map), name = "") +
+    scale_color_manual(values = deframe(map), name = "") +
     scale_shape_manual(values = c(TP = 20, TN = 18, FP = 18, FN = 20), name = "") +
     labs(
       x = bquote(italic(log)[e] ~ (italic(p) / (1 - italic(p)))),
