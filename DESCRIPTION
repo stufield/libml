@@ -19,7 +19,7 @@ License: GPL-3 | file LICENSE
 Depends:
     R (>= 4.1.0),
     helpr,
-    splyr
+    wranglr
 Imports:
     dplyr,
     Rcpp,

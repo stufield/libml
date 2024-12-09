@@ -8,7 +8,7 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-library(splyr)
+library(wranglr)
 library(tidyr)
 library(purrr)
 library(ggplot2)
@@ -68,7 +68,7 @@ As with most analyses, start by pre-processing the data via 3 steps:
 
 ```{r preprocess}
 # pre-process simulated data
-data  <- splyr::sim_adat
+data  <- wranglr::sim_adat
 feats <- grep("^seq.", names(data), value = TRUE)
 for ( i in feats ) {
   data[[i]] <- log10(data[[i]])

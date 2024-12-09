@@ -7,7 +7,7 @@
 ## usethis namespace: end
 NULL
 
-#' @import helpr splyr
+#' @import helpr wranglr
 #' @importFrom withr local_seed with_preserve_seed with_seed local_output_sink
 #' @importFrom dplyr mutate select filter group_by
 NULL
