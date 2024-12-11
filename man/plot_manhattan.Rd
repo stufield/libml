@@ -25,7 +25,7 @@ plotted in linear space or log10-space?}
 }
 \description{
 Creates a Manhattan plot of the differences or log-ratios
-of the training set for each analyte.
+of the training set for each feature.
 }
 \examples{
 tr <- create_train(simdata,

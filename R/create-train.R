@@ -135,7 +135,7 @@ print.tr_data <- function(x, ...) {
 
 #' @describeIn create_train
 #'   Plots a CDF, and optionally an accompanying smoothed PDF
-#'   for a specific feature (analyte) in a "tr_data" object.
+#'   for a specific feature in a "tr_data" object.
 #'
 #' @param x A `tr_data` object.
 #' @param ft `character(1)`. The name of a column in `data`

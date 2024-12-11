@@ -137,7 +137,7 @@ fit_nb.default <- function(x, y, mad = FALSE, laplace = 0,
 #' @param formula A model formula of the form: `class ~ x1 + x2 + ...`
 #'   (no interactions).
 #' @param data A data frame of predictors (categorical and/or numeric), i.e.
-#'   the ADAT used to train the model.
+#'   the data frame used to train the model.
 #'
 #' @export
 fit_nb.formula <- function(formula, data, ...) {

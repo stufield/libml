@@ -1,7 +1,7 @@
 #' Create Manhattan Plot
 #'
 #' Creates a Manhattan plot of the differences or log-ratios
-#'   of the training set for each analyte.
+#'   of the training set for each feature.
 #'
 #' @param data A training data `tr_data` object.
 #' @param x.lab `character(1)`. Set the x-axis label.

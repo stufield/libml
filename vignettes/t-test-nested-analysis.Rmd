@@ -55,7 +55,7 @@ See `calc_univariate()`.
 ## Example Analysis
 
 A very common task in proteomics is a univariate analysis of features.
-This means that each analyte/feature is analyzed
+This means that each feature is analyzed
 independently and the exact same statistical test is applied repeatedly
 over the columns of feature data.
 This is so common it forms the basis of most preliminary analyses.
@@ -76,13 +76,12 @@ for ( i in feats ) {
 data  <- center_scale(data)
 ```
 
-Next, initiate a table ([tibble](https://tibble.tidyverse.org)) of analyte
-annotations. This will be the starting point of the ever-growing 
-analysis "object":
+Next, initiate a table ([tibble](https://tibble.tidyverse.org)) of feature
+annotations (secondary information). This will be the starting point
+of the ever-growing analysis "object":
 
 ```{r tbl}
 t_tbl <- attr(data, "Col.Meta") |>
-  dplyr::filter(Units == "RFU") |> # optionally filter features here
   dplyr::mutate(feature = libml:::add_seq(SeqId)) |>
   select(feature, SeqId, TargetFullName, EntrezGeneSymbol, UniProt)
 
@@ -107,7 +106,7 @@ t_tbl <- t_tbl |>
   arrange(p_value) |>           # Re-order by `p-value`
   mutate(rank = row_number())   # add ranks column
 
-# each row represents an analyte
+# each row represents a feature
 length(feats)
 nrow(t_tbl)
 
@@ -118,11 +117,9 @@ t_tbl
 Done! We now have a self-contained [tibble](https://tibble.tidyverse.org) 
 object with the entire t-test
 analysis. The `t_stat` list-column contains the "t-tests" and the neighboring
-columns contain the corresponding *p*-values and fdr corrections.
-The  rows (analytes) are ordered by *p*-value and appropriate rank order has
-been added. This would have previously been achieved via `calc.t()`, 
-but this is much more self-contained and has a direct link to the target 
-annotation data, which is quite useful as we will see below.
+columns contain the corresponding *p*-values and *fdr* corrections.
+The rows (features) are ordered by *p*-value and appropriate rank order has
+been added.
 
 
 -------------
@@ -138,6 +135,7 @@ Plotting can be achieved in three basic steps:
 * Plot with [ggplot2](https://ggplot2.tidyverse.org)
 
 #### Dictionary map of feature -> protein names
+
 ```{r target-map}
 target_map <- head(t_tbl, 9L) |>              # mapping table
   select(feature, Target = TargetFullName)    # feature -> Target (& rename)
@@ -149,8 +147,8 @@ target_map
 
 ```{r plot-data, fig.height = 5, fig.width = 9}
 plot_tbl <- undo_center_scale(data) |>                 # log-space; no center-scale
-  select(class_response, all_of(target_map$feature)) |># top 9 analytes
-  pivot_longer(cols = -class_response, names_to = "feature", values_to = "RFU") |>
+  select(class_response, all_of(target_map$feature)) |># top 9 features
+  pivot_longer(cols = -class_response, names_to = "feature", values_to = "val") |>
   left_join(target_map) |>
   # order factor levels by 't_tbl' rank to order plots below
   mutate(Target = factor(Target, levels = target_map$Target))
@@ -162,12 +160,12 @@ plot_tbl
 
 ```{r gg-boxplots, fig.height = 5, fig.width = 9}
 plot_tbl |>
-  ggplot(aes(x = class_response, y = RFU, fill = class_response)) +
+  ggplot(aes(x = class_response, y = val, fill = class_response)) +
   geom_boxplot(alpha = 0.5, outlier.shape = NA) +
   scale_fill_manual(values = c("#24135F", "#00A499")) +
   geom_jitter(shape = 16, width = 0.1, alpha = 0.5) +
   facet_wrap(~ Target) +
-  ggtitle("Boxplots of Top 9 Analytes by t-test") +
-  labs(y = "log10(RFU)")
+  ggtitle("Boxplots of Top 9 Features by t-test") +
+  labs(y = "log10(value)")
 ```
 

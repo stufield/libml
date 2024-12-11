@@ -145,7 +145,7 @@ data.frame(F1    = tr$Petal.Length,
 
 ### Random Forest
 
-Random forest models are often used in SomaLogic analysis, and there are
+Random forest models are often used in proteomic analyses, and there are
 numerous functional tools to investigate and interrogate these models,
 e.g. `get_gini()`:
 
@@ -226,4 +226,3 @@ plot_emp_roc(test$Species, pred_nb$prob_virginica, pos_class = "virginica",
 plot_emp_roc(test$Species, pred_rf$prob_virginica, pos_class = "virginica", 
              col = "red", plot_fit = TRUE)
 ```
-

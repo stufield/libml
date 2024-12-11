@@ -67,7 +67,7 @@ i.e. the positive class is 2!
 \section{Functions}{
 \itemize{
 \item \code{plot(tr_data)}: Plots a CDF, and optionally an accompanying smoothed PDF
-for a specific feature (analyte) in a "tr_data" object.
+for a specific feature in a "tr_data" object.
 
 }}
 \examples{

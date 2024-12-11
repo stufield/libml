@@ -8,7 +8,7 @@ calc_brier(x, p)
 }
 \arguments{
 \item{x}{\code{numeric(n)}. A vector of binary class data representing
-the true classes. Must be all 0 or 1 or numeric coerceable.}
+the true classes. Must be all 0 or 1 or numeric coercible.}
 
 \item{p}{\code{numeric(n)}. A vector of the predicted probabilities,
 i.e. in \verb{[0, 1]}.}
@@ -36,7 +36,7 @@ withr::with_seed(1, {
 calc_brier(x, p)
 }
 \references{
-https://en.wikipedia.org/wiki/Brier_score
+\url{https://en.wikipedia.org/wiki/Brier_score}
 }
 \author{
 Stu Field

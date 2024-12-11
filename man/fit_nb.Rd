@@ -77,7 +77,7 @@ become a memory issue and thus the default is \code{FALSE}.}
 (no interactions).}
 
 \item{data}{A data frame of predictors (categorical and/or numeric), i.e.
-the ADAT used to train the model.}
+the data frame used to train the model.}
 
 \item{object}{A \code{libml_nb} model object.}
 
