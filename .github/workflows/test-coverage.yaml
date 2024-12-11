@@ -40,7 +40,7 @@ jobs:
           extra-packages:
             any::covr
             github::stufield/helpr
-            github::stufield/splyr
+            github::stufield/wranglr
             github::SomaLogic/SomaPlotr
           needs: coverage
 

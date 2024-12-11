@@ -34,7 +34,7 @@ jobs:
           extra-packages: |
             any::pkgdown
             github::stufield/helpr
-            github::stufield/splyr
+            github::stufield/wranglr
             github::SomaLogic/SomaPlotr
             local::.
           needs: website
