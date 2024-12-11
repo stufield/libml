@@ -28,7 +28,7 @@ Creates a Manhattan plot of the differences or log-ratios
 of the training set for each analyte.
 }
 \examples{
-tr <- create_train(sim_adat,
+tr <- create_train(simdata,
                    class_response \%in\% c("control", "disease"),
                    group_var = class_response,
                    classes = c("control", "disease"))

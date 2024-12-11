@@ -1,6 +1,6 @@
 
 # Setup ----
-data <- sim_adat
+data <- simdata
 reg_features <- attr(data, "sig_feats")$reg
 for ( i in reg_features ) data[[i]] <- log10(data[[i]])
 data <- center_scale(data)

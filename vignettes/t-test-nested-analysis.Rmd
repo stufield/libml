@@ -66,9 +66,9 @@ As with most analyses, start by pre-processing the data via 3 steps:
 * center to zero mean
 * scale to unit variance
 
-```{r preprocess}
+```{r pre-process}
 # pre-process simulated data
-data  <- wranglr::sim_adat
+data  <- wranglr::simdata
 feats <- grep("^seq.", names(data), value = TRUE)
 for ( i in feats ) {
   data[[i]] <- log10(data[[i]])

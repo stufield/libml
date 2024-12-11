@@ -1,8 +1,7 @@
 
 # Setup -----
 args <- list(data = tr_iris, k = 3L)
-
-skip("for now in favor of `splyr::create_kfold()`")
+skip("for now in favor of `wranglr::create_kfold()`")
 
 
 # Testing -------

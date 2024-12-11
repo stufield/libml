@@ -13,7 +13,7 @@
 #'
 #' @author Stu Field
 #' @examples
-#' tr <- create_train(sim_adat,
+#' tr <- create_train(simdata,
 #'                    class_response %in% c("control", "disease"),
 #'                    group_var = class_response,
 #'                    classes = c("control", "disease"))
