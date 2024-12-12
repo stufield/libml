@@ -4,7 +4,7 @@
 #'   a `tr_data` class object.
 #'
 #' @param data A training data set, for convenience should be
-#'   created via [create_train()], but _must_ contain only the
+#'   created via [create_train()], but *must* contain only the
 #'   features to be used in fitting the model and `"Response"` column.
 #' @param model_type Which type of model to run.
 #' @param k `integer(1)`. The number of folds to perform
@@ -16,6 +16,7 @@
 #'   and the fold of the sample used to make the prediction.
 #'
 #' @author Stu Field
+#'
 #' @seealso [fit_nb()], [fit_kknn()]
 #' @seealso [randomForest::randomForest()], [fit_gbm()], [fit_logistic()]
 #'

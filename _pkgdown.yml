@@ -1,31 +1,37 @@
-url: https://
+url: https://stufield.github.io/libml/
 
-home:
-  strip_header: true
-  links:
-  - text: Bitbucket
-    href: http://
-  - text: Report a bug
-    href: stu.g.field@gmail.com
-  - text: The tidyverse
-    href: https://www.tidyverse.org
-
-template:
-  bootstrap: 5
-  bslib:
-    #bg: "#202123"      # dark theme
-    #fg: "#B8BCC2"      # dark theme
-    primary: "#0054AD"
-    border-radius: 0.5rem
-    btn-border-radius: 0.25rem
-    base_font: {google: "Roboto"}
+development:
+  mode: auto
 
 authors:
   Stu Field:
     href: https://github.com/stufield
 
-development:
-  mode: auto
+home:
+  links:
+  - text: Learn more about me
+    href: https://github.com/stufield
+
+template:
+  bootstrap: 5
+  package: tidytemplate
+  bslib:
+    bg: "#202123"      # dark theme
+    fg: "#B8BCC2"      # dark theme
+    primary: "#0054AD"
+    border-radius: 0.5rem
+    btn-border-radius: 0.25rem
+    base_font: {google: "Roboto"}
+
+navbar:
+  structure:
+    left: [intro, reference, articles, workflows, news]
+    right: [search, github]
+  components:
+    intro:
+      text: Get Started
+      href: articles/libml.html
+
 
 articles:
   - title: Getting Started
@@ -33,11 +39,11 @@ articles:
     contents:
     - libml
 
-  - title: Nested Tibbles in SomaScan Analyses
+  - title: Nested Tibbles in Analyses
     navbar: ~
     desc: >
       Short tutorial on how to use a list-column approach in
-      simple univariate SomaScan analyses via simple t-test example.
+      simple univariate analyses via simple t-test example.
     contents:
     - t-test-nested-analysis
 
@@ -49,12 +55,22 @@ articles:
     contents:
     - plotting-ROC-with-geom_roc
 
+
+reference:
+  - title: Univariate Tests
+    desc: >
+      Generate a table of univariate tests.
+    contents:
+    - calc_univariate
+    - mack_wolfe
+
   - title: Classifier performance
     desc: >
       Utilities for evaluating (binary) classifier performance,
       including confusion matrix tools.
     contents:
     - calc_confusion
+    - calc_brier
     - pull_stat
     - get_spec_cutoff
     - get_max_cutoff
@@ -75,36 +91,30 @@ articles:
     - starts_with("fit_")
     - stripLMC
 
-  - title: Cross validation
-    desc:  Perform k-fold cross-validation.
-    contents:
-    - kfold_cv
-
   - title: Model utilities
     desc: >
       Predict, pull out components, manipulate, and interrogate model objects.
     contents:
-    - reexports
+    - s3-calc_predictions
+    - starts_with("get_")
     - select_features
-    - get_gini
-    - s3-calcPredictions
-    - get_Model_coef
+    - kfold_cv
+    - reexports
 
   - title: Plotting utilities
     desc: >
       Plot various model fitting related visualizations.
     contents:
-    - starts_with("plot[A-Z]")
-    - barplotAUCs
+    - starts_with("plot_")
+    - barplot_auc
 
   - title: ROC related utilities
     desc: >
       Tools for generating and evaluating Reciever Operaterator Criterion.
     contents:
-    - matches("*ROC*")
+    - matches("*roc*")
     - add_ss_box
     - calc_ci_binom
-    - -compareBayesForestROC  # remove b/c in SomaClassify-deprecated
 
   - title: Parameters
     desc:  Common parameter definitions used by the package.

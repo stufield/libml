@@ -1,3 +1,8 @@
-# libml 0.0.1
+# libml 0.0.1.9000 (devel)
 
-* Initial release!
+* new dev here ...
+
+# libml 0.0.1 :tada:
+
+* Initial release! :partying_face:
+  - this is `v0.0.1` tagged and released
