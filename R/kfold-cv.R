@@ -6,14 +6,17 @@
 #' @param data A training data set, for convenience should be
 #'   created via [create_train()], but *must* contain only the
 #'   features to be used in fitting the model and `"Response"` column.
-#' @param model_type Which type of model to run.
 #' @param k `integer(1)`. The number of folds to perform
-#'   (*k*-fold cross-validation).
-#' @param ... Additional arguments passed to the base model
-#'   fitting function, e.g. [randomForest::randomForest()].
+#'   (*k*-fold cross-validation). Passed to [wranglr::create_kfold()].
+#' @param model_type Which type of model to run.
+#' @param kknn_args Additional arguments as a pass-through to
+#'   [fit_kknn()], since the `...` is already used. Ignored unless
+#'   `type = "kknn"`.
+#' @param ... Additional arguments passed to [wranglr::create_kfold()].
 #'
 #' @return A `tibble` containing model predictions, true class names,
-#'   and the fold of the sample used to make the prediction.
+#'   and the fold of the samples used to make the prediction. There
+#'   should be a "test" prediction for each sample in `data`.
 #'
 #' @author Stu Field
 #'
@@ -23,26 +26,25 @@
 #' @examples
 #' # naive Bayes
 #' # Use fake training data from iris data set
-#' xv_k10_n <- kfold_cv(tr_iris, k = 10L, model_type = "nb")
-#' xv_k10_n
+#' k10_nb <- kfold_cv(tr_iris, k = 10L, model_type = "nb")
+#' k10_nb
 #'
 #' # Boosted Regression Model
-#' xv_k10_b <- kfold_cv(tr_iris, k = 10L, model_type = "gbm")
-#' xv_k10_b
+#' k10_b <- kfold_cv(tr_iris, k = 10L, model_type = "gbm")
+#' k10_b
 #'
 #' # Weighted K-Nearest-Neighbor
 #' # Pass k_neighbors = 9 for number of neighbors in hood
-#' xv_k10_k <- kfold_cv(tr_iris, k = 10L, model_type = "kknn",
-#'                      k_neighbors = 9L)
-#' xv_k10_k
+#' k10_knn <- kfold_cv(tr_iris, k = 10L, model_type = "kknn")
+#' k10_knn
 #'
 #' # Random Forest
-#' xv_k10_f <- kfold_cv(tr_iris, k = 10L, model_type = "rf")
-#' xv_k10_f
+#' k10_rf <- kfold_cv(tr_iris, k = 10L, model_type = "rf")
+#' k10_rf
 #' @importFrom tibble tibble
 #' @export
-kfold_cv <- function(data, k, model_type = c("lr", "nb", "rf",
-                                             "svm", "kknn", "gbm"), ...) {
+kfold_cv <- function(data, k, kknn_args = list(k_neighbors = 9L),
+                     model_type = c("lr", "nb", "rf", "svm", "kknn", "gbm"), ...) {
 
   if ( !inherits(data, "tr_data") ) {
     stop(
@@ -51,17 +53,14 @@ kfold_cv <- function(data, k, model_type = c("lr", "nb", "rf",
     )
   }
 
-  mtype   <- match.arg(model_type)
-  cv_data <- data
-  n       <- nrow(data)
+  mtype <- match.arg(model_type)
+  n     <- nrow(data)
 
-  if ( k == 1 ) {
-    train_rows <- list(seq(n))
-  } else if ( k > 1 ) {
-    train_rows <- calcFoldIndices(n = n, k = k)
+  if ( k >= 1L && k <= n ) {
+    cv_splits <- create_kfold(data, k = k, ...)
   } else {
     stop(
-      "Value `k =` must be in [1, ", n, "]. Currently k = ", value(k), ".",
+      "Value `k =` must be in (1L, ", n, "). Currently k = ", value(k), ".",
       call. = FALSE
     )
   }
@@ -70,7 +69,8 @@ kfold_cv <- function(data, k, model_type = c("lr", "nb", "rf",
 
   lapply(1:k, function(i) {
 
-    cv_fold <- train_rows[[i]]
+    train_df <- analysis(cv_splits, i)[[1]]
+    test_df  <- assessment(cv_splits, i)[[1]]
 
     if ( mtype %in% c("gbm", "rf", "nb", "lr") ) {
       .fun <- switch(mtype,
@@ -78,51 +78,20 @@ kfold_cv <- function(data, k, model_type = c("lr", "nb", "rf",
                      rf  = randomForest::randomForest,
                      nb  = fit_nb,
                      lr  = fit_logistic)
-      tr_model <- .fun(formula, data = cv_data[cv_fold, ])
+      tr_model <- .fun(formula, data = train_df)
     } else if ( mtype == "svm" ) {
-      tr_model <- e1071::svm(formula, data = cv_data, subset = cv_fold,
+      tr_model <- e1071::svm(formula, data = data, subset = train_df,
                              probability = TRUE)
     } else if ( mtype == "kknn" ) {
-      tr_model <- fit_kknn(formula,
-                           train = cv_data[cv_fold, ],
-                           test  = cv_data[-cv_fold, ], ...)
+      kknn_args <- c(list(formula = formula, train = train_df, test = test_df),
+                     kknn_args)
+      tr_model <- do.call(fit_kknn, kknn_args)
     }
 
-    test_df <- cv_data[-cv_fold, ]
-
-    if ( mtype == "kknn" ) {
-      test_df <- NULL # kknn models have test predictions inside model object
-    }
     label <- paste0("prob_", get_pos_class(tr_model))
-    tibble(truth     = cv_data[[response]][-cv_fold],
+    tibble(truth     = test_df[[response]],
            predicted = calc_predictions(tr_model, test_df)[[label]],
            fold      = i)
-  }) |> dplyr::bind_rows()
-}
-
-
-#' Calculate Numeric Indices of Folds
-#'
-#' Calculate the row indices for the k-folds in the training set.
-#'
-#' @param n Integer. Total number of available samples.
-#' @param k Integer. The number of folds to group the sample.
-#' @return A list of the indices corresponding to the folds.
-#' @keywords internal
-#' @noRd
-calcFoldIndices <- function(n, k) {
-  ret <- list()
-  row_index <- avail_rows <- seq(n)
-  k_samples <- floor(n / k)
-  extra_samples <- n - k_samples * k
-  for ( i in seq(k) ) {
-    test.rows  <- sample(avail_rows, k_samples)
-    avail_rows <- setdiff(avail_rows, test.rows)
-    if ( i <= extra_samples ) {
-      test.rows <- c(test.rows, sample(avail_rows, 1))
-    }
-    ret[[i]]   <- setdiff(row_index, test.rows)
-    avail_rows <- setdiff(avail_rows, test.rows)
-  }
-  ret
+  }) |>
+    dplyr::bind_rows()
 }

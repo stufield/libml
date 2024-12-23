@@ -4,7 +4,13 @@
 \alias{kfold_cv}
 \title{Calculate k-Fold Cross-Validation}
 \usage{
-kfold_cv(data, k, model_type = c("lr", "nb", "rf", "svm", "kknn", "gbm"), ...)
+kfold_cv(
+  data,
+  k,
+  kknn_args = list(k_neighbors = 9L),
+  model_type = c("lr", "nb", "rf", "svm", "kknn", "gbm"),
+  ...
+)
 }
 \arguments{
 \item{data}{A training data set, for convenience should be
@@ -12,16 +18,20 @@ created via \code{\link[=create_train]{create_train()}}, but \emph{must} contain
 features to be used in fitting the model and \code{"Response"} column.}
 
 \item{k}{\code{integer(1)}. The number of folds to perform
-(\emph{k}-fold cross-validation).}
+(\emph{k}-fold cross-validation). Passed to \code{\link[wranglr:create_kfold]{wranglr::create_kfold()}}.}
+
+\item{kknn_args}{Additional arguments as a pass-through to
+\code{\link[=fit_kknn]{fit_kknn()}}, since the \code{...} is already used. Ignored unless
+\code{type = "kknn"}.}
 
 \item{model_type}{Which type of model to run.}
 
-\item{...}{Additional arguments passed to the base model
-fitting function, e.g. \code{\link[randomForest:randomForest]{randomForest::randomForest()}}.}
+\item{...}{Additional arguments passed to \code{\link[wranglr:create_kfold]{wranglr::create_kfold()}}.}
 }
 \value{
 A \code{tibble} containing model predictions, true class names,
-and the fold of the sample used to make the prediction.
+and the fold of the samples used to make the prediction. There
+should be a "test" prediction for each sample in \code{data}.
 }
 \description{
 Perform \emph{k}-fold internal cross-validation on
@@ -30,22 +40,21 @@ a \code{tr_data} class object.
 \examples{
 # naive Bayes
 # Use fake training data from iris data set
-xv_k10_n <- kfold_cv(tr_iris, k = 10L, model_type = "nb")
-xv_k10_n
+k10_nb <- kfold_cv(tr_iris, k = 10L, model_type = "nb")
+k10_nb
 
 # Boosted Regression Model
-xv_k10_b <- kfold_cv(tr_iris, k = 10L, model_type = "gbm")
-xv_k10_b
+k10_b <- kfold_cv(tr_iris, k = 10L, model_type = "gbm")
+k10_b
 
 # Weighted K-Nearest-Neighbor
 # Pass k_neighbors = 9 for number of neighbors in hood
-xv_k10_k <- kfold_cv(tr_iris, k = 10L, model_type = "kknn",
-                     k_neighbors = 9L)
-xv_k10_k
+k10_knn <- kfold_cv(tr_iris, k = 10L, model_type = "kknn")
+k10_knn
 
 # Random Forest
-xv_k10_f <- kfold_cv(tr_iris, k = 10L, model_type = "rf")
-xv_k10_f
+k10_rf <- kfold_cv(tr_iris, k = 10L, model_type = "rf")
+k10_rf
 }
 \seealso{
 \code{\link[=fit_nb]{fit_nb()}}, \code{\link[=fit_kknn]{fit_kknn()}}
