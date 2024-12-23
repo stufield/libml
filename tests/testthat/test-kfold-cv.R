@@ -1,42 +1,45 @@
 
 # Setup -----
 args <- list(data = tr_iris, k = 3L)
-skip("for now in favor of `wranglr::create_kfold()`")
-
 
 # Testing -------
 test_that("`kfold_cv()` generates correct output for various model types", {
-
-  withr::local_seed(101)
+  # use snapshot tests to simplify output testing and updating
 
   # Logistic regression
-  args$model_type <- "lr"
-  lr <- do.call(kfold_cv, args)
-  lrsumm <- summary(lr)
+  expect_snapshot({
+    args$model_type <- "lr"
+    withr::with_seed(101, summary(do.call(kfold_cv, args)))
+  })
 
   # naive Bayes
-  args$model_type <- "nb"
-  nB <- do.call(kfold_cv, args)
-  nBsumm <- summary(nB)
+  expect_snapshot({
+    args$model_type <- "nb"
+    withr::with_seed(101, summary(do.call(kfold_cv, args)))
+  })
 
   # Random Forest
-  args$model_type <- "rf"
-  rf <- do.call(kfold_cv, args)
-  rfsumm <- summary(rf)
+  expect_snapshot({
+    args$model_type <- "rf"
+    withr::with_seed(101, summary(do.call(kfold_cv, args)))
+  })
 
   # support vector machines
-  args$model_type <- "svm"
-  svm <- do.call(kfold_cv, args)
-  svmsumm <- summary(svm)
+  expect_snapshot({
+    args$model_type <- "svm"
+    withr::with_seed(101, summary(do.call(kfold_cv, args)))
+  })
 
   # Boosted Regression Model
-  args$model_type <- "gbm"
-  br <-  do.call(kfold_cv, args)
-  brsumm <- summary(br)
+  expect_snapshot({
+    args$model_type <- "gbm"
+    withr::with_seed(101, summary(do.call(kfold_cv, args)))
+  })
 
   # Weighted K-Nearest-Neighbor
-  args$model_type <- "kknn"
-  args$k_neighbors <- 5
-  knn <- do.call(kfold_cv, args)
-  knnsumm <- summary(knn)
+  expect_snapshot({
+    args$model_type <- "kknn"
+    args$k_neighbors <- 5
+    withr::with_seed(101, summary(do.call(kfold_cv, args)))
+  })
 })
