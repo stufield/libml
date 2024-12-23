@@ -153,25 +153,32 @@ test_that("the Support Vector Machines method returns correct predictions", {
 
 test_that("the `KKNN` method returns correct predictions", {
   # test set passed in during model fit
-  kknn  <- fit_kknn(Species ~ ., train = train, test = test, k_neighbors = 10)
-  pred1 <- calc_predictions(kknn)  # cannot pass test data
+  kknn  <- fit_kknn(Species ~ ., train = train, test = test, k_neighbors = 10L)
+  pred1 <- calc_predictions(kknn, newdata = NULL)
   expect_false(has_rn(pred1))
-  expect_equal(pred1, data.frame(stringsAsFactors = FALSE,
-                        pred_class = c("virginica", "setosa", "setosa"),
-                        prob_setosa = c(0.235910086510298,
-                                        0.750153765250901,
-                                        0.5161924979046),
-                        prob_virginica = c(0.764089913489702,
-                                           0.249846234749099,
-                                           0.4838075020954)
-                      )
+  true <- data.frame(stringsAsFactors = FALSE,
+            pred_class = c("virginica", "setosa", "setosa"),
+            prob_setosa = c(0.235910086510298,
+                            0.750153765250901,
+                            0.5161924979046),
+            prob_virginica = c(0.764089913489702,
+                               0.249846234749099,
+                               0.4838075020954)
+            )
+  expect_equal(pred1, true)
+
+  # if you pass `newdata` identical to the original test data
+  # should return the same
+  expect_equal(
+    calc_predictions(kknn, newdata = NULL),
+    calc_predictions(kknn, newdata = test)
   )
-  expect_warning(
-    foo <- calc_predictions(kknn, test),  # test data triggers warning
-    paste0("KKNN models differ from other class models.\n",
-           "Test predictions are built into the model object.")
+
+  # if you pass "new" `newdata` model refits and returns new predictions
+  expect_equal(
+    calc_predictions(kknn, newdata = head(test, 1L)), # single sample
+    head(true, 1L)
   )
-  expect_equal(pred1, foo)   # test data should be ignored after warning
 
   # with cutoff to switch class prediction
   pred2 <- calc_predictions(kknn, cutoff = 0.48)
@@ -185,4 +192,16 @@ test_that("the `KKNN` method returns correct predictions", {
                                            0.4838075020954)
                       )
   )
+
+  # this warning mimics if the user passes an actual `kknn` object,
+  # without using `fit_kknn()` ... predictions will be from the object itself
+  kknn2 <- kknn
+  kknn2$train <- NULL
+  expect_warning(
+    # no train data triggers warning; returns orig test predictions
+    # test data ignored after warning
+    foo <- calc_predictions(kknn2, newdata = test),
+    "Cannot pass `newdata` with standard `kknn` class objects."
+  )
+  expect_equal(pred1, foo)
 })

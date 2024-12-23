@@ -43,20 +43,19 @@ Wrapper for fitting weighted \emph{k}-nearest neighbor classifiers.
 }
 \examples{
 # Use fake training data from iris data set
-trainIdx <- sample(nrow(tr_iris), 90)  # random 90\% training
-kknnfit  <- fit_kknn(Species ~ ., train = tr_iris[trainIdx, ],
-                     test = tr_iris[-trainIdx, ])
+train_idx <- sample(nrow(tr_iris), 90L)  # random 90\% training
+test_df   <- tr_iris[-train_idx, ]
+kknnfit   <- fit_kknn(Species ~ ., train = tr_iris[train_idx, ], test = test_df)
 pos  <- get_pos_class(kknnfit)
-true <- tr_iris$Species[-trainIdx]   # true class names
-pred <- calc_predictions(kknnfit)    # model predictions
+pred <- calc_predictions(kknnfit) # internal test predictions
 pred
 
 # Confusion matrix
-calc_confusion(true, pred$prob_virginica, pos_class = pos) |>
+calc_confusion(test_df$Species, pred$prob_virginica, pos_class = pos) |>
   summary()
 
 # plot ROC
-plot_emp_roc(true, pred$prob_virginica, pos)
+plot_emp_roc(test_df$Species, pred$prob_virginica, pos)
 }
 \seealso{
 \code{\link[=kknn]{kknn()}}

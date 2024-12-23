@@ -203,22 +203,36 @@ calc_predictions.glm <- function(model, newdata, cutoff = 0.5, ...) {
 
 #' @describeIn s3-calc_predictions
 #'   S3 method for Weighted k-Nearest Neighbor.
+#'   kknn models have self-contained test predictions, so `newdata`
+#'   can be `NULL` to return those predictions. If *actual* `newdata`
+#'   is desired, must re-fit using original data and pull test
+#'   predictions. This is built-in for [fit_kknn()] objects, so
+#'   the standard syntax is possible.
 #'
 #' @export
 calc_predictions.kknn <- function(model, newdata = NULL, cutoff = 0.5, ...) {
 
   if ( !is.null(newdata) ) {
-    warning(
-      "KKNN models differ from other class models.\n",
-      "Test predictions are built into the model object. `newdata` will be ignored.",
-      call. = FALSE
-    )
+    if ( is.null(model$train) ) {
+      warning(
+        "Cannot pass `newdata` with standard `kknn` class objects.\n",
+        "Returning original `test` predictions.", call. = FALSE)
+      p <- model$prob
+    } else {
+      # refit the model w orig training data
+      # to get new test predictions
+      p <- fit_kknn(model$form, train = model$train, test = newdata,
+                    k_neighbors = model$k, distance = model$distance,
+                    kernel = model$kernel, ...)$prob
+    }
+  } else {
+    p <- model$prob
   }
 
-  p <- data.frame(model$prob, row.names = NULL)
+  p <- data.frame(p, row.names = NULL)
 
   if ( length(model$classes) > 2L ) {
-    # if multi-class; ignore cutoff and use max.prob
+    # if multi-class; ignore cutoff and use max prob
     classes <- names(p)[apply(p, 1, which.max)]
   } else {
     pos <- get_pos_class(model)

@@ -85,6 +85,11 @@ that are used for predictions if \code{newdata = NULL}.
 \item \code{calc_predictions(glm)}: S3 method for Logistic Regression via \code{glm}.
 
 \item \code{calc_predictions(kknn)}: S3 method for Weighted k-Nearest Neighbor.
+kknn models have self-contained test predictions, so \code{newdata}
+can be \code{NULL} to return those predictions. If \emph{actual} \code{newdata}
+is desired, must re-fit using original data and pull test
+predictions. This is built-in for \code{\link[=fit_kknn]{fit_kknn()}} objects, so
+the standard syntax is possible.
 
 }}
 \examples{
