@@ -72,18 +72,21 @@ kfold_cv <- function(data, k, kknn_args = list(k_neighbors = 9L),
     train_df <- analysis(cv_splits, i)[[1]]
     test_df  <- assessment(cv_splits, i)[[1]]
 
-    if ( mtype %in% c("gbm", "rf", "nb", "lr") ) {
+    if ( mtype %in% c("gbm", "rf", "nb", "lr", "svm") ) {
       .fun <- switch(mtype,
                      gbm = fit_gbm,
                      rf  = randomForest::randomForest,
+                     svm = e1071::svm,
                      nb  = fit_nb,
                      lr  = fit_logistic)
+      if ( mtype == "svm" ) {  # hard code if SVM
+        .fun <- be_hard(.fun, probability = TRUE)
+      }
       tr_model <- .fun(formula, data = train_df)
-    } else if ( mtype == "svm" ) {
-      tr_model <- e1071::svm(formula, data = data, subset = train_df,
-                             probability = TRUE)
     } else if ( mtype == "kknn" ) {
-      kknn_args <- c(list(formula = formula, train = train_df, test = test_df),
+      kknn_args <- c(list(formula = formula,
+                          train = train_df,
+                          test = test_df),
                      kknn_args)
       tr_model <- do.call(fit_kknn, kknn_args)
     }
