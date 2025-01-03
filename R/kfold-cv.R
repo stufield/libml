@@ -76,12 +76,9 @@ kfold_cv <- function(data, k, kknn_args = list(k_neighbors = 9L),
       .fun <- switch(mtype,
                      gbm = fit_gbm,
                      rf  = randomForest::randomForest,
-                     svm = e1071::svm,
+                     svm = be_hard(e1071::svm, probability = TRUE),
                      nb  = fit_nb,
                      lr  = fit_logistic)
-      if ( mtype == "svm" ) {  # hard code if SVM
-        .fun <- be_hard(.fun, probability = TRUE)
-      }
       tr_model <- .fun(formula, data = train_df)
     } else if ( mtype == "kknn" ) {
       kknn_args <- c(list(formula = formula,

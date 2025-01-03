@@ -24,7 +24,7 @@ test_that("`kfold_cv()` generates correct output for various model types", {
     withr::with_seed(101, summary(do.call(kfold_cv, args)))
   })
 
-  # support vector machines
+  # Support Vector Machines
   expect_snapshot({
     args$model_type <- "svm"
     withr::with_seed(101, summary(do.call(kfold_cv, args)))
@@ -36,10 +36,10 @@ test_that("`kfold_cv()` generates correct output for various model types", {
     withr::with_seed(101, summary(do.call(kfold_cv, args)))
   })
 
-  # Weighted K-Nearest-Neighbor
+  # K-Nearest-Neighbor
   expect_snapshot({
     args$model_type <- "kknn"
-    args$k_neighbors <- 5
+    args$k_neighbors <- 5L
     withr::with_seed(101, summary(do.call(kfold_cv, args)))
   })
 })
