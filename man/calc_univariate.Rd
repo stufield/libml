@@ -7,7 +7,8 @@
 calc_univariate(
   data,
   var,
-  test = c("t.test", "lm", "ks", "kw", "logistic", "wilcox", "mw", "mackwolfe", "log2fc"),
+  test = c("t.test", "lm", "ks", "kw", "logistic", "wilcox", "mw", "mackwolfe", "log2fc",
+    "cor"),
   ...
 )
 }
@@ -73,6 +74,11 @@ calc_univariate(mtcars, "carb", "mack", peak = "jt")
 
 # for logistic: `var` is the LHS of the formula
 calc_univariate(mtcars, "vs", "logistic")
+
+calc_univariate(mtcars, "mpg", "cor")
+
+# method = 'spearman' can be passed via '...'
+calc_univariate(mtcars, "mpg", "cor", method = "spear")
 }
 \author{
 Stu Field

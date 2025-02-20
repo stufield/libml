@@ -57,6 +57,11 @@
 #'
 #' # for logistic: `var` is the LHS of the formula
 #' calc_univariate(mtcars, "vs", "logistic")
+#'
+#' calc_univariate(mtcars, "mpg", "cor")
+#'
+#' # method = 'spearman' can be passed via '...'
+#' calc_univariate(mtcars, "mpg", "cor", method = "spear")
 #' @importFrom dplyr mutate arrange select row_number
 #' @importFrom purrr map
 #' @importFrom tibble tibble
@@ -65,7 +70,7 @@
 #' @export
 calc_univariate <- function(data, var,
                             test = c("t.test", "lm", "ks", "kw", "logistic",
-                                     "wilcox", "mw", "mackwolfe", "log2fc"),
+                                     "wilcox", "mw", "mackwolfe", "log2fc", "cor"),
                             ...) {
   stopifnot(
     "`data` must be a `data.frame` object." = is.data.frame(data),
@@ -77,10 +82,11 @@ calc_univariate <- function(data, var,
                  lm     = stats::lm,
                  ks     = .ks.test,
                  mackwolfe = mack_wolfe,
-                 logistic  = .logistic,
                  wilcox = stats::wilcox.test,
                  mw     = stats::wilcox.test,
                  kw     = stats::kruskal.test,
+                 cor    = .cor,
+                 logistic = .logistic,
                  log2fc = .log2fc,
                  NA)
 
@@ -94,6 +100,7 @@ calc_univariate <- function(data, var,
     idx <- names(which(vapply(data, is.numeric, NA)))
     tbl <- tibble(feature = setdiff(idx, var))
   }
+
   ret <- tbl |>
     mutate(formula = map(feature, ~ create_form(.x, var)), # create formula
            test    = map(formula, function(.x) .fun(.x, data = data, ...)), # fit
@@ -101,9 +108,11 @@ calc_univariate <- function(data, var,
     ) |>
     unnest(cols = stats) |>
     arrange(p_value)
+
   if ( identical(test, "log2fc") ) {
     ret$p_value <- NA_real_  # nuke p_value for logFC (after sorting)
   }
+
   ret |>
     mutate(fdr          = p.adjust(p_value, method = "fdr"),
            p_bonferroni = p.adjust(p_value, method = "bonferroni"),
@@ -145,6 +154,12 @@ calc_univariate <- function(data, var,
     stat <- "H"   # K-W test
   } else if ( grepl("Wilcoxon", obj$method) ) {
     stat <- "U"   # Mann-Whitney
+  } else if ( grepl("Pearson", obj$method) ) {
+    obj$statistic <- obj$estimate  # for correlation estimate is desired
+    stat <- "r"
+  } else if ( grepl("Spearman", obj$method) ) {
+    obj$statistic <- obj$estimate
+    stat <- "rho"
   }
   setNames(tibble(unname(obj$statistic), obj$p.value), c(stat, "p_value"))
 }
@@ -242,4 +257,15 @@ calc_univariate <- function(data, var,
   stopifnot(length(chr) == 3L)
   new_form <- create_form(chr[3L], chr[2L])
   fit_logistic(new_form, data)
+}
+
+# this wrapper is necessary
+# because for cor.test()
+# the formula `~ u + v`; ... is for method
+.cor <- function(frmla, data, ...) {
+  chr <- as.character(frmla)
+  stopifnot(length(chr) == 3L)
+  new_form <- as.formula(paste("~", chr[2L], "+", chr[3L]))
+  quiet_cor <- be_quiet(stats::cor.test) # due to p-value with ties
+  quiet_cor(new_form, data = data, ...)$result
 }
