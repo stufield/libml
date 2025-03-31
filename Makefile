@@ -19,19 +19,19 @@ docs:
 readme:
 	@ echo "Rendering README.Rmd"
 	@ $(RSCRIPT) \
-	-e "Sys.setenv(RSTUDIO_PANDOC='/Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools')" \
+	-e "Sys.setenv(RSTUDIO_PANDOC='/usr/bin/pandoc/')" \
 	-e "options(cli.width = 80L)" \
 	-e "rmarkdown::render('README.Rmd', quiet = TRUE)"
 	@ $(RM) README.html
 
 test:
 	@ $(RSCRIPT) \
-	-e "Sys.setenv(ON_JENKINS = 'true', TZ = 'America/Denver')" \
+	-e "Sys.setenv(TZ = 'America/Denver')" \
 	-e "devtools::test(reporter = 'summary', stop_on_failure = TRUE)"
 
 test_file:
 	@ $(RSCRIPT) \
-	-e "Sys.setenv(ON_JENKINS = 'true', TZ = 'America/Denver', NOT_CRAN = 'true')" \
+	-e "Sys.setenv(TZ = 'America/Denver', NOT_CRAN = 'true')" \
 	-e "devtools::load_all()" \
 	-e "testthat::test_file('$(FILE)', reporter = 'progress', stop_on_failure = TRUE)"
 
@@ -63,6 +63,21 @@ objects:
 
 install:
 	@ R CMD INSTALL --use-vanilla --preclean --resave-data .
+
+increment:
+	@ echo "Adding Version '$(ver)' to DESCRIPTION"
+	@ $(shell sed -i 's/^Version: .*/Version: $(ver)/' DESCRIPTION)
+	@ echo "Adding new heading to 'NEWS.md'"
+	@ $(shell sed -i '1s/^/# $(PKGNAME) $(ver)\n\n/' NEWS.md)
+
+release:
+	@ echo "Adding release commit"
+	@ git add -u
+	@ git commit -m "Increment version number"
+	@ git push origin main
+	@ git tag -a v$(PKGVERS) -m "Release of $(PKGVERS)"
+	@ git push origin v$(PKGVERS)
+	@ echo "Remember to bump the DESCRIPTION file with bump_to_dev()"
 
 clean:
 	@ cd ..;\
