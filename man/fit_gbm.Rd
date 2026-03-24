@@ -17,7 +17,7 @@ fit_gbm(x, ...)
 using the \code{formula} method, a "Response" column should be included. The
 simplest way to achieve this is a call to \code{\link[=create_train]{create_train()}}.}
 
-\item{...}{Arguments passed to \code{\link[=gbm]{gbm()}}.}
+\item{...}{Arguments passed to \code{\link[gbm:gbm]{gbm::gbm()}}.}
 
 \item{y}{\code{factor(n)}. If not passing a formula, a factor with
 true class names for each sample (row) in \code{x}.}
@@ -28,7 +28,7 @@ true class names for each sample (row) in \code{x}.}
 \item{data}{A data frame of predictors (categorical and/or numeric).}
 }
 \value{
-A \code{gbm} class object, as returned by \code{\link[=gbm]{gbm()}}.
+A \code{gbm} class object, as returned by \code{\link[gbm:gbm]{gbm::gbm()}}.
 }
 \description{
 A wrapper for fitting boosted binary regression models
@@ -50,9 +50,9 @@ model <- withr::with_seed(10, fit_gbm(Species ~ ., data = tr_iris))
 model <- withr::with_seed(10, fit_gbm(tr_iris[, -5L], y = tr_iris$Species))
 }
 \seealso{
-\code{\link[=gbm]{gbm()}}, \code{\link[=create_train]{create_train()}}
+\code{\link[gbm:gbm]{gbm::gbm()}}, \code{\link[=create_train]{create_train()}}
 
-The `fit*()` family: 
+The \verb{fit*()} family:
 \code{\link{fit_kknn}()},
 \code{\link{fit_logistic}()},
 \code{\link{fit_nb}()}

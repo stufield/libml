@@ -84,7 +84,7 @@ model <- fit_logistic(as.matrix(df[, -5L]), y = df$Species)  # 'glmnet' syntax
 \seealso{
 \code{\link[=glm]{glm()}}
 
-The `fit*()` family: 
+The \verb{fit*()} family:
 \code{\link{fit_gbm}()},
 \code{\link{fit_kknn}()},
 \code{\link{fit_nb}()}

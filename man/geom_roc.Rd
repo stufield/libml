@@ -68,7 +68,7 @@ to use \code{position_jitter()}, give the position as \code{"jitter"}.
 a warning. If \code{TRUE}, missing values are silently removed.}
 
 \item{shape}{\code{numeric(1)}. Shape of points (between 0 and 25),
-similar to \code{pch} of \code{\link[graphics:points]{graphics::points()}}. See \code{\link[=geom_point]{geom_point()}}.}
+similar to \code{pch} of \code{\link[graphics:points]{graphics::points()}}. See \code{\link[ggplot2:geom_point]{ggplot2::geom_point()}}.}
 
 \item{size}{\code{numeric(1)}. Size of points. Similar to \code{cex}
 of \code{\link[graphics:points]{graphics::points()}}. Modifying \code{size} will not affect the plot if
@@ -92,7 +92,7 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 
-\item{...}{Additional arguments passed to \code{\link[=layer]{layer()}},
+\item{...}{Additional arguments passed to \code{\link[ggplot2:layer]{ggplot2::layer()}},
 often \code{lty}, \code{shape}, \code{lwd}, etc.}
 }
 \description{
@@ -150,7 +150,7 @@ ggplot() +
   geom_roc(aes(x = x, y = y), data = rocxy2, col = "blue")
 }
 \seealso{
-\code{\link[=roc_xy]{roc_xy()}}, \code{\link[=calc_roc_fit]{calc_roc_fit()}}, \code{\link[=geom_line]{geom_line()}}, \code{\link[=layer]{layer()}}
+\code{\link[=roc_xy]{roc_xy()}}, \code{\link[=calc_roc_fit]{calc_roc_fit()}}, \code{\link[ggplot2:geom_path]{ggplot2::geom_line()}}, \code{\link[ggplot2:layer]{ggplot2::layer()}}
 
 Other ROC: 
 \code{\link{calc_roc_fit}()},

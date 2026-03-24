@@ -124,7 +124,7 @@ Computes the conditional \emph{a}-posterior probabilities of a
 categorical class variable given independent predictor
 variables using the Bayes rule.
 Parameter estimates are robustly calculated using approximations
-of the error function for a Gaussian density, see \code{\link[=fit_gauss]{fit_gauss()}}.
+of the error function for a Gaussian density, see \code{\link[helpr:fit_gauss]{helpr::fit_gauss()}}.
 }
 \details{
 When \code{mad = TRUE} (median absolute deviation), non-parametric
@@ -183,11 +183,11 @@ This function was \emph{heavily} influenced by \code{\link[e1071:naiveBayes]{e10
 See David Meyer <email: David.Meyer@R-project.org>.
 }
 \seealso{
-\code{\link[=fit_gauss]{fit_gauss()}}
+\code{\link[helpr:fit_gauss]{helpr::fit_gauss()}}
 
 \code{\link[=plot_log_odds]{plot_log_odds()}}, \code{\link[SomaPlotr:plotPDF]{SomaPlotr::plotPDFlist()}}, \code{\link[SomaPlotr:plotCDF]{SomaPlotr::plotCDFlist()}}
 
-The `fit*()` family: 
+The \verb{fit*()} family:
 \code{\link{fit_gbm}()},
 \code{\link{fit_kknn}()},
 \code{\link{fit_logistic}()}

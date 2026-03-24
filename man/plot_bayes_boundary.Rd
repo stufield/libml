@@ -31,7 +31,7 @@ head(data)
 plot_bayes_boundary(data, pos_class = "virginica")
 }
 \seealso{
-\code{\link[=geom_contour]{geom_contour()}}, \code{\link[=fit_nb]{fit_nb()}}
+\code{\link[ggplot2:geom_contour]{ggplot2::geom_contour()}}, \code{\link[=fit_nb]{fit_nb()}}
 }
 \author{
 Stu Field

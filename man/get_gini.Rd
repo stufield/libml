@@ -27,7 +27,7 @@ rf <- withr::with_seed(101, {
 get_gini(rf)
 }
 \seealso{
-\code{\link[=randomForest]{randomForest()}}
+\code{\link[randomForest:randomForest]{randomForest::randomForest()}}
 }
 \author{
 Stu Field

@@ -17,7 +17,7 @@ Each row is the result of a call to \code{\link[=calc_emp_auc]{calc_emp_auc()}} 
 \code{ci95 = TRUE} and converted to a single row \code{data.frame}. See example.}
 
 \item{color}{Character or numeric vector containing colors for each of
-the barplots, as used by \code{\link[=ggplot]{ggplot()}}.
+the barplots, as used by \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}}.
 Vector length should match the number of rows in \code{data}.
 Colors are recycled as necessary.}
 
@@ -26,7 +26,7 @@ Colors are recycled as necessary.}
 \item{main}{\code{character(1)}. Optional string for the plot title.}
 }
 \value{
-A \code{\link[=ggplot]{ggplot()}} plot.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} plot.
 }
 \description{
 Plots a list of AUCs as barplots and added error bars for each

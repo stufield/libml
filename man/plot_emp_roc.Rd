@@ -71,7 +71,7 @@ Must be added individually to each plot.}
 \item{auc_size}{\code{numeric(1)}. The size for the AUC text.}
 
 \item{shape}{\code{numeric(1)}. Shape of points (between 0 and 25),
-similar to \code{pch} of \code{\link[graphics:points]{graphics::points()}}. See \code{\link[=geom_point]{geom_point()}}.}
+similar to \code{pch} of \code{\link[graphics:points]{graphics::points()}}. See \code{\link[ggplot2:geom_point]{ggplot2::geom_point()}}.}
 
 \item{size}{\code{numeric(1)}. Size of points. Similar to \code{cex}
 of \code{\link[graphics:points]{graphics::points()}}. Modifying \code{size} will not affect the plot if
@@ -167,7 +167,7 @@ pred2 <- withr::with_seed(8,
         )
 plot_emp_roc(true, pred, pos_class = "disease", col = "firebrick3") +
   plot_emp_roc(true2, pred2, pos_class = "disease",
-               col = "forestgreen", add = 1)
+               col = "dodgerblue", add = 1)
 }
 \seealso{
 \code{\link[=create_roc_data]{create_roc_data()}}, \code{\link[=roc_xy]{roc_xy()}}, \code{\link[=geom_roc]{geom_roc()}}

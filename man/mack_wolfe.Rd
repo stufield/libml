@@ -41,7 +41,7 @@ If \code{peak = NULL}, the "peak unknown" version of the
 Mack-Wolfe test is performed.}
 
 \item{rm_outliers}{\code{logical(1)}. Should statistical outliers
-(\eqn{6 * mad} \emph{and} \eqn{5x}) be removed? See \code{\link[=remove_outliers]{remove_outliers()}}.}
+(\eqn{6 * mad} \emph{and} \eqn{5x}) be removed? See \code{\link[wranglr:remove_outliers]{wranglr::remove_outliers()}}.}
 
 \item{alpha}{\code{numeric(1)}. The desired significance level.}
 

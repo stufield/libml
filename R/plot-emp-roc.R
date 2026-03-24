@@ -98,7 +98,7 @@
 #'         )
 #' plot_emp_roc(true, pred, pos_class = "disease", col = "firebrick3") +
 #'   plot_emp_roc(true2, pred2, pos_class = "disease",
-#'                col = "forestgreen", add = 1)
+#'                col = "dodgerblue", add = 1)
 #' @importFrom ggplot2 geom_ribbon geom_point geom_text geom_segment annotate
 #' @export
 plot_emp_roc <- function(truth, predicted, pos_class,

@@ -134,7 +134,7 @@ calc_predictions(kknn)                 # do NOT pass test data
 calc_predictions(kknn, cutoff = 0.48)
 }
 \seealso{
-\code{\link[=fit_nb]{fit_nb()}}, \code{\link[=randomForest]{randomForest()}}, \code{\link[=fit_logistic]{fit_logistic()}}, \code{\link[=fit_kknn]{fit_kknn()}}
+\code{\link[=fit_nb]{fit_nb()}}, \code{\link[randomForest:randomForest]{randomForest::randomForest()}}, \code{\link[=fit_logistic]{fit_logistic()}}, \code{\link[=fit_kknn]{fit_kknn()}}
 }
 \author{
 Stu Field
