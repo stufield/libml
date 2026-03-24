@@ -27,8 +27,10 @@ the model to be fitted (e.g. \eqn{response ~ x_1 + x_2 + ... + x_n}).}
 \item{distance}{\code{numeric(1)}. Parameter of Minkowski distance.
 \code{Manhattan = 1} and \code{Euclidean = 2}.}
 
-\item{kernel}{Kernel to use. Possible choices are "rectangular" (which is standard unweighted knn), "triangular", "epanechnikov" (or beta(2,2)), 
-	"biweight" (or beta(3,3)), "triweight" (or beta(4,4)), "cos", "inv", "gaussian", "rank" and "optimal".}
+\item{kernel}{Kernel to use. Possible choices are "rectangular" (which is
+standard unweighted knn), "triangular", "epanechnikov" (or beta(2,2)),
+"biweight" (or beta(3,3)), "triweight" (or beta(4,4)), "cos", "inv",
+"gaussian", "rank" and "optimal".}
 
 \item{...}{Additional arguments passed to \code{\link[kknn:kknn]{kknn::kknn()}}.}
 }
