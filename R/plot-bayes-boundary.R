@@ -43,7 +43,7 @@ plot_bayes_boundary <- function(data, pos_class, res = 50L) {
     list(F1 = seq(min(train$F1), max(train$F1), length = res),
          F2 = seq(min(train$F2), max(train$F2), length = res))
   )
-  df$Pr <- predict(model, newdata = df, type = "posterior")[, 2L]
+  df$Pr <- predict(model, newdata = df, type = "posterior")[[2L]]
 
   p <- ggplot(df, aes(x = F1, y = F2))
   p + geom_raster(aes(fill = Pr), alpha = 0.5) +

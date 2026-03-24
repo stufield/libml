@@ -39,6 +39,8 @@
 #'
 #' @author Stu Field
 #' @seealso [fit_nb()], [randomForest()], [fit_logistic()], [fit_kknn()]
+#' @importFrom dplyr bind_cols
+#' @importFrom tibble tibble
 #'
 #' @examples
 #' # Use training data from iris data set:
@@ -91,17 +93,16 @@ helpr::calc_predictions
 #' @export
 calc_predictions.libml_nb <- function(model, newdata, cutoff = 0.5, ...) {
   test <- select_features(model, newdata)
-  p <- predict(model, newdata = test, type = "raw")
-  pos <- get_pos_class(model)
+  p    <- predict(model, newdata = test, type = "raw")
+  pos  <- get_pos_class(model)
   if ( length(model$levels) > 2L ) {
     # if multi-class; ignore cutoff and use max.prob
     classes <- names(p)[apply(p, 1, which.max)]
   } else {
     classes <- ifelse(p[[pos]] >= cutoff, pos, setdiff(names(p), pos))
   }
-  structure(
-    cbind(classes, p),
-    names = c("pred_class", paste0("prob_", names(p)))
+  bind_cols(cl = classes, p) |>
+    setNames(c("pred_class", paste0("prob_", names(p)))
   )
 }
 
@@ -121,7 +122,8 @@ calc_predictions.randomForest <- function(model, newdata = NULL, cutoff = 0.5, .
     p <- data.frame(model$votes, row.names = NULL)
   } else {
     test <- select_features(model, newdata)
-    p <- data.frame(predict(model, newdata = test, type = "prob"), row.names = NULL)
+    p    <- data.frame(predict(model, newdata = test, type = "prob")) |>
+      as_tibble()
   }
   if ( length(model$classes) > 2L ) {
     # if multi-class; ignore cutoff and use max.prob
@@ -129,9 +131,8 @@ calc_predictions.randomForest <- function(model, newdata = NULL, cutoff = 0.5, .
   } else {
     classes <- ifelse(p[[pos]] >= cutoff, pos, setdiff(names(p), pos))
   }
-  structure(
-    cbind(classes, p),
-    names = c("pred_class", paste0("prob_", names(p)))
+  bind_cols(cl = classes, p) |>
+    setNames(c("pred_class", paste0("prob_", names(p)))
   )
 }
 
@@ -150,11 +151,10 @@ calc_predictions.gbm <- function(model, newdata, cutoff = 0.5, ...) {
     pos <- get_pos_class(model)
     neg <- setdiff(levels(model$class), pos)
     classes <- ifelse(p >= cutoff, pos, neg)
-    p <- setNames(data.frame(1 - p, p), c(neg, pos))
+    p <- setNames(tibble(1 - p, p), c(neg, pos))
   }
-  structure(
-    cbind(classes, p),
-    names = c("pred_class", paste0("prob_", names(p)))
+  bind_cols(cl = classes, p) |>
+    setNames(c("pred_class", paste0("prob_", names(p)))
   )
 }
 
@@ -164,8 +164,8 @@ calc_predictions.gbm <- function(model, newdata, cutoff = 0.5, ...) {
 #' @export
 calc_predictions.svm <- function(model, newdata, cutoff = 0.5, ...) {
   test <- select_features(model, newdata)
-  p   <- predict(model, newdata = test, probability = TRUE)
-  p   <- data.frame(attr(p, "probabilities"), row.names = NULL)
+  p <- predict(model, newdata = test, probability = TRUE)
+  p <- as_tibble(attr(p, "probabilities"))
   if ( model$nclasses > 2 ) {
     # if multi-class; ignore cutoff and use max.prob
     classes <- names(p)[apply(p, 1, which.max)]
@@ -173,9 +173,8 @@ calc_predictions.svm <- function(model, newdata, cutoff = 0.5, ...) {
     pos <- get_pos_class(model)
     classes <- ifelse(p[[pos]] >= cutoff, pos, setdiff(names(p), pos))
   }
-  structure(
-    cbind(classes, p),
-    names = c("pred_class", paste0("prob_", names(p)))
+  bind_cols(cl = classes, p) |>
+    setNames(c("pred_class", paste0("prob_", names(p)))
   )
 }
 
@@ -193,11 +192,10 @@ calc_predictions.glm <- function(model, newdata, cutoff = 0.5, ...) {
     pos <- get_pos_class(model)
     neg <- setdiff(model$classes, pos)
     classes <- ifelse(p >= cutoff, pos, neg)
-    p   <- setNames(data.frame(1 - p, p), c(neg, pos))
+    p   <- setNames(tibble(1 - p, p), c(neg, pos))
   }
-  structure(
-    cbind(classes, LP, p),
-    names = c("pred_class", "pred_linear", paste0("prob_", names(p)))
+  bind_cols(cl = classes, LP = LP, p) |>
+    setNames(c("pred_class", "pred_linear", paste0("prob_", names(p)))
   )
 }
 
@@ -229,7 +227,7 @@ calc_predictions.kknn <- function(model, newdata = NULL, cutoff = 0.5, ...) {
     p <- model$prob
   }
 
-  p <- data.frame(p, row.names = NULL)
+  p <- as_tibble(p)
 
   if ( length(model$classes) > 2L ) {
     # if multi-class; ignore cutoff and use max prob
@@ -238,8 +236,7 @@ calc_predictions.kknn <- function(model, newdata = NULL, cutoff = 0.5, ...) {
     pos <- get_pos_class(model)
     classes <- ifelse(p[[pos]] >= cutoff, pos, setdiff(names(p), pos))
   }
-  structure(
-    cbind(classes, p),
-    names = c("pred_class", paste0("prob_", names(p)))
+  bind_cols(cl = classes, p) |>
+    setNames(c("pred_class", paste0("prob_", names(p)))
   )
 }

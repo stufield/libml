@@ -47,8 +47,8 @@ test_that("robust naiveBayes 3 class unit test", {
 test_that("`libml_nb` predict method generates correct values", {
   preds <- c(2.583911e-22, 1.205645e-21, 9.252954e-23,
              1.319086e-21, 8.465865e-23, 1.740150e-16)
-  expect_equal(head(predict(nb2c, iris2, type = "post"))[, 2L], preds)
-  expect_equal(head(predict(nb2c, iris2, type = "post"))[, 1L], rep(1, 6L))
+  expect_equal(head(predict(nb2c, iris2, type = "post"))$virginica, preds)
+  expect_equal(head(predict(nb2c, iris2, type = "post"))$setosa, rep(1, 6L))
   # type param is identical b/w post & raw
   expect_equal(
     predict(nb2c, iris2),  # default: "raw"

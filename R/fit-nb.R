@@ -280,8 +280,8 @@ predict.libml_nb <- function(object, newdata,
     if ( type != "class" ) {
       posterior <- exp(posterior) / sum(exp(posterior))
     }
-    data.frame(as.list(posterior))
-  }) |> dplyr::bind_rows()
+    posterior
+  }, simplify = FALSE) |> dplyr::bind_rows()
 
   if ( type == "class" ) {
     maxprob <- apply(LL, 1, which.max)

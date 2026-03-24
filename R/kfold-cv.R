@@ -89,9 +89,10 @@ kfold_cv <- function(data, k, kknn_args = list(k_neighbors = 9L),
     }
 
     label <- paste0("prob_", get_pos_class(tr_model))
-    tibble(truth     = test_df[[response]],
-           predicted = calc_predictions(tr_model, test_df)[[label]],
-           fold      = i)
-  }) |>
-    dplyr::bind_rows()
+    tibble(
+      truth     = test_df[[response]],
+      predicted = calc_predictions(tr_model, test_df)[[label]],
+      fold      = i
+    )
+  }) |> dplyr::bind_rows()
 }

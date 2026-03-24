@@ -12,8 +12,7 @@ test_that("the logistic regression (GLM) method returns correct predictions", {
   pred1 <- calc_predictions(lr, test)
   expect_false(has_rn(pred1))
   expect_equal(pred1,
-    data.frame(stringsAsFactors = FALSE,
-      pred_class = c("virginica", "setosa", "setosa"),
+    tibble(pred_class = c("virginica", "setosa", "setosa"),
       pred_linear = c(1.78167792472932, -0.609193148994239, -1.27204605039852),
       prob_setosa = c(0.144096068014264, 0.647756726495939, 0.781092796804913),
       prob_virginica = c(0.855903931985736, 0.352243273504061, 0.218907203195087)
@@ -22,7 +21,7 @@ test_that("the logistic regression (GLM) method returns correct predictions", {
   # with cutoff to switch class prediction
   pred2 <- calc_predictions(lr, test, cutoff = 0.33)
   expect_equal(pred2,
-    data.frame(stringsAsFactors = FALSE,
+    tibble(
       pred_class = c("virginica", "virginica", "setosa"),
       pred_linear = c(1.78167792472932, -0.609193148994239, -1.27204605039852),
       prob_setosa = c(0.144096068014264, 0.647756726495939, 0.781092796804913),
@@ -36,8 +35,7 @@ test_that("the Naive Bayes method returns correct predictions", {
   pred1 <- calc_predictions(nb, test)
   expect_false(has_rn(pred1))
   expect_equal(pred1,
-    data.frame(stringsAsFactors = FALSE,
-      pred_class = c("virginica", "setosa", "setosa"),
+    tibble(pred_class = c("virginica", "setosa", "setosa"),
       prob_setosa = c(2.94243132997378e-05, 0.983414967907472, 0.999945042516105),
       prob_virginica = c(0.9999705756867, 0.016585032092528, 5.49574838953107e-05)
     )
@@ -45,8 +43,7 @@ test_that("the Naive Bayes method returns correct predictions", {
   # with cutoff to switch class prediction
   pred2 <- calc_predictions(nb, tail(fake_iris, 3L), cutoff = 0.01)
   expect_equal(pred2,
-    data.frame(stringsAsFactors = FALSE,
-      pred_class = c("virginica", "virginica", "setosa"),
+    tibble(pred_class = c("virginica", "virginica", "setosa"),
       prob_setosa = c(2.94243132997378e-05, 0.983414967907472, 0.999945042516105),
       prob_virginica = c(0.9999705756867, 0.016585032092528, 5.49574838953107e-05)
     )
@@ -76,18 +73,16 @@ test_that("the Random Forest method returns correct predictions with test data",
   # with test data
   pred1 <- calc_predictions(rf, test)
   expect_false(has_rn(pred1))
-  expect_equal(pred1, data.frame(stringsAsFactors = FALSE,
-                        pred_class = c("virginica", "setosa", "setosa"),
-                        prob_setosa    = c(0.27, 0.606, 0.812),
-                        prob_virginica = c(0.73, 0.394, 0.188)
+  expect_equal(pred1, tibble(pred_class = c("virginica", "setosa", "setosa"),
+                        prob_setosa     = c(0.27, 0.606, 0.812),
+                        prob_virginica  = c(0.73, 0.394, 0.188)
                       )
   )
   # with cutoff to switch class prediction
   pred2 <- calc_predictions(rf, test, cutoff = 0.39)
-  expect_equal(pred2, data.frame(stringsAsFactors = FALSE,
-                        pred_class = c("virginica", "virginica", "setosa"),
-                        prob_setosa    = c(0.27, 0.606, 0.812),
-                        prob_virginica = c(0.73, 0.394, 0.188)
+  expect_equal(pred2, tibble(pred_class = c("virginica", "virginica", "setosa"),
+                        prob_setosa     = c(0.27, 0.606, 0.812),
+                        prob_virginica  = c(0.73, 0.394, 0.188)
                       )
   )
 })
@@ -97,8 +92,7 @@ test_that("the General Boosted Regression (GBM) returns correct predictions", {
                                       distribution = "bernoulli"))
   pred1 <- calc_predictions(gb, test)
   expect_false(has_rn(pred1))
-  expect_equal(pred1, data.frame(stringsAsFactors = FALSE,
-                         pred_class = c("virginica", "setosa", "setosa"),
+  expect_equal(pred1, tibble(pred_class = c("virginica", "setosa", "setosa"),
                         prob_setosa = c(0.15781951638483,
                                         0.503400655494596,
                                         0.806205501737701),
@@ -109,8 +103,7 @@ test_that("the General Boosted Regression (GBM) returns correct predictions", {
   )
   # with cutoff to switch class prediction
   pred2 <- calc_predictions(gb, test, 0.48)
-  expect_equal(pred2, data.frame(stringsAsFactors = FALSE,
-                        pred_class  = c("virginica", "virginica", "setosa"),
+  expect_equal(pred2, tibble(pred_class  = c("virginica", "virginica", "setosa"),
                         prob_setosa = c(0.15781951638483,
                                         0.503400655494596,
                                         0.806205501737701),
@@ -127,8 +120,7 @@ test_that("the Support Vector Machines method returns correct predictions", {
         )
   pred1 <- calc_predictions(sm, test)
   expect_false(has_rn(pred1))
-  expect_equal(pred1, data.frame(stringsAsFactors = FALSE,
-                        pred_class  = c("virginica", "setosa", "setosa"),
+  expect_equal(pred1, tibble(pred_class  = c("virginica", "setosa", "setosa"),
                         prob_setosa = c(0.194761910287786,
                                         0.647758225687972,
                                         0.7504834840278),
@@ -139,8 +131,7 @@ test_that("the Support Vector Machines method returns correct predictions", {
   )
   # with cutoff to switch class prediction
   pred2 <- calc_predictions(sm, test, 0.35)
-  expect_equal(pred2, data.frame(stringsAsFactors = FALSE,
-                        pred_class  = c("virginica", "virginica", "setosa"),
+  expect_equal(pred2, tibble(pred_class  = c("virginica", "virginica", "setosa"),
                         prob_setosa = c(0.194761910287786,
                                         0.647758225687972,
                                         0.7504834840278),
@@ -156,8 +147,7 @@ test_that("the `KKNN` method returns correct predictions", {
   kknn  <- fit_kknn(Species ~ ., train = train, test = test, k_neighbors = 10L)
   pred1 <- calc_predictions(kknn, newdata = NULL)
   expect_false(has_rn(pred1))
-  true <- data.frame(stringsAsFactors = FALSE,
-            pred_class = c("virginica", "setosa", "setosa"),
+  true <- tibble(pred_class = c("virginica", "setosa", "setosa"),
             prob_setosa = c(0.235910086510298,
                             0.750153765250901,
                             0.5161924979046),
@@ -182,8 +172,7 @@ test_that("the `KKNN` method returns correct predictions", {
 
   # with cutoff to switch class prediction
   pred2 <- calc_predictions(kknn, cutoff = 0.48)
-  expect_equal(pred2, data.frame(stringsAsFactors = FALSE,
-                        pred_class = c("virginica", "setosa", "virginica"),
+  expect_equal(pred2, tibble(pred_class = c("virginica", "setosa", "virginica"),
                         prob_setosa = c(0.235910086510298,
                                         0.750153765250901,
                                         0.5161924979046),
