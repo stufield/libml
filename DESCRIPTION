@@ -43,6 +43,10 @@ Suggests:
     spelling,
     SomaPlotr,
     testthat
+Remotes:
+    stufield/helpr,
+    stufield/wranglr,
+    SomaLogic/SomaPlotr
 VignetteBuilder:
     knitr
 LinkingTo: 
