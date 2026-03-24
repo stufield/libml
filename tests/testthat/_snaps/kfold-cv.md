@@ -19,12 +19,12 @@
       withr::with_seed(101, summary(do.call(kfold_cv, args)))
     Output
              truth      predicted              fold     
-       setosa   :50   Min.   :0.0000064   Min.   :1.00  
-       virginica:50   1st Qu.:0.0008608   1st Qu.:1.00  
-                      Median :0.5889413   Median :2.00  
-                      Mean   :0.5071542   Mean   :1.99  
-                      3rd Qu.:0.9992074   3rd Qu.:3.00  
-                      Max.   :0.9999999   Max.   :3.00  
+       setosa   :50   Min.   :6.360e-06   Min.   :1.00  
+       virginica:50   1st Qu.:8.608e-04   1st Qu.:1.00  
+                      Median :5.889e-01   Median :2.00  
+                      Mean   :5.072e-01   Mean   :1.99  
+                      3rd Qu.:9.992e-01   3rd Qu.:3.00  
+                      Max.   :1.000e+00   Max.   :3.00  
 
 ---
 

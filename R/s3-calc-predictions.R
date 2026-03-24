@@ -166,7 +166,7 @@ calc_predictions.svm <- function(model, newdata, cutoff = 0.5, ...) {
   test <- select_features(model, newdata)
   p <- predict(model, newdata = test, probability = TRUE)
   p <- as_tibble(attr(p, "probabilities"))
-  if ( model$nclasses > 2 ) {
+  if ( model$nclasses > 2L ) {
     # if multi-class; ignore cutoff and use max.prob
     classes <- names(p)[apply(p, 1, which.max)]
   } else {

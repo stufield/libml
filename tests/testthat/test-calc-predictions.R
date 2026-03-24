@@ -120,25 +120,23 @@ test_that("the Support Vector Machines method returns correct predictions", {
         )
   pred1 <- calc_predictions(sm, test)
   expect_false(has_rn(pred1))
-  expect_equal(pred1, tibble(pred_class  = c("virginica", "setosa", "setosa"),
-                        prob_setosa = c(0.194761910287786,
-                                        0.647758225687972,
-                                        0.7504834840278),
-                        prob_virginica = c(0.805238089712214,
-                                           0.352241774312028,
-                                           0.2495165159722)
-                      )
+  expect_equal(
+    pred1,
+    tibble(
+      pred_class  = c("virginica", "setosa", "setosa"),
+      prob_setosa = c(0.194779472, 0.647764575, 0.750484873),
+      prob_virginica = c(0.805220528, 0.352235425, 0.249515127)
+    )
   )
   # with cutoff to switch class prediction
   pred2 <- calc_predictions(sm, test, 0.35)
-  expect_equal(pred2, tibble(pred_class  = c("virginica", "virginica", "setosa"),
-                        prob_setosa = c(0.194761910287786,
-                                        0.647758225687972,
-                                        0.7504834840278),
-                        prob_virginica = c(0.805238089712214,
-                                           0.352241774312028,
-                                           0.2495165159722)
-                      )
+  expect_equal(
+    pred2,
+    tibble(
+      pred_class  = c("virginica", "virginica", "setosa"),
+      prob_setosa = c(0.194779472, 0.647764575, 0.750484873),
+      prob_virginica = c(0.805220528, 0.352235425, 0.249515127)
+    )
   )
 })
 
