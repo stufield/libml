@@ -74,6 +74,7 @@ function will then create the `x` and `y` values required to plot the
 curve from this data set.
 
 ``` r
+
 # Generate example data
 true <- rep(c("control", "disease"), each = 10)
 pred <- withr::with_seed(8, c(rnorm(10, mean = 0.4, sd = 0.2),
@@ -98,6 +99,7 @@ Now that we have obtained the coordinates for the ROC curve, we can use
 to plot the curve:
 
 ``` r
+
 # Set up ggplot2-style plot mappings
 ggplot(data = rocxy, mapping = aes(x = x, y = y)) +
   geom_roc(color = "blue")    # add curve layer to plot
@@ -113,6 +115,7 @@ ggplot2 theme. We can class it up a bit by applying and/or modifying
 additional theme elements:
 
 ``` r
+
 p <- ggplot(data = rocxy, aes(x = x, y = y)) +
   labs(x = "1 - Specificity", y = "Sensitivity") +
   theme(panel.grid = element_blank()) +
@@ -143,6 +146,7 @@ Like other `geom`s, features of the fit line (like color, size, line
 type, etc.) can be customized:
 
 ``` r
+
 p + geom_rocfit(data = rocxy, color = "blue", lty = "dashed")
 ```
 
@@ -171,6 +175,7 @@ streamlines this process by generating custom annotations under the
 hood.
 
 ``` r
+
 plot_emp_roc(truth     = true,
              predicted = pred,
              pos_class = "disease",
@@ -187,6 +192,7 @@ can also be layered, to compare ROC curves generated from various data
 sets:
 
 ``` r
+
 # Generate additional datasets
 n <- 50
 data <- lapply(1:4, function(.x) {
@@ -231,6 +237,7 @@ is designed to generate and visualize bootstrapped CI95 intervals via a
 shaded region in addition to the ROC curve.
 
 ``` r
+
 # Simulate a new example dataset for this example
 n <- 50
 true <- rep(c("control", "disease"), each = n)
@@ -246,6 +253,7 @@ These plots can also be layered, with similar syntax to
 [`plot_emp_roc()`](https://stufield.github.io/libml/dev/reference/plot_emp_roc.md):
 
 ``` r
+
 plot_boot_roc(data$df_3$truth, data$df_3$pred, "disease", shade.color = cols[4L],
               color = cols[4L], nboot = 200) +
   plot_boot_roc(data$df_2$truth, data$df_2$pred, "disease", shade.color = cols[3L],

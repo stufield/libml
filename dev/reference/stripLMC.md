@@ -55,7 +55,7 @@ lobstr::obj_size(stripLMC(fat_lm()))
 
 # GLM
 lobstr::obj_size(fat_glm())
-#> 885.06 kB
+#> 883.91 kB
 lobstr::obj_size(stripLMC(fat_glm()))
 #> 37.74 kB
 ```

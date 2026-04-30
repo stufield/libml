@@ -46,6 +46,7 @@ As with most analyses, start by pre-processing the data via 3 steps:
 - scale to unit variance
 
 ``` r
+
 # pre-process simulated data
 data  <- wranglr::simdata
 feats <- grep("^seq.", names(data), value = TRUE)
@@ -60,6 +61,7 @@ feature annotations (secondary information). This will be the starting
 point of the ever-growing analysis “object”:
 
 ``` r
+
 t_tbl <- attr(data, "Col.Meta") |>
   dplyr::mutate(feature = libml:::add_seq(SeqId)) |>
   select(feature, SeqId, TargetFullName, EntrezGeneSymbol, UniProt)
@@ -84,6 +86,7 @@ columns as the analysis grows, with a combination of
 and [`purrr::map()`](https://purrr.tidyverse.org/reference/map.html):
 
 ``` r
+
 t_tbl <- t_tbl |>
   mutate(
     t_stat  = map(feature, ~ as.formula(paste(.x, "~ class_response")) |>
@@ -139,6 +142,7 @@ Plotting can be achieved in three basic steps:
 #### Dictionary map of feature -\> protein names
 
 ``` r
+
 target_map <- head(t_tbl, 9L) |>              # mapping table
   select(feature, Target = TargetFullName)    # feature -> Target (& rename)
 
@@ -160,6 +164,7 @@ target_map
 #### reshape data into long-format for plotting
 
 ``` r
+
 plot_tbl <- undo_center_scale(data) |>                 # log-space; no center-scale
   select(class_response, all_of(target_map$feature)) |># top 9 features
   pivot_longer(cols = -class_response, names_to = "feature", values_to = "val") |>
@@ -188,6 +193,7 @@ plot_tbl
 #### plot via `ggplot2`
 
 ``` r
+
 plot_tbl |>
   ggplot(aes(x = class_response, y = val, fill = class_response)) +
   geom_boxplot(alpha = 0.5, outlier.shape = NA) +

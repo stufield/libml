@@ -12,6 +12,7 @@ cross-validation, classification performance, and ROC plotting.
 ## Custom Installation
 
 ``` r
+
 remotes::install_github("libml")
 ```
 
@@ -23,12 +24,14 @@ To load `libml` simply make a call to
 [`library()`](https://rdrr.io/r/base/library.html) as usual:
 
 ``` r
+
 library(libml)
 ```
 
 ## Help summary of the package
 
 ``` r
+
 library(help = libml)
 ```
 

@@ -169,26 +169,19 @@ calc_univariate(mtcars, "cyl", "kw")
 #> 10 am       8.47 0.0145     0.0145       0.145        10
 
 calc_univariate(mtcars, "vs", "wilcox")
-#> Warning: There were 10 warnings in `mutate()`.
-#> The first warning was:
-#> ℹ In argument: `test = map(formula, function(.x) .fun(.x, data = data,
-#>   ...))`.
-#> Caused by warning in `wilcox.test.default()`:
-#> ! cannot compute exact p-value with ties
-#> ℹ Run `dplyr::last_dplyr_warnings()` to see the 9 remaining warnings.
 #> # A tibble: 10 × 6
-#>    feature     U    p_value       fdr p_bonferroni  rank
-#>  * <chr>   <dbl>      <dbl>     <dbl>        <dbl> <int>
-#>  1 cyl     237   0.00000647 0.0000571    0.0000647     1
-#>  2 qsec     10   0.0000114  0.0000571    0.000114      2
-#>  3 hp      236   0.0000310  0.000103     0.000310      3
-#>  4 disp    232   0.0000607  0.000152     0.000607      4
-#>  5 mpg      22.5 0.0000903  0.000181     0.000903      5
-#>  6 carb    216.  0.000451   0.000751     0.00451       6
-#>  7 wt      212   0.00116    0.00165      0.0116        7
-#>  8 drat     60.5 0.0134     0.0168       0.134         8
-#>  9 gear     88   0.120      0.134        1             9
-#> 10 am      105   0.360      0.360        1            10
+#>    feature     U     p_value        fdr p_bonferroni  rank
+#>  * <chr>   <dbl>       <dbl>      <dbl>        <dbl> <int>
+#>  1 qsec     10   0.000000560 0.00000560   0.00000560     1
+#>  2 cyl     237   0.00000178  0.00000891   0.0000178      2
+#>  3 hp      236   0.00000344  0.0000115    0.0000344      3
+#>  4 disp    232   0.0000104   0.0000260    0.000104       4
+#>  5 mpg      22.5 0.0000195   0.0000389    0.000195       5
+#>  6 carb    216.  0.000211    0.000351     0.00211        6
+#>  7 wt      212   0.000658    0.000940     0.00658        7
+#>  8 drat     60.5 0.0116      0.0145       0.116          8
+#>  9 gear     88   0.110       0.123        1              9
+#> 10 am      105   0.555       0.555        1             10
 
 calc_univariate(mtcars, "vs", "log2")
 #> # A tibble: 10 × 7
