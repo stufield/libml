@@ -1,6 +1,6 @@
-# libml 0.0.1.9000 (devel)
+# libml 0.0.2
 
-* new dev here ...
+* pre-release ...
 
 # libml 0.0.1 :tada:
 
