@@ -1,0 +1,162 @@
+# Package index
+
+## Univariate Tests
+
+Generate a table of univariate tests.
+
+- [`calc_univariate()`](https://stufield.github.io/libml/reference/calc_univariate.md)
+  : Create Table of Univariate Results
+- [`mack_wolfe()`](https://stufield.github.io/libml/reference/mack_wolfe.md)
+  : Mack-Wolfe Test
+
+## Classifier performance
+
+Utilities for evaluating (binary) classifier performance, including
+confusion matrix tools.
+
+- [`calc_confusion()`](https://stufield.github.io/libml/reference/calc_confusion.md)
+  [`print(`*`<confusion_matrix>`*`)`](https://stufield.github.io/libml/reference/calc_confusion.md)
+  [`summary(`*`<confusion_matrix>`*`)`](https://stufield.github.io/libml/reference/calc_confusion.md)
+  [`print(`*`<summary_confusion_matrix>`*`)`](https://stufield.github.io/libml/reference/calc_confusion.md)
+  : Calculate confusion matrix
+- [`calc_brier()`](https://stufield.github.io/libml/reference/calc_brier.md)
+  : Calculate the Brier Score
+- [`pull_stat()`](https://stufield.github.io/libml/reference/pull_stat.md)
+  : Pull a Classification Performance Metric/Statistic
+- [`get_max_cutoff()`](https://stufield.github.io/libml/reference/get-cutoffs.md)
+  [`get_spec_cutoff()`](https://stufield.github.io/libml/reference/get-cutoffs.md)
+  : Get Distance Cutoffs
+- [`calc_auc()`](https://stufield.github.io/libml/reference/calc_auc.md)
+  [`calc_emp_auc()`](https://stufield.github.io/libml/reference/calc_auc.md)
+  [`calc_pepe_auc()`](https://stufield.github.io/libml/reference/calc_auc.md)
+  [`calc_boot_auc()`](https://stufield.github.io/libml/reference/calc_auc.md)
+  : Calculate Area Under Curve
+
+## Training data
+
+Tools for creating and manipulating training data objects of class
+`tr_data`.
+
+- [`create_train()`](https://stufield.github.io/libml/reference/create_train.md)
+  [`is.tr_data()`](https://stufield.github.io/libml/reference/create_train.md)
+  [`plot(`*`<tr_data>`*`)`](https://stufield.github.io/libml/reference/create_train.md)
+  : Create a Training Data Object
+
+## The fit\* family
+
+Convenient wrappers for fitting various model types.
+
+- [`fit_gbm()`](https://stufield.github.io/libml/reference/fit_gbm.md) :
+  Fit a Generalized Boosted Regression Model
+- [`fit_kknn()`](https://stufield.github.io/libml/reference/fit_kknn.md)
+  : Fit Weighted k-Nearest Neighbor Classifier
+- [`fit_logistic()`](https://stufield.github.io/libml/reference/fit_logistic.md)
+  : Fit Multivariate Logistic Regression Model
+- [`fit_nb()`](https://stufield.github.io/libml/reference/fit_nb.md)
+  [`print(`*`<libml_nb>`*`)`](https://stufield.github.io/libml/reference/fit_nb.md)
+  [`predict(`*`<libml_nb>`*`)`](https://stufield.github.io/libml/reference/fit_nb.md)
+  [`plot(`*`<libml_nb>`*`)`](https://stufield.github.io/libml/reference/fit_nb.md)
+  [`plot(`*`<naiveBayes>`*`)`](https://stufield.github.io/libml/reference/fit_nb.md)
+  : Robustly Fit Naive Bayes Classifier
+- [`stripLMC()`](https://stufield.github.io/libml/reference/stripLMC.md)
+  : Strip Linear Model Components
+
+## Model utilities
+
+Predict, pull out components, manipulate, and interrogate model objects.
+
+- [`calc_predictions(`*`<libml_nb>`*`)`](https://stufield.github.io/libml/reference/s3-calc_predictions.md)
+  [`calc_predictions(`*`<naiveBayes>`*`)`](https://stufield.github.io/libml/reference/s3-calc_predictions.md)
+  [`calc_predictions(`*`<randomForest>`*`)`](https://stufield.github.io/libml/reference/s3-calc_predictions.md)
+  [`calc_predictions(`*`<gbm>`*`)`](https://stufield.github.io/libml/reference/s3-calc_predictions.md)
+  [`calc_predictions(`*`<svm>`*`)`](https://stufield.github.io/libml/reference/s3-calc_predictions.md)
+  [`calc_predictions(`*`<glm>`*`)`](https://stufield.github.io/libml/reference/s3-calc_predictions.md)
+  [`calc_predictions(`*`<kknn>`*`)`](https://stufield.github.io/libml/reference/s3-calc_predictions.md)
+  : Calculate Model Predictions
+- [`get_max_cutoff()`](https://stufield.github.io/libml/reference/get-cutoffs.md)
+  [`get_spec_cutoff()`](https://stufield.github.io/libml/reference/get-cutoffs.md)
+  : Get Distance Cutoffs
+- [`get_gini()`](https://stufield.github.io/libml/reference/get_gini.md)
+  : Calculate Sorted Gini Importance
+- [`get_model_coef(`*`<glm>`*`)`](https://stufield.github.io/libml/reference/get_model_coef-libml.md)
+  [`get_model_coef(`*`<lm>`*`)`](https://stufield.github.io/libml/reference/get_model_coef-libml.md)
+  [`get_model_coef(`*`<lda>`*`)`](https://stufield.github.io/libml/reference/get_model_coef-libml.md)
+  [`get_model_coef(`*`<libml_nb>`*`)`](https://stufield.github.io/libml/reference/get_model_coef-libml.md)
+  [`get_model_coef(`*`<naiveBayes>`*`)`](https://stufield.github.io/libml/reference/get_model_coef-libml.md)
+  [`get_model_coef(`*`<kknn>`*`)`](https://stufield.github.io/libml/reference/get_model_coef-libml.md)
+  [`get_model_coef(`*`<randomForest>`*`)`](https://stufield.github.io/libml/reference/get_model_coef-libml.md)
+  [`get_model_coef(`*`<gbm>`*`)`](https://stufield.github.io/libml/reference/get_model_coef-libml.md)
+  [`get_model_coef(`*`<glmnet>`*`)`](https://stufield.github.io/libml/reference/get_model_coef-libml.md)
+  [`get_model_coef(`*`<cv.glmnet>`*`)`](https://stufield.github.io/libml/reference/get_model_coef-libml.md)
+  [`get_model_coef(`*`<train>`*`)`](https://stufield.github.io/libml/reference/get_model_coef-libml.md)
+  [`get_model_coef(`*`<svm>`*`)`](https://stufield.github.io/libml/reference/get_model_coef-libml.md)
+  : Get Coefficients of a Model
+- [`select_features()`](https://stufield.github.io/libml/reference/select_features.md)
+  : Select Model Features
+- [`kfold_cv()`](https://stufield.github.io/libml/reference/kfold_cv.md)
+  : Calculate k-Fold Cross-Validation
+- [`reexports`](https://stufield.github.io/libml/reference/reexports.md)
+  [`calc_predictions`](https://stufield.github.io/libml/reference/reexports.md)
+  [`get_model_coef`](https://stufield.github.io/libml/reference/reexports.md)
+  [`get_model_features`](https://stufield.github.io/libml/reference/reexports.md)
+  : Objects exported from other packages
+
+## Plotting utilities
+
+Plot various model fitting related visualizations.
+
+- [`plot_bayes_boundary()`](https://stufield.github.io/libml/reference/plot_bayes_boundary.md)
+  : Plot a Naive Bayes Decision Boundary
+- [`plot_boot_roc()`](https://stufield.github.io/libml/reference/plot_boot_roc.md)
+  : Plot a ROC with CI95
+- [`plot_emp_roc()`](https://stufield.github.io/libml/reference/plot_emp_roc.md)
+  : Plot Empirical ROC Curve
+- [`plot_log_odds()`](https://stufield.github.io/libml/reference/plot_log_odds.md)
+  : Create a Log-Odds Plot
+- [`plot_manhattan()`](https://stufield.github.io/libml/reference/plot_manhattan.md)
+  : Create Manhattan Plot
+- [`plot_uni_contrasts()`](https://stufield.github.io/libml/reference/plot_uni_contrasts.md)
+  : Contrast 2 Univariate Tables
+- [`barplot_auc()`](https://stufield.github.io/libml/reference/barplot_auc.md)
+  : Plot AUCs and Error Bars
+
+## ROC related utilities
+
+Tools for generating and evaluating Reciever Operaterator Criterion.
+
+- [`calc_roc_fit()`](https://stufield.github.io/libml/reference/calc_roc_fit.md)
+  : Calculate ROC Curve Parameters
+- [`create_roc_data()`](https://stufield.github.io/libml/reference/create_roc_data.md)
+  [`filter_roc_data()`](https://stufield.github.io/libml/reference/create_roc_data.md)
+  [`calc_roc_perpendicular()`](https://stufield.github.io/libml/reference/create_roc_data.md)
+  [`calc_roc_corner()`](https://stufield.github.io/libml/reference/create_roc_data.md)
+  : Create ROC Data Table
+- [`geom_roc()`](https://stufield.github.io/libml/reference/geom_roc.md)
+  [`geom_rocfit()`](https://stufield.github.io/libml/reference/geom_roc.md)
+  : Plot a ROC Curve
+- [`plot_boot_roc()`](https://stufield.github.io/libml/reference/plot_boot_roc.md)
+  : Plot a ROC with CI95
+- [`plot_emp_roc()`](https://stufield.github.io/libml/reference/plot_emp_roc.md)
+  : Plot Empirical ROC Curve
+- [`roc_xy()`](https://stufield.github.io/libml/reference/roc_xy.md) :
+  ROC Curve Coordinates
+- [`add_ss_box()`](https://stufield.github.io/libml/reference/add_ss_box.md)
+  [`calc_joint_CI95()`](https://stufield.github.io/libml/reference/add_ss_box.md)
+  : Add a Sensitivity/Specificity Box
+- [`calc_ci_binom()`](https://stufield.github.io/libml/reference/calc_ci_binom.md)
+  : Calculate Binomial Confidence Interval
+
+## Parameters
+
+Common parameter definitions used by the package.
+
+- [`params`](https://stufield.github.io/libml/reference/params.md) :
+
+  Common Parameters in libml
+
+## Data
+
+Package data objects.
+
+- [`tr_iris`](https://stufield.github.io/libml/reference/tr_iris.md) :
+  Iris Data Set as Training Data
